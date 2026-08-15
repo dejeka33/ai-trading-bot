@@ -133,21 +133,46 @@
 
   .empty-state { color: var(--text-muted); font-size: 13px; padding: 24px 0; text-align: center; }
 
-  /* --- Table --- */
+  /* --- Table (used only for the chart's "table view" toggle) --- */
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th { text-align: left; color: var(--text-muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .02em; padding: 0 10px 8px; }
   td { padding: 10px; border-top: 1px solid var(--gridline); vertical-align: top; }
   td.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
-  tr.log-row { cursor: pointer; }
-  tr.log-row:hover td { background: var(--surface-2); }
-  .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+
+  /* --- Denní log: kartový seznam (čitelný na každé šířce, i na mobilu) --- */
+  .log-list { display: flex; flex-direction: column; }
+  .log-item {
+    padding: 14px 4px;
+    border-top: 1px solid var(--gridline);
+    cursor: pointer;
+  }
+  .log-item:first-child { border-top: none; padding-top: 4px; }
+  .log-item:hover { background: var(--surface-2); border-radius: 8px; }
+  .log-item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .log-item-date { font-weight: 600; font-size: 13.5px; white-space: nowrap; }
+  .log-item-value { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--text-secondary); white-space: nowrap; }
+  .log-item-summary {
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.55;
+    margin: 0 0 8px;
+  }
+  .log-item-foot { display: flex; justify-content: space-between; align-items: center; }
+  .log-item-hint { font-size: 11px; color: var(--text-muted); }
+
+  .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); flex-shrink: 0; }
   .badge.ok { color: var(--good); }
   .badge.blocked { color: var(--warning); }
   .badge.none { color: var(--text-muted); }
-  .summary-cell { color: var(--text-secondary); max-width: 340px; }
-  .trade-detail { display: none; }
-  .trade-detail.open { display: table-row; }
-  .trade-detail td { background: var(--surface-2); border-top: none; padding-top: 4px; }
+
+  .trade-detail { display: none; margin-top: 10px; padding: 10px 12px; background: var(--surface-2); border-radius: 10px; }
+  .trade-detail.open { display: block; }
   .trade-line { padding: 6px 0; border-bottom: 1px dashed var(--gridline); font-size: 12.5px; }
   .trade-line:last-child { border-bottom: none; }
   .trade-line .sym { font-weight: 600; }
@@ -186,17 +211,7 @@
   <section class="card">
     <h2 style="font-size:14px;font-weight:600;margin:0 0 2px;">Denní log</h2>
     <p class="sub" style="font-size:12px;color:var(--text-muted);margin:0 0 12px;">Klikni na řádek pro detail obchodů a zdůvodnění AI.</p>
-    <table id="log-table">
-      <thead>
-        <tr>
-          <th>Datum</th>
-          <th>Shrnutí od AI</th>
-          <th style="text-align:right;">Hodnota</th>
-          <th>Obchody</th>
-        </tr>
-      </thead>
-      <tbody id="log-body"></tbody>
-    </table>
+    <div class="log-list" id="log-list"></div>
   </section>
 </main>
 
@@ -377,9 +392,9 @@ function statusBadge(entry) {
 }
 
 function renderLog(data) {
-  const body = document.getElementById('log-body');
+  const list = document.getElementById('log-list');
   const rows = [...data.entries].reverse();
-  body.innerHTML = rows.map((e, idx) => {
+  list.innerHTML = rows.map((e, idx) => {
     const detailId = 'detail-' + idx;
     let detailContent = '';
     if (e.blocked_reasons && e.blocked_reasons.length) {
@@ -396,21 +411,24 @@ function renderLog(data) {
     }
 
     return `
-      <tr class="log-row" data-target="${detailId}">
-        <td>${fmtDate(e.date)}</td>
-        <td class="summary-cell">${e.market_summary || ''}</td>
-        <td class="num">${fmtUSD(e.portfolio_value)}</td>
-        <td>${statusBadge(e)}</td>
-      </tr>
-      <tr class="trade-detail" id="${detailId}">
-        <td colspan="4">${detailContent}</td>
-      </tr>
+      <div class="log-item" data-target="${detailId}">
+        <div class="log-item-head">
+          <span class="log-item-date">${fmtDate(e.date)}</span>
+          <span class="log-item-value">${fmtUSD(e.portfolio_value)}</span>
+        </div>
+        <p class="log-item-summary">${e.market_summary || ''}</p>
+        <div class="log-item-foot">
+          ${statusBadge(e)}
+          <span class="log-item-hint">detail ▾</span>
+        </div>
+        <div class="trade-detail" id="${detailId}">${detailContent}</div>
+      </div>
     `;
   }).join('');
 
-  body.querySelectorAll('.log-row').forEach(row => {
-    row.addEventListener('click', () => {
-      document.getElementById(row.dataset.target).classList.toggle('open');
+  list.querySelectorAll('.log-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.getElementById(item.dataset.target).classList.toggle('open');
     });
   });
 }
