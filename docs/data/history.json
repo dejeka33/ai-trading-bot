@@ -7,7 +7,7 @@
       "cash": 100000.0,
       "buying_power": 400000.0,
       "positions": [],
-      "market_summary": "Trh v posledních 14 dnech vykazuje smíšené signály. SPY a VOO (indexy) mírně rostou s poslední hodnotou SPY ~776 a VOO ~714. QQQ je volatilnější (+6,5% od 3.8.), ale poslední 3 dny stagnují. Jednotlivé technologie (AAPL, MSFT, GOOGL) vykazují nízkou volatilitu bez jasného trendu. BTC a ETH jsou pod tlakem (BTC -2,4% za poslední 3 dny, ETH bez jasného směru).",
+      "market_summary": "Trh vykazuje smíšené signály s mírným růstem hlavních indexů (SPY +3,6 % za 14 dní, QQQ +3,1 %). Akcie Apple a Google jsou pod tlakem, zatímco Microsoft a Nasdaq ukazují mírnou sílu. Bitcoin a Ethereum si drží stabilitu s pozitivním trendem. Bez jasných zásadnějších výprodejů ani extrémních přechodů nejsou data dostatečně přesvědčivá pro агresivní vstup.",
       "trades": [],
       "trade_count": 0,
       "blocked_reasons": [],
