@@ -183,9 +183,21 @@
   .history-link:active { background: var(--surface-1); }
 
   footer { max-width: 880px; margin: 24px auto 0; padding: 0 20px; color: var(--text-muted); font-size: 11px; }
+
+  /* --- Navigace mezi stránkami --- */
+  .top-nav { display: flex; gap: 4px; max-width: 880px; margin: 0 auto; padding: 0 20px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+  .nav-link { padding: 12px 14px; font-size: 13px; color: var(--text-muted); text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .nav-link:hover { color: var(--text-secondary); }
+  .nav-link.active { color: var(--text-primary); border-bottom-color: var(--series-1); font-weight: 600; }
 </style>
 </head>
 <body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-link active">Přehled</a>
+  <a href="positions.html" class="nav-link">Pozice</a>
+  <a href="history.html" class="nav-link">Celá historie</a>
+</nav>
 
 <header>
   <h1>AI Trading Bot</h1>

@@ -33,7 +33,6 @@
     padding-bottom: 48px;
   }
   header { padding: 28px 20px 8px; max-width: 880px; margin: 0 auto; }
-  .back-link { display: inline-flex; align-items: center; gap: 4px; color: var(--text-muted); font-size: 12.5px; text-decoration: none; margin-bottom: 10px; }
   header h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
   header p { margin: 0; color: var(--text-muted); font-size: 13px; }
   main { max-width: 880px; margin: 0 auto; padding: 16px 20px 0; display: flex; flex-direction: column; gap: 16px; }
@@ -87,12 +86,23 @@
   .empty-note { text-align: center; color: var(--text-muted); font-size: 13px; padding: 24px 0; }
 
   footer { max-width: 880px; margin: 24px auto 0; padding: 0 20px; color: var(--text-muted); font-size: 11px; }
+
+  /* --- Navigace mezi stránkami --- */
+  .top-nav { display: flex; gap: 4px; max-width: 880px; margin: 0 auto; padding: 0 20px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+  .nav-link { padding: 12px 14px; font-size: 13px; color: var(--text-muted); text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .nav-link:hover { color: var(--text-secondary); }
+  .nav-link.active { color: var(--text-primary); border-bottom-color: var(--series-1); font-weight: 600; }
 </style>
 </head>
 <body>
 
+<nav class="top-nav">
+  <a href="index.html" class="nav-link">Přehled</a>
+  <a href="positions.html" class="nav-link">Pozice</a>
+  <a href="history.html" class="nav-link active">Celá historie</a>
+</nav>
+
 <header>
-  <a class="back-link" href="index.html">← Zpět na dashboard</a>
   <h1>Celá historie</h1>
   <p id="range-summary">Načítám data…</p>
 </header>

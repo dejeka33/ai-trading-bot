@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0d0d">
+<title>AI Trading Bot — Pozice</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon.svg">
+<style>
+  :root {
+    color-scheme: dark;
+    --page:            #0d0d0d;
+    --surface-1:       #1a1a19;
+    --surface-2:       #212120;
+    --text-primary:    #ffffff;
+    --text-secondary:  #c3c2b7;
+    --text-muted:      #898781;
+    --border:          rgba(255,255,255,0.10);
+    --series-1:        #3987e5;
+    --good:            #0ca30c;
+    --critical:        #e66767;
+    --warning:         #fab219;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 48px;
+  }
+  header { padding: 28px 20px 8px; max-width: 880px; margin: 0 auto; }
+  header h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  header p { margin: 0; color: var(--text-muted); font-size: 13px; }
+  main { max-width: 880px; margin: 0 auto; padding: 16px 20px 0; display: flex; flex-direction: column; gap: 16px; }
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+  h2.card-title { font-size: 14px; font-weight: 600; margin: 0 0 2px; }
+  p.card-sub { font-size: 12px; color: var(--text-muted); margin: 0 0 12px; }
+  .empty-note { text-align: center; color: var(--text-muted); font-size: 13px; padding: 20px 0; }
+
+  /* --- Navigace mezi stránkami --- */
+  .top-nav { display: flex; gap: 4px; max-width: 880px; margin: 0 auto; padding: 0 20px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+  .nav-link { padding: 12px 14px; font-size: 13px; color: var(--text-muted); text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .nav-link:hover { color: var(--text-secondary); }
+  .nav-link.active { color: var(--text-primary); border-bottom-color: var(--series-1); font-weight: 600; }
+
+  /* --- Otevřené pozice --- */
+  .position-list { display: flex; flex-direction: column; gap: 10px; }
+  .position-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+  .position-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 10px; }
+  .position-symbol { font-weight: 700; font-size: 15px; }
+  .position-value { font-variant-numeric: tabular-nums; font-weight: 600; font-size: 14px; white-space: nowrap; }
+  .position-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pg-label { font-size: 10.5px; color: var(--text-muted); margin-bottom: 3px; }
+  .pg-value { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .pg-value.up { color: var(--good); } .pg-value.down { color: var(--critical); } .pg-value.flat { color: var(--text-primary); }
+  .position-total { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  /* --- Filtry --- */
+  .filters { display: flex; flex-direction: column; gap: 10px; }
+  .filter-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  @media (max-width: 480px) { .filter-row { grid-template-columns: 1fr 1fr; } }
+  .filter-field { display: flex; flex-direction: column; gap: 4px; }
+  .filter-field label { font-size: 11px; color: var(--text-muted); }
+  .filter-field select {
+    background: var(--surface-2); color: var(--text-primary); border: 1px solid var(--border);
+    border-radius: 8px; font-size: 13px; padding: 8px 9px; font-family: inherit; width: 100%;
+  }
+  .filter-count { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  /* --- Historie obchodů --- */
+  .trade-list { display: flex; flex-direction: column; gap: 8px; }
+  .trade-row { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+  .trade-row-main { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .trade-date { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+  .trade-sym { font-weight: 700; font-size: 13.5px; }
+  .side-badge { font-size: 10.5px; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--border); white-space: nowrap; }
+  .side-badge.side-buy { color: var(--good); }
+  .side-badge.side-sell { color: var(--warning); }
+  .side-badge.side-failed { color: var(--critical); }
+  .trade-qty { font-size: 12px; color: var(--text-secondary); margin-left: auto; white-space: nowrap; }
+  .trade-reasoning { font-size: 12.5px; color: var(--text-secondary); margin: 6px 0 0; line-height: 1.5; }
+  .trade-error { font-size: 12px; color: var(--critical); margin: 4px 0 0; }
+
+  footer { max-width: 880px; margin: 24px auto 0; padding: 0 20px; color: var(--text-muted); font-size: 11px; }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-link">Přehled</a>
+  <a href="positions.html" class="nav-link active">Pozice</a>
+  <a href="history.html" class="nav-link">Celá historie</a>
+</nav>
+
+<header>
+  <h1>Pozice</h1>
+  <p id="page-summary">Načítám data…</p>
+</header>
+
+<main>
+  <section class="card">
+    <h2 class="card-title">Otevřené pozice</h2>
+    <p class="card-sub">Co bot aktuálně drží — množství, nákupní vs. aktuální cena a nerealizovaný zisk/ztráta.</p>
+    <div class="position-list" id="open-positions"></div>
+  </section>
+
+  <section class="card filters">
+    <div>
+      <h2 class="card-title">Historie obchodů</h2>
+      <p class="card-sub">Všechny provedené (i neúspěšné) obchody napříč celou historií, jeden po druhém.</p>
+    </div>
+    <div class="filter-row">
+      <div class="filter-field">
+        <label for="t-symbol">Ticker</label>
+        <select id="t-symbol"><option value="all">Vše</option></select>
+      </div>
+      <div class="filter-field">
+        <label for="t-side">Směr</label>
+        <select id="t-side">
+          <option value="all">Vše</option>
+          <option value="buy">Jen nákupy</option>
+          <option value="sell">Jen prodeje</option>
+        </select>
+      </div>
+      <div class="filter-field">
+        <label for="t-status">Stav</label>
+        <select id="t-status">
+          <option value="all">Vše</option>
+          <option value="ok">Jen provedené</option>
+          <option value="failed">Jen neúspěšné</option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-count" id="t-count"></div>
+  </section>
+
+  <section class="card">
+    <div class="trade-list" id="trade-list"></div>
+    <p class="empty-note" id="trade-empty" style="display:none;">Žádné obchody neodpovídají zvoleným filtrům.</p>
+  </section>
+</main>
+
+<footer>Automaticky generováno GitHub Actions · data z Alpaca (paper trading) · rozhodnutí Claude</footer>
+
+<script>
+async function loadData() {
+  const res = await fetch('./data/history.json?_=' + Date.now());
+  if (!res.ok) throw new Error('Nepodařilo se načíst data.');
+  return res.json();
+}
+
+let ALL_TRADES = [];
+
+function fmtUSD(v){ return '$' + v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtDate(d){ const dt = new Date(d+'T00:00:00Z'); return dt.toLocaleDateString('cs-CZ',{day:'numeric',month:'short',timeZone:'UTC'}); }
+function dirClass(v){ return v > 0.005 ? 'up' : (v < -0.005 ? 'down' : 'flat'); }
+
+function renderOpenPositions(data){
+  const last = data.entries[data.entries.length-1];
+  const positions = last.positions || [];
+  const wrap = document.getElementById('open-positions');
+
+  if (!positions.length) {
+    wrap.innerHTML = `<p class="empty-note">Momentálně žádné otevřené pozice — portfolio je celé v hotovosti.</p>`;
+    return;
+  }
+
+  const totalMv = positions.reduce((s,p)=>s+p.market_value, 0);
+  wrap.innerHTML = positions.map(p => {
+    const pl = p.unrealized_pl;
+    const plPct = (p.unrealized_plpc || 0) * 100;
+    return `
+      <div class="position-card">
+        <div class="position-head">
+          <span class="position-symbol">${p.symbol}</span>
+          <span class="position-value">${fmtUSD(p.market_value)}</span>
+        </div>
+        <div class="position-grid">
+          <div><div class="pg-label">Množství</div><div class="pg-value">${p.qty} ks</div></div>
+          <div><div class="pg-label">Průměrná nákupní cena</div><div class="pg-value">${fmtUSD(p.avg_entry_price)}</div></div>
+          <div><div class="pg-label">Aktuální cena</div><div class="pg-value">${fmtUSD(p.current_price)}</div></div>
+          <div><div class="pg-label">Nerealizovaný zisk/ztráta</div><div class="pg-value ${dirClass(pl)}">${pl>=0?'+':''}${fmtUSD(pl)} (${plPct>=0?'+':''}${plPct.toFixed(2)} %)</div></div>
+        </div>
+      </div>`;
+  }).join('') + `<p class="position-total">Celková tržní hodnota otevřených pozic: ${fmtUSD(totalMv)}</p>`;
+}
+
+function flattenTrades(entries){
+  const out = [];
+  entries.forEach(e => {
+    (e.trades || []).forEach(t => out.push({ date: e.date, ...t }));
+  });
+  return out;
+}
+
+function renderTrades(trades){
+  const list = document.getElementById('trade-list');
+  const emptyNote = document.getElementById('trade-empty');
+  const rows = [...trades].reverse();
+
+  if (!rows.length) {
+    list.innerHTML = '';
+    emptyNote.style.display = 'block';
+    return;
+  }
+  emptyNote.style.display = 'none';
+
+  list.innerHTML = rows.map(t => `
+    <div class="trade-row">
+      <div class="trade-row-main">
+        <span class="trade-date">${fmtDate(t.date)}</span>
+        <span class="trade-sym">${t.symbol || '?'}</span>
+        <span class="side-badge side-${t.side}">${t.side === 'buy' ? 'nákup' : 'prodej'}</span>
+        ${t.status !== 'submitted' ? `<span class="side-badge side-failed">⚠ chyba</span>` : ''}
+        <span class="trade-qty">${t.qty ?? '?'} ks</span>
+      </div>
+      ${t.reasoning ? `<p class="trade-reasoning">${t.reasoning}</p>` : ''}
+      ${t.status !== 'submitted' && t.error ? `<p class="trade-error">⚠ ${t.error}</p>` : ''}
+    </div>`).join('');
+}
+
+function applyFilters(){
+  const symbol = document.getElementById('t-symbol').value;
+  const side = document.getElementById('t-side').value;
+  const status = document.getElementById('t-status').value;
+
+  const filtered = ALL_TRADES.filter(t => {
+    if (symbol !== 'all' && t.symbol !== symbol) return false;
+    if (side !== 'all' && t.side !== side) return false;
+    if (status === 'ok' && t.status !== 'submitted') return false;
+    if (status === 'failed' && t.status === 'submitted') return false;
+    return true;
+  });
+
+  document.getElementById('t-count').textContent = `Zobrazeno ${filtered.length} z ${ALL_TRADES.length} obchodů.`;
+  renderTrades(filtered);
+}
+
+document.getElementById('t-symbol').addEventListener('change', applyFilters);
+document.getElementById('t-side').addEventListener('change', applyFilters);
+document.getElementById('t-status').addEventListener('change', applyFilters);
+
+loadData().then(data => {
+  if (!data.entries || !data.entries.length) {
+    document.getElementById('page-summary').textContent = 'Zatím žádná data — počkej na první denní běh.';
+    return;
+  }
+
+  renderOpenPositions(data);
+
+  ALL_TRADES = flattenTrades(data.entries);
+  const symbols = [...new Set(ALL_TRADES.map(t => t.symbol))].filter(Boolean).sort();
+  document.getElementById('t-symbol').innerHTML =
+    '<option value="all">Vše</option>' + symbols.map(s => `<option value="${s}">${s}</option>`).join('');
+
+  const last = data.entries[data.entries.length-1];
+  document.getElementById('page-summary').textContent =
+    `${(last.positions||[]).length} otevřených pozic · ${ALL_TRADES.length} obchodů celkem`;
+
+  applyFilters();
+}).catch(err => {
+  document.getElementById('page-summary').textContent = 'Chyba při načítání dat: ' + err.message;
+});
+</script>
+
+</body>
+</html>
