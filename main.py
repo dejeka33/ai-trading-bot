@@ -14,7 +14,28 @@ from risk_rules import load_risk_limits, allowed_symbols, validate_decision
 from decision import get_decision
 from execute import execute_trades
 from report import build_report
-from history import update_history
+from history import load_history, update_history
+
+
+def compute_realized_pl_delta(account_before, trade_results):
+    """
+    Odhad realizovaného zisku/ztráty z dnešních prodejů, pro dashboard (karta
+    "Výkonnost"). Jako realizační cenu použije cenu pozice v okamžiku
+    rozhodování (account_before) - u tržních příkazů na paper účtu je rozdíl
+    oproti přesné fill ceně zanedbatelný, ale nejde o stoprocentně přesné
+    číslo (Alpaca vrací fill cenu tržního příkazu až asynchronně po
+    vykonání, tady bychom na ni museli čekat/pollovat).
+    """
+    positions_by_symbol = {p["symbol"]: p for p in account_before.get("positions", [])}
+    delta = 0.0
+    for t in trade_results:
+        if t.get("status") != "submitted" or t.get("side") != "sell":
+            continue
+        pos = positions_by_symbol.get(t.get("symbol"))
+        if not pos:
+            continue
+        delta += t.get("qty", 0) * (pos["current_price"] - pos["avg_entry_price"])
+    return delta
 
 
 def main():
@@ -53,7 +74,24 @@ def main():
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(report_md)
 
-    update_history(date_str, account_after, decision, trade_results, reasons if not ok else [])
+    # SPY cena pro dashboard (srovnání "drž a čekej SPY") - SPY je vždy mezi
+    # povolenými nástroji v risk_limits.yaml, takže bars["SPY"] existuje bez
+    # ohledu na to, jestli bot SPY zrovna drží.
+    spy_price = None
+    if "SPY" in bars and bars["SPY"]:
+        spy_price = bars["SPY"][-1]["c"]
+
+    prev_history = load_history()
+    prev_realized_pl_cum = (
+        prev_history["entries"][-1].get("realized_pl_cum") if prev_history["entries"] else None
+    )
+    realized_pl_delta = compute_realized_pl_delta(account_before, trade_results)
+    realized_pl_cum = (prev_realized_pl_cum or 0.0) + realized_pl_delta
+
+    update_history(
+        date_str, account_after, decision, trade_results, reasons if not ok else [],
+        spy_price=spy_price, realized_pl_cum=realized_pl_cum,
+    )
 
     print(report_md)
 

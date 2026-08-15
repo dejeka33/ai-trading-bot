@@ -20,15 +20,18 @@
     --gridline:        #2c2c2a;
     --baseline:        #383835;
     --border:          rgba(255,255,255,0.10);
-    --series-1:        #3987e5;   /* categorical slot 1, dark */
+    --series-1:        #3987e5;
     --series-1-wash:   rgba(57,135,229,0.10);
     --good:            #0ca30c;
     --critical:        #e66767;
     --warning:         #fab219;
+    /* kategorická paleta pro alokaci portfolia (validováno dataviz skillem, dark mode) */
+    --cat-cash:        #726f68;
+    --cat-spy:         #3987e5;
+    --cat-qqq:         #d95926;
+    --cat-aapl:        #199e70;
   }
-
   * { box-sizing: border-box; }
-
   body {
     margin: 0;
     background: var(--page);
@@ -37,154 +40,149 @@
     -webkit-font-smoothing: antialiased;
     padding-bottom: 48px;
   }
+  header { padding: 28px 20px 8px; max-width: 880px; margin: 0 auto; }
+  header h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  header p { margin: 0; color: var(--text-muted); font-size: 13px; }
+  main { max-width: 880px; margin: 0 auto; padding: 16px 20px 0; display: flex; flex-direction: column; gap: 16px; }
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+  h2.card-title { font-size: 14px; font-weight: 600; margin: 0 0 2px; }
+  p.card-sub { font-size: 12px; color: var(--text-muted); margin: 0 0 12px; }
 
-  header {
-    padding: 28px 20px 8px;
-    max-width: 880px;
-    margin: 0 auto;
-  }
-  header h1 {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0 0 4px;
-  }
-  header p {
-    margin: 0;
-    color: var(--text-muted);
-    font-size: 13px;
-  }
-
-  main {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 16px 20px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .card {
-    background: var(--surface-1);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-  }
-
-  /* --- Hero + stat tiles --- */
-  .stat-row {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr;
-    gap: 12px;
-  }
-  @media (max-width: 560px) {
-    .stat-row { grid-template-columns: 1fr; }
-  }
+  /* --- Stat tiles: hero na celou šířku, hotovost + kupní síla vždy vedle sebe --- */
+  .stat-block { display: flex; flex-direction: column; gap: 10px; }
+  .stat-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .stat-tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
   .stat-tile .label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
   .stat-tile .value { font-size: 22px; font-weight: 600; font-variant-numeric: proportional-nums; }
   .stat-tile.hero .value { font-size: 40px; }
-  .stat-tile .delta { font-size: 13px; margin-top: 6px; font-weight: 500; }
-  .delta.up { color: var(--good); }
-  .delta.down { color: var(--critical); }
-  .delta.flat { color: var(--text-muted); }
+  .delta-row { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+  .delta-tag { font-size: 11px; color: var(--text-muted); min-width: 108px; }
+  .delta { font-size: 13px; font-weight: 500; }
+  .delta.up { color: var(--good); } .delta.down { color: var(--critical); } .delta.flat { color: var(--text-muted); }
+  .stat-pair .stat-tile { padding: 14px 14px; }
+  .stat-pair .stat-tile .label { font-size: 11px; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stat-pair .stat-tile .value { font-size: 17px; }
+  @media (max-width: 360px) { .stat-pair .stat-tile .value { font-size: 15px; } }
 
-  /* --- Chart card --- */
-  .chart-card h2 { font-size: 14px; font-weight: 600; margin: 0 0 2px; }
-  .chart-card .sub { font-size: 12px; color: var(--text-muted); margin: 0 0 12px; }
-  .chart-head { display: flex; justify-content: space-between; align-items: baseline; }
-  .table-toggle {
-    background: transparent;
+  .withdraw-note { font-size: 11.5px; color: var(--text-muted); line-height: 1.55; padding: 2px 2px 0; }
+  .withdraw-note strong { color: var(--text-secondary); font-weight: 600; }
+
+  /* --- Graf --- */
+  .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 4px; }
+  .chart-head-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .range-select, .table-toggle {
+    background: var(--surface-2);
+    color: var(--text-primary);
     border: 1px solid var(--border);
-    color: var(--text-secondary);
-    font-size: 12px;
-    padding: 5px 10px;
     border-radius: 8px;
+    font-size: 12.5px;
+    padding: 6px 8px;
+    font-family: inherit;
     cursor: pointer;
   }
+  .table-toggle { color: var(--text-secondary); background: transparent; }
   .table-toggle:hover { background: var(--surface-2); }
-
+  .chart-legend { display: flex; gap: 16px; margin: 10px 0 12px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); }
+  .legend-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--series-1); flex-shrink: 0; }
+  .legend-dash { width: 16px; height: 0; border-top: 2px dashed var(--text-muted); flex-shrink: 0; }
   svg.chart { width: 100%; height: auto; overflow: visible; }
   .gridline { stroke: var(--gridline); stroke-width: 1; }
   .baseline { stroke: var(--baseline); stroke-width: 1; }
   .series-line { fill: none; stroke: var(--series-1); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   .series-area { fill: var(--series-1-wash); }
+  .bench-line { fill: none; stroke: var(--text-muted); stroke-width: 2; stroke-dasharray: 5 4; stroke-linecap: round; stroke-linejoin: round; }
   .end-dot { fill: var(--series-1); stroke: var(--surface-1); stroke-width: 2; }
+  .bench-end-dot { fill: var(--text-muted); stroke: var(--surface-1); stroke-width: 2; }
   .axis-label { fill: var(--text-muted); font-size: 11px; font-family: system-ui, sans-serif; }
   .end-label { fill: var(--text-primary); font-size: 12px; font-weight: 600; font-family: system-ui, sans-serif; }
+  .bench-end-label { fill: var(--text-muted); font-size: 11px; font-weight: 600; font-family: system-ui, sans-serif; }
   .hover-dot { fill: var(--series-1); stroke: var(--surface-1); stroke-width: 2; opacity: 0; }
+  .bench-hover-dot { fill: var(--text-muted); stroke: var(--surface-1); stroke-width: 2; opacity: 0; }
   .crosshair { stroke: var(--baseline); stroke-width: 1; opacity: 0; }
-
-  .tooltip {
-    position: absolute;
-    pointer-events: none;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 10px;
-    font-size: 12px;
-    color: var(--text-primary);
-    opacity: 0;
-    transform: translate(-50%, -110%);
-    white-space: nowrap;
-    z-index: 5;
-  }
-  .tooltip .t-date { color: var(--text-muted); margin-bottom: 2px; }
   .chart-wrap { position: relative; }
-
+  .range-note { font-size: 11px; color: var(--warning); margin: 6px 0 0; }
   .empty-state { color: var(--text-muted); font-size: 13px; padding: 24px 0; text-align: center; }
 
-  /* --- Table (used only for the chart's "table view" toggle) --- */
+  .tooltip {
+    position: absolute; pointer-events: none; background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 10px; font-size: 12px; color: var(--text-primary); opacity: 0;
+    transform: translate(-50%, -110%); white-space: nowrap; z-index: 5;
+  }
+  .tooltip .t-date { color: var(--text-muted); margin-bottom: 2px; }
+  .tooltip .t-bench { color: var(--text-muted); margin-top: 2px; }
+
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th { text-align: left; color: var(--text-muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .02em; padding: 0 10px 8px; }
   td { padding: 10px; border-top: 1px solid var(--gridline); vertical-align: top; }
   td.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
 
-  /* --- Denní log: kartový seznam (čitelný na každé šířce, i na mobilu) --- */
-  .log-list { display: flex; flex-direction: column; }
-  .log-item {
-    padding: 14px 4px;
-    border-top: 1px solid var(--gridline);
+  /* --- Výkonnost --- */
+  .perf-callout {
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 12px;
+  }
+  .perf-callout-label { font-size: 12.5px; color: var(--text-secondary); }
+  .perf-callout-value { font-size: 15px; font-weight: 600; white-space: nowrap; }
+  .perf-callout-value.up { color: var(--good); } .perf-callout-value.down { color: var(--critical); } .perf-callout-value.flat { color: var(--text-muted); }
+  .perf-callout-note { font-size: 11px; color: var(--text-muted); margin: -4px 0 12px; }
+  .perf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .perf-tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .perf-tile .label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+  .perf-tile .value { font-size: 16px; font-weight: 600; }
+  .perf-tile .value.up { color: var(--good); } .perf-tile .value.down { color: var(--critical); } .perf-tile .value.flat { color: var(--text-primary); }
+  .perf-sub { font-size: 10.5px; color: var(--text-muted); margin-top: 3px; }
+
+  /* --- Rozložení portfolia (donut) --- */
+  .alloc-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .alloc-legend { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+  .legend-row { display: flex; align-items: center; gap: 8px; font-size: 12.5px; }
+  .legend-swatch { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+  .legend-label { flex-shrink: 0; min-width: 46px; font-weight: 500; }
+  .legend-value { margin-left: auto; color: var(--text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .legend-pct { color: var(--text-muted); }
+  .donut-center-label { fill: var(--text-muted); font-size: 10px; font-family: system-ui, sans-serif; }
+  .donut-center-value { fill: var(--text-primary); font-size: 13px; font-weight: 600; font-family: system-ui, sans-serif; }
+
+  /* --- Denní log: box na den --- */
+  .log-list { display: flex; flex-direction: column; gap: 10px; }
+  .log-day {
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--text-muted);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface-2);
     cursor: pointer;
   }
-  .log-item:first-child { border-top: none; padding-top: 4px; }
-  .log-item:hover { background: var(--surface-2); border-radius: 8px; }
-  .log-item-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 6px;
-  }
-  .log-item-date { font-weight: 600; font-size: 13.5px; white-space: nowrap; }
-  .log-item-value { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--text-secondary); white-space: nowrap; }
-  .log-item-summary {
-    color: var(--text-secondary);
-    font-size: 13px;
-    line-height: 1.55;
-    margin: 0 0 8px;
-  }
-  .log-item-foot { display: flex; justify-content: space-between; align-items: center; }
-  .log-item-hint { font-size: 11px; color: var(--text-muted); }
-
-  .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); flex-shrink: 0; }
-  .badge.ok { color: var(--good); }
-  .badge.blocked { color: var(--warning); }
-  .badge.none { color: var(--text-muted); }
-
-  .trade-detail { display: none; margin-top: 10px; padding: 10px 12px; background: var(--surface-2); border-radius: 10px; }
+  .log-day.accent-ok      { border-left-color: var(--good); }
+  .log-day.accent-blocked { border-left-color: var(--warning); }
+  .log-day.accent-none    { border-left-color: var(--baseline); }
+  .log-day-header { display: flex; flex-wrap: wrap; row-gap: 6px; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 14px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); }
+  .log-day-header-left { display: flex; align-items: center; gap: 9px; min-width: 0; flex-shrink: 1; }
+  .log-day-date { font-weight: 600; font-size: 13.5px; white-space: nowrap; }
+  .log-day-header-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .log-day-value { font-variant-numeric: tabular-nums; font-size: 14px; font-weight: 600; white-space: nowrap; }
+  .log-day-chevron { font-size: 11px; color: var(--text-muted); transition: transform .15s; }
+  .log-day.open .log-day-chevron { transform: rotate(180deg); }
+  .log-day-body { padding: 12px 14px; }
+  .log-day-summary { color: var(--text-secondary); font-size: 13px; line-height: 1.55; margin: 0; }
+  .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); flex-shrink: 0; white-space: nowrap; }
+  .badge.ok { color: var(--good); } .badge.blocked { color: var(--warning); } .badge.none { color: var(--text-muted); }
+  .trade-detail { display: none; padding: 0 14px 14px; }
   .trade-detail.open { display: block; }
-  .trade-line { padding: 6px 0; border-bottom: 1px dashed var(--gridline); font-size: 12.5px; }
-  .trade-line:last-child { border-bottom: none; }
+  .trade-line { padding: 8px 10px; margin-top: 6px; background: var(--surface-1); border-radius: 8px; font-size: 12.5px; }
   .trade-line .sym { font-weight: 600; }
   .trade-line .reasoning { color: var(--text-secondary); display: block; margin-top: 2px; }
-
-  footer {
-    max-width: 880px;
-    margin: 24px auto 0;
-    padding: 0 20px;
-    color: var(--text-muted);
-    font-size: 11px;
+  .log-limit-note { font-size: 11px; color: var(--text-muted); margin: 2px 0 12px; }
+  .history-link {
+    display: block; text-align: center; margin-top: 12px; padding: 11px;
+    border: 1px solid var(--border); border-radius: 10px; color: var(--text-secondary);
+    text-decoration: none; font-size: 13px; background: var(--surface-2);
   }
+  .history-link:active { background: var(--surface-1); }
+
+  footer { max-width: 880px; margin: 24px auto 0; padding: 0 20px; color: var(--text-muted); font-size: 11px; }
 </style>
 </head>
 <body>
@@ -195,23 +193,56 @@
 </header>
 
 <main>
-  <section class="stat-row" id="stat-row"></section>
+  <div class="stat-block" id="stat-block" style="display:none;">
+    <section id="stat-hero"></section>
+    <section class="stat-pair" id="stat-pair"></section>
+    <div class="withdraw-note" id="withdraw-note"></div>
+  </div>
 
-  <section class="card chart-card">
+  <section class="card chart-card" id="chart-card" style="display:none;">
     <div class="chart-head">
-      <div>
-        <h2>Vývoj hodnoty portfolia</h2>
-        <p class="sub" id="chart-sub">&nbsp;</p>
+      <div><h2 class="card-title">Vývoj hodnoty portfolia</h2><p class="card-sub" id="chart-sub" style="margin:0;">&nbsp;</p></div>
+      <div class="chart-head-controls">
+        <select id="range-select" class="range-select">
+          <option value="daily">Denní</option>
+          <option value="weekly">Týdenní</option>
+          <option value="monthly">Měsíční</option>
+          <option value="yearly">Roční</option>
+          <option value="all">Celkový</option>
+        </select>
+        <button class="table-toggle" id="toggle-table-view" aria-pressed="false">Tabulka</button>
       </div>
-      <button class="table-toggle" id="toggle-table-view" aria-pressed="false">Zobrazit jako tabulku</button>
+    </div>
+    <div class="chart-legend" id="chart-legend" style="display:none;">
+      <span class="legend-item"><span class="legend-dot"></span>Portfolio (AI)</span>
+      <span class="legend-item"><span class="legend-dash"></span>Kdyby jen drž a čekej (SPY)</span>
     </div>
     <div class="chart-wrap" id="chart-wrap"></div>
+    <p class="range-note" id="range-note"></p>
   </section>
 
-  <section class="card">
-    <h2 style="font-size:14px;font-weight:600;margin:0 0 2px;">Denní log</h2>
-    <p class="sub" style="font-size:12px;color:var(--text-muted);margin:0 0 12px;">Klikni na řádek pro detail obchodů a zdůvodnění AI.</p>
+  <section class="card" id="perf-card" style="display:none;">
+    <h2 class="card-title">Výkonnost</h2>
+    <p class="card-sub">Realizované a nerealizované zisky, riziko a aktivita AI za celou historii.</p>
+    <div id="perf-callout-wrap"></div>
+    <div class="perf-grid" id="perf-grid"></div>
+  </section>
+
+  <section class="card" id="alloc-card" style="display:none;">
+    <h2 class="card-title">Rozložení portfolia</h2>
+    <p class="card-sub">Aktuální alokace mezi hotovost a otevřené pozice.</p>
+    <div class="alloc-wrap">
+      <div id="donut-wrap"></div>
+      <div class="alloc-legend" id="donut-legend"></div>
+    </div>
+  </section>
+
+  <section class="card" id="log-card" style="display:none;">
+    <h2 class="card-title">Denní log</h2>
+    <p class="card-sub">Klepni na box pro detail obchodů a zdůvodnění AI.</p>
+    <p class="log-limit-note" id="log-limit-note"></p>
     <div class="log-list" id="log-list"></div>
+    <a class="history-link" href="history.html">Zobrazit celou historii →</a>
   </section>
 </main>
 
@@ -226,113 +257,190 @@ async function loadData() {
   return res.json();
 }
 
-function fmtUSD(v) {
-  return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+function fmtUSD(v){ return '$' + v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtUSDCompact(v){ return '$' + v.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0}); }
+function fmtDate(d){ const dt = new Date(d+'T00:00:00Z'); return dt.toLocaleDateString('cs-CZ',{day:'numeric',month:'short',timeZone:'UTC'}); }
+function fmtDateForPeriod(d, period){
+  const dt = new Date(d+'T00:00:00Z');
+  if (period === 'yearly') return dt.toLocaleDateString('cs-CZ',{year:'numeric',timeZone:'UTC'});
+  if (period === 'monthly') return dt.toLocaleDateString('cs-CZ',{month:'short',year:'numeric',timeZone:'UTC'});
+  return dt.toLocaleDateString('cs-CZ',{day:'numeric',month:'short',timeZone:'UTC'});
 }
-function fmtUSDCompact(v) {
-  return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-}
-function fmtDate(d) {
-  const dt = new Date(d + 'T00:00:00Z');
-  return dt.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+function dirClass(v){ return v > 0.005 ? 'up' : (v < -0.005 ? 'down' : 'flat'); }
+function dirArrow(v){ return v > 0.005 ? '↑' : (v < -0.005 ? '↓' : '·'); }
+
+// Přepočte SPY cenu na hodnotu "kdyby jsi od prvního bodu v pohledu místo AI
+// jen koupil a držel SPY". Vrací null, pokud pro aktuální rozsah chybí byť
+// jediný den se zaznamenanou SPY cenou (např. dny před zavedením trackování) -
+// v tom případě se benchmark zatím nezobrazuje, místo zavádějícího výpadku.
+function benchmarkSeries(entries){
+  if (!entries.every(e => typeof e.spy_price === 'number')) return null;
+  const base = entries[0];
+  return entries.map(e => base.portfolio_value * (e.spy_price / base.spy_price));
 }
 
-function renderStats(data) {
+function renderStats(data){
   const entries = data.entries;
-  const last = entries[entries.length - 1];
+  const last = entries[entries.length-1];
+  const prev = entries.length > 1 ? entries[entries.length-2] : null;
+
   const start = data.starting_value ?? last.portfolio_value;
   const delta = last.portfolio_value - start;
-  const deltaPct = start ? (delta / start) * 100 : 0;
-  const dirClass = delta > 0.005 ? 'up' : (delta < -0.005 ? 'down' : 'flat');
-  const arrow = delta > 0.005 ? '↑' : (delta < -0.005 ? '↓' : '·');
+  const deltaPct = start ? (delta/start)*100 : 0;
 
-  document.getElementById('stat-row').innerHTML = `
+  const dailyDelta = prev ? last.portfolio_value - prev.portfolio_value : null;
+  const dailyPct = (prev && prev.portfolio_value) ? (dailyDelta/prev.portfolio_value)*100 : null;
+
+  document.getElementById('stat-hero').innerHTML = `
     <div class="stat-tile hero">
       <div class="label">Aktuální hodnota portfolia</div>
       <div class="value">${fmtUSD(last.portfolio_value)}</div>
-      <div class="delta ${dirClass}">${arrow} ${fmtUSD(Math.abs(delta))} (${deltaPct.toFixed(2)}%) od začátku</div>
-    </div>
-    <div class="stat-tile">
-      <div class="label">Hotovost</div>
-      <div class="value">${fmtUSD(last.cash)}</div>
-    </div>
-    <div class="stat-tile">
-      <div class="label">Kupní síla</div>
-      <div class="value">${fmtUSD(last.buying_power)}</div>
-    </div>
+      <div class="delta-row">
+        <span class="delta-tag">Od začátku</span>
+        <span class="delta ${dirClass(delta)}">${dirArrow(delta)} ${fmtUSD(Math.abs(delta))} (${delta>=0?'+':''}${deltaPct.toFixed(2)} %)</span>
+      </div>
+      ${dailyDelta !== null ? `
+      <div class="delta-row">
+        <span class="delta-tag">Denní změna</span>
+        <span class="delta ${dirClass(dailyDelta)}">${dirArrow(dailyDelta)} ${fmtUSD(Math.abs(dailyDelta))} (${dailyPct>=0?'+':''}${dailyPct.toFixed(2)} %) oproti včerejšku</span>
+      </div>` : ''}
+    </div>`;
+
+  document.getElementById('stat-pair').innerHTML = `
+    <div class="stat-tile"><div class="label">Hotovost</div><div class="value">${fmtUSD(last.cash)}</div></div>
+    <div class="stat-tile"><div class="label">Kupní síla</div><div class="value">${fmtUSD(last.buying_power)}</div></div>
   `;
+
+  // Odhad reálného výběru - jen informativní, na základě aktuálně platného ceníku Alpaca
+  // (ACH výběr zdarma, tuzemský wire $15, mezinárodní wire $35). Toto je PAPER účet,
+  // takže žádné skutečné peníze zatím neexistují - jde o ukázku, kolik by to bylo,
+  // kdyby šlo o ostrý účet se stejným zůstatkem.
+  document.getElementById('withdraw-note').innerHTML =
+    `ⓘ Odhad výběru přes ACH (u Alpaca zdarma): <strong>${fmtUSD(last.cash)}</strong> · ` +
+    `bankovní wire převod by navíc stál $15 (tuzemsko) / $35 (zahraničí). ` +
+    `Pozor: jde o paper účet s fiktivními penězi, žádný skutečný výběr zatím není možný.`;
 
   document.getElementById('last-updated').textContent =
     'Poslední aktualizace: ' + fmtDate(last.date) + ' · ' + entries.length + ' ' +
     (entries.length === 1 ? 'den v historii' : 'dní v historii');
+
+  document.getElementById('stat-block').style.display = '';
 }
 
-function renderChart(data) {
-  const wrap = document.getElementById('chart-wrap');
-  const entries = data.entries;
+function aggregateEntries(entries, period){
+  if (period === 'daily') return { data: entries.slice(-30), fellBack: false };
+  if (period === 'all') return { data: entries, fellBack: false };
 
-  if (entries.length < 2) {
+  const keyFn =
+    period === 'weekly' ? d => {
+      const dt = new Date(d+'T00:00:00Z');
+      const day = dt.getUTCDay();
+      const monday = new Date(dt);
+      monday.setUTCDate(dt.getUTCDate() - ((day + 6) % 7));
+      return monday.toISOString().slice(0,10);
+    }
+    : period === 'monthly' ? d => d.slice(0,7)
+    : d => d.slice(0,4); // yearly
+
+  const groups = new Map();
+  entries.forEach(e => { groups.set(keyFn(e.date), e); }); // poslední den v dané skupině "vyhraje"
+  let result = Array.from(groups.values());
+  if (period === 'weekly') result = result.slice(-26);
+  if (period === 'monthly') result = result.slice(-24);
+
+  if (result.length < 2) return { data: entries, fellBack: true };
+  return { data: result, fellBack: false };
+}
+
+let currentEntries = [];
+let currentPeriod = 'daily';
+let tableViewOn = false;
+
+function renderChart(data, period){
+  currentPeriod = period;
+  const wrap = document.getElementById('chart-wrap');
+  const toggleBtn = document.getElementById('toggle-table-view');
+
+  if (data.entries.length < 2) {
     document.getElementById('chart-sub').textContent = 'Historie se teprve začíná budovat.';
+    document.getElementById('chart-legend').style.display = 'none';
+    document.getElementById('range-note').textContent = '';
     wrap.innerHTML = `<div class="empty-state">Zatím je k dispozici jen jeden den dat — graf se objeví, jakmile přibude druhý den historie.</div>`;
-    document.getElementById('toggle-table-view').style.display = 'none';
+    toggleBtn.style.display = 'none';
     return;
   }
+  toggleBtn.style.display = '';
+
+  const { data: entries, fellBack } = aggregateEntries(data.entries, period);
+  currentEntries = entries;
+  const bench = benchmarkSeries(entries);
+  const hasBench = bench !== null;
+  document.getElementById('chart-legend').style.display = hasBench ? '' : 'none';
 
   document.getElementById('chart-sub').textContent =
-    fmtDate(entries[0].date) + ' – ' + fmtDate(entries[entries.length - 1].date);
+    fmtDateForPeriod(entries[0].date, period) + ' – ' + fmtDateForPeriod(entries[entries.length-1].date, period);
+  document.getElementById('range-note').textContent = fellBack
+    ? 'Zatím není dost historie pro toto období, zobrazena všechna dostupná data.'
+    : '';
 
-  const W = 800, H = 260, padL = 56, padR = 16, padT = 16, padB = 28;
-  const plotW = W - padL - padR, plotH = H - padT - padB;
+  if (tableViewOn) { renderTable(entries, hasBench, bench); return; }
 
-  const values = entries.map(e => e.portfolio_value);
-  let min = Math.min(...values), max = Math.max(...values);
-  if (min === max) { min -= 1; max += 1; }
-  const pad = (max - min) * 0.12;
-  min -= pad; max += pad;
-
-  const x = i => padL + (i / (entries.length - 1)) * plotW;
-  const y = v => padT + plotH - ((v - min) / (max - min)) * plotH;
-
-  const ticks = 4;
-  let gridSvg = '', labelSvg = '';
-  for (let t = 0; t <= ticks; t++) {
-    const v = min + (t / ticks) * (max - min);
-    const yy = y(v);
-    gridSvg += `<line class="gridline" x1="${padL}" x2="${W - padR}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" />`;
-    labelSvg += `<text class="axis-label" x="${padL - 8}" y="${(yy + 4).toFixed(1)}" text-anchor="end">${fmtUSDCompact(v)}</text>`;
+  const W=800,H=260,padL=56,padR=16,padT=16,padB=28, plotW=W-padL-padR, plotH=H-padT-padB;
+  const values = hasBench
+    ? entries.map((e,i)=>e.portfolio_value).concat(bench)
+    : entries.map(e=>e.portfolio_value);
+  let min=Math.min(...values), max=Math.max(...values);
+  if(min===max){min-=1;max+=1;}
+  const pad=(max-min)*0.12; min-=pad; max+=pad;
+  const x=i=>padL+(i/(entries.length-1))*plotW;
+  const y=v=>padT+plotH-((v-min)/(max-min))*plotH;
+  let gridSvg='', labelSvg='';
+  for(let t=0;t<=4;t++){
+    const v=min+(t/4)*(max-min), yy=y(v);
+    gridSvg += `<line class="gridline" x1="${padL}" x2="${W-padR}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" />`;
+    labelSvg += `<text class="axis-label" x="${padL-8}" y="${(yy+4).toFixed(1)}" text-anchor="end">${fmtUSDCompact(v)}</text>`;
   }
-
-  const linePts = entries.map((e, i) => `${x(i).toFixed(1)},${y(e.portfolio_value).toFixed(1)}`).join(' L ');
+  const linePts = entries.map((e,i)=>`${x(i).toFixed(1)},${y(e.portfolio_value).toFixed(1)}`).join(' L ');
   const areaPts = `M ${x(0).toFixed(1)},${y(entries[0].portfolio_value).toFixed(1)} L ${linePts} L ${x(entries.length-1).toFixed(1)},${(padT+plotH).toFixed(1)} L ${x(0).toFixed(1)},${(padT+plotH).toFixed(1)} Z`;
-
-  const lastX = x(entries.length - 1), lastY = y(entries[entries.length - 1].portfolio_value);
-
-  const xLabelIdxs = [0, entries.length - 1];
-  let xLabels = '';
-  xLabelIdxs.forEach(i => {
-    xLabels += `<text class="axis-label" x="${x(i).toFixed(1)}" y="${H - 6}" text-anchor="${i===0?'start':'end'}">${fmtDate(entries[i].date)}</text>`;
+  const lastX=x(entries.length-1), lastY=y(entries[entries.length-1].portfolio_value);
+  let xLabels='';
+  [0, entries.length-1].forEach(i=>{
+    xLabels += `<text class="axis-label" x="${x(i).toFixed(1)}" y="${H-6}" text-anchor="${i===0?'start':'end'}">${fmtDateForPeriod(entries[i].date, period)}</text>`;
   });
 
+  let benchSvg = '', benchHoverDots = '';
+  if (hasBench) {
+    const benchPts = entries.map((e,i)=>`${x(i).toFixed(1)},${y(bench[i]).toFixed(1)}`).join(' L ');
+    const benchLastY = y(bench[bench.length-1]);
+    benchSvg = `
+      <path class="bench-line" d="M ${benchPts}" />
+      <circle class="bench-end-dot" r="3.5" cx="${lastX.toFixed(1)}" cy="${benchLastY.toFixed(1)}" />
+      <text class="bench-end-label" x="${(lastX-8).toFixed(1)}" y="${(benchLastY+16).toFixed(1)}" text-anchor="end">${fmtUSDCompact(bench[bench.length-1])}</text>`;
+    entries.forEach((e,i)=>{
+      benchHoverDots += `<circle class="bench-hover-dot" data-i="${i}" r="5" cx="${x(i).toFixed(1)}" cy="${y(bench[i]).toFixed(1)}" />`;
+    });
+  }
+
   let hoverDots = '';
-  entries.forEach((e, i) => {
+  entries.forEach((e,i)=>{
     hoverDots += `<circle class="hover-dot" data-i="${i}" r="6" cx="${x(i).toFixed(1)}" cy="${y(e.portfolio_value).toFixed(1)}" />`;
   });
 
   wrap.innerHTML = `
     <svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" id="chart-svg">
       ${gridSvg}
-      <line class="baseline" x1="${padL}" x2="${W - padR}" y1="${padT + plotH}" y2="${padT + plotH}" />
+      <line class="baseline" x1="${padL}" x2="${W-padR}" y1="${padT+plotH}" y2="${padT+plotH}" />
       <path class="series-area" d="${areaPts}" />
+      ${benchSvg}
       <path class="series-line" d="M ${linePts}" />
       <circle class="end-dot" r="4.5" cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" />
-      <text class="end-label" x="${(lastX - 8).toFixed(1)}" y="${(lastY - 12).toFixed(1)}" text-anchor="end">${fmtUSD(entries[entries.length-1].portfolio_value)}</text>
-      ${labelSvg}
-      ${xLabels}
-      <line class="crosshair" id="crosshair" y1="${padT}" y2="${padT + plotH}" />
-      ${hoverDots}
+      <text class="end-label" x="${(lastX-8).toFixed(1)}" y="${(lastY-12).toFixed(1)}" text-anchor="end">${fmtUSD(entries[entries.length-1].portfolio_value)}</text>
+      ${labelSvg}${xLabels}
+      <line class="crosshair" id="crosshair" y1="${padT}" y2="${padT+plotH}" />
+      ${hoverDots}${benchHoverDots}
       <rect id="hover-capture" x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="transparent" />
     </svg>
-    <div class="tooltip" id="tooltip"><div class="t-date" id="tt-date"></div><div id="tt-value"></div></div>
+    <div class="tooltip" id="tooltip"><div class="t-date" id="tt-date"></div><div id="tt-value"></div><div class="t-bench" id="tt-bench"></div></div>
   `;
 
   const svg = document.getElementById('chart-svg');
@@ -340,6 +448,7 @@ function renderChart(data) {
   const tooltip = document.getElementById('tooltip');
   const crosshair = document.getElementById('crosshair');
   const dots = [...svg.querySelectorAll('.hover-dot')];
+  const bDots = [...svg.querySelectorAll('.bench-hover-dot')];
 
   capture.addEventListener('mousemove', (ev) => {
     const rect = svg.getBoundingClientRect();
@@ -351,6 +460,7 @@ function renderChart(data) {
     });
     dots.forEach(d => d.style.opacity = 0);
     dots[closest].style.opacity = 1;
+    if (bDots.length) { bDots.forEach(d => d.style.opacity = 0); bDots[closest].style.opacity = 1; }
     crosshair.style.opacity = 1;
     crosshair.setAttribute('x1', x(closest).toFixed(1));
     crosshair.setAttribute('x2', x(closest).toFixed(1));
@@ -359,41 +469,171 @@ function renderChart(data) {
     tooltip.style.opacity = 1;
     tooltip.style.left = ((x(closest) / W) * 100) + '%';
     tooltip.style.top = ((y(e.portfolio_value) / H) * 100) + '%';
-    document.getElementById('tt-date').textContent = fmtDate(e.date);
-    document.getElementById('tt-value').textContent = fmtUSD(e.portfolio_value);
+    document.getElementById('tt-date').textContent = fmtDateForPeriod(e.date, period);
+    document.getElementById('tt-value').textContent = 'Portfolio: ' + fmtUSD(e.portfolio_value);
+    document.getElementById('tt-bench').textContent = hasBench ? 'SPY: ' + fmtUSD(bench[closest]) : '';
   });
   capture.addEventListener('mouseleave', () => {
     dots.forEach(d => d.style.opacity = 0);
+    bDots.forEach(d => d.style.opacity = 0);
     crosshair.style.opacity = 0;
     tooltip.style.opacity = 0;
   });
-
-  document.getElementById('toggle-table-view').onclick = (ev) => {
-    const pressed = ev.target.getAttribute('aria-pressed') === 'true';
-    ev.target.setAttribute('aria-pressed', String(!pressed));
-    ev.target.textContent = pressed ? 'Zobrazit jako tabulku' : 'Zobrazit jako graf';
-    if (!pressed) {
-      const rows = entries.map(e => `<tr><td>${fmtDate(e.date)}</td><td class="num">${fmtUSD(e.portfolio_value)}</td></tr>`).join('');
-      wrap.innerHTML = `<table><thead><tr><th>Datum</th><th style="text-align:right;">Hodnota portfolia</th></tr></thead><tbody>${rows}</tbody></table>`;
-    } else {
-      renderChart(data);
-    }
-  };
 }
 
-function statusBadge(entry) {
-  if (entry.blocked_reasons && entry.blocked_reasons.length) {
-    return `<span class="badge blocked">⚠ blokováno mantinely</span>`;
+function renderTable(entries, hasBench, bench){
+  const wrap = document.getElementById('chart-wrap');
+  const rows = entries.map((e,i) => `
+    <tr>
+      <td>${fmtDateForPeriod(e.date, currentPeriod)}</td>
+      <td class="num">${fmtUSD(e.portfolio_value)}</td>
+      ${hasBench ? `<td class="num">${fmtUSD(bench[i])}</td>` : ''}
+    </tr>`).join('');
+  wrap.innerHTML = `<table><thead><tr><th>Datum</th><th style="text-align:right;">Portfolio</th>${hasBench ? '<th style="text-align:right;">SPY</th>' : ''}</tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+document.getElementById('toggle-table-view').addEventListener('click', (ev) => {
+  tableViewOn = !tableViewOn;
+  ev.target.setAttribute('aria-pressed', String(tableViewOn));
+  ev.target.textContent = tableViewOn ? 'Graf' : 'Tabulka';
+  renderChart({ entries: window.__ALL_ENTRIES__ }, currentPeriod);
+});
+
+function computeMaxDrawdown(entries){
+  let peak = -Infinity, peakDate = entries[0].date;
+  let maxDD = 0, maxDDPeakDate = entries[0].date, maxDDTroughDate = entries[0].date;
+  entries.forEach(e => {
+    if (e.portfolio_value > peak) { peak = e.portfolio_value; peakDate = e.date; }
+    const dd = peak ? (e.portfolio_value - peak) / peak : 0;
+    if (dd < maxDD) { maxDD = dd; maxDDPeakDate = peakDate; maxDDTroughDate = e.date; }
+  });
+  return { maxDD, peakDate: maxDDPeakDate, troughDate: maxDDTroughDate };
+}
+
+function renderPerformance(data){
+  const entries = data.entries;
+  const last = entries[entries.length-1];
+  const realized = last.realized_pl_cum;
+  const unrealized = (last.positions||[]).reduce((s,p)=>s+p.unrealized_pl,0);
+  const dd = computeMaxDrawdown(entries);
+  const traded = entries.filter(e => e.trade_count > 0).length;
+  const tradedPct = (traded/entries.length)*100;
+
+  const bench = benchmarkSeries(entries);
+  let calloutHtml = '', calloutNote = '';
+  if (bench) {
+    const benchLast = bench[bench.length-1];
+    const diff = last.portfolio_value - benchLast;
+    const pct = (diff/benchLast)*100;
+    calloutHtml = `
+      <div class="perf-callout">
+        <span class="perf-callout-label">Portfolio vs. kdyby jen drž a čekej (SPY)</span>
+        <span class="perf-callout-value ${dirClass(diff)}">${dirArrow(diff)} ${fmtUSD(Math.abs(diff))} (${diff>=0?'+':''}${pct.toFixed(2)} %)</span>
+      </div>`;
+    calloutNote = entries[0].date !== data.entries[0].date
+      ? `<p class="perf-callout-note">Srovnání od ${fmtDate(entries[0].date)} (odkdy je k dispozici SPY cena).</p>` : '';
   }
-  if (entry.trade_count > 0) {
-    return `<span class="badge ok">✓ ${entry.trade_count} obchod${entry.trade_count > 1 ? 'y' : ''}</span>`;
-  }
+  document.getElementById('perf-callout-wrap').innerHTML = calloutHtml + calloutNote;
+
+  document.getElementById('perf-grid').innerHTML = `
+    <div class="perf-tile">
+      <div class="label">Realizovaný zisk/ztráta</div>
+      <div class="value ${typeof realized === 'number' ? dirClass(realized) : 'flat'}">${typeof realized === 'number' ? (realized>=0?'+':'')+fmtUSD(realized) : 'zatím nesledováno'}</div>
+    </div>
+    <div class="perf-tile">
+      <div class="label">Nerealizovaný (otevřené pozice)</div>
+      <div class="value ${dirClass(unrealized)}">${unrealized>=0?'+':''}${fmtUSD(unrealized)}</div>
+    </div>
+    <div class="perf-tile">
+      <div class="label">Max. propad</div>
+      <div class="value down">${(dd.maxDD*100).toFixed(2)} %</div>
+      <div class="perf-sub">${fmtDate(dd.peakDate)} → ${fmtDate(dd.troughDate)}</div>
+    </div>
+    <div class="perf-tile">
+      <div class="label">Obchodováno</div>
+      <div class="value flat">${tradedPct.toFixed(0)} %</div>
+      <div class="perf-sub">${traded} z ${entries.length} dní</div>
+    </div>
+  `;
+  document.getElementById('perf-card').style.display = '';
+}
+
+function renderAllocation(data){
+  const last = data.entries[data.entries.length-1];
+  const bySymbol = {};
+  (last.positions||[]).forEach(p => { bySymbol[p.symbol] = (bySymbol[p.symbol]||0) + p.market_value; });
+
+  const palette = [
+    {key:'cash', label:'Hotovost', color:'var(--cat-cash)'},
+    {key:'SPY',  label:'SPY',      color:'var(--cat-spy)'},
+    {key:'QQQ',  label:'QQQ',      color:'var(--cat-qqq)'},
+    {key:'AAPL', label:'AAPL',     color:'var(--cat-aapl)'},
+  ];
+  const knownKeys = new Set(palette.map(p=>p.key));
+  // symboly mimo pevnou paletu (MSFT, GOOGL, VOO,...) dostanou neutrální odstín textu,
+  // ať se nepletou s hlavní kategorickou sadou
+  Object.keys(bySymbol).forEach(sym => {
+    if (!knownKeys.has(sym)) palette.push({key:sym, label:sym, color:'var(--text-muted)'});
+  });
+
+  const segments = palette
+    .map(p => ({ ...p, value: p.key === 'cash' ? last.cash : (bySymbol[p.key] || 0) }))
+    .filter(s => s.value > 0.5);
+
+  const total = segments.reduce((s,x)=>s+x.value, 0) || 1;
+  const R = 62, CX = 90, CY = 90, SW = 26, GAP = 2.5;
+  const circumference = 2 * Math.PI * R;
+  let offset = 0;
+  const arcs = segments.map(s => {
+    const frac = s.value / total;
+    const len = frac * circumference;
+    const dashLen = Math.max(len - GAP, 0.001);
+    const circle = `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${s.color}" stroke-width="${SW}" ` +
+      `stroke-dasharray="${dashLen.toFixed(2)} ${(circumference-dashLen).toFixed(2)}" ` +
+      `stroke-dashoffset="${(-offset).toFixed(2)}" transform="rotate(-90 ${CX} ${CY})" />`;
+    offset += len;
+    return circle;
+  }).join('');
+
+  document.getElementById('donut-wrap').innerHTML = `
+    <svg viewBox="0 0 180 180" width="180" height="180" style="display:block;">
+      ${arcs}
+      <text x="${CX}" y="${CY-6}" text-anchor="middle" class="donut-center-label">Portfolio</text>
+      <text x="${CX}" y="${CY+13}" text-anchor="middle" class="donut-center-value">${fmtUSDCompact(total)}</text>
+    </svg>`;
+
+  document.getElementById('donut-legend').innerHTML = segments.map(s => `
+    <div class="legend-row">
+      <span class="legend-swatch" style="background:${s.color}"></span>
+      <span class="legend-label">${s.label}</span>
+      <span class="legend-value">${fmtUSD(s.value)} <span class="legend-pct">(${((s.value/total)*100).toFixed(1)} %)</span></span>
+    </div>`).join('');
+
+  document.getElementById('alloc-card').style.display = '';
+}
+
+function statusBadge(entry){
+  if(entry.blocked_reasons && entry.blocked_reasons.length) return `<span class="badge blocked">⚠ blokováno</span>`;
+  if(entry.trade_count > 0) return `<span class="badge ok">✓ ${entry.trade_count} obchod${entry.trade_count>1?'y':''}</span>`;
   return `<span class="badge none">bez obchodu</span>`;
 }
+function accentClass(entry){
+  if(entry.blocked_reasons && entry.blocked_reasons.length) return 'accent-blocked';
+  if(entry.trade_count > 0) return 'accent-ok';
+  return 'accent-none';
+}
 
-function renderLog(data) {
+const LOG_LIMIT = 10;
+
+function renderLog(data){
   const list = document.getElementById('log-list');
-  const rows = [...data.entries].reverse();
+  const shown = data.entries.slice(-LOG_LIMIT);
+  const rows = [...shown].reverse();
+
+  document.getElementById('log-limit-note').textContent = data.entries.length > LOG_LIMIT
+    ? `Zobrazeno posledních ${LOG_LIMIT} z ${data.entries.length} dní.`
+    : '';
+
   list.innerHTML = rows.map((e, idx) => {
     const detailId = 'detail-' + idx;
     let detailContent = '';
@@ -402,35 +642,38 @@ function renderLog(data) {
     } else if (e.trades && e.trades.length) {
       detailContent = e.trades.map(t => `
         <div class="trade-line">
-          <span class="sym">${t.symbol} · ${t.side === 'buy' ? 'nákup' : 'prodej'} · ${t.qty}</span>
+          <span class="sym">${t.symbol} · ${t.side==='buy'?'nákup':'prodej'} · ${t.qty}</span>
           ${t.status === 'submitted' ? '' : ' — <span style="color:var(--critical)">chyba: ' + (t.error || '') + '</span>'}
           <span class="reasoning">${t.reasoning || ''}</span>
         </div>`).join('');
     } else {
       detailContent = `<div class="trade-line" style="color:var(--text-muted)">Žádný obchod tento den.</div>`;
     }
-
     return `
-      <div class="log-item" data-target="${detailId}">
-        <div class="log-item-head">
-          <span class="log-item-date">${fmtDate(e.date)}</span>
-          <span class="log-item-value">${fmtUSD(e.portfolio_value)}</span>
+      <div class="log-day ${accentClass(e)}" data-target="${detailId}">
+        <div class="log-day-header">
+          <div class="log-day-header-left">
+            <span class="log-day-date">${fmtDate(e.date)}</span>
+            ${statusBadge(e)}
+          </div>
+          <div class="log-day-header-right">
+            <span class="log-day-value">${fmtUSD(e.portfolio_value)}</span>
+            <span class="log-day-chevron">▾</span>
+          </div>
         </div>
-        <p class="log-item-summary">${e.market_summary || ''}</p>
-        <div class="log-item-foot">
-          ${statusBadge(e)}
-          <span class="log-item-hint">detail ▾</span>
-        </div>
+        <div class="log-day-body"><p class="log-day-summary">${e.market_summary || ''}</p></div>
         <div class="trade-detail" id="${detailId}">${detailContent}</div>
-      </div>
-    `;
+      </div>`;
   }).join('');
 
-  list.querySelectorAll('.log-item').forEach(item => {
+  list.querySelectorAll('.log-day').forEach(item => {
     item.addEventListener('click', () => {
+      item.classList.toggle('open');
       document.getElementById(item.dataset.target).classList.toggle('open');
     });
   });
+
+  document.getElementById('log-card').style.display = '';
 }
 
 loadData().then(data => {
@@ -438,9 +681,17 @@ loadData().then(data => {
     document.getElementById('last-updated').textContent = 'Zatím žádná data — počkej na první denní běh.';
     return;
   }
+  window.__ALL_ENTRIES__ = data.entries;
   renderStats(data);
-  renderChart(data);
+  document.getElementById('chart-card').style.display = '';
+  renderChart(data, 'daily');
+  if (data.entries.length >= 2) renderPerformance(data);
+  renderAllocation(data);
   renderLog(data);
+
+  document.getElementById('range-select').addEventListener('change', (e) => {
+    renderChart({ entries: window.__ALL_ENTRIES__ }, e.target.value);
+  });
 }).catch(err => {
   document.getElementById('last-updated').textContent = 'Chyba při načítání dat: ' + err.message;
 });
