@@ -7,10 +7,12 @@
       "cash": 100000.0,
       "buying_power": 400000.0,
       "positions": [],
-      "market_summary": "Trh vykazuje mírnou volatilitu bez jasného trendu. SPY, QQQ a VOO se pohybují v úzkém rozmezí, GOOGL je v delšídobém poklesu od 376 na 346, zatímco MSFT a AAPL se udržují stabilně. Portfolio je zatím v hotovosti bez otevřených pozic.",
+      "market_summary": "Trh v posledních 14 dnech vykazuje smíšené signály. SPY a VOO (indexy) mírně rostou s poslední hodnotou SPY ~776 a VOO ~714. QQQ je volatilnější (+6,5% od 3.8.), ale poslední 3 dny stagnují. Jednotlivé technologie (AAPL, MSFT, GOOGL) vykazují nízkou volatilitu bez jasného trendu. BTC a ETH jsou pod tlakem (BTC -2,4% za poslední 3 dny, ETH bez jasného směru).",
       "trades": [],
       "trade_count": 0,
-      "blocked_reasons": []
+      "blocked_reasons": [],
+      "spy_price": 776.3,
+      "realized_pl_cum": 0.0
     }
   ]
 }
