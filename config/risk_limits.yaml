@@ -1,0 +1,40 @@
+# Rizikové mantinely pro AI trading bota
+# Toto jsou VÝCHOZÍ konzervativní hodnoty pro paper trading účet.
+# Uprav podle svých preferencí, než spustíme první ostrý běh.
+
+account:
+  mode: paper                # paper | live -- NEMĚNIT na "live" bez explicitního souhlasu uživatele
+  starting_universe:
+    stocks_etfs: true
+    crypto: true
+
+position_limits:
+  max_position_size_pct: 10      # max. % hodnoty portfolia v jedné pozici
+  max_single_trade_pct: 5        # max. % portfolia v jednom obchodu za den
+  max_daily_trades: 5            # kolik obchodů smí bot za den maximálně provést
+  max_total_crypto_allocation_pct: 30  # krypto je volatilnější -> nižší strop
+
+risk_controls:
+  allow_leverage: false
+  allow_short_selling: false
+  allow_options: false
+  stop_loss_pct: 8               # automatický stop-loss na pozici (% pod nákupní cenou)
+  daily_loss_circuit_breaker_pct: 5   # pokud portfolio ztratí za den víc, bot dál needbochoduje a jen reportuje
+
+allowed_instruments:
+  stocks_etfs:
+    - SPY
+    - QQQ
+    - AAPL
+    - MSFT
+    - GOOGL
+    - VOO
+  crypto:
+    - BTC/USD
+    - ETH/USD
+  # Bot smí obchodovat POUZE nástroje z tohoto seznamu.
+  # Rozšíření seznamu = vědomé rozhodnutí uživatele, ne AI.
+
+reporting:
+  send_daily_report: true
+  report_channel: session_message   # zatím: zpráva do konverzace / emailu (doladíme)

@@ -1,0 +1,42 @@
+name: Daily AI Trading Run
+
+on:
+  schedule:
+    # 21:30 UTC = po zavření amerického akciového trhu (přibl. 23:30 letního / 22:30 zimního času v ČR)
+    - cron: "30 21 * * *"
+  workflow_dispatch: {}   # umožní i ruční spuštění tlačítkem v GitHub UI
+
+permissions:
+  contents: write   # potřeba pro commit reportu zpět do repozitáře
+
+jobs:
+  run-trading-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run daily trading pipeline
+        env:
+          ALPACA_API_KEY_ID: ${{ secrets.ALPACA_API_KEY_ID }}
+          ALPACA_API_SECRET_KEY: ${{ secrets.ALPACA_API_SECRET_KEY }}
+          ALPACA_API_BASE_URL: ${{ secrets.ALPACA_API_BASE_URL }}
+          ALPACA_PAPER: "true"
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python main.py
+
+      - name: Commit report back to repo
+        run: |
+          git config user.name "trading-bot"
+          git config user.email "trading-bot@users.noreply.github.com"
+          git add reports/
+          git diff --staged --quiet || git commit -m "Daily report $(date -u +%Y-%m-%d)"
+          git push
