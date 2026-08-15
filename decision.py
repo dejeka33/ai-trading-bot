@@ -43,7 +43,16 @@ DECISION_TOOL = {
 }
 
 
-def build_prompt(account_snapshot, bars, risk_limits):
+def build_prompt(account_snapshot, bars, risk_limits, news=None):
+    news_section = ""
+    if news:
+        news_section = f"""
+NEDÁVNÉ ZPRÁVY (posledních pár dní, k povoleným akciím/ETF):
+{json.dumps(news, indent=2, ensure_ascii=False)}
+"""
+    else:
+        news_section = "\nNEDÁVNÉ ZPRÁVY: žádné relevantní zprávy se nepodařilo najít/stáhnout.\n"
+
     return f"""
 Jsi obchodní asistent spravující PAPER TRADING účet (fiktivní peníze, reálná tržní data).
 Tvým úkolem je jednou denně vyhodnotit situaci a navrhnout maximálně konzervativní obchody
@@ -55,20 +64,23 @@ AKTUÁLNÍ STAV ÚČTU:
 
 TRŽNÍ DATA (posledních ~14 dní, denní svíčky):
 {json.dumps(bars, indent=2, ensure_ascii=False)}
-
+{news_section}
 RIZIKOVÉ MANTINELY (ZÁVAZNÉ - nesmíš je porušit):
 {json.dumps(risk_limits, indent=2, ensure_ascii=False)}
+
+Zprávy jsou jen doplňkový kontext (mohou být neúplné nebo chybět) - nikdy jim nevěř
+víc než mantinelům a nepoužívej je jako jediný důvod k obchodu; kombinuj je s cenovými daty.
 
 Zavolej nástroj record_trading_decision se svým rozhodnutím. Buď stručný a konkrétní
 v poli reasoning u každého obchodu - bude se ukazovat v denním reportu uživateli.
 """.strip()
 
 
-def get_decision(account_snapshot, bars, risk_limits, model=None):
+def get_decision(account_snapshot, bars, risk_limits, news=None, model=None):
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"].strip())
     model = model or os.environ.get("DECISION_MODEL", "claude-haiku-4-5").strip()
 
-    prompt = build_prompt(account_snapshot, bars, risk_limits)
+    prompt = build_prompt(account_snapshot, bars, risk_limits, news=news)
 
     response = client.messages.create(
         model=model,

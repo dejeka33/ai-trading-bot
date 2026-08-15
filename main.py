@@ -9,7 +9,7 @@ ALPACA_API_BASE_URL, ALPACA_PAPER, ANTHROPIC_API_KEY.
 import os
 from datetime import datetime, timezone
 
-from data_fetch import get_clients, get_account_snapshot, get_recent_bars
+from data_fetch import get_clients, get_account_snapshot, get_recent_bars, get_recent_news
 from risk_rules import load_risk_limits, allowed_symbols, validate_decision
 from decision import get_decision
 from execute import execute_trades
@@ -21,12 +21,13 @@ def main():
     limits = load_risk_limits()
     stocks, crypto = allowed_symbols(limits)
 
-    trading_client, stock_data_client, crypto_data_client = get_clients()
+    trading_client, stock_data_client, crypto_data_client, news_client = get_clients()
 
     account_before = get_account_snapshot(trading_client)
     bars = get_recent_bars(stock_data_client, crypto_data_client, stocks, crypto)
+    news = get_recent_news(news_client, stocks)
 
-    decision = get_decision(account_before, bars, limits)
+    decision = get_decision(account_before, bars, limits, news=news)
 
     ok, reasons = validate_decision(decision, limits, account_before)
 

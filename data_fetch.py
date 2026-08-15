@@ -9,7 +9,8 @@ from datetime import datetime, timedelta
 
 from alpaca.trading.client import TradingClient
 from alpaca.data.historical import StockHistoricalDataClient, CryptoHistoricalDataClient
-from alpaca.data.requests import StockBarsRequest, CryptoBarsRequest
+from alpaca.data.historical.news import NewsClient
+from alpaca.data.requests import StockBarsRequest, CryptoBarsRequest, NewsRequest
 from alpaca.data.timeframe import TimeFrame
 from alpaca.data.enums import DataFeed
 
@@ -24,7 +25,8 @@ def get_clients():
     trading_client = TradingClient(key, secret, paper=paper)
     stock_data_client = StockHistoricalDataClient(key, secret)
     crypto_data_client = CryptoHistoricalDataClient(key, secret)
-    return trading_client, stock_data_client, crypto_data_client
+    news_client = NewsClient(key, secret)
+    return trading_client, stock_data_client, crypto_data_client, news_client
 
 
 def get_account_snapshot(trading_client):
@@ -92,3 +94,46 @@ def get_recent_bars(stock_client, crypto_client, stock_symbols, crypto_symbols, 
                 ]
 
     return result
+
+
+def get_recent_news(news_client, stock_symbols, lookback_days=3, limit=10):
+    """
+    Stáhne nedávné zprávy k povoleným akciím/ETF z Alpaca News API (bezplatné,
+    stejné přihlašovací údaje jako pro obchodování - žádný nový účet netřeba).
+    Krypto zprávy Alpaca News API standardně nepokrývá, proto jen stock_symbols.
+    """
+    if not stock_symbols:
+        return []
+
+    end = datetime.utcnow()
+    start = end - timedelta(days=lookback_days)
+
+    req = NewsRequest(
+        symbols=",".join(stock_symbols),
+        start=start,
+        end=end,
+        limit=limit,
+        include_content=False,       # jen headline/summary, ne celý článek - šetří tokeny
+        exclude_contentless=True,
+        sort="desc",
+    )
+
+    try:
+        news_set = news_client.get_news(req)
+    except Exception as e:
+        # Zprávy jsou "nice to have" - pokud API selže, obchodní rozhodnutí
+        # se přesto provede jen na základě cenových dat.
+        print("Nepodařilo se stáhnout zprávy (pokračuji bez nich):", e)
+        return []
+
+    items = news_set.data.get("news", [])
+    return [
+        {
+            "headline": n.headline,
+            "summary": (n.summary or "")[:300],
+            "symbols": n.symbols,
+            "source": n.source,
+            "created_at": n.created_at.isoformat() if n.created_at else None,
+        }
+        for n in items
+    ]
