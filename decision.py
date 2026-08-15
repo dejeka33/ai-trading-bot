@@ -65,8 +65,8 @@ v poli reasoning u každého obchodu - bude se ukazovat v denním reportu uživa
 
 
 def get_decision(account_snapshot, bars, risk_limits, model=None):
-    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
-    model = model or os.environ.get("DECISION_MODEL", "claude-haiku-4-5")
+    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"].strip())
+    model = model or os.environ.get("DECISION_MODEL", "claude-haiku-4-5").strip()
 
     prompt = build_prompt(account_snapshot, bars, risk_limits)
 

@@ -14,9 +14,11 @@ from alpaca.data.timeframe import TimeFrame
 
 
 def get_clients():
-    key = os.environ["ALPACA_API_KEY_ID"]
-    secret = os.environ["ALPACA_API_SECRET_KEY"]
-    paper = os.environ.get("ALPACA_PAPER", "true").lower() == "true"
+    # .strip() ošetřuje případnou neviditelnou mezeru/odřádkování navíc,
+    # které se snadno omylem zkopíruje spolu s hodnotou do GitHub Secrets.
+    key = os.environ["ALPACA_API_KEY_ID"].strip()
+    secret = os.environ["ALPACA_API_SECRET_KEY"].strip()
+    paper = os.environ.get("ALPACA_PAPER", "true").strip().lower() == "true"
 
     trading_client = TradingClient(key, secret, paper=paper)
     stock_data_client = StockHistoricalDataClient(key, secret)
