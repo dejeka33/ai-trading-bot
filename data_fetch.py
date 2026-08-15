@@ -11,6 +11,7 @@ from alpaca.trading.client import TradingClient
 from alpaca.data.historical import StockHistoricalDataClient, CryptoHistoricalDataClient
 from alpaca.data.requests import StockBarsRequest, CryptoBarsRequest
 from alpaca.data.timeframe import TimeFrame
+from alpaca.data.enums import DataFeed
 
 
 def get_clients():
@@ -59,6 +60,7 @@ def get_recent_bars(stock_client, crypto_client, stock_symbols, crypto_symbols, 
             timeframe=TimeFrame.Day,
             start=start,
             end=end,
+            feed=DataFeed.IEX,  # bezplatný feed - SIP vyžaduje placené předplatné u Alpaca
         )
         bars = stock_client.get_stock_bars(req)
         for symbol in stock_symbols:
