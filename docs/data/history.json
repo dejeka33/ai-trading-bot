@@ -1,0 +1,16 @@
+{
+  "starting_value": 100000.0,
+  "entries": [
+    {
+      "date": "2026-08-15",
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "buying_power": 100000.0,
+      "positions": [],
+      "market_summary": "Trh vykazuje smíšené signály s převahou technické slabosti. SPY (+3,6% za 2 týdny) a VOO (+3,4%) rostou pozvolna, ale akcie (AAPL, MSFT, GOOGL) vykazují volatilitu bez jasného směru. Krypto mírně klesá (BTC -0,25%, ETH -0,3% za 2 týdny). Portfolio je plně v hotovosti, čekáme na jednoznačnější signály.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": []
+    }
+  ]
+}

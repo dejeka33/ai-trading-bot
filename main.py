@@ -14,6 +14,7 @@ from risk_rules import load_risk_limits, allowed_symbols, validate_decision
 from decision import get_decision
 from execute import execute_trades
 from report import build_report
+from history import update_history
 
 
 def main():
@@ -35,15 +36,23 @@ def main():
     elif not ok:
         print("Rozhodnutí porušilo mantinely, obchody se neprovedou:", reasons)
 
-    account_after = get_account_snapshot(trading_client) if trade_results else None
+    # Vždy zjistíme aktuální stav účtu (i beze dnů bez obchodu se mohla změnit
+    # hodnota otevřených pozic vlivem pohybu trhu) - používá se pro report i dashboard.
+    account_after = get_account_snapshot(trading_client)
 
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    report_md = build_report(date_str, account_before, account_after, decision, trade_results, reasons if not ok else [])
+    report_md = build_report(
+        date_str, account_before,
+        account_after if trade_results else None,
+        decision, trade_results, reasons if not ok else [],
+    )
 
     os.makedirs("reports", exist_ok=True)
     report_path = f"reports/{date_str}.md"
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(report_md)
+
+    update_history(date_str, account_after, decision, trade_results, reasons if not ok else [])
 
     print(report_md)
 
