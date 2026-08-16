@@ -43,7 +43,7 @@ DECISION_TOOL = {
 }
 
 
-def build_prompt(account_snapshot, bars, risk_limits, news=None):
+def build_prompt(account_snapshot, bars, risk_limits, news=None, macro=None):
     news_section = ""
     if news:
         news_section = f"""
@@ -52,6 +52,18 @@ NEDÁVNÉ ZPRÁVY (posledních pár dní, k povoleným akciím/ETF):
 """
     else:
         news_section = "\nNEDÁVNÉ ZPRÁVY: žádné relevantní zprávy se nepodařilo najít/stáhnout.\n"
+
+    macro_section = ""
+    if macro:
+        macro_section = f"""
+MAKROEKONOMICKÝ KONTEXT (zdroj: FRED, Federal Reserve Bank of St. Louis - oficiální,
+na Alpace nezávislý zdroj):
+{json.dumps(macro, indent=2, ensure_ascii=False)}
+Toto je jen doplňkový kontext o prostředí úrokových sazeb, ne přímý signál k obchodu -
+neuprav kvůli němu frekvenci ani styl obchodování, jen ho zohledni při zdůvodnění.
+Např. záporné/invertované rozpětí T10Y2Y (10Y výnos nižší než 2Y) bývá historicky
+spojováno s vyšší pravděpodobností ekonomického zpomalení v následujících měsících.
+"""
 
     return f"""
 Jsi obchodní asistent spravující PAPER TRADING účet (fiktivní peníze, reálná tržní data).
@@ -64,7 +76,7 @@ AKTUÁLNÍ STAV ÚČTU:
 
 TRŽNÍ DATA (posledních ~14 dní, denní svíčky):
 {json.dumps(bars, indent=2, ensure_ascii=False)}
-{news_section}
+{news_section}{macro_section}
 RIZIKOVÉ MANTINELY (ZÁVAZNÉ - nesmíš je porušit):
 {json.dumps(risk_limits, indent=2, ensure_ascii=False)}
 
@@ -76,11 +88,11 @@ v poli reasoning u každého obchodu - bude se ukazovat v denním reportu uživa
 """.strip()
 
 
-def get_decision(account_snapshot, bars, risk_limits, news=None, model=None):
+def get_decision(account_snapshot, bars, risk_limits, news=None, macro=None, model=None):
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"].strip())
     model = model or os.environ.get("DECISION_MODEL", "claude-haiku-4-5").strip()
 
-    prompt = build_prompt(account_snapshot, bars, risk_limits, news=news)
+    prompt = build_prompt(account_snapshot, bars, risk_limits, news=news, macro=macro)
 
     response = client.messages.create(
         model=model,
