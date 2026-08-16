@@ -48,6 +48,26 @@ notifikace neposílá.
    - `TELEGRAM_BOT_TOKEN` (token z kroku 1)
    - `TELEGRAM_CHAT_ID` (číslo z kroku 3)
 
+### Alternativa: notifikace přímo z ikony dashboardu (Web Push)
+
+Appka umí posílat i "opravdové" push notifikace nainstalovaného dashboardu
+(PWA) na telefonu - bez Telegramu, notifikace vypadá, že jde přímo z appky.
+Je to o něco křehčí (funguje jen na jednom konkrétním telefonu/prohlížeči,
+kde appku takhle zapneš, a když se odhlášení jednou "rozbije", potřeba
+zopakovat), ale jde to bez další appky. Dá se používat spolu s Telegramem,
+nebo místo něj.
+
+1. Otevři si dashboard appky na telefonu (v prohlížeči, ideálně tu
+   nainstalovanou verzi) a klikni na tlačítko **"Zapnout push notifikace"**
+   nahoře pod nadpisem. Povol notifikace, když se o to prohlížeč zeptá.
+2. Zobrazí se text (JSON) - zkopíruj ho celý a pošli mi ho v chatu, ať ho
+   uložím do repozitáře (soubor `data/push_subscription.json` - je mimo
+   `docs/`, takže není veřejně dostupný přes GitHub Pages).
+3. Přidej do GitHub Secrets tohoto repozitáře `VAPID_PRIVATE_KEY` - hodnotu
+   ti dám já (je to vygenerovaný klíč, ne heslo k ničemu tvému).
+4. Pokud by notifikace časem přestaly chodit (prohlížeč umí odhlášení
+   samo zneplatnit), stačí zopakovat kroky 1-2.
+
 ## Odhad nákladů
 
 - GitHub Actions: zdarma (běžný denní běh trvá řádově desítky sekund až
@@ -64,6 +84,7 @@ notifikace neposílá.
 - `risk_rules.py` - validace rozhodnutí proti mantinelům
 - `execute.py` - provedení obchodů
 - `notify.py` - volitelné push notifikace přes Telegram
+- `webpush_notify.py` - volitelné push notifikace přímo do ikony dashboardu (Web Push)
 - `report.py` - generování denního reportu
 - `main.py` - spojuje všechno dohromady
 - `reports/` - sem se ukládají denní reporty (commitují se zpět do repa)

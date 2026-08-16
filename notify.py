@@ -55,3 +55,16 @@ def build_daily_summary(app_label, date_str, account, trade_results, validation_
 
     lines.append(f"Hodnota portfolia: ${account['portfolio_value']:,.2f}")
     return "\n".join(lines)
+
+
+def build_short_summary(trade_results, validation_reasons):
+    """Jednořádkové shrnutí - pro krátký text push notifikace (webpush_notify.py)."""
+    if validation_reasons:
+        return "Obchody blokovány rizikovými mantinely"
+    if not trade_results:
+        return "Bez obchodu dnes"
+    parts = [
+        f"{r['side'].upper()} {r['qty']} {r['symbol']}"
+        for r in trade_results if r["status"] == "submitted"
+    ]
+    return ", ".join(parts) if parts else "Obchod se nepodařil provést"

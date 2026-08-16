@@ -67,6 +67,13 @@
   .withdraw-note { font-size: 11.5px; color: var(--text-muted); line-height: 1.55; padding: 2px 2px 0; }
   .withdraw-note strong { color: var(--text-secondary); font-weight: 600; }
 
+  /* --- Push notifikace --- */
+  .push-setup { margin-top: 10px; }
+  .push-btn { background: var(--series-1); color: #fff; border: none; border-radius: 8px; padding: 8px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+  .push-btn:active { opacity: 0.85; }
+  .push-note { font-size: 11.5px; color: var(--text-muted); margin: 0 0 6px; line-height: 1.5; }
+  .push-textarea { width: 100%; box-sizing: border-box; background: var(--surface-2); color: var(--text-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 8px; font-size: 10.5px; font-family: ui-monospace, monospace; margin-bottom: 8px; resize: vertical; }
+
   /* --- Graf --- */
   .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 4px; }
   .chart-head-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
@@ -202,6 +209,7 @@
 <header>
   <h1>AI Trading Bot</h1>
   <p id="last-updated">Načítám data…</p>
+  <div class="push-setup" id="push-setup"></div>
 </header>
 
 <main>
@@ -707,6 +715,63 @@ loadData().then(data => {
 }).catch(err => {
   document.getElementById('last-updated').textContent = 'Chyba při načítání dat: ' + err.message;
 });
+
+// --- Push notifikace (volitelné) ---
+// VAPID veřejný klíč - není citlivý, je určený k tomu, aby ho viděl kdokoli
+// (prohlížeč ho potřebuje k ověření, že push posílá vlastník téhle appky).
+const VAPID_PUBLIC_KEY = 'BLOITJaHMlAhocthVjeZBzEdIevKvsFv2zSDqARpm5ZoJOvydU4cvl2RGnuYA13tI8cEasqVn3VBlji-2lOzzug';
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = atob(base64);
+  return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+}
+
+async function setupPush() {
+  const box = document.getElementById('push-setup');
+  if (!box) return;
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    box.innerHTML = '<p class="push-note">Tento prohlížeč push notifikace nepodporuje.</p>';
+    return;
+  }
+  try {
+    const reg = await navigator.serviceWorker.register('./sw.js');
+    let sub = await reg.pushManager.getSubscription();
+    if (sub) {
+      box.innerHTML = '<p class="push-note">Push notifikace jsou na tomhle zařízení zapnuté.</p>';
+      return;
+    }
+    box.innerHTML = '<button id="push-enable-btn" class="push-btn">Zapnout push notifikace</button>';
+    document.getElementById('push-enable-btn').addEventListener('click', async () => {
+      try {
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted') {
+          box.innerHTML = '<p class="push-note">Notifikace nebyly povoleny v prohlížeči.</p>';
+          return;
+        }
+        sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+        });
+        const json = JSON.stringify(sub.toJSON(), null, 2);
+        box.innerHTML =
+          '<p class="push-note">Hotovo — zkopíruj tento text a pošli ho Claudovi v chatu, ať ho uloží (je to jednorázové):</p>' +
+          '<textarea id="push-sub-text" class="push-textarea" readonly rows="6">' + json + '</textarea>' +
+          '<button id="push-copy-btn" class="push-btn">Zkopírovat</button>';
+        document.getElementById('push-copy-btn').addEventListener('click', () => {
+          navigator.clipboard.writeText(json);
+          document.getElementById('push-copy-btn').textContent = 'Zkopírováno!';
+        });
+      } catch (e) {
+        box.innerHTML = '<p class="push-note">Nastavení se nepodařilo: ' + e.message + '</p>';
+      }
+    });
+  } catch (e) {
+    box.innerHTML = '<p class="push-note">Service worker se nepodařilo zaregistrovat: ' + e.message + '</p>';
+  }
+}
+setupPush();
 </script>
 
 </body>
