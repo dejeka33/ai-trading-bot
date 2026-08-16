@@ -15,6 +15,8 @@ from decision import get_decision
 from execute import execute_trades
 from report import build_report
 from history import load_history, update_history
+from fred_data import get_macro_context
+from notify import send_telegram, build_daily_summary
 
 
 def compute_realized_pl_delta(account_before, trade_results):
@@ -47,8 +49,11 @@ def main():
     account_before = get_account_snapshot(trading_client)
     bars = get_recent_bars(stock_data_client, crypto_data_client, stocks, crypto)
     news = get_recent_news(news_client, stocks)
+    # FRED je volitelný - pokud FRED_API_KEY není nastavený, macro bude None
+    # a bot pokračuje úplně stejně jako dřív (viz fred_data.get_macro_context).
+    macro = get_macro_context()
 
-    decision = get_decision(account_before, bars, limits, news=news)
+    decision = get_decision(account_before, bars, limits, news=news, macro=macro)
 
     ok, reasons = validate_decision(decision, limits, account_before)
 
@@ -94,6 +99,13 @@ def main():
     )
 
     print(report_md)
+
+    # Push notifikace na telefon (volitelné - viz notify.py). Posílá se vždy
+    # account_after (aktuální stav po případných obchodech).
+    send_telegram(build_daily_summary(
+        "AI Trading Bot (dlouhodobý)", date_str, account_after, trade_results,
+        reasons if not ok else [],
+    ))
 
     # Pro GitHub Actions step summary (pěkně vidět report přímo v UI běhu)
     summary_file = os.environ.get("GITHUB_STEP_SUMMARY")

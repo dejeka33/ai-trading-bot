@@ -31,6 +31,23 @@ obchody a uloží/zveřejní report. Běží přes GitHub Actions, ne uvnitř Co
 5. Doporučuju první běh spustit ručně (workflow_dispatch) a zkontrolovat
    výstup, než necháš běžet automaticky každý den.
 
+## Push notifikace na telefon (volitelné)
+
+Appka umí po každém běhu poslat krátké shrnutí (obchod proveden/neproveden/blokován)
+přes Telegram bota. Bez nastavení se appka chová úplně stejně jako dřív, jen
+notifikace neposílá.
+
+1. V Telegramu si napiš s **@BotFather**, pošli mu `/newbot` a projdi krátký
+   dialog (jméno bota, uživatelské jméno musí končit na `bot`) - na konci ti
+   dá **token** (dlouhý řetězec).
+2. Napiš svému novému botovi jakoukoliv zprávu (např. "ahoj"), aby věděl, komu
+   má psát zpátky.
+3. Otevři v prohlížeči (nahraď TOKEN svým): `https://api.telegram.org/botTOKEN/getUpdates`
+   - ve výsledku najdeš `"chat":{"id": ČÍSLO, ...}` - to číslo je tvoje `chat_id`.
+4. Přidej do GitHub Secrets tohoto repozitáře:
+   - `TELEGRAM_BOT_TOKEN` (token z kroku 1)
+   - `TELEGRAM_CHAT_ID` (číslo z kroku 3)
+
 ## Odhad nákladů
 
 - GitHub Actions: zdarma (běžný denní běh trvá řádově desítky sekund až
@@ -42,9 +59,11 @@ obchody a uloží/zveřejní report. Běží přes GitHub Actions, ne uvnitř Co
 
 - `config/risk_limits.yaml` - rizikové mantinely (uprav podle sebe)
 - `data_fetch.py` - stahování dat z Alpaca
+- `fred_data.py` - volitelný makro kontext z FRED
 - `decision.py` - dotaz na Claude a strukturované rozhodnutí
 - `risk_rules.py` - validace rozhodnutí proti mantinelům
 - `execute.py` - provedení obchodů
+- `notify.py` - volitelné push notifikace přes Telegram
 - `report.py` - generování denního reportu
 - `main.py` - spojuje všechno dohromady
 - `reports/` - sem se ukládají denní reporty (commitují se zpět do repa)
