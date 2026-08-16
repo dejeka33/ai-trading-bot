@@ -20,7 +20,7 @@
       "cash": 100000.0,
       "buying_power": 400000.0,
       "positions": [],
-      "market_summary": "Trh vykazuje smíšené signály s lehkou volatilitou. SPY a QQQ jsou v blízké stabilní úrovni, VOO roste pozvolna. Bitcoin zaznamenává pokles kolem 2%, Ethereum kolísá v úzkém rozsahu. Bez jasných nákupních signálů nebo trendů se přikláním k obezřetnosti.",
+      "market_summary": "Trh se chová zmiřeně se smíšenými signály. SPY, VOO a QQQ v posledních dnech oscilují bez jasného trendu – SPY kolem 776 USD, QQQ kolem 731 USD. Jednotlivé velké akcie (AAPL, MSFT, GOOGL) vykazují slabší dynamiku bez přesvědčivého spuštění. Krypto se drží relativně stabilně (BTC ~63k USD, ETH ~1888 USD). Portfolio je bez pozic, běží v hotovosti.",
       "trades": [],
       "trade_count": 0,
       "blocked_reasons": [],
