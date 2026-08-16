@@ -13,6 +13,19 @@
       "blocked_reasons": [],
       "spy_price": 776.3,
       "realized_pl_cum": 0.0
+    },
+    {
+      "date": "2026-08-16",
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "buying_power": 400000.0,
+      "positions": [],
+      "market_summary": "Trh vykazuje smíšené signály: SPY a VOO rostou stabilně (~2-3% za 14 dní), QQQ se pohybuje spíše bočně s volatilitou. AAPL a GOOGL jsou pod tlakem (pokles ~1-2%), MSFT rastl výrazněji (+4%). Krypto drží silné pozice – BTC/ETH stabilní bez výrazného trendu. Portfolio je v hotovosti (100k), mantinely nejsou ohroženy.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [],
+      "spy_price": 776.3,
+      "realized_pl_cum": 0.0
     }
   ]
 }
