@@ -20,7 +20,7 @@
       "cash": 100000.0,
       "buying_power": 400000.0,
       "positions": [],
-      "market_summary": "Trh vykazuje smíšené signály: SPY a VOO rostou stabilně (~2-3% za 14 dní), QQQ se pohybuje spíše bočně s volatilitou. AAPL a GOOGL jsou pod tlakem (pokles ~1-2%), MSFT rastl výrazněji (+4%). Krypto drží silné pozice – BTC/ETH stabilní bez výrazného trendu. Portfolio je v hotovosti (100k), mantinely nejsou ohroženy.",
+      "market_summary": "Trhy v poslední 14 dní vykazují zmiešené signály. SPY a VOO postupně rostou s mírnou volatilitou, QQQ se zotavuje po poklesu, AAPL je relativně stabilní s mírným tlakem, GOOGL utrpěla výraznější pokles (-7% za 14 dní). Krypto (BTC, ETH) kolísá bez jasného trendu. Portfolio je plně v hotovosti (100 000 USD).",
       "trades": [],
       "trade_count": 0,
       "blocked_reasons": [],
