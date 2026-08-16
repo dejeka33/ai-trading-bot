@@ -1,23 +1,19 @@
 """
 Odesílání Web Push notifikací přímo na nainstalovaný dashboard (PWA) na
-telefonu - na rozdíl od notify.py (Telegram) notifikace vypadá, že jde
-přímo z appky/ikony dashboardu, ne z jiné appky.
+telefonu - notifikace vypadá, že jde přímo z appky/ikony dashboardu, ne
+z jiné appky (žádný Telegram ani jiná třetí appka).
 
-Volitelné a nezávislé na notify.py - dá se používat jedno, druhé, nebo obojí
-najednou. Bez VAPID_PRIVATE_KEY nebo bez data/push_subscription.json se jen
-nic neodešle (appka se chová stejně jako bez notifikací).
-
-Předpoklad: uživatel si na telefonu otevřel dashboard (docs/index.html),
-klikl na "Zapnout push notifikace", zkopíroval vygenerovaný JSON a ten byl
-uložen sem: data/push_subscription.json (mimo docs/, aby nebyl veřejně
-dostupný přes GitHub Pages - GitHub Pages servíruje jen obsah docs/).
+Volitelné: bez VAPID_PRIVATE_KEY nebo bez PUSH_SUBSCRIPTION_JSON se jen nic
+neodešle (appka se chová stejně jako bez notifikací). Obojí se čte z GitHub
+Secrets (proměnných prostředí) - NIC z tohohle se necommituje do repozitáře,
+takže i když je repozitář veřejný (kvůli GitHub Pages na zdarma účtu
+typicky musí být), zůstává to v bezpečí stejně jako ostatní API klíče.
 """
 import json
 import os
 
 from pywebpush import webpush, WebPushException
 
-SUBSCRIPTION_PATH = "data/push_subscription.json"
 # VAPID vyžaduje kontakt v "sub" claimu (mailto: nebo https: URL - ČISTĚ
 # origin, bez cesty, jinak to knihovna odmítne). Nemá smysl do zdrojáku
 # (repo může být veřejné) dávat soukromý e-mail, takhle stačí - GitHub Pages
@@ -25,15 +21,27 @@ SUBSCRIPTION_PATH = "data/push_subscription.json"
 VAPID_CLAIMS_SUB = "https://dejeka33.github.io"
 
 
+def build_short_summary(trade_results, validation_reasons):
+    """Jednořádkové shrnutí obchodu - text push notifikace."""
+    if validation_reasons:
+        return "Obchody blokovány rizikovými mantinely"
+    if not trade_results:
+        return "Bez obchodu dnes"
+    parts = [
+        f"{r['side'].upper()} {r['qty']} {r['symbol']}"
+        for r in trade_results if r["status"] == "submitted"
+    ]
+    return ", ".join(parts) if parts else "Obchod se nepodařil provést"
+
+
 def send_web_push(title, body, url="./"):
     private_key = os.environ.get("VAPID_PRIVATE_KEY", "").strip()
-    if not private_key or not os.path.exists(SUBSCRIPTION_PATH):
+    subscription_raw = os.environ.get("PUSH_SUBSCRIPTION_JSON", "").strip()
+    if not private_key or not subscription_raw:
         return
 
     try:
-        with open(SUBSCRIPTION_PATH, "r", encoding="utf-8") as f:
-            subscription_info = json.load(f)
-
+        subscription_info = json.loads(subscription_raw)
         webpush(
             subscription_info=subscription_info,
             data=json.dumps({"title": title, "body": body, "url": url}),

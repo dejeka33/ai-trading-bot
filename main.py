@@ -16,8 +16,7 @@ from execute import execute_trades
 from report import build_report
 from history import load_history, update_history
 from fred_data import get_macro_context
-from notify import send_telegram, build_daily_summary, build_short_summary
-from webpush_notify import send_web_push
+from webpush_notify import send_web_push, build_short_summary
 
 
 def compute_realized_pl_delta(account_before, trade_results):
@@ -101,13 +100,10 @@ def main():
 
     print(report_md)
 
-    # Push notifikace na telefon (obě volitelné, nezávislé na sobě - viz
-    # notify.py a webpush_notify.py). Posílá se vždy account_after (aktuální
-    # stav po případných obchodech).
+    # Push notifikace na telefon přímo z ikony dashboardu (volitelné - viz
+    # webpush_notify.py). Posílá se vždy account_after (aktuální stav po
+    # případných obchodech).
     blocked = reasons if not ok else []
-    send_telegram(build_daily_summary(
-        "AI Trading Bot (dlouhodobý)", date_str, account_after, trade_results, blocked,
-    ))
     send_web_push(
         "AI Trading Bot (dlouhodobý)",
         f"{build_short_summary(trade_results, blocked)} — ${account_after['portfolio_value']:,.2f}",

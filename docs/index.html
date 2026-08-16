@@ -756,7 +756,7 @@ async function setupPush() {
         });
         const json = JSON.stringify(sub.toJSON(), null, 2);
         box.innerHTML =
-          '<p class="push-note">Hotovo — zkopíruj tento text a pošli ho Claudovi v chatu, ať ho uloží (je to jednorázové):</p>' +
+          '<p class="push-note">Hotovo — zkopíruj tento text a vlož ho jako GitHub Secret PUSH_SUBSCRIPTION_JSON (Settings → Secrets and variables → Actions), je to jednorázové:</p>' +
           '<textarea id="push-sub-text" class="push-textarea" readonly rows="6">' + json + '</textarea>' +
           '<button id="push-copy-btn" class="push-btn">Zkopírovat</button>';
         document.getElementById('push-copy-btn').addEventListener('click', () => {
