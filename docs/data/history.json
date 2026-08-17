@@ -26,6 +26,19 @@
       "blocked_reasons": [],
       "spy_price": 776.3,
       "realized_pl_cum": 0.0
+    },
+    {
+      "date": "2026-08-17",
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "buying_power": 400000.0,
+      "positions": [],
+      "market_summary": "Technické analýzy ukazují na konsolidaci. SPY (772,62) a VOO (710,29) se pohybují v úzkém rozmezí bez jasného trendu. QQQ (729,95) se drží blízko středu své 14denní pásmě. GOOGL (344,1) trpí slabostí (-5,9% za 14 dní), zatímco AAPL (305,66) a MSFT (480,65) vykazují nižší dynamiku. Krypto segmenty BTC a ETH dosáhly vrcholů v 08/17, ale bez pokynů k nákupu se zdržuji.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [],
+      "spy_price": 772.62,
+      "realized_pl_cum": 0.0
     }
   ]
 }
