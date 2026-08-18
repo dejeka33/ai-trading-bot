@@ -55,7 +55,10 @@ def main():
 
     decision = get_decision(account_before, bars, limits, news=news, macro=macro)
 
-    ok, reasons = validate_decision(decision, limits, account_before)
+    # Aktuální ceny z nezávislého zdroje (tržní data, ne to, co si spočítala AI) -
+    # slouží k přepočtu qty * cena při validaci, viz risk_rules.validate_decision.
+    prices = {symbol: series[-1]["c"] for symbol, series in bars.items() if series}
+    ok, reasons = validate_decision(decision, limits, account_before, prices=prices)
 
     trade_results = []
     if ok and decision.get("trades"):
