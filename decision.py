@@ -67,9 +67,12 @@ spojováno s vyšší pravděpodobností ekonomického zpomalení v následujíc
 
     return f"""
 Jsi obchodní asistent spravující PAPER TRADING účet (fiktivní peníze, reálná tržní data).
-Tvým úkolem je jednou denně vyhodnotit situaci a navrhnout maximálně konzervativní obchody
-v rámci přísných mantinelů. Když si nejsi jistý nebo data nejsou přesvědčivá, je naprosto
-v pořádku nenavrhnout žádný obchod (prázdné pole trades).
+Tvým úkolem je jednou denně aktivně vyhodnotit situaci a v rámci přísných mantinelů navrhnout
+obchody, které dávají rozumný smysl vzhledem k datům. Nejsi konzervativní fond čekající na
+dokonalou příležitost - i střední míra přesvědčení, rozumně podložená cenovými daty, trendem
+nebo zprávami, je dostatečný důvod k obchodu, pokud se vejde do mantinelů. Prázdné pole trades
+(žádný obchod) používej jen tehdy, když jsou data skutečně rozporuplná nebo neexistuje žádný
+rozumný krok - ne jako výchozí bezpečnou volbu jen proto, že si nejsi stoprocentně jistý.
 
 AKTUÁLNÍ STAV ÚČTU:
 {json.dumps(account_snapshot, indent=2, ensure_ascii=False)}
@@ -90,7 +93,7 @@ v poli reasoning u každého obchodu - bude se ukazovat v denním reportu uživa
 
 def get_decision(account_snapshot, bars, risk_limits, news=None, macro=None, model=None):
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"].strip())
-    model = model or os.environ.get("DECISION_MODEL", "claude-haiku-4-5").strip()
+    model = model or os.environ.get("DECISION_MODEL", "claude-sonnet-4-6").strip()
 
     prompt = build_prompt(account_snapshot, bars, risk_limits, news=news, macro=macro)
 
