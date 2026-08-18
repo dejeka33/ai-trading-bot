@@ -1,0 +1,244 @@
+{
+  "start": "2026-07-01",
+  "end": "2026-07-31",
+  "summary": {
+    "starting_cash": 100000.0,
+    "final_portfolio_value": 100000.0,
+    "total_return_pct": 0.0,
+    "final_benchmark_spy_value": 100150.87204039347,
+    "benchmark_return_pct": 0.15087204039347935,
+    "max_drawdown_pct": 0.0,
+    "total_filled_trades": 0,
+    "days_simulated": 22,
+    "assumptions": [
+      "Fill se simuluje za zavírací cenu daného dne (žádný spread/slippage).",
+      "Simulují se jen obchodní dny akciového trhu (víkendy vynechány, i pro krypto).",
+      "AI se volá reálně pro každý den (max_tokens=2000, model podle DECISION_MODEL/výchozí claude-haiku-4-5)."
+    ]
+  },
+  "entries": [
+    {
+      "date": "2026-07-01",
+      "market_summary": "Trh vykazuje smíšené signály. SPY, VOO a GOOGL se po poklesu v polovině období zotavují a uzavírají na pozitivní notě (+0,5% až +1,5% za poslední dny). Naopak AAPL a MSFT čelí trvalému tlaku - AAPL se za poslední tři obchodní dny zotavuje (+5,3%), ale MSFT zůstává pod tlakem. QQQ a BTC/ETH procházejí volatilitou. Účet má plnou likviditu (100k$) a nejsou pozice k otevření.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 100000.0
+    },
+    {
+      "date": "2026-07-02",
+      "market_summary": "Trh vykazuje volatilitu mezi rotací ze semiconductor sektoru a solidním výkonem blue-chipů. SPY, VOO a MSFT ukazují stabilní trend, zatímco QQQ a AAPL čelí tlaku po slabých zprávách o čipech. BTC a ETH se obnáší po juniovém poklesu. Yield křivka 10Y-2Y zbývá pozitivní (0,35%), což naznačuje umírněné makroekonomické podmínky.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 99892.04267331846
+    },
+    {
+      "date": "2026-07-06",
+      "market_summary": "Trh je v silné obnově po nedávných poklesech. S&P 500 (SPY) rostl poslední čtyři dny a překonal klíčové úrovně; Nasdaq (QQQ) se také zotavuje. Kryptografie (BTC, ETH) vykazuje pozitivní trend. Výnosová křivka je pozitivně naskloněná (10Y-2Y spread 0.35%), což podporuje přijetí rizika. Portfolio je plně v hotovosti (100k).",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 100751.67803236039
+    },
+    {
+      "date": "2026-07-07",
+      "market_summary": "Trh se nachází v turbulentní fázi se slabými technologickými akcemi a volatilitou. SPY a VOO jsou blízko posledních vrcholů, QQQ a MSFT padají. Krypto (BTC, ETH) vykazuje silnou rally. Účet je plně v hotovosti (100k USD), bez pozic, bez pravděpodobnosti ztráty.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 100282.29835113624
+    },
+    {
+      "date": "2026-07-08",
+      "market_summary": "S $100,000 v hotovosti a bez pozic se v portfoliu objevuje příležitost k obchodování. Trhy vykazují heterogenní chování: SPY a VOO se drží stabilně kolem posledních maxim, AAPL má pozitivní moment po skoku v červnu, ale QQQ a GOOGL se zotavují z předchozích poklesů. Makroekonomické údaje (10Y výnos 4,56%, rozpětí T10Y2Y 0,35%) ukazují na normální prostředí bez signálů krize. Kryptomeny BTC a ETH vykazují delší trend růstu od začátku července.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 99948.36823506535
+    },
+    {
+      "date": "2026-07-09",
+      "market_summary": "Trh se po včerejší silné performance (SPY +0,51%, QQQ +1,85%) stabilizuje. Technologie vedou, zejména AAPL (+2,56%) a MSFT (+0,34%) po zprávách o AI. Krypto stabilní – BTC +1,48%, ETH -0,54%. Úroková sazba Fed 3,62%, rozpětí 10Y-2Y v normálu. Bez tlaku na nové pozice.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 100789.22840685831
+    },
+    {
+      "date": "2026-07-10",
+      "market_summary": "Trh vykazuje zmiešané signály po silném vzestupu od začátku července. Technické indikátory jsou neutrální s mírným uptrend trendem; čistá likvidita zůstává dostatečná. Bez jasného directionalního signálu nebo příležitosti splňující konzervativní kritéria je vhodné čekat.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 101243.856155244
+    },
+    {
+      "date": "2026-07-13",
+      "market_summary": "SPY se nacházející v rozsahu 749-754 bez jasného trendu; QQQ oslabuje po včerejšku (711 → nižší). Geopolitické napětí (USA-Írán) zvyšuje nejistotu. Technologické akcie (AAPL, MSFT, GOOGL) vykazují rozporuplné signály - některé jsou stále vysoko, ale QQQ ztrácí. Krypto (BTC/ETH) po pozitivním trendu nyní pokazuje volatilitu. Portfolio je prázdné (cash 100k). Daní se investovat konzervativně.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 100464.68588441191
+    },
+    {
+      "date": "2026-07-14",
+      "market_summary": "Trh v poslední době vykazuje technickou sílu – SPY, QQQ a AAPL dosáhly nových maxim po pozitivní CPI zprávě (červenec bez zvýšení sazeb). Krypto (BTC, ETH) roste, ale s vyšší volatilitou. Portfolio je zcela v hotovosti (100k) a v tuto chvíli není silného přesvědčivého signálu pro nákup kvůli opatrnosti ohledně dlouhodobé stability.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 100841.53071419473
+    },
+    {
+      "date": "2026-07-15",
+      "market_summary": "Trh se nachází v decentně rostoucím trendu s technologickými akciemi vedoucí cestu. SPY je blízko svých maxim (~754,77), QQQ vykazuje menší volatilitu, AAPL a MSFT zažívají solidní nárůsty. Krypto také roste (BTC blízko 64,7k, ETH blízko 1917). Yield curve zůstává pozitivní (10Y-2Y +0,42%), což podporuje ekonomickou zdraví. Portfolio je prázdné (100k cash), ideální pro konzervativní nákup.",
+      "trades": [],
+      "blocked_reasons": [
+        "Obchod VOO v hodnotě 49896.00 přesahuje limit na jeden obchod (5000.00).",
+        "Obchod QQQ v hodnotě 25095.00 přesahuje limit na jeden obchod (5000.00)."
+      ],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 101221.05771358452
+    },
+    {
+      "date": "2026-07-16",
+      "market_summary": "Trh se nachází v mírně volatilním prostředí bez jednoznačného signálu. SPY a VOO vykazují stabilní vzestup, AAPL a MSFT mají silné momentum, zatímco GOOGL ztrácí na negativních zprávách o Gemini. Krypto (BTC/ETH) zaznamenává vzestupný trend po nedávných vlnách prodejů. Výnosová křivka je pozitivní (0.41% rozpětí), což podporuje růst akcií, ale vysoké sazby Fedu (3.63%) omezují valuaci.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 100698.03464022049
+    },
+    {
+      "date": "2026-07-17",
+      "market_summary": "Trh se nachází v technické turbulenzi po zprávě o čínském AI průlomu, což vyvolalo vyprodej především v tech sektoru. QQQ oslabil -1,65% včera a dnes pokračuje v poklesu. SPY je odolnější, ale také pod tlakem. Volatilita se zvýšila zejména v tech akciích (GOOGL -4,6%, AAPL stabilnější +0,1%). Portfolio je v hotovosti, vhodný čas čekat na signály odskoku.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 99680.15127436584
+    },
+    {
+      "date": "2026-07-20",
+      "market_summary": "Trh vykazuje míšené signály po včerejším poklesu (17.7.: SPY -1.2%, QQQ -2.5%, AAPL -0.1%). AAPL a MSFT mají pozitivní technickou dynamiku (rebound z poklesu, noviny o ocenění). Krypto se stabilizuje po prudkém růstu (BTC +1.9%, ETH +3.3% za 2 dny). Úrokový rozhraní zůstává stabilní, inverze 10Y-2Y (0.39 %) indikuje riziko. Bez konkrétních zásadních pozitivních signálů nejsou v tuto chvíli obchody garantovány.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 99528.60869157061
+    },
+    {
+      "date": "2026-07-21",
+      "market_summary": "Trhy dnes ukazují smíšený obraz: AAPL a MSFT vzrostly na nových vrcholech v posledních dnech (+11% a +3.5% od počátku měsíce), zatímco QQQ a GOOGL zaznamenaly korekce (-2.8% a -4% za poslední 4 dny). Krypto se vrací k růstu (BTC +6.5% v posledních 2 dnech, ETH +4.7%), SPY a VOO si drží stabilitu. Portfolio zatím obsahuje jen hotovost; účet má plný buying power 100 000 USD.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 100333.9301160709
+    },
+    {
+      "date": "2026-07-22",
+      "market_summary": "Trh vykazuje smíšené signály po Alphabet earnings. AAPL a MSFT mají silnou setupaci po posílení v posledních dnech, GOOGL naopak vykazuje volatilitu po výsledcích. SPY a VOO se drží stabilně blízko recent highs. Krypto (BTC, ETH) vykazuje trend podporovaný makro prostředím. Bez jednoznačného silného signálu rozšiřuji obchodování opatrně.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 100244.74797663832
+    },
+    {
+      "date": "2026-07-23",
+      "market_summary": "Trh se nachází v turbulentní fázi s negativními signály. Poslední dva dny (22.–23. 7.) přinesly výrazné prodeje především v technologickém sektoru: SPY −1,1%, QQQ −1,8%, AAPL −1,6%, MSFT −2,2%, GOOGL −7,1%. Tarify a obavy z velkých AI výdajů vytlačují rizikový kapitál. Výnosová křivka je stále invertovaná (10Y–2Y spread = 0,34 %, Fed rate = 3,63 %). Portfolio je v hotovosti (100 tisíc USD).",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 98980.10500694011
+    },
+    {
+      "date": "2026-07-24",
+      "market_summary": "Trhy v poslední den (24.7.) vykazují rozpačitou náladu. SPY lehce padá (-0.8%), QQQ klesá více (-3.2%), což odráží rotaci z technologií směrem k sektorům s viditelným cash flowem. AAPL překvapivě roste (+3.5%), MSFT a GOOGL padají (-1.2% resp. -4.0%) na obavy z AI capex. BTC a ETH se drží, BTC lehce pod tlakem. Makro: 10Y výnos 4.69%, spreadu 10Y-2Y = 0.36% (normální). Účet: $100k cash, bez pozic.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 99092.75613043392
+    },
+    {
+      "date": "2026-07-27",
+      "market_summary": "Trh vykazuje smíšené signály: tech sektory (QQQ, MSFT, GOOGL) se nacházejí v slabší pozici s nedávnými pokesy, zatímco AAPL a SPY/VOO ukazují určitou stabilitu. Poslední 5 obchodních dnů (od 23.7) přinesly výraznou volatilitu s mírným poklesem u čipu-těžkých indexů, ale bez přesvědčivého trendu. Portfolio zůstává prázdné s plnou likviditou 100 000 USD.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 99086.05070641643
+    },
+    {
+      "date": "2026-07-28",
+      "market_summary": "Trh čelí výrazné volatilitě s Nasdaq 100 v korekci. Semi sektor zaznamenává výrazný pokles kvůli zprávám z Číny. Velké tech názvy (AAPL, MSFT, META) hlásí výsledky v příštích 48 hodinách, což vytváří nejistotu. Fed rozhoduje v současnosti o sazbách a výnosová křivka je mírně pozitivní (+0.35%). Portfolio je v hotovosti, bez pozic.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 99346.8917006967
+    },
+    {
+      "date": "2026-07-29",
+      "market_summary": "Trh vykazuje smíšené signály po oznámení Fedu. SPY a QQQ zažívají sestupný trend se zvýšenou volatilitou - SPY klesla z ~754 na 729 (-3%), QQQ z ~726 na 661 (-9%). AAPL a MSFT jsou v pozitivním teritoriu (+7% a +1% za 14 dní), zatímco GOOGL trpí výprodejem (-6%). Výnosová křivka je lehce pozitivní (spread 0,45%), ale hawkish retorika Fedu vytváří nejistotu. Bez pozic v portfoliu máme plný cash buffer 100k.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 97841.5240087707
+    },
+    {
+      "date": "2026-07-30",
+      "market_summary": "Trhy vykazují technickou nápravu po včerejším poklesu. MSFT vedl včerajší nárůst s mimořádně silným svíčkou (38 USD close vs 391 USD open – abnormální data nebo korporátní akce). QQQ a SPY se obnovují s pozitivním sentimentem z AI/semikonduktorů. S prázdným portfoliem a 100k cash se přidržuji konzervativně – data nejsou dostatečně přesvědčivá pro okamžitý entry.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 99458.87228178875
+    },
+    {
+      "date": "2026-07-31",
+      "market_summary": "Trh zakončil měsíc s výraznou volatilitou a rozdělením výkonů. AAPL se zřítila o ~7.4% v posledním dni na slabé výhledů, Amazon naopak explodoval (+15%), MSFT a GOOGL silně rostly díky AI zprávám. QQQ klesly o ~8% za období, SPY se drží stabilněji (-1.7%). Breadth index ukazuje rozpad - velké vítěze a velké poražené vedle sebe. Portfolio je v hotovosti, čekáme na jasnější signál.",
+      "trades": [],
+      "blocked_reasons": [],
+      "portfolio_value": 100000.0,
+      "cash": 100000.0,
+      "positions": [],
+      "benchmark_spy_buy_hold_value": 100150.87204039347
+    }
+  ]
+}
