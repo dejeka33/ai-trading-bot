@@ -1,0 +1,62 @@
+name: Backtest (historická simulace)
+
+# Jen ruční spuštění - NIKDY podle rozvrhu. Tohle je jednorázová analytická
+# appka, co volá Claude jednou za KAŽDÝ simulovaný den (viz backtest.py) -
+# stojí to reálné peníze na Anthropic API účtu, proto žádný automatický cron.
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Od (YYYY-MM-DD). Prázdné = 30 dní zpět od konce (~měsíční test)."
+        required: false
+        type: string
+      end_date:
+        description: "Do (YYYY-MM-DD). Prázdné = včerejšek."
+        required: false
+        type: string
+      starting_cash:
+        description: "Počáteční kapitál v CZK. Prázdné = 10000 (stejně jako živý pilot na T212)."
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run backtest
+        env:
+          # Backtest od 2026-08 běží na stejné architektuře jako živý provoz
+          # (Trading212/EODHD, viz main.py) - žádné Alpaca secrets už nejsou
+          # potřeba. EODHD_API_KEY je volitelný (bez něj appka zkusí Stooq
+          # záložně, viz market_data.py), ale doporučený - jinak backtest
+          # snadno narazí na to, že Stooq bez vlastního apikey dnes nefunguje.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          EODHD_API_KEY: ${{ secrets.EODHD_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}   # volitelné
+          BACKTEST_START_DATE: ${{ inputs.start_date }}
+          BACKTEST_END_DATE: ${{ inputs.end_date }}
+          BACKTEST_STARTING_CASH: ${{ inputs.starting_cash }}
+        run: python backtest.py
+
+      - name: Commit výsledek zpět do repozitáře
+        run: |
+          git config user.name "trading-bot"
+          git config user.email "trading-bot@users.noreply.github.com"
+          git add backtest/
+          git diff --staged --quiet || git commit -m "Backtest $(date -u +%Y-%m-%d)"
+          git diff --staged --quiet || git push
