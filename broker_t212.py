@@ -57,18 +57,48 @@ def _get_instruments():
     return _instruments_cache
 
 
-def resolve_ticker_by_isin(isin):
+def resolve_ticker_by_isin(isin, preferred_currency=None):
     """
     Najde přesný T212 ticker pro daný ISIN. Vyhazuje výjimku, pokud nástroj
     není v nabídce (dobré selhat hlasitě, ne tiše obchodovat něco jiného).
+
+    POZOR - zjištěno testem 19.8.2026 večer: jeden ISIN může mít VÍC T212
+    tickerů najednou - ETF jako CSPX/EQQQ bývají kotované na víc burzách
+    (Londýn, Xetra, Milán...) pod různými tickery a hlavně v RŮZNÝCH měnách
+    (GBP na LSE, ale EUR na Xetra/Miláně). Appka dřív brala první nalezenou
+    shodu v pořadí, v jakém je vrátí GET /equity/metadata/instruments - to
+    NENÍ garantovaně stabilní napříč běhy. Živě se to projevilo tak, že se
+    ISIN CSPX (IE00B5BMR087) jednou přeložil na "SXR8d_EQ" (vypadá jako
+    Xetra/Frankfurt kotace) místo očekávané londýnské - což by rozbilo
+    předpoklad GBP v instruments.py (currency/price_divisor), na kterém navíc
+    stojí FX převod v get_account_snapshot(). Proto appka teď preferuje tu
+    kotaci, jejíž currencyCode odpovídá měně, se kterou appka pro daný nástroj
+    počítá (instruments.py "currency", předané jako preferred_currency) - a
+    jen pokud žádná neodpovídá, spadne zpátky na první nalezenou shodu (lepší
+    obchodovat něco, co appka umí spočítat, než nic).
     """
+    matches = []
     for instr in _get_instruments():
         instr_isin = instr.get("isin") or instr.get("ISIN")
         if instr_isin and instr_isin.upper() == isin.upper():
             ticker = instr.get("ticker") or instr.get("symbol")
             if ticker:
+                currency = (instr.get("currencyCode") or instr.get("currency") or "").upper()
+                matches.append((ticker, currency))
+
+    if not matches:
+        raise RuntimeError(f"Nástroj s ISIN {isin} nebyl v Trading 212 nabídce (metadata/instruments) nalezen.")
+
+    if preferred_currency:
+        for ticker, currency in matches:
+            if currency == preferred_currency.upper():
                 return ticker
-    raise RuntimeError(f"Nástroj s ISIN {isin} nebyl v Trading 212 nabídce (metadata/instruments) nalezen.")
+        print(f"POZOR: pro ISIN {isin} appka nenašla kotaci v očekávané měně "
+              f"{preferred_currency} (nalezené kotace: {matches}) - používám první "
+              f"nalezenou ({matches[0][0]}, {matches[0][1]}), hodnoty v reportu proto "
+              f"můžou být zkreslené.")
+
+    return matches[0][0]
 
 
 def _isin_to_symbol_map(instruments_map):
@@ -295,7 +325,7 @@ def execute_trades(trades, instruments_map):
             info = instruments_map.get(symbol)
             if not info:
                 raise RuntimeError(f"Symbol {symbol} není v instruments.py namapovaný na ISIN.")
-            ticker = resolve_ticker_by_isin(info["isin"])
+            ticker = resolve_ticker_by_isin(info["isin"], preferred_currency=info.get("currency"))
 
             signed_qty = float(qty) if side == "buy" else -float(qty)
             order = _request("POST", "/equity/orders/market", body={
