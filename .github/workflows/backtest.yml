@@ -55,8 +55,16 @@ jobs:
 
       - name: Commit výsledek zpět do repozitáře
         run: |
+          # POZOR - bug nalezený 19.8.2026 večer: "git diff --staged --quiet || git push"
+          # NIKDY nespustí push, protože po úspěšném commitu je staged diff zase prázdný
+          # (git diff --staged --quiet uspěje = vrátí 0), takže "||" push přeskočí. Appka
+          # tak backtest reálně proběhla a výsledek commitla do LOKÁLNÍHO checkoutu
+          # na runneru, ale nikdy ho nedostala zpátky na GitHub - soubor
+          # backtest/result_*.json v jobu i v job summary existoval, ale po skončení
+          # běhu (a smazání runneru) byl nenávratně pryč. Push musí být MIMO to "||",
+          # stejně jako v main.py (viz dřívější denní testy, které pushovaly správně).
           git config user.name "trading-bot"
           git config user.email "trading-bot@users.noreply.github.com"
           git add backtest/
           git diff --staged --quiet || git commit -m "Backtest $(date -u +%Y-%m-%d)"
-          git diff --staged --quiet || git push
+          git push
