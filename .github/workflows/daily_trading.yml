@@ -2,9 +2,24 @@ name: Daily AI Trading Run
 
 on:
   schedule:
-    # 21:30 UTC = po zavření amerického akciového trhu (přibl. 23:30 letního / 22:30 zimního času v ČR)
-    - cron: "30 21 * * *"
-  workflow_dispatch: {}   # umožní i ruční spuštění tlačítkem v GitHub UI
+    # POZOR - zmena 19.8.2026 vecer: puvodne appka bezela v 21:30 UTC, tedy PO
+    # zavreni obou burz (LSE zavira 15:30 UTC, NYSE 20:00 UTC) - to byl skutecny
+    # duvod, proc se pozice po nakupu nikdy nestihly vyplnit do dashboardu/reportu
+    # (viz broker_t212.get_settled_account_snapshot) - objednavka cekala na dalsi
+    # otevreni trhu, ne na par vterin zpozdeni.
+    #
+    # Novy rozvrh cili na 16:00 ceskeho casu - uprostred prekryvu, kdy jsou
+    # OBE burzy otevrene zaroven (LSE 9:00-17:30, NYSE 15:30-22:00 ceskeho casu).
+    # GitHub Actions cron neumi primo "16:00 ceskeho casu" (jen UTC), a UTC posun
+    # ceskeho casu se 2x rocne meni (CEST/letni = UTC+2, CET/zimni = UTC+1) - proto
+    # jsou tu DVA cron zaznamy (14:00 a 15:00 UTC) a job si sam pomoci
+    # TZ=Europe/Prague overi, ktery z nich prave odpovida 16:00 mistniho casu
+    # (viz krok "Zkontrolovat, jestli je ted 16:00 ceskeho casu" nize) - ten druhy
+    # se ten den preskoci. Europe/Prague tzdata resi presna data prechodu CET/CEST
+    # sama, appka je nemusi znat rucne.
+    - cron: "0 14 * * *"   # 16:00 CEST (letni cas, UTC+2, cca konec brezna - konec rijna)
+    - cron: "0 15 * * *"   # 16:00 CET (zimni cas, UTC+1, cca konec rijna - konec brezna)
+  workflow_dispatch: {}   # umožní i ruční spuštění tlačítkem v GitHub UI (bez časové kontroly, běží vždy)
 
 permissions:
   contents: write   # potřeba pro commit reportu zpět do repozitáře
@@ -13,18 +28,39 @@ jobs:
   run-trading-bot:
     runs-on: ubuntu-latest
     steps:
+      - name: Zkontrolovat, jestli je teď 16:00 českého času
+        id: check_time
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "Ruční spuštění (workflow_dispatch) - časová kontrola se přeskakuje, běží vždy."
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          HOUR=$(TZ='Europe/Prague' date +%H)
+          echo "Aktuální hodina v ČR (Europe/Prague, tzdata řeší přechod CET/CEST automaticky): $HOUR"
+          if [ "$HOUR" = "16" ]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Tenhle ze dvou naplánovaných běhů teď není ten správný pro aktuální CET/CEST - přeskakuji, spustí se ten druhý."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Checkout repo
+        if: steps.check_time.outputs.should_run == 'true'
         uses: actions/checkout@v4
 
       - name: Set up Python
+        if: steps.check_time.outputs.should_run == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install dependencies
+        if: steps.check_time.outputs.should_run == 'true'
         run: pip install -r requirements.txt
 
       - name: Run daily trading pipeline
+        if: steps.check_time.outputs.should_run == 'true'
         env:
           T212_API_ID: ${{ secrets.T212_API_ID }}
           T212_API_KEY: ${{ secrets.T212_API_KEY }}
@@ -37,6 +73,7 @@ jobs:
         run: python main.py
 
       - name: Commit report back to repo
+        if: steps.check_time.outputs.should_run == 'true'
         run: |
           git config user.name "trading-bot"
           git config user.email "trading-bot@users.noreply.github.com"
