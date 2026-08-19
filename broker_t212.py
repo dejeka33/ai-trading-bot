@@ -31,6 +31,7 @@ má rate limit 1 dotaz/50s, appka ho proto volá nejvýš jednou za spuštění)
 """
 import os
 import json
+import time
 import base64
 import http.cookiejar
 import urllib.request
@@ -183,6 +184,49 @@ def get_account_snapshot(instruments_map):
         "buying_power": float(cash),
         "positions": parsed_positions,
     }
+
+
+def get_settled_account_snapshot(instruments_map, trade_results, max_attempts=8, delay_seconds=5):
+    """
+    Stejné jako get_account_snapshot(), ale počká, dokud se nově koupené
+    symboly reálně neobjeví v /equity/positions.
+
+    POZOR (zjištěno živým testem 19.8.2026): Trading 212 tržní příkaz se
+    nevyplní okamžitě - GET /equity/positions volané hned po
+    POST /equity/orders/market ještě vrací [] (a totalValue/investments
+    v /equity/account/summary taky neodráží nově koupené akcie). Appka si tak
+    dřív do reportu/dashboardu uložila "jen hotovost, žádné pozice", i když se
+    nákup ve skutečnosti provedl - o pár hodin později bylo v T212 appce vidět
+    reálné pozice v hodnotě stovek Kč, o kterých dashboard nevěděl.
+
+    Použije se místo get_account_snapshot() jen tam, kde appka bere finální
+    stav účtu PO obchodech (main.py) - snapshot PŘED obchody (account_before)
+    tenhle problém logicky mít nemůže.
+    """
+    bought_symbols = {
+        t["symbol"] for t in trade_results
+        if t.get("status") == "submitted" and t.get("side") == "buy"
+    }
+    if not bought_symbols:
+        return get_account_snapshot(instruments_map)
+
+    snapshot = None
+    for attempt in range(max_attempts):
+        snapshot = get_account_snapshot(instruments_map)
+        have_symbols = {p["symbol"] for p in snapshot["positions"]}
+        missing = bought_symbols - have_symbols
+        if not missing:
+            return snapshot
+        if attempt < max_attempts - 1:
+            print(f"Pozice {missing} se po nákupu v účtu ještě neobjevily (obchod se teprve "
+                  f"vyplňuje), čekám {delay_seconds}s a zkusím to znovu "
+                  f"(pokus {attempt + 1}/{max_attempts})...")
+            time.sleep(delay_seconds)
+
+    print(f"POZOR: po {max_attempts} pokusech se v účtu pořád neobjevily pozice pro {missing} - "
+          f"ukládám poslední dostupný snapshot i tak, ať appka nespadne. Report/dashboard pro "
+          f"dnešek proto může dočasně ukazovat jen hotovost, než se to příště samo dorovná.")
+    return snapshot
 
 
 def execute_trades(trades, instruments_map):

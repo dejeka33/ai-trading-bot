@@ -88,7 +88,9 @@ def main():
 
     # Vždy zjistíme aktuální stav účtu (i beze dnů bez obchodu se mohla změnit
     # hodnota otevřených pozic vlivem pohybu trhu) - používá se pro report i dashboard.
-    account_after = broker_t212.get_account_snapshot(INSTRUMENTS)
+    # get_settled_account_snapshot (ne obyčejný get_account_snapshot) počká, dokud
+    # se dnešní nákupy reálně nepropíšou do pozic - viz POZOR v broker_t212.py.
+    account_after = broker_t212.get_settled_account_snapshot(INSTRUMENTS, trade_results)
 
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     report_md = build_report(
