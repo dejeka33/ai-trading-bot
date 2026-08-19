@@ -3,30 +3,47 @@
   "entries": [
     {
       "date": "2026-08-19",
-      "portfolio_value": 9964.6,
-      "cash": 288.43,
-      "buying_power": 288.43,
+      "portfolio_value": 9999.99,
+      "cash": 8264.92,
+      "buying_power": 8264.92,
+      "currency": "CZK",
       "positions": [],
-      "market_summary": "Účet je prázdný (0 pozic, hotovost ~1 130 CZK) a začínáme budovat portfolio. Trh vykazuje smíšené signály: CSPX a EQQQ oslabily za poslední 2 dny z lokálních maxim, tech (MSFT, GOOGL) je pod tlakem, zatímco AAPL se drží relativně lépe. Výnosová křivka je kladná (T10Y2Y +0,52 %), Fed sazba 3,63 % – prostředí umírněně příznivé pro akcie. S hotovostí ~1 130 CZK a limitem 5 % na jeden obchod (~498 CZK max) zahajujeme první pozice ve dvou nástrojích s diverzifikačním záměrem.",
+      "market_summary": "Účet startuje bez pozic s 10 000 CZK v hotovosti. Trh vykazuje smíšené signály: CSPX a EQQQ jsou pod tlakem (poslední 2 dny klesají), zatímco AAPL v posledních dnech mírně posiluje. MSFT a GOOGL jsou v kratším sestupném trendu. Úrokové sazby zůstávají relativně vysoké (Fed sazba 3,63 %, 10Y výnos 4,72 %), výnosová křivka je mírně pozitivní (T10Y2Y +0,52 %) - prostředí není ideální pro risk-on, ale není ani invertované. Zahajuji budování pozic rozložením do více instrumentů s diverzifikací.",
       "trades": [
         {
           "symbol": "CSPX",
           "side": "buy",
           "qty": 0.02,
           "status": "submitted",
-          "order_id": "53600320840",
-          "reasoning": "CSPX (S&P 500 ETF) je jádrová diverzifikovaná pozice. Po mírném poklesu z 23 672 na 23 505 CZK za 2 dny je vstup rozumný. Qty 0.02 ks × ~23 505 = ~470 CZK, pod limitem 5 % (498 CZK). Kladná výnosová křivka a Fed sazba pod neutrální úrovní podporují akciový trh střednědobě."
+          "order_id": "53600322389",
+          "reasoning": "Zahájení core pozice v S&P 500 ETF. CSPX se pohybuje v pásmu 23 400–23 700, dvoudenní pokles nabízí mírně lepší vstupní cenu. Dlouhodobý breadth trhu zůstává konstruktivní, pozitivní výnosová křivka neindikuje bezprostřední recesi. Qty 0,02 × ~23 505 CZK = ~470 CZK, pod limitem 5 % (500 CZK)."
+        },
+        {
+          "symbol": "EQQQ",
+          "side": "buy",
+          "qty": 0.03,
+          "status": "submitted",
+          "order_id": "53600322391",
+          "reasoning": "Zahájení pozice v Nasdaq-100 ETF po dvoudenním poklesu (~15 033 → ~14 958 CZK). Technologický sektor je pod tlakem, ale valuačně zajímavý při vstupu na pull-backu. Qty 0,03 × ~14 958 CZK = ~449 CZK, pod limitem 5 %."
         },
         {
           "symbol": "AAPL",
           "side": "buy",
           "qty": 0.07,
           "status": "submitted",
-          "order_id": "53600320842",
-          "reasoning": "AAPL se za posledních 14 dní drží lépe než MSFT a GOOGL – z minima 6 258 se odrazil na ~6 455 CZK (+3,1 %). Relativní síla oproti ostatnímu techu je pozitivní signál. Qty 0.07 × ~6 455 = ~452 CZK, vejde se do limitu 5 %. Doplňuje CSPX o přímou akciovou expozici."
+          "order_id": "53600322393",
+          "reasoning": "AAPL jako jediný z akcií v univerzu vykazuje v posledních dnech pozitivní momentum (18.8. +1,4 %, z ~6 362 na ~6 455 CZK). Relativní síla vůči MSFT a GOOGL. Qty 0,07 × ~6 455 CZK = ~452 CZK, pod limitem 5 %."
+        },
+        {
+          "symbol": "MSFT",
+          "side": "buy",
+          "qty": 0.04,
+          "status": "submitted",
+          "order_id": "53600322395",
+          "reasoning": "MSFT korigoval z maxim (~10 536 na ~10 028 CZK, pokles ~4,8 %), ale jde o kvalitní blue chip. Vstup na pull-backu s vyhledem na stabilizaci. Qty 0,04 × ~10 028 CZK = ~401 CZK, pod limitem 5 %."
         }
       ],
-      "trade_count": 2,
+      "trade_count": 4,
       "blocked_reasons": [],
       "spy_price": 23505.49775,
       "realized_pl_cum": 0.0
