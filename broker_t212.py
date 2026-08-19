@@ -146,18 +146,32 @@ def get_account_snapshot(instruments_map):
     cash = summary.get("cash", {}).get("availableToTrade", 0.0)
     total_value = summary.get("totalValue", cash)
 
-    # POZOR: přesné názvy polí u jednotlivé pozice (ticker/quantity/averagePrice/
-    # currentPrice/...) nejsou z dokumentace 100% jistě potvrzené - ošetřeno
-    # pomocí .get() s více variantami názvu, aby appka při drobné nepřesnosti
-    # nespadla, jen pozici případně vynechá. Při prvním běhu na demo účtu stojí
-    # za to si vypsat "positions" surově do logu a podle skutečné odpovědi
-    # tenhle mapping doladit.
+    # POZOR - zjištěno živým testem 19.8.2026: /equity/positions NEVRACÍ ticker/
+    # isin/currency na horní úrovni objektu pozice, ale VNOŘENÉ v "instrument"
+    # (a P&L vnořené ve "walletImpact") - potvrzeno oficiální dokumentací
+    # (docs.trading212.com/api/positions/getpositions):
+    #   {"instrument": {"ticker", "isin", "name", "currency"}, "quantity",
+    #    "averagePricePaid", "currentPrice", "walletImpact": {"unrealizedProfitLoss", ...}, ...}
+    # Appka dřív hledala "ticker"/"symbol" jen na horní úrovni (p.get("ticker")),
+    # což NIKDY nenašlo shodu - každá pozice tak byla tiše přeskočena jako
+    # "neznámý nástroj", i těsně po úspěšném provedení obchodu. To je SKUTEČNÁ
+    # příčina toho, proč appka dlouho ukazovala "jen hotovost, žádné pozice" i
+    # po opravě zpoždění vyplnění (get_settled_account_snapshot) - to zpoždění
+    # samo o sobě nikdy nepomůže, protože parsing pozici nenajde ani po sebedelším
+    # čekání. Mapujeme primárně přes ISIN (jednoznačný, appka ho má přímo
+    # v odpovědi) - ticker jen jako záložní cesta, kdyby v budoucí verzi API ISIN
+    # chyběl.
     parsed_positions = []
     for p in positions:
-        raw_ticker = p.get("ticker") or p.get("symbol")
-        symbol = _ticker_to_our_symbol(raw_ticker, instruments_map) if raw_ticker else None
+        instrument = p.get("instrument") or {}
+        isin = (instrument.get("isin") or instrument.get("ISIN") or p.get("isin") or p.get("ISIN") or "").upper()
+        symbol = _isin_to_symbol_map(instruments_map).get(isin) if isin else None
+        if symbol is None:
+            raw_ticker = instrument.get("ticker") or instrument.get("symbol") or p.get("ticker") or p.get("symbol")
+            symbol = _ticker_to_our_symbol(raw_ticker, instruments_map) if raw_ticker else None
+
         qty = p.get("quantity") or p.get("qty")
-        avg_price = p.get("averagePrice") or p.get("avgPrice") or p.get("averageEntryPrice")
+        avg_price = p.get("averagePricePaid") or p.get("averagePrice") or p.get("avgPrice") or p.get("averageEntryPrice")
         current_price = p.get("currentPrice") or p.get("marketPrice")
         if symbol is None or qty is None:
             continue
@@ -165,7 +179,10 @@ def get_account_snapshot(instruments_map):
         current_price = float(current_price) if current_price is not None else avg_price
         qty = float(qty)
         market_value = qty * current_price
-        unrealized_pl = p.get("ppl")
+        wallet_impact = p.get("walletImpact") or {}
+        unrealized_pl = wallet_impact.get("unrealizedProfitLoss")
+        if unrealized_pl is None:
+            unrealized_pl = p.get("ppl")
         unrealized_pl = float(unrealized_pl) if unrealized_pl is not None else (qty * (current_price - avg_price))
         parsed_positions.append({
             "symbol": symbol,
