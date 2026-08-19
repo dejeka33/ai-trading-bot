@@ -150,48 +150,18 @@ def get_recent_bars(symbol_map, lookback_days=14, account_currency=None):
     """
     end = datetime.now(timezone.utc)
     start = end - timedelta(days=lookback_days)
-    eodhd_token = os.environ.get("EODHD_API_KEY", "").strip() or None
 
     result = {}
     for symbol, sources in symbol_map.items():
-        bars = []
-
-        # EODHD je teď PRIMÁRNÍ zdroj (ne Stooq) - Stooq od dubna 2026 vyžaduje
-        # vlastní apikey i pro obyčejné CSV stažení (ověřeno živě - appka místo
-        # dat dostávala jen text "Get your apikey..."), zatímco EODHD free tier
-        # (20 dotazů/den, samoobslužná registrace) funguje bez čekání na email.
-        eodhd_symbol = sources.get("eodhd")
-        if eodhd_symbol and eodhd_token:
-            bars = _fetch_eodhd_bars(eodhd_symbol, start, end, eodhd_token)
-        elif eodhd_symbol and not eodhd_token:
-            print(f"{symbol}: EODHD_API_KEY není nastavený, zkouším Stooq (nemusí fungovat "
-                  f"bez vlastního Stooq apikey - viz poznámka v hlavičce modulu).")
-
-        if not bars:
-            stooq_symbol = sources.get("stooq")
-            if stooq_symbol:
-                if eodhd_token:
-                    print(f"{symbol}: EODHD nevrátil data, zkouším Stooq záložně "
-                          f"(pravděpodobně taky selže bez Stooq apikey).")
-                bars = _fetch_stooq_bars(stooq_symbol, start, end)
-
-        # Normalizace GBX/pence na GBP u LSE nástrojů - viz POZOR v instruments.py
-        # (price_divisor: 1 = beze změny, 100 = GBX -> GBP). Nutné pro konzistenci
-        # s cenami z Trading 212 (a s risk_rules.py, který qty * cena počítá v
-        # jedné jednotce pro celý účet).
-        divisor = sources.get("price_divisor", 1)
-        if bars and divisor != 1:
-            for b in bars:
-                b["o"] /= divisor
-                b["h"] /= divisor
-                b["l"] /= divisor
-                b["c"] /= divisor
+        bars = fetch_symbol_bars_raw(symbol, sources, start, end)
 
         # Převod do měny účtu (viz fx.py a POZOR o měnách v instruments.py) -
         # BEZ TOHOHLE appka porovnávala cenu v cizí měně (GBP/USD) přímo proti
         # mantinelu v měně účtu (CZK), což na živém testu 19.8.2026 vedlo k
         # obchodům, které vypadaly "pod limitem", ale ve skutečnosti stály
         # řádově víc (nebo je broker rovnou odmítl pro nedostatek prostředků).
+        # Používá "aktuální" kurz (fx.get_fx_rate) - pro živý provoz správně,
+        # pro historickou simulaci s kurzem PLATNÝM K DANÉMU DNI viz backtest.py.
         instrument_currency = sources.get("currency")
         if bars and account_currency and instrument_currency and instrument_currency.upper() != account_currency.upper():
             rate = fx.get_fx_rate(instrument_currency, account_currency)
@@ -212,3 +182,52 @@ def get_recent_bars(symbol_map, lookback_days=14, account_currency=None):
             print(f"{symbol}: žádná data z žádného zdroje.")
 
     return result
+
+
+def fetch_symbol_bars_raw(symbol, sources, start, end):
+    """
+    Stáhne denní bary pro JEDEN nástroj v DANÉM rozsahu dat (EODHD primárně,
+    Stooq záložně) a normalizuje GBX/GBP (price_divisor) - ale BEZ převodu do
+    měny účtu (to je na volajícím: get_recent_bars výše to dělá "aktuálním"
+    kurzem pro živý provoz, backtest.py historickým kurzem PLATNÝM K DANÉMU DNI
+    pro simulaci - jde o sdílenou "surovou" část, ať se logika stahování/
+    normalizace cen neduplikuje na dvou místech a nerozjíždí se v čase).
+
+    Vrací seznam barů (může být []), NIKDY nevyhazuje výjimku kvůli chybějícím
+    datům - stejný "nice to have, ne blokující" princip jako zbytek modulu.
+    """
+    bars = []
+    eodhd_token = os.environ.get("EODHD_API_KEY", "").strip() or None
+
+    # EODHD je teď PRIMÁRNÍ zdroj (ne Stooq) - Stooq od dubna 2026 vyžaduje
+    # vlastní apikey i pro obyčejné CSV stažení (ověřeno živě - appka místo
+    # dat dostávala jen text "Get your apikey..."), zatímco EODHD free tier
+    # (20 dotazů/den, samoobslužná registrace) funguje bez čekání na email.
+    eodhd_symbol = sources.get("eodhd")
+    if eodhd_symbol and eodhd_token:
+        bars = _fetch_eodhd_bars(eodhd_symbol, start, end, eodhd_token)
+    elif eodhd_symbol and not eodhd_token:
+        print(f"{symbol}: EODHD_API_KEY není nastavený, zkouším Stooq (nemusí fungovat "
+              f"bez vlastního Stooq apikey - viz poznámka v hlavičce modulu).")
+
+    if not bars:
+        stooq_symbol = sources.get("stooq")
+        if stooq_symbol:
+            if eodhd_token:
+                print(f"{symbol}: EODHD nevrátil data, zkouším Stooq záložně "
+                      f"(pravděpodobně taky selže bez Stooq apikey).")
+            bars = _fetch_stooq_bars(stooq_symbol, start, end)
+
+    # Normalizace GBX/pence na GBP u LSE nástrojů - viz POZOR v instruments.py
+    # (price_divisor: 1 = beze změny, 100 = GBX -> GBP). Nutné pro konzistenci
+    # s cenami z Trading 212 (a s risk_rules.py, který qty * cena počítá v
+    # jedné jednotce pro celý účet).
+    divisor = sources.get("price_divisor", 1)
+    if bars and divisor != 1:
+        for b in bars:
+            b["o"] /= divisor
+            b["h"] /= divisor
+            b["l"] /= divisor
+            b["c"] /= divisor
+
+    return bars

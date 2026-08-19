@@ -3,25 +3,44 @@ Backtest: přehraje appku (stejný decision.py/risk_rules.py jako živý provoz)
 přes HISTORICKÁ data den po dni a simuluje, jak by si vedla - bez skutečných
 obchodů, jen v paměti.
 
-DŮLEŽITÉ principy:
+PŘEPSÁNO NA TRADING 212 / EODHD ARCHITEKTURU (2026-08) - nahrazuje dřívější
+verzi založenou na alpaca-py (StockBarsRequest/CryptoBarsRequest/NewsRequest),
+která odpovídala staré appce na Alpace. Zdroj historických cen je teď stejný
+jako u živého provozu (viz market_data.py - EODHD primárně, Stooq záložně) a
+měna účtu je CZK (jako živý pilot na Trading 212 - viz broker_t212.py). Ceny
+se před vstupem do decision.py převádí přes HISTORICKÉ kurzy Frankfurter API
+(stejný zdroj jako fx.py u živého provozu, ale s kurzem PLATNÝM K DANÉMU DNI,
+ne "aktuálním" - appka přece jen simuluje víc měsíců zpátky, kurz se za tu
+dobu reálně mění - viz fetch_fx_series/fx_rate_as_of níže).
+
+Krypto appka v této verzi neobchoduje vůbec (risk_limits.yaml,
+allowed_instruments.crypto: []) - Trading 212 Crypto je samostatný účet mimo
+Invest/ISA, beta obchodovací API na něj nesahá, backtest ho proto neřeší.
+
+Zprávy appka v pilotní verzi na Trading 212 nemá (viz main.py, news=None) -
+backtest proto taky žádné historické zprávy nestahuje ani nepředává, stejně
+jako živý provoz (dřívější Alpaca News API tu odpadlo spolu s Alpakou).
+
+DŮLEŽITÉ principy (nezměněno oproti dřívější verzi):
 1. AI dostává pro každý simulovaný den POUZE data, která by v ten den reálně
-   měla k dispozici (žádný pohled do budoucnosti) - ceny/zprávy/makro jsou
+   měla k dispozici (žádný pohled do budoucnosti) - ceny/makro/FX kurzy jsou
    vždy oříznuté k danému dni.
 2. Pro každý simulovaný den appka SKUTEČNĚ zavolá Claude (stejné volání jako
    naživo) - to je jediný způsob, jak zjistit, co by appka tehdy udělala.
-   Znamená to reálné náklady na Anthropic API (viz README).
-3. Fill (provedení obchodu) se simuluje za ZAVÍRACÍ cenu daného dne - appka
-   se v živém provozu rozhoduje po zavření trhu, takže je to rozumná
-   aproximace, ne dokonalá realita (žádný spread/slippage).
-4. Krypto appka i naživo běží jen jednou denně (cron), takže backtest
-   simuluje jen obchodní dny akciového trhu (ne víkendy) - i pro BTC/ETH.
-   Je to zjednodušení oproti reálné appce, která by se teoreticky mohla
-   spustit i o víkendu, ale prakticky odpovídá tomu, co appka dělá.
+   Znamená to reálné náklady na Anthropic API (cca jako tolik běžných denních
+   běhů, kolik je v období obchodních dní).
+3. Fill (provedení obchodu) se simuluje za ZAVÍRACÍ cenu daného dne, PŘEVEDENOU
+   do CZK historickým kurzem k tomu dni - appka se v živém provozu rozhoduje
+   po zavření trhu, takže je to rozumná aproximace, ne dokonalá realita
+   (žádný spread/slippage, žádné zaokrouhlení brokera).
+4. Simuluje jen obchodní dny podle kalendáře BENCHMARK_SYMBOL (CSPX/LSE).
 5. Spouští se ručně přes GitHub Actions (.github/workflows/backtest.yml),
    NE podle rozvrhu - je to jednorázová analýza, ne běžný provoz.
 
 Použití: python backtest.py [--start-date YYYY-MM-DD] [--end-date YYYY-MM-DD]
-Bez parametrů: posledních 365 dní do včerejška.
+Bez parametrů: posledních DEFAULT_LOOKBACK_DAYS dní do včerejška (kratší
+výchozí okno než dřívější rok, ať jde snadno spustit "měsíční test" bez
+parametrů - delší období si appka řekne přes --start-date).
 """
 import argparse
 import bisect
@@ -30,21 +49,21 @@ import os
 import time
 from datetime import datetime, timedelta, timezone
 
+import urllib.request
+import urllib.error
 import requests
 
-from alpaca.data.requests import StockBarsRequest, CryptoBarsRequest, NewsRequest
-from alpaca.data.timeframe import TimeFrame
-from alpaca.data.enums import DataFeed
-
-from data_fetch import get_clients
+from instruments import INSTRUMENTS
+from market_data import fetch_symbol_bars_raw
 from risk_rules import load_risk_limits, allowed_symbols, validate_decision
 from decision import get_decision
 from fred_data import SERIES as FRED_SERIES, FRED_BASE_URL
 
-STARTING_CASH = 100_000.0
+STARTING_CASH = float((os.environ.get("BACKTEST_STARTING_CASH") or "").strip() or "10000")
+ACCOUNT_CURRENCY = os.environ.get("BACKTEST_CURRENCY", "CZK").strip().upper()
+BENCHMARK_SYMBOL = "CSPX"  # nahrazuje dřívější SPY (viz risk_limits.yaml - PRIIPs)
+DEFAULT_LOOKBACK_DAYS = 30
 LOOKBACK_DAYS_BARS = 14
-LOOKBACK_DAYS_NEWS = 3
-NEWS_LIMIT_PER_DAY = 10
 
 
 def parse_args():
@@ -61,85 +80,80 @@ def parse_args():
     if args.start_date:
         start = datetime.strptime(args.start_date, "%Y-%m-%d").date()
     else:
-        start = end - timedelta(days=365)
+        start = end - timedelta(days=DEFAULT_LOOKBACK_DAYS)
 
     return start, end
 
 
 # --- Hromadné (jednorázové) stažení historických dat pro celé období ---
 
-def fetch_all_bars(stock_client, crypto_client, stock_symbols, crypto_symbols, start, end):
-    """Stáhne denní svíčky pro CELÉ období v jednom volání na typ (akcie/krypto) -
-    alpaca-py si interně poradí se stránkováním. Padding dozadu, ať má i první
-    simulovaný den svých 14 dní historie k dispozici."""
+def fetch_all_bars(symbols_map, start, end):
+    """Stáhne denní svíčky pro CELÉ období, pro každý nástroj JEDNÍM požadavkem
+    (EODHD primárně, Stooq záložně - viz market_data.fetch_symbol_bars_raw,
+    sdílené s živým provozem) - padding dozadu, ať má i první simulovaný den
+    svých LOOKBACK_DAYS_BARS dní historie k dispozici."""
     padded_start = datetime(start.year, start.month, start.day, tzinfo=timezone.utc) - timedelta(days=LOOKBACK_DAYS_BARS + 10)
-    end_dt = datetime(end.year, end.month, end.day, 23, 59, 59, tzinfo=timezone.utc)
+    end_dt = datetime(end.year, end.month, end.day, tzinfo=timezone.utc)
     result = {}
-
-    if stock_symbols:
-        req = StockBarsRequest(
-            symbol_or_symbols=stock_symbols,
-            timeframe=TimeFrame.Day,
-            start=padded_start,
-            end=end_dt,
-            feed=DataFeed.IEX,
-        )
-        bars = stock_client.get_stock_bars(req)
-        for symbol in stock_symbols:
-            if symbol in bars.data:
-                result[symbol] = [
-                    {"t": b.timestamp.isoformat(), "o": b.open, "h": b.high, "l": b.low, "c": b.close, "v": b.volume}
-                    for b in bars.data[symbol]
-                ]
-
-    if crypto_symbols:
-        req = CryptoBarsRequest(
-            symbol_or_symbols=crypto_symbols,
-            timeframe=TimeFrame.Day,
-            start=padded_start,
-            end=end_dt,
-        )
-        bars = crypto_client.get_crypto_bars(req)
-        for symbol in crypto_symbols:
-            if symbol in bars.data:
-                result[symbol] = [
-                    {"t": b.timestamp.isoformat(), "o": b.open, "h": b.high, "l": b.low, "c": b.close, "v": b.volume}
-                    for b in bars.data[symbol]
-                ]
-
+    for symbol, sources in symbols_map.items():
+        bars = fetch_symbol_bars_raw(symbol, sources, padded_start, end_dt)
+        if bars:
+            result[symbol] = bars
+        else:
+            print(f"POZOR: pro {symbol} se nepodařilo stáhnout žádná historická data "
+                  f"(EODHD ani Stooq) - appka ho v tomhle backtestu bude ignorovat.")
     return result
 
 
-def fetch_all_news(news_client, stock_symbols, start, end):
-    if not stock_symbols:
-        return []
-    padded_start = datetime(start.year, start.month, start.day, tzinfo=timezone.utc) - timedelta(days=LOOKBACK_DAYS_NEWS + 2)
-    end_dt = datetime(end.year, end.month, end.day, 23, 59, 59, tzinfo=timezone.utc)
-    req = NewsRequest(
-        symbols=",".join(stock_symbols),
-        start=padded_start,
-        end=end_dt,
-        limit=5000,  # bezpečný horní strop na celé období - stejně použijeme jen okno 3 dní kolem každého simulovaného dne
-        include_content=False,
-        exclude_contentless=True,
-        sort="desc",
-    )
+def fetch_fx_series(base_currency, quote_currency, start, end):
+    """Stáhne historickou řadu denních kurzů base->quote za dané období
+    (Frankfurter time-series endpoint) - na rozdíl od fx.get_fx_rate() (jen
+    "aktuální" kurz, pro živý provoz) backtest potřebuje kurz PLATNÝ K
+    TEHDEJŠÍMU DNI. Vrací seznam (datum, kurz) seřazený vzestupně, nebo []."""
+    base_currency = base_currency.upper()
+    quote_currency = quote_currency.upper()
+    if base_currency == quote_currency:
+        return [(start.isoformat(), 1.0)]
+    url = (f"https://api.frankfurter.app/{start.isoformat()}..{end.isoformat()}"
+           f"?from={base_currency}&to={quote_currency}")
     try:
-        news_set = news_client.get_news(req)
-    except Exception as e:
-        print("Nepodařilo se stáhnout historické zprávy (pokračuji bez nich):", e)
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+    except (urllib.error.URLError, TimeoutError, OSError, KeyError, ValueError, json.JSONDecodeError) as e:
+        print(f"FX historie: chyba při stahování {base_currency}->{quote_currency}: {e}")
         return []
-    items = news_set.data.get("news", [])
-    return [
-        {
-            "headline": n.headline,
-            "summary": (n.summary or "")[:300],
-            "symbols": n.symbols,
-            "source": n.source,
-            "created_at": n.created_at.isoformat() if n.created_at else None,
-        }
-        for n in items
-    ]
+    rates = data.get("rates", {})
+    series = sorted((d, r[quote_currency]) for d, r in rates.items() if quote_currency in r)
+    return series
+
+
+def fx_rate_as_of(fx_series, day_str):
+    """Kurz platný k danému dni (nejbližší dostupný den <= day_str - ECB kurzy
+    chybí o víkendech/svátcích). Pro den PŘED první dostupnou hodnotou vrátí
+    nejstarší známý kurz (lepší přiblížení než appku kvůli chybějícímu dni
+    nechat spadnout nebo cenu nepřevést vůbec)."""
+    if not fx_series:
+        return None
+    dates = [d for d, _ in fx_series]
+    idx = bisect.bisect_right(dates, day_str) - 1
+    if idx >= 0:
+        return fx_series[idx][1]
+    return fx_series[0][1]
+
+
+def apply_fx_to_bars(bars, fx_series):
+    """Vrátí NOVÝ seznam barů s cenami převedenými přes historický kurz PLATNÝ
+    K DATU KAŽDÉHO BARU zvlášť (ne jeden kurz pro celou historii)."""
+    if not fx_series:
+        return bars
+    converted = []
+    for b in bars:
+        rate = fx_rate_as_of(fx_series, b["t"][:10])
+        if rate is None:
+            continue
+        converted.append({**b, "o": b["o"] * rate, "h": b["h"] * rate, "l": b["l"] * rate, "c": b["c"] * rate})
+    return converted
 
 
 def fetch_all_fred(start, end):
@@ -179,17 +193,6 @@ def bars_as_of(all_bars, symbols, day_str):
     return result
 
 
-def news_as_of(all_news, day_str, lookback_days=LOOKBACK_DAYS_NEWS, limit=NEWS_LIMIT_PER_DAY):
-    day = datetime.strptime(day_str, "%Y-%m-%d").date()
-    window_start = (day - timedelta(days=lookback_days)).isoformat()
-    items = [
-        n for n in all_news
-        if n["created_at"] and window_start <= n["created_at"][:10] <= day_str
-    ]
-    items.sort(key=lambda n: n["created_at"], reverse=True)
-    return items[:limit]
-
-
 def macro_as_of(all_fred, day_str):
     if not all_fred:
         return None
@@ -224,13 +227,22 @@ def make_account_snapshot(cash, positions, all_bars, day_str):
             "symbol": symbol, "qty": pos["qty"], "avg_entry_price": pos["avg_entry_price"],
             "current_price": price, "market_value": market_value,
             "unrealized_pl": market_value - pos["qty"] * pos["avg_entry_price"],
-            "unrealized_plpc": (price / pos["avg_entry_price"] - 1) if pos["avg_entry_price"] else 0.0,
+            "unrealized_plpc": (price / pos["avg_entry_price"] - 1) * 100 if pos["avg_entry_price"] else 0.0,
         })
-    return {"cash": cash, "portfolio_value": total_value, "buying_power": cash, "positions": pos_list}
+    return {
+        "cash": cash, "portfolio_value": total_value, "buying_power": cash,
+        # "currency" - viz decision.py build_prompt(), který se na tohle pole
+        # přímo odkazuje při vysvětlení, že tržní data jsou už převedená.
+        "currency": ACCOUNT_CURRENCY,
+        "positions": pos_list,
+    }
 
 
 def simulate_trade(cash, positions, trade, all_bars, day_str):
-    """Simuluje jeden obchod za zavírací cenu dne. Vrací (nový cash, popis výsledku)."""
+    """Simuluje jeden obchod za zavírací cenu dne (už převedenou do měny účtu -
+    viz apply_fx_to_bars). Vrací (nový cash, popis výsledku). "status" hodnoty
+    (submitted/skipped_*) se drží stejného tvaru jako broker_t212.execute_trades,
+    aby appka do backtest logu ukládala kompatibilní data s živým report.py."""
     symbol = trade.get("symbol")
     side = trade.get("side")
     qty = trade.get("qty") or 0
@@ -250,7 +262,7 @@ def simulate_trade(cash, positions, trade, all_bars, day_str):
         pos["qty"] = new_qty
         positions[symbol] = pos
         cash -= fill_qty * price
-        return cash, {"symbol": symbol, "side": side, "qty": fill_qty, "fill_price": price, "status": "filled", "reasoning": trade.get("reasoning", "")}
+        return cash, {"symbol": symbol, "side": side, "qty": fill_qty, "fill_price": price, "status": "submitted", "reasoning": trade.get("reasoning", "")}
 
     if side == "sell":
         pos = positions.get(symbol)
@@ -264,7 +276,7 @@ def simulate_trade(cash, positions, trade, all_bars, day_str):
             del positions[symbol]
         else:
             positions[symbol] = pos
-        return cash, {"symbol": symbol, "side": side, "qty": fill_qty, "fill_price": price, "status": "filled", "realized_pl": realized_pl, "reasoning": trade.get("reasoning", "")}
+        return cash, {"symbol": symbol, "side": side, "qty": fill_qty, "fill_price": price, "status": "submitted", "realized_pl": realized_pl, "reasoning": trade.get("reasoning", "")}
 
     return cash, {"symbol": symbol, "side": side, "qty": 0, "status": "skipped_unknown_side", "reasoning": trade.get("reasoning", "")}
 
@@ -294,39 +306,66 @@ def max_drawdown(values):
 
 def main():
     start, end = parse_args()
-    print(f"Backtest {start.isoformat()} -> {end.isoformat()}")
+    print(f"Backtest {start.isoformat()} -> {end.isoformat()} "
+          f"(měna účtu: {ACCOUNT_CURRENCY}, počáteční kapitál: {STARTING_CASH:,.2f})")
 
     limits = load_risk_limits()
-    stocks, crypto = allowed_symbols(limits)
-    _, stock_data_client, crypto_data_client, news_client = get_clients()
+    stocks, crypto = allowed_symbols(limits)  # crypto je v tomto pilotu vždy [] - viz risk_limits.yaml
+    active_instruments = {s: INSTRUMENTS[s] for s in stocks if s in INSTRUMENTS}
 
-    print("Stahuji historická data (jednorázově, celé období)...")
-    all_bars = fetch_all_bars(stock_data_client, crypto_data_client, stocks, crypto, start, end)
-    all_news = fetch_all_news(news_client, stocks, start, end)
+    print("Stahuji historická data (jednorázově, celé období, EODHD/Stooq - viz market_data.py)...")
+    raw_bars = fetch_all_bars(active_instruments, start, end)
+
+    padded_start = start - timedelta(days=LOOKBACK_DAYS_BARS + 10)
+    needed_currencies = {
+        info["currency"] for info in active_instruments.values()
+        if info.get("currency") and info["currency"].upper() != ACCOUNT_CURRENCY
+    }
+    fx_series_by_currency = {}
+    for cur in needed_currencies:
+        print(f"Stahuji historické kurzy {cur}->{ACCOUNT_CURRENCY}...")
+        fx_series_by_currency[cur] = fetch_fx_series(cur, ACCOUNT_CURRENCY, padded_start, end)
+
+    all_bars = {}
+    for symbol, bars in raw_bars.items():
+        cur = active_instruments[symbol].get("currency")
+        if cur and cur.upper() != ACCOUNT_CURRENCY:
+            all_bars[symbol] = apply_fx_to_bars(bars, fx_series_by_currency.get(cur, []))
+        else:
+            all_bars[symbol] = bars
+
     all_fred = fetch_all_fred(start, end)
 
-    if "SPY" not in all_bars or not all_bars["SPY"]:
-        raise RuntimeError("Nepodařilo se stáhnout data pro SPY - z nich se odvozuje kalendář obchodních dní.")
+    if BENCHMARK_SYMBOL not in all_bars or not all_bars[BENCHMARK_SYMBOL]:
+        raise RuntimeError(
+            f"Nepodařilo se stáhnout data pro {BENCHMARK_SYMBOL} - z nich se odvozuje "
+            "kalendář obchodních dní i benchmark 'drž a čekej'."
+        )
 
-    trading_days = sorted({b["t"][:10] for b in all_bars["SPY"] if start.isoformat() <= b["t"][:10] <= end.isoformat()})
+    trading_days = sorted({
+        b["t"][:10] for b in all_bars[BENCHMARK_SYMBOL]
+        if start.isoformat() <= b["t"][:10] <= end.isoformat()
+    })
     print(f"Obchodních dní v období: {len(trading_days)}")
+    if not trading_days:
+        raise RuntimeError("Pro zadané období se nenašel žádný obchodní den - zkontroluj rozsah dat.")
 
     cash = STARTING_CASH
     positions = {}
-    spy_start_price = close_price(all_bars, "SPY", trading_days[0])
-    spy_shares_benchmark = STARTING_CASH / spy_start_price
+    bench_start_price = close_price(all_bars, BENCHMARK_SYMBOL, trading_days[0])
+    bench_shares = STARTING_CASH / bench_start_price if bench_start_price else None
 
     log = []
     result_path = f"backtest/result_{start.isoformat()}_{end.isoformat()}.json"
     os.makedirs("backtest", exist_ok=True)
 
     for i, day_str in enumerate(trading_days):
-        bars_today = bars_as_of(all_bars, stocks + crypto, day_str)
-        news_today = news_as_of(all_news, day_str)
+        bars_today = bars_as_of(all_bars, list(active_instruments.keys()), day_str)
         macro_today = macro_as_of(all_fred, day_str)
         account_snapshot = make_account_snapshot(cash, positions, all_bars, day_str)
 
-        decision = get_decision_with_retry(account_snapshot, bars_today, limits, news=news_today, macro=macro_today)
+        # news=None - appka v tomto pilotu na Trading 212 zprávy vůbec nemá (viz main.py).
+        decision = get_decision_with_retry(account_snapshot, bars_today, limits, news=None, macro=macro_today)
 
         trade_results = []
         blocked_reasons = []
@@ -335,7 +374,7 @@ def main():
         else:
             # Stejná nezávislá kontrola ceny jako v živém provozu (main.py) - ať
             # backtest odhalí stejný typ chyby (qty neodpovídá estimated_value).
-            prices_today = {s: close_price(all_bars, s, day_str) for s in stocks + crypto}
+            prices_today = {s: close_price(all_bars, s, day_str) for s in active_instruments}
             prices_today = {s: p for s, p in prices_today.items() if p is not None}
             ok, reasons = validate_decision(decision, limits, account_snapshot, prices=prices_today)
             if ok and decision.get("trades"):
@@ -346,48 +385,59 @@ def main():
                 blocked_reasons = reasons
 
         final_snapshot = make_account_snapshot(cash, positions, all_bars, day_str)
-        spy_price_today = close_price(all_bars, "SPY", day_str)
+        bench_price_today = close_price(all_bars, BENCHMARK_SYMBOL, day_str)
+        submitted_count = len([t for t in trade_results if t.get("status") == "submitted"])
         log.append({
             "date": day_str,
             "market_summary": decision.get("market_summary") if decision else None,
             "trades": trade_results,
+            "trade_count": submitted_count,
             "blocked_reasons": blocked_reasons,
             "portfolio_value": final_snapshot["portfolio_value"],
             "cash": cash,
+            "currency": ACCOUNT_CURRENCY,
             "positions": final_snapshot["positions"],
-            "benchmark_spy_buy_hold_value": spy_shares_benchmark * spy_price_today if spy_price_today else None,
+            # Pole se z historických důvodů pořád jmenuje "spy_price", i když jde
+            # o CSPX (stejná konvence jako v main.py/history.py) - kvůli
+            # kompatibilitě s formátem, který appka jinde ukládá do history.json.
+            "spy_price": bench_price_today,
+            "benchmark_buy_hold_value": bench_shares * bench_price_today if (bench_shares and bench_price_today) else None,
         })
 
-        if (i + 1) % 10 == 0 or i == len(trading_days) - 1:
-            print(f"[{i+1}/{len(trading_days)}] {day_str}  portfolio=${final_snapshot['portfolio_value']:,.2f}")
+        if (i + 1) % 5 == 0 or i == len(trading_days) - 1:
+            print(f"[{i+1}/{len(trading_days)}] {day_str}  portfolio={final_snapshot['portfolio_value']:,.2f} {ACCOUNT_CURRENCY}")
 
         # Průběžné ukládání - kdyby běh spadl v půlce, nepřijdeme o dosavadní výsledky.
         with open(result_path, "w", encoding="utf-8") as f:
             json.dump({"start": start.isoformat(), "end": end.isoformat(), "days_done": i + 1,
-                       "days_total": len(trading_days), "entries": log}, f, indent=2, ensure_ascii=False)
+                       "days_total": len(trading_days), "currency": ACCOUNT_CURRENCY, "entries": log},
+                      f, indent=2, ensure_ascii=False)
 
     portfolio_values = [e["portfolio_value"] for e in log]
-    benchmark_values = [e["benchmark_spy_buy_hold_value"] for e in log if e["benchmark_spy_buy_hold_value"]]
+    benchmark_values = [e["benchmark_buy_hold_value"] for e in log if e["benchmark_buy_hold_value"]]
     final_value = portfolio_values[-1]
     final_benchmark = benchmark_values[-1] if benchmark_values else None
-    total_trades = sum(1 for e in log for t in e["trades"] if t["status"] == "filled")
-    # Skutečně použitý model (ne natvrdo napsaný text) - ať shrnutí vždy odpovídá
-    # tomu, co je aktuálně nastavené jako výchozí v decision.py / DECISION_MODEL.
+    total_trades = sum(1 for e in log for t in e["trades"] if t["status"] == "submitted")
     model_used = os.environ.get("DECISION_MODEL", "claude-sonnet-4-6").strip()
 
     summary = {
         "starting_cash": STARTING_CASH,
+        "currency": ACCOUNT_CURRENCY,
         "final_portfolio_value": final_value,
         "total_return_pct": (final_value / STARTING_CASH - 1) * 100,
-        "final_benchmark_spy_value": final_benchmark,
+        "final_benchmark_value": final_benchmark,
+        "benchmark_label": f"drž a čekej {BENCHMARK_SYMBOL}",
         "benchmark_return_pct": (final_benchmark / STARTING_CASH - 1) * 100 if final_benchmark else None,
         "max_drawdown_pct": max_drawdown(portfolio_values) * 100,
         "total_filled_trades": total_trades,
         "days_simulated": len(trading_days),
         "assumptions": [
-            "Fill se simuluje za zavírací cenu daného dne (žádný spread/slippage).",
-            "Simulují se jen obchodní dny akciového trhu (víkendy vynechány, i pro krypto).",
+            "Fill se simuluje za zavírací cenu daného dne, převedenou historickým kurzem "
+            "do měny účtu (žádný spread/slippage/zaokrouhlení brokera).",
+            f"Simulují se jen obchodní dny podle kalendáře {BENCHMARK_SYMBOL} (LSE).",
             f"AI se volá reálně pro každý den (max_tokens=2000, použitý model: {model_used}).",
+            "Appka v tomto pilotu nemá přístup ke zprávám (news=None) - stejně jako živý "
+            "provoz na Trading 212 (viz main.py).",
         ],
     }
 
@@ -402,10 +452,10 @@ def main():
     if summary_file:
         with open(summary_file, "a", encoding="utf-8") as f:
             f.write(f"# Backtest {start.isoformat()} -> {end.isoformat()}\n\n")
-            f.write(f"- Počáteční kapitál: ${STARTING_CASH:,.2f}\n")
-            f.write(f"- Konečná hodnota appky: **${final_value:,.2f}** ({summary['total_return_pct']:+.2f} %)\n")
+            f.write(f"- Počáteční kapitál: {STARTING_CASH:,.2f} {ACCOUNT_CURRENCY}\n")
+            f.write(f"- Konečná hodnota appky: **{final_value:,.2f} {ACCOUNT_CURRENCY}** ({summary['total_return_pct']:+.2f} %)\n")
             if final_benchmark:
-                f.write(f"- Srovnání (drž a čekej SPY): ${final_benchmark:,.2f} ({summary['benchmark_return_pct']:+.2f} %)\n")
+                f.write(f"- Srovnání ({summary['benchmark_label']}): {final_benchmark:,.2f} {ACCOUNT_CURRENCY} ({summary['benchmark_return_pct']:+.2f} %)\n")
             f.write(f"- Maximální propad appky: {summary['max_drawdown_pct']:.2f} %\n")
             f.write(f"- Počet provedených obchodů: {summary['total_filled_trades']}\n")
             f.write(f"- Simulováno obchodních dní: {summary['days_simulated']}\n\n")
