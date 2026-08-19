@@ -92,6 +92,10 @@ def _request(method, path, body=None):
     data = json.dumps(body).encode("utf-8") if body is not None else None
     req = urllib.request.Request(url, data=data, method=method)
     req.add_header("Authorization", _auth_header_value())  # viz POZOR výše - ověřit při prvním běhu
+    # Bez vlastního User-Agent posílá urllib "Python-urllib/3.x", což firewall/WAF
+    # Trading 212 API blokuje jako podezřelý provoz (403 s prázdným tělem, dřív
+    # ověřeno na prvním živém testu) - komunitní diskuze potvrzuje stejný problém.
+    req.add_header("User-Agent", "Mozilla/5.0 (ai-trading-bot)")
     if data is not None:
         req.add_header("Content-Type", "application/json")
 
