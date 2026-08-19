@@ -102,9 +102,15 @@ def _request(method, path, body=None):
     try:
         with urllib.request.urlopen(req, timeout=20) as resp:
             raw = resp.read().decode("utf-8", errors="replace")
+            # DOČASNÝ diagnostický log (viz ladění prvního živého běhu v chatu) -
+            # ukazuje, že tenhle konkrétní požadavek prošel, i s náhledem těla.
+            print(f"[T212] {method} {path} -> {resp.status}, tělo (prvních 200 znaků): {raw[:200]!r}")
             return json.loads(raw) if raw else {}
     except urllib.error.HTTPError as e:
         error_body = e.read().decode("utf-8", errors="replace")
+        # DOČASNÝ diagnostický log - i hlavičky odpovědi, pro případ, že tělo je
+        # prázdné (např. blokace na úrovni WAF/proxy, ne appky samotné).
+        print(f"[T212] {method} {path} -> HTTP {e.code}, hlavičky: {dict(e.headers)!r}")
         raise RuntimeError(
             f"Trading 212 API chyba {e.code} na {method} {path}: {error_body}"
         ) from e
