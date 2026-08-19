@@ -37,6 +37,8 @@ import http.cookiejar
 import urllib.request
 import urllib.error
 
+import fx
+
 # Sdílený cookie jar pro celý běh - Cloudflare (WAF před Trading 212 API) na
 # některé endpointy (viz /equity/positions, ověřeno na živém běhu - HTTP 403
 # s __cf_bm cookie a prázdným tělem, typický Cloudflare bot-management pattern)
@@ -145,6 +147,7 @@ def get_account_snapshot(instruments_map):
 
     cash = summary.get("cash", {}).get("availableToTrade", 0.0)
     total_value = summary.get("totalValue", cash)
+    account_currency = (summary.get("currency") or "CZK").upper()
 
     # POZOR - zjištěno živým testem 19.8.2026: /equity/positions NEVRACÍ ticker/
     # isin/currency na horní úrovni objektu pozice, ale VNOŘENÉ v "instrument"
@@ -178,6 +181,31 @@ def get_account_snapshot(instruments_map):
         avg_price = float(avg_price) if avg_price is not None else 0.0
         current_price = float(current_price) if current_price is not None else avg_price
         qty = float(qty)
+
+        # POZOR - zjištěno testem 19.8.2026 večer: avg_price/current_price z T212
+        # API jsou v PŮVODNÍ měně nástroje (USD u AAPL/MSFT/GOOGL, GBP/GBX u
+        # CSPX/EQQQ na LSE), ne v měně účtu (CZK) - appka je dřív ukládala
+        # nepřevedené, takže report/dashboard u AAPL ukazoval "315.71" místo
+        # částky v Kč (a odvozená market_value/unrealized_pl byly tím pádem taky
+        # řádově mimo - třeba "22 Kč" místo skutečných stovek Kč). Používáme
+        # STEJNOU normalizaci jako market_data.py/fx.py (price_divisor pro
+        # GBX->GBP, pak fx.get_fx_rate do měny účtu), aby pozice v reportu/
+        # dashboardu byly ve stejných jednotkách jako všude jinde v appce.
+        instr_info = instruments_map.get(symbol) if symbol else None
+        if instr_info:
+            divisor = instr_info.get("price_divisor", 1) or 1
+            native_currency = instr_info.get("currency", account_currency)
+            avg_price = avg_price / divisor
+            current_price = current_price / divisor
+            fx_rate = fx.get_fx_rate(native_currency, account_currency)
+            if fx_rate is not None:
+                avg_price *= fx_rate
+                current_price *= fx_rate
+            else:
+                print(f"POZOR: kurz {native_currency}->{account_currency} se nepodařilo stáhnout, "
+                      f"pozice {symbol} zůstává v původní měně {native_currency} - hodnoty v reportu "
+                      f"proto můžou být zkreslené.")
+
         market_value = qty * current_price
         wallet_impact = p.get("walletImpact") or {}
         unrealized_pl = wallet_impact.get("unrealizedProfitLoss")
@@ -197,7 +225,7 @@ def get_account_snapshot(instruments_map):
     return {
         "cash": float(cash),
         "portfolio_value": float(total_value),
-        "currency": summary.get("currency", "GBP"),  # pro zobrazení v reportu/notifikaci
+        "currency": account_currency,  # pro zobrazení v reportu/notifikaci
         "buying_power": float(cash),
         "positions": parsed_positions,
     }
