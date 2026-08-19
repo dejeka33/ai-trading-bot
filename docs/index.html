@@ -64,6 +64,15 @@
   .stat-tile .label { font-size: 12px; color: var(--text-muted); }
   .stat-tile .tap-hint { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 3px; }
   .stat-tile.hero .value { font-size: 40px; font-weight: 600; font-variant-numeric: proportional-nums; }
+  .stat-tile.hero .value.up { color: var(--good); }
+  .stat-tile.hero .value.down { color: var(--critical); }
+  .stat-tile.hero .value.flat { color: var(--text-primary); }
+
+  /* --- Hotovost / Investováno - dvě dlaždice v řadě hned pod hero boxem --- */
+  .mini-stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mini-stat-tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+  .mini-stat-tile .label { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; }
+  .mini-stat-tile .value { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
   .delta-row { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
   .delta-tag { font-size: 11px; color: var(--text-muted); min-width: 108px; }
   .delta { font-size: 13px; font-weight: 500; }
@@ -266,6 +275,16 @@
       <div class="value" id="hero-value"></div>
       <div id="hero-deltas"></div>
     </button>
+    <div class="mini-stat-row" id="mini-stat-row">
+      <div class="mini-stat-tile">
+        <div class="label">Hotovost</div>
+        <div class="value" id="mini-cash"></div>
+      </div>
+      <div class="mini-stat-tile">
+        <div class="label">Investováno</div>
+        <div class="value" id="mini-invested"></div>
+      </div>
+    </div>
   </div>
 
   <section class="card chart-card" id="chart-card" style="display:none;">
@@ -379,7 +398,18 @@ function renderStats(data){
   const dailyDelta = prev ? last.portfolio_value - prev.portfolio_value : null;
   const dailyPct = (prev && prev.portfolio_value) ? (dailyDelta/prev.portfolio_value)*100 : null;
 
-  document.getElementById('hero-value').textContent = fmtMoney(last.portfolio_value);
+  const heroValueEl = document.getElementById('hero-value');
+  heroValueEl.textContent = fmtMoney(last.portfolio_value);
+  // Barva čísla podle toho, jestli je appka celkově v plusu/mínusu vůči
+  // počáteční hodnotě (stejné srovnání jako řádek "Od začátku" pod ním) -
+  // ne vůči aktuální hotovosti, ta je prakticky vždy nižší, jakmile appka drží
+  // jakoukoliv pozici, takže by jako signál zisku/ztráty nic neříkala.
+  heroValueEl.className = 'value ' + dirClass(delta);
+
+  const invested = (last.positions || []).reduce((s,p) => s + p.market_value, 0);
+  document.getElementById('mini-cash').textContent = fmtMoney(last.cash);
+  document.getElementById('mini-invested').textContent = fmtMoney(invested);
+
   document.getElementById('hero-deltas').innerHTML = `
     <div class="delta-row">
       <span class="delta-tag">Od začátku</span>
