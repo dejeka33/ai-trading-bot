@@ -27,6 +27,10 @@ def update_history(date_str, account_current, decision, trade_results, validatio
         "portfolio_value": account_current["portfolio_value"],
         "cash": account_current["cash"],
         "buying_power": account_current["buying_power"],
+        # Měna účtu (viz broker_t212.get_account_snapshot) - appka je od pilota na
+        # Trading 212 vedená v CZK, ne v USD jako dřív u Alpaky. Dashboard (docs/*.html)
+        # tohle pole čte, aby nezobrazoval natvrdo "$" u částky v jiné měně.
+        "currency": account_current.get("currency", "CZK"),
         "positions": account_current["positions"],
         "market_summary": decision.get("market_summary", ""),
         "trades": trade_results,
