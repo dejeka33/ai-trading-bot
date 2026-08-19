@@ -14,12 +14,14 @@
     --page:            #0d0d0d;
     --surface-1:       #1a1a19;
     --surface-2:       #212120;
+    --surface-3:       #292927;
     --text-primary:    #ffffff;
     --text-secondary:  #c3c2b7;
     --text-muted:      #898781;
     --border:          rgba(255,255,255,0.10);
     --baseline:        #383835;
-    --good:            #0ca30c;
+    --series-1:        #3987e5;
+    --good:            #2fbf4f;
     --critical:        #e66767;
     --warning:         #fab219;
   }
@@ -54,35 +56,36 @@
     font-size: 12.5px; padding: 8px 10px; border-radius: 8px; cursor: pointer; align-self: flex-start;
   }
 
-  /* --- Denní log: box na den (stejný vzhled jako na dashboardu) --- */
-  .log-list { display: flex; flex-direction: column; gap: 10px; }
-  .log-day {
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--text-muted);
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--surface-2);
-    cursor: pointer;
+  /* --- Denní log: klikatelné řádky (stejný jazyk jako karty Portfolia a Přehled) --- */
+  .log-list { display: flex; flex-direction: column; gap: 8px; }
+  .log-row {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 12px 14px;
+    cursor: pointer; text-align: left; width: 100%;
+    font: inherit; color: inherit;
+    transition: background .15s ease, border-color .15s ease;
   }
-  .log-day.accent-ok      { border-left-color: var(--good); }
-  .log-day.accent-blocked { border-left-color: var(--warning); }
-  .log-day.accent-none    { border-left-color: var(--baseline); }
-  .log-day-header { display: flex; flex-wrap: wrap; row-gap: 6px; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 14px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); }
-  .log-day-header-left { display: flex; align-items: center; gap: 9px; min-width: 0; flex-shrink: 1; }
-  .log-day-date { font-weight: 600; font-size: 13.5px; white-space: nowrap; }
-  .log-day-header-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-  .log-day-value { font-variant-numeric: tabular-nums; font-size: 14px; font-weight: 600; white-space: nowrap; }
-  .log-day-chevron { font-size: 11px; color: var(--text-muted); transition: transform .15s; }
-  .log-day.open .log-day-chevron { transform: rotate(180deg); }
-  .log-day-body { padding: 12px 14px; }
-  .log-day-summary { color: var(--text-secondary); font-size: 13px; line-height: 1.55; margin: 0; }
-  .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); flex-shrink: 0; white-space: nowrap; }
-  .badge.ok { color: var(--good); } .badge.blocked { color: var(--warning); } .badge.none { color: var(--text-muted); }
-  .trade-detail { display: none; padding: 0 14px 14px; }
-  .trade-detail.open { display: block; }
-  .trade-line { padding: 8px 10px; margin-top: 6px; background: var(--surface-1); border-radius: 8px; font-size: 12.5px; }
-  .trade-line .sym { font-weight: 600; }
-  .trade-line .reasoning { color: var(--text-secondary); display: block; margin-top: 2px; }
+  .log-row:hover, .log-row:focus-visible { background: var(--surface-3); border-color: rgba(255,255,255,0.18); }
+  .log-icon {
+    width: 40px; height: 40px; border-radius: 999px; flex: none;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 700;
+  }
+  .log-icon.ok      { background: rgba(47,191,79,0.16);  color: var(--good); }
+  .log-icon.blocked { background: rgba(250,178,25,0.16); color: var(--warning); }
+  .log-icon.none    { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+  .log-info { flex: 1; min-width: 0; }
+  .log-date { font-size: 14px; font-weight: 600; }
+  .log-status { font-size: 12px; color: var(--text-muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .log-value { text-align: right; flex: none; display: flex; align-items: center; gap: 8px; }
+  .log-value-nums { text-align: right; }
+  .log-main { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .log-change { font-size: 12.5px; font-weight: 600; margin-top: 2px; white-space: nowrap; }
+  .log-change.up { color: var(--good); }
+  .log-change.down { color: var(--critical); }
+  .log-change.flat { color: var(--text-muted); }
+  .log-chevron { color: var(--text-muted); font-size: 15px; flex: none; }
   .empty-note { text-align: center; color: var(--text-muted); font-size: 13px; padding: 24px 0; }
 
   footer { max-width: 880px; margin: 24px auto 0; padding: 0 20px; color: var(--text-muted); font-size: 11px; }
@@ -92,13 +95,52 @@
   .nav-link { padding: 12px 14px; font-size: 13px; color: var(--text-muted); text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; }
   .nav-link:hover { color: var(--text-secondary); }
   .nav-link.active { color: var(--text-primary); border-bottom-color: var(--series-1); font-weight: 600; }
+
+  /* --- Vysouvací popup (bottom sheet) - stejný jazyk jako na Přehledu / Portfoliu --- */
+  .sheet-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,.55);
+    opacity: 0; pointer-events: none; transition: opacity .22s ease; z-index: 40;
+  }
+  .sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+  .bottom-sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 41;
+    max-width: 620px; margin: 0 auto;
+    background: var(--surface-1); border: 1px solid var(--border); border-bottom: none;
+    border-radius: 18px 18px 0 0; padding: 10px 20px calc(24px + env(safe-area-inset-bottom));
+    max-height: 80vh; overflow-y: auto;
+    transform: translateY(100%); transition: transform .3s cubic-bezier(.22,.68,0,1);
+    box-shadow: 0 -8px 30px rgba(0,0,0,.4);
+  }
+  .bottom-sheet.open { transform: translateY(0); }
+  .sheet-handle { width: 36px; height: 4px; border-radius: 999px; background: var(--border); margin: 2px auto 16px; }
+  .sheet-header { display: flex; align-items: center; gap: 10px; }
+  .sheet-header .log-icon { width: 36px; height: 36px; font-size: 13px; }
+  .sheet-title-wrap { flex: 1; min-width: 0; }
+  .sheet-title { font-weight: 700; font-size: 15px; }
+  .sheet-sub { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+  .sheet-close {
+    flex: none; width: 28px; height: 28px; border-radius: 999px;
+    background: var(--surface-2); border: 1px solid var(--border); color: var(--text-secondary);
+    font-size: 14px; line-height: 1; cursor: pointer;
+  }
+  .sheet-meta { display: flex; gap: 18px; flex-wrap: wrap; margin: 16px 0; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .sheet-meta-item .sm-label { font-size: 10.5px; color: var(--text-muted); margin-bottom: 3px; }
+  .sheet-meta-item .sm-value { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .sheet-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; margin: 0 0 8px; }
+  .sheet-summary { font-size: 13.5px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 16px; }
+  .sheet-trade { padding: 10px 12px; margin-bottom: 8px; background: var(--surface-2); border-radius: 10px; font-size: 12.5px; }
+  .sheet-trade .st-head { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .sheet-trade .st-badge { font-size: 10.5px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--border); font-weight: 500; }
+  .sheet-trade .st-badge.buy { color: var(--good); }
+  .sheet-trade .st-reasoning { color: var(--text-secondary); display: block; margin-top: 5px; line-height: 1.5; }
+  .sheet-blocked { padding: 10px 12px; margin-bottom: 8px; background: rgba(250,178,25,0.08); border: 1px solid rgba(250,178,25,0.25); border-radius: 10px; font-size: 12.5px; color: var(--warning); }
 </style>
 </head>
 <body>
 
 <nav class="top-nav">
   <a href="index.html" class="nav-link">Přehled</a>
-  <a href="positions.html" class="nav-link">Pozice</a>
+  <a href="positions.html" class="nav-link">Portfolio</a>
   <a href="history.html" class="nav-link active">Celá historie</a>
 </nav>
 
@@ -139,7 +181,10 @@
   </section>
 </main>
 
-<footer>Automaticky generováno GitHub Actions · data z Alpaca (paper trading) · rozhodnutí Claude</footer>
+<footer>Automaticky generováno GitHub Actions · data z Trading 212 (demo účet) · rozhodnutí Claude</footer>
+
+<div class="sheet-backdrop" id="sheet-backdrop"></div>
+<div class="bottom-sheet" id="bottom-sheet" role="dialog" aria-modal="true"></div>
 
 <script>
 async function loadData() {
@@ -149,28 +194,83 @@ async function loadData() {
 }
 
 let DATA = null;
+let CURRENCY = 'CZK';
 
-function fmtUSD(v){ return '$' + v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
-function fmtDate(d){ const dt = new Date(d+'T00:00:00Z'); return dt.toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}); }
-// Kompaktní varianta (bez roku) pro hlavičku boxu, kde je málo místa - stejný
-// formát jako na hlavním dashboardu, aby se datum + badge + hodnota vešly i na mobilu.
-function fmtDateShort(d){ const dt = new Date(d+'T00:00:00Z'); return dt.toLocaleDateString('cs-CZ',{day:'numeric',month:'short',timeZone:'UTC'}); }
-
-function statusBadge(entry){
-  if(entry.blocked_reasons && entry.blocked_reasons.length) return `<span class="badge blocked">⚠ blokováno</span>`;
-  if(entry.trade_count > 0) return `<span class="badge ok">✓ ${entry.trade_count} obchod${entry.trade_count>1?'y':''}</span>`;
-  return `<span class="badge none">bez obchodu</span>`;
+function fmtMoney(v){
+  if (CURRENCY === 'CZK') return v.toLocaleString('cs-CZ',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' Kč';
+  return v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' ' + CURRENCY;
 }
-function accentClass(entry){
-  if(entry.blocked_reasons && entry.blocked_reasons.length) return 'accent-blocked';
-  if(entry.trade_count > 0) return 'accent-ok';
-  return 'accent-none';
+function fmtDate(d){ const dt = new Date(d+'T00:00:00Z'); return dt.toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}); }
+// Kompaktní varianta (bez roku) pro řádek, kde je málo místa - stejný formát jako
+// na hlavním dashboardu, aby se datum + stav + hodnota vešly i na mobilu.
+function fmtDateShort(d){ const dt = new Date(d+'T00:00:00Z'); return dt.toLocaleDateString('cs-CZ',{day:'numeric',month:'short',timeZone:'UTC'}); }
+function dirClass(v){ return v > 0.005 ? 'up' : (v < -0.005 ? 'down' : 'flat'); }
+function dirArrow(v){ return v > 0.005 ? '↑' : (v < -0.005 ? '↓' : '·'); }
+
+/* --- Sdílený bottom sheet (stejný jazyk jako Přehled / Portfolio) --- */
+const backdrop = document.getElementById('sheet-backdrop');
+const sheetEl = document.getElementById('bottom-sheet');
+function openSheetEl(){ backdrop.classList.add('open'); sheetEl.classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeSheet(){ backdrop.classList.remove('open'); sheetEl.classList.remove('open'); document.body.style.overflow = ''; }
+backdrop.addEventListener('click', closeSheet);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+
+function statusOf(entry){
+  if (entry.blocked_reasons && entry.blocked_reasons.length) return 'blocked';
+  if (entry.trade_count > 0) return 'ok';
+  return 'none';
+}
+const ICONS = { ok: '✓', blocked: '⚠', none: '–' };
+function statusText(entry){
+  const s = statusOf(entry);
+  if (s === 'blocked') return 'Blokováno mantinely';
+  if (s === 'ok') return entry.trade_count + (entry.trade_count === 1 ? ' obchod' : ' obchody');
+  return 'Bez obchodu';
 }
 function matchesStatus(e, status){
   if (status === 'traded') return e.trade_count > 0;
   if (status === 'blocked') return !!(e.blocked_reasons && e.blocked_reasons.length);
   if (status === 'none') return e.trade_count === 0 && !(e.blocked_reasons && e.blocked_reasons.length);
   return true;
+}
+
+function openDaySheet(e){
+  let tradesHtml;
+  if (e.blocked_reasons && e.blocked_reasons.length) {
+    tradesHtml = '<div class="sheet-label">Proč se neobchodovalo</div>' +
+      e.blocked_reasons.map(r => `<div class="sheet-blocked">⚠ ${r}</div>`).join('');
+  } else if (e.trades && e.trades.length) {
+    tradesHtml = '<div class="sheet-label">Obchody</div>' +
+      e.trades.map(t => `
+        <div class="sheet-trade">
+          <div class="st-head">${t.symbol || '?'}<span class="st-badge ${t.status==='submitted'?'buy':''}">${t.side==='buy'?'nákup':'prodej'}</span><span style="color:var(--text-muted);font-weight:400;">${t.qty ?? '?'} ks</span></div>
+          ${t.status !== 'submitted' ? `<span style="color:var(--critical);display:block;margin-top:4px;">⚠ chyba: ${t.error||''}</span>` : ''}
+          ${t.reasoning ? `<span class="st-reasoning">${t.reasoning}</span>` : ''}
+        </div>`).join('');
+  } else {
+    tradesHtml = '<div class="sheet-label">Obchody</div><p class="sheet-summary" style="color:var(--text-muted);">Žádný obchod tento den.</p>';
+  }
+
+  sheetEl.innerHTML = `
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <div class="log-icon ${statusOf(e)}">${ICONS[statusOf(e)]}</div>
+      <div class="sheet-title-wrap">
+        <div class="sheet-title">${fmtDate(e.date)}</div>
+        <div class="sheet-sub">${statusText(e)}</div>
+      </div>
+      <button type="button" class="sheet-close" id="sheet-close" aria-label="Zavřít">✕</button>
+    </div>
+    <div class="sheet-meta">
+      <div class="sheet-meta-item"><div class="sm-label">Hodnota portfolia</div><div class="sm-value">${fmtMoney(e.portfolio_value)}</div></div>
+      <div class="sheet-meta-item"><div class="sm-label">Obchodů</div><div class="sm-value">${e.trade_count}</div></div>
+    </div>
+    <div class="sheet-label">Shrnutí od AI</div>
+    <p class="sheet-summary">${e.market_summary || '(bez shrnutí)'}</p>
+    ${tradesHtml}
+  `;
+  document.getElementById('sheet-close').addEventListener('click', closeSheet);
+  openSheetEl();
 }
 
 function renderList(entries){
@@ -185,43 +285,30 @@ function renderList(entries){
   }
   emptyNote.style.display = 'none';
 
-  list.innerHTML = rows.map((e, idx) => {
-    const detailId = 'detail-' + idx;
-    let detailContent = '';
-    if (e.blocked_reasons && e.blocked_reasons.length) {
-      detailContent = e.blocked_reasons.map(r => `<div class="trade-line">⚠ ${r}</div>`).join('');
-    } else if (e.trades && e.trades.length) {
-      detailContent = e.trades.map(t => `
-        <div class="trade-line">
-          <span class="sym">${t.symbol} · ${t.side==='buy'?'nákup':'prodej'} · ${t.qty}</span>
-          ${t.status === 'submitted' ? '' : ' — <span style="color:var(--critical)">chyba: ' + (t.error || '') + '</span>'}
-          <span class="reasoning">${t.reasoning || ''}</span>
-        </div>`).join('');
-    } else {
-      detailContent = `<div class="trade-line" style="color:var(--text-muted)">Žádný obchod tento den.</div>`;
-    }
+  list.innerHTML = rows.map((e) => {
+    const idx = DATA.entries.indexOf(e);
+    const prev = idx > 0 ? DATA.entries[idx-1].portfolio_value : e.portfolio_value;
+    const chg = e.portfolio_value - prev;
+    const chgPct = prev ? (chg/prev)*100 : 0;
     return `
-      <div class="log-day ${accentClass(e)}" data-target="${detailId}">
-        <div class="log-day-header">
-          <div class="log-day-header-left">
-            <span class="log-day-date">${fmtDateShort(e.date)}</span>
-            ${statusBadge(e)}
-          </div>
-          <div class="log-day-header-right">
-            <span class="log-day-value">${fmtUSD(e.portfolio_value)}</span>
-            <span class="log-day-chevron">▾</span>
-          </div>
+      <button type="button" class="log-row" data-idx="${idx}">
+        <div class="log-icon ${statusOf(e)}">${ICONS[statusOf(e)]}</div>
+        <div class="log-info">
+          <div class="log-date">${fmtDateShort(e.date)}</div>
+          <div class="log-status">${statusText(e)}</div>
         </div>
-        <div class="log-day-body"><p class="log-day-summary">${e.market_summary || ''}</p></div>
-        <div class="trade-detail" id="${detailId}">${detailContent}</div>
-      </div>`;
+        <div class="log-value">
+          <div class="log-value-nums">
+            <div class="log-main">${fmtMoney(e.portfolio_value)}</div>
+            <div class="log-change ${dirClass(chg)}">${dirArrow(chg)} ${chgPct>=0?'+':''}${chgPct.toFixed(2)} %</div>
+          </div>
+          <span class="log-chevron">›</span>
+        </div>
+      </button>`;
   }).join('');
 
-  list.querySelectorAll('.log-day').forEach(item => {
-    item.addEventListener('click', () => {
-      item.classList.toggle('open');
-      document.getElementById(item.dataset.target).classList.toggle('open');
-    });
+  list.querySelectorAll('.log-row').forEach(row => {
+    row.addEventListener('click', () => openDaySheet(DATA.entries[+row.dataset.idx]));
   });
 }
 
@@ -257,6 +344,7 @@ loadData().then(data => {
     document.getElementById('range-summary').textContent = 'Zatím žádná data — počkej na první denní běh.';
     return;
   }
+  CURRENCY = data.entries[data.entries.length-1].currency || 'CZK';
   DATA = data;
   const allDates = data.entries.map(e => e.date);
   document.getElementById('f-from').min = allDates[0];

@@ -14,6 +14,7 @@
     --page:            #0d0d0d;
     --surface-1:       #1a1a19;
     --surface-2:       #212120;
+    --surface-3:       #292927;
     --text-primary:    #ffffff;
     --text-secondary:  #c3c2b7;
     --text-muted:      #898781;
@@ -22,14 +23,17 @@
     --border:          rgba(255,255,255,0.10);
     --series-1:        #3987e5;
     --series-1-wash:   rgba(57,135,229,0.10);
-    --good:            #0ca30c;
+    --good:            #2fbf4f;
     --critical:        #e66767;
     --warning:         #fab219;
-    /* kategorická paleta pro alokaci portfolia (validováno dataviz skillem, dark mode) */
-    --cat-cash:        #726f68;
-    --cat-spy:         #3987e5;
-    --cat-qqq:         #d95926;
-    --cat-aapl:        #199e70;
+    /* kategorická paleta pro alokaci portfolia - pevné přiřazení podle nástroje,
+       stejné barvy jako kolečka na stránce Portfolio (viz positions.html) */
+    --cat-cash:  #726f68;
+    --cat-cspx:  #8ec4f7;
+    --cat-eqqq:  #b7a6f2;
+    --cat-aapl:  #f0b3b3;
+    --cat-msft:  #8fd6c4;
+    --cat-googl: #f2cf8e;
   }
   * { box-sizing: border-box; }
   body {
@@ -48,24 +52,22 @@
   h2.card-title { font-size: 14px; font-weight: 600; margin: 0 0 2px; }
   p.card-sub { font-size: 12px; color: var(--text-muted); margin: 0 0 12px; }
 
-  /* --- Stat tiles: hero na celou šířku, hotovost + kupní síla vždy vedle sebe --- */
+  /* --- Hero stat: klikatelný, detail (hotovost/kupní síla/investováno) v popupu --- */
   .stat-block { display: flex; flex-direction: column; gap: 10px; }
-  .stat-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .stat-tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
-  .stat-tile .label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
-  .stat-tile .value { font-size: 22px; font-weight: 600; font-variant-numeric: proportional-nums; }
-  .stat-tile.hero .value { font-size: 40px; }
+  .stat-tile.hero {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px;
+    cursor: pointer; text-align: left; width: 100%; font: inherit; color: inherit;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .stat-tile.hero:hover, .stat-tile.hero:focus-visible { background: var(--surface-2); border-color: rgba(255,255,255,0.18); }
+  .stat-tile .label-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .stat-tile .label { font-size: 12px; color: var(--text-muted); }
+  .stat-tile .tap-hint { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 3px; }
+  .stat-tile.hero .value { font-size: 40px; font-weight: 600; font-variant-numeric: proportional-nums; }
   .delta-row { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
   .delta-tag { font-size: 11px; color: var(--text-muted); min-width: 108px; }
   .delta { font-size: 13px; font-weight: 500; }
   .delta.up { color: var(--good); } .delta.down { color: var(--critical); } .delta.flat { color: var(--text-muted); }
-  .stat-pair .stat-tile { padding: 14px 14px; }
-  .stat-pair .stat-tile .label { font-size: 11px; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .stat-pair .stat-tile .value { font-size: 17px; }
-  @media (max-width: 360px) { .stat-pair .stat-tile .value { font-size: 15px; } }
-
-  .withdraw-note { font-size: 11.5px; color: var(--text-muted); line-height: 1.55; padding: 2px 2px 0; }
-  .withdraw-note strong { color: var(--text-secondary); font-weight: 600; }
 
   /* --- Push notifikace --- */
   .push-setup { margin-top: 10px; }
@@ -152,35 +154,36 @@
   .donut-center-label { fill: var(--text-muted); font-size: 10px; font-family: system-ui, sans-serif; }
   .donut-center-value { fill: var(--text-primary); font-size: 13px; font-weight: 600; font-family: system-ui, sans-serif; }
 
-  /* --- Denní log: box na den --- */
-  .log-list { display: flex; flex-direction: column; gap: 10px; }
-  .log-day {
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--text-muted);
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--surface-2);
-    cursor: pointer;
+  /* --- Denní log: klikatelné řádky (stejný jazyk jako karty Portfolia) --- */
+  .log-list { display: flex; flex-direction: column; gap: 8px; }
+  .log-row {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 12px 14px;
+    cursor: pointer; text-align: left; width: 100%;
+    font: inherit; color: inherit;
+    transition: background .15s ease, border-color .15s ease;
   }
-  .log-day.accent-ok      { border-left-color: var(--good); }
-  .log-day.accent-blocked { border-left-color: var(--warning); }
-  .log-day.accent-none    { border-left-color: var(--baseline); }
-  .log-day-header { display: flex; flex-wrap: wrap; row-gap: 6px; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 14px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); }
-  .log-day-header-left { display: flex; align-items: center; gap: 9px; min-width: 0; flex-shrink: 1; }
-  .log-day-date { font-weight: 600; font-size: 13.5px; white-space: nowrap; }
-  .log-day-header-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-  .log-day-value { font-variant-numeric: tabular-nums; font-size: 14px; font-weight: 600; white-space: nowrap; }
-  .log-day-chevron { font-size: 11px; color: var(--text-muted); transition: transform .15s; }
-  .log-day.open .log-day-chevron { transform: rotate(180deg); }
-  .log-day-body { padding: 12px 14px; }
-  .log-day-summary { color: var(--text-secondary); font-size: 13px; line-height: 1.55; margin: 0; }
-  .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); flex-shrink: 0; white-space: nowrap; }
-  .badge.ok { color: var(--good); } .badge.blocked { color: var(--warning); } .badge.none { color: var(--text-muted); }
-  .trade-detail { display: none; padding: 0 14px 14px; }
-  .trade-detail.open { display: block; }
-  .trade-line { padding: 8px 10px; margin-top: 6px; background: var(--surface-1); border-radius: 8px; font-size: 12.5px; }
-  .trade-line .sym { font-weight: 600; }
-  .trade-line .reasoning { color: var(--text-secondary); display: block; margin-top: 2px; }
+  .log-row:hover, .log-row:focus-visible { background: var(--surface-3); border-color: rgba(255,255,255,0.18); }
+  .log-icon {
+    width: 40px; height: 40px; border-radius: 999px; flex: none;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 700;
+  }
+  .log-icon.ok      { background: rgba(47,191,79,0.16);  color: var(--good); }
+  .log-icon.blocked { background: rgba(250,178,25,0.16); color: var(--warning); }
+  .log-icon.none    { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+  .log-info { flex: 1; min-width: 0; }
+  .log-date { font-size: 14px; font-weight: 600; }
+  .log-status { font-size: 12px; color: var(--text-muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .log-value { text-align: right; flex: none; display: flex; align-items: center; gap: 8px; }
+  .log-value-nums { text-align: right; }
+  .log-main { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .log-change { font-size: 12.5px; font-weight: 600; margin-top: 2px; white-space: nowrap; }
+  .log-change.up { color: var(--good); }
+  .log-change.down { color: var(--critical); }
+  .log-change.flat { color: var(--text-muted); }
+  .log-chevron { color: var(--text-muted); font-size: 15px; flex: none; }
   .log-limit-note { font-size: 11px; color: var(--text-muted); margin: 2px 0 12px; }
   .history-link {
     display: block; text-align: center; margin-top: 12px; padding: 11px;
@@ -196,13 +199,54 @@
   .nav-link { padding: 12px 14px; font-size: 13px; color: var(--text-muted); text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; }
   .nav-link:hover { color: var(--text-secondary); }
   .nav-link.active { color: var(--text-primary); border-bottom-color: var(--series-1); font-weight: 600; }
+
+  /* --- Vysouvací popup (bottom sheet) - sdílený pro detail účtu i denní log --- */
+  .sheet-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,.55);
+    opacity: 0; pointer-events: none; transition: opacity .22s ease; z-index: 40;
+  }
+  .sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+  .bottom-sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 41;
+    max-width: 620px; margin: 0 auto;
+    background: var(--surface-1); border: 1px solid var(--border); border-bottom: none;
+    border-radius: 18px 18px 0 0; padding: 10px 20px calc(24px + env(safe-area-inset-bottom));
+    max-height: 80vh; overflow-y: auto;
+    transform: translateY(100%); transition: transform .3s cubic-bezier(.22,.68,0,1);
+    box-shadow: 0 -8px 30px rgba(0,0,0,.4);
+  }
+  .bottom-sheet.open { transform: translateY(0); }
+  .sheet-handle { width: 36px; height: 4px; border-radius: 999px; background: var(--border); margin: 2px auto 16px; }
+  .sheet-header { display: flex; align-items: center; gap: 10px; }
+  .sheet-header .log-icon { width: 36px; height: 36px; font-size: 13px; }
+  .sheet-title-wrap { flex: 1; min-width: 0; }
+  .sheet-title { font-weight: 700; font-size: 15px; }
+  .sheet-sub { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+  .sheet-close {
+    flex: none; width: 28px; height: 28px; border-radius: 999px;
+    background: var(--surface-2); border: 1px solid var(--border); color: var(--text-secondary);
+    font-size: 14px; line-height: 1; cursor: pointer;
+  }
+  .sheet-meta { display: flex; gap: 18px; flex-wrap: wrap; margin: 16px 0; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .sheet-meta-item .sm-label { font-size: 10.5px; color: var(--text-muted); margin-bottom: 3px; }
+  .sheet-meta-item .sm-value { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .sheet-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; margin: 0 0 8px; }
+  .sheet-summary { font-size: 13.5px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 16px; }
+  .sheet-note { font-size: 11.5px; color: var(--text-muted); line-height: 1.55; margin: 4px 0 0; }
+  .sheet-note strong { color: var(--text-secondary); font-weight: 600; }
+  .sheet-trade { padding: 10px 12px; margin-bottom: 8px; background: var(--surface-2); border-radius: 10px; font-size: 12.5px; }
+  .sheet-trade .st-head { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .sheet-trade .st-badge { font-size: 10.5px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--border); font-weight: 500; }
+  .sheet-trade .st-badge.buy { color: var(--good); }
+  .sheet-trade .st-reasoning { color: var(--text-secondary); display: block; margin-top: 5px; line-height: 1.5; }
+  .sheet-blocked { padding: 10px 12px; margin-bottom: 8px; background: rgba(250,178,25,0.08); border: 1px solid rgba(250,178,25,0.25); border-radius: 10px; font-size: 12.5px; color: var(--warning); }
 </style>
 </head>
 <body>
 
 <nav class="top-nav">
   <a href="index.html" class="nav-link active">Přehled</a>
-  <a href="positions.html" class="nav-link">Pozice</a>
+  <a href="positions.html" class="nav-link">Portfolio</a>
   <a href="history.html" class="nav-link">Celá historie</a>
 </nav>
 
@@ -214,9 +258,14 @@
 
 <main>
   <div class="stat-block" id="stat-block" style="display:none;">
-    <section id="stat-hero"></section>
-    <section class="stat-pair" id="stat-pair"></section>
-    <div class="withdraw-note" id="withdraw-note"></div>
+    <button type="button" class="stat-tile hero" id="hero-btn">
+      <div class="label-row">
+        <span class="label">Aktuální hodnota portfolia</span>
+        <span class="tap-hint">Detail ›</span>
+      </div>
+      <div class="value" id="hero-value"></div>
+      <div id="hero-deltas"></div>
+    </button>
   </div>
 
   <section class="card chart-card" id="chart-card" style="display:none;">
@@ -235,7 +284,7 @@
     </div>
     <div class="chart-legend" id="chart-legend" style="display:none;">
       <span class="legend-item"><span class="legend-dot"></span>Portfolio (AI)</span>
-      <span class="legend-item"><span class="legend-dash"></span>Kdyby jen drž a čekej (SPY)</span>
+      <span class="legend-item"><span class="legend-dash"></span>Kdyby jen drž a čekej (CSPX)</span>
     </div>
     <div class="chart-wrap" id="chart-wrap"></div>
     <p class="range-note" id="range-note"></p>
@@ -259,7 +308,7 @@
 
   <section class="card" id="log-card" style="display:none;">
     <h2 class="card-title">Denní log</h2>
-    <p class="card-sub">Klepni na box pro detail obchodů a zdůvodnění AI.</p>
+    <p class="card-sub">Klepni na den pro zdůvodnění AI a přehled obchodů.</p>
     <p class="log-limit-note" id="log-limit-note"></p>
     <div class="log-list" id="log-list"></div>
     <a class="history-link" href="history.html">Zobrazit celou historii →</a>
@@ -267,8 +316,11 @@
 </main>
 
 <footer>
-  Automaticky generováno GitHub Actions · data z Alpaca (paper trading) · rozhodnutí Claude
+  Automaticky generováno GitHub Actions · data z Trading 212 (demo účet) · rozhodnutí Claude
 </footer>
+
+<div class="sheet-backdrop" id="sheet-backdrop"></div>
+<div class="bottom-sheet" id="bottom-sheet" role="dialog" aria-modal="true"></div>
 
 <script>
 async function loadData() {
@@ -277,9 +329,17 @@ async function loadData() {
   return res.json();
 }
 
-function fmtUSD(v){ return '$' + v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
-function fmtUSDCompact(v){ return '$' + v.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0}); }
+let CURRENCY = 'CZK';
+function fmtMoney(v){
+  if (CURRENCY === 'CZK') return v.toLocaleString('cs-CZ',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' Kč';
+  return v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' ' + CURRENCY;
+}
+function fmtMoneyCompact(v){
+  if (CURRENCY === 'CZK') return v.toLocaleString('cs-CZ',{minimumFractionDigits:0,maximumFractionDigits:0}) + ' Kč';
+  return v.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0}) + ' ' + CURRENCY;
+}
 function fmtDate(d){ const dt = new Date(d+'T00:00:00Z'); return dt.toLocaleDateString('cs-CZ',{day:'numeric',month:'short',timeZone:'UTC'}); }
+function fmtDateFull(d){ const dt = new Date(d+'T00:00:00Z'); return dt.toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}); }
 function fmtDateForPeriod(d, period){
   const dt = new Date(d+'T00:00:00Z');
   if (period === 'yearly') return dt.toLocaleDateString('cs-CZ',{year:'numeric',timeZone:'UTC'});
@@ -289,9 +349,17 @@ function fmtDateForPeriod(d, period){
 function dirClass(v){ return v > 0.005 ? 'up' : (v < -0.005 ? 'down' : 'flat'); }
 function dirArrow(v){ return v > 0.005 ? '↑' : (v < -0.005 ? '↓' : '·'); }
 
-// Přepočte SPY cenu na hodnotu "kdyby jsi od prvního bodu v pohledu místo AI
-// jen koupil a držel SPY". Vrací null, pokud pro aktuální rozsah chybí byť
-// jediný den se zaznamenanou SPY cenou (např. dny před zavedením trackování) -
+/* --- Sdílený bottom sheet (detail účtu i denní log) --- */
+const backdrop = document.getElementById('sheet-backdrop');
+const sheetEl = document.getElementById('bottom-sheet');
+function openSheetEl(){ backdrop.classList.add('open'); sheetEl.classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeSheet(){ backdrop.classList.remove('open'); sheetEl.classList.remove('open'); document.body.style.overflow = ''; }
+backdrop.addEventListener('click', closeSheet);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+
+// Přepočte benchmark cenu (CSPX) na hodnotu "kdyby jsi od prvního bodu v pohledu
+// místo AI jen koupil a držel CSPX". Vrací null, pokud pro aktuální rozsah chybí
+// byť jediný den se zaznamenanou cenou (např. dny před zavedením trackování) -
 // v tom případě se benchmark zatím nezobrazuje, místo zavádějícího výpadku.
 function benchmarkSeries(entries){
   if (!entries.every(e => typeof e.spy_price === 'number')) return null;
@@ -311,40 +379,47 @@ function renderStats(data){
   const dailyDelta = prev ? last.portfolio_value - prev.portfolio_value : null;
   const dailyPct = (prev && prev.portfolio_value) ? (dailyDelta/prev.portfolio_value)*100 : null;
 
-  document.getElementById('stat-hero').innerHTML = `
-    <div class="stat-tile hero">
-      <div class="label">Aktuální hodnota portfolia</div>
-      <div class="value">${fmtUSD(last.portfolio_value)}</div>
-      <div class="delta-row">
-        <span class="delta-tag">Od začátku</span>
-        <span class="delta ${dirClass(delta)}">${dirArrow(delta)} ${fmtUSD(Math.abs(delta))} (${delta>=0?'+':''}${deltaPct.toFixed(2)} %)</span>
-      </div>
-      ${dailyDelta !== null ? `
-      <div class="delta-row">
-        <span class="delta-tag">Denní změna</span>
-        <span class="delta ${dirClass(dailyDelta)}">${dirArrow(dailyDelta)} ${fmtUSD(Math.abs(dailyDelta))} (${dailyPct>=0?'+':''}${dailyPct.toFixed(2)} %) oproti včerejšku</span>
-      </div>` : ''}
-    </div>`;
-
-  document.getElementById('stat-pair').innerHTML = `
-    <div class="stat-tile"><div class="label">Hotovost</div><div class="value">${fmtUSD(last.cash)}</div></div>
-    <div class="stat-tile"><div class="label">Kupní síla</div><div class="value">${fmtUSD(last.buying_power)}</div></div>
+  document.getElementById('hero-value').textContent = fmtMoney(last.portfolio_value);
+  document.getElementById('hero-deltas').innerHTML = `
+    <div class="delta-row">
+      <span class="delta-tag">Od začátku</span>
+      <span class="delta ${dirClass(delta)}">${dirArrow(delta)} ${fmtMoney(Math.abs(delta))} (${delta>=0?'+':''}${deltaPct.toFixed(2)} %)</span>
+    </div>
+    ${dailyDelta !== null ? `
+    <div class="delta-row">
+      <span class="delta-tag">Denní změna</span>
+      <span class="delta ${dirClass(dailyDelta)}">${dirArrow(dailyDelta)} ${fmtMoney(Math.abs(dailyDelta))} (${dailyPct>=0?'+':''}${dailyPct.toFixed(2)} %) oproti včerejšku</span>
+    </div>` : ''}
   `;
-
-  // Odhad reálného výběru - jen informativní, na základě aktuálně platného ceníku Alpaca
-  // (ACH výběr zdarma, tuzemský wire $15, mezinárodní wire $35). Toto je PAPER účet,
-  // takže žádné skutečné peníze zatím neexistují - jde o ukázku, kolik by to bylo,
-  // kdyby šlo o ostrý účet se stejným zůstatkem.
-  document.getElementById('withdraw-note').innerHTML =
-    `ⓘ Odhad výběru přes ACH (u Alpaca zdarma): <strong>${fmtUSD(last.cash)}</strong> · ` +
-    `bankovní wire převod by navíc stál $15 (tuzemsko) / $35 (zahraničí). ` +
-    `Pozor: jde o paper účet s fiktivními penězi, žádný skutečný výběr zatím není možný.`;
 
   document.getElementById('last-updated').textContent =
     'Poslední aktualizace: ' + fmtDate(last.date) + ' · ' + entries.length + ' ' +
     (entries.length === 1 ? 'den v historii' : 'dní v historii');
 
   document.getElementById('stat-block').style.display = '';
+  document.getElementById('hero-btn').addEventListener('click', () => openAccountSheet(last));
+}
+
+function openAccountSheet(last){
+  const invested = (last.positions || []).reduce((s,p) => s + p.market_value, 0);
+  sheetEl.innerHTML = `
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <div class="sheet-title-wrap">
+        <div class="sheet-title">Detail účtu</div>
+        <div class="sheet-sub">${fmtDateFull(last.date)}</div>
+      </div>
+      <button type="button" class="sheet-close" id="sheet-close" aria-label="Zavřít">✕</button>
+    </div>
+    <div class="sheet-meta">
+      <div class="sheet-meta-item"><div class="sm-label">Hotovost</div><div class="sm-value">${fmtMoney(last.cash)}</div></div>
+      <div class="sheet-meta-item"><div class="sm-label">Kupní síla</div><div class="sm-value">${fmtMoney(last.buying_power)}</div></div>
+      <div class="sheet-meta-item"><div class="sm-label">Investováno</div><div class="sm-value">${fmtMoney(invested)}</div></div>
+    </div>
+    <p class="sheet-note">ⓘ Toto je DEMO/paper účet u Trading 212 s fiktivními penězi — žádný skutečný výběr
+      zatím není možný, dokud appka neběží na ostrém účtu (což zatím záměrně není zapnuté).</p>`;
+  document.getElementById('sheet-close').addEventListener('click', closeSheet);
+  openSheetEl();
 }
 
 function aggregateEntries(entries, period){
@@ -418,7 +493,7 @@ function renderChart(data, period){
   for(let t=0;t<=4;t++){
     const v=min+(t/4)*(max-min), yy=y(v);
     gridSvg += `<line class="gridline" x1="${padL}" x2="${W-padR}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" />`;
-    labelSvg += `<text class="axis-label" x="${padL-8}" y="${(yy+4).toFixed(1)}" text-anchor="end">${fmtUSDCompact(v)}</text>`;
+    labelSvg += `<text class="axis-label" x="${padL-8}" y="${(yy+4).toFixed(1)}" text-anchor="end">${fmtMoneyCompact(v)}</text>`;
   }
   const linePts = entries.map((e,i)=>`${x(i).toFixed(1)},${y(e.portfolio_value).toFixed(1)}`).join(' L ');
   const areaPts = `M ${x(0).toFixed(1)},${y(entries[0].portfolio_value).toFixed(1)} L ${linePts} L ${x(entries.length-1).toFixed(1)},${(padT+plotH).toFixed(1)} L ${x(0).toFixed(1)},${(padT+plotH).toFixed(1)} Z`;
@@ -435,7 +510,7 @@ function renderChart(data, period){
     benchSvg = `
       <path class="bench-line" d="M ${benchPts}" />
       <circle class="bench-end-dot" r="3.5" cx="${lastX.toFixed(1)}" cy="${benchLastY.toFixed(1)}" />
-      <text class="bench-end-label" x="${(lastX-8).toFixed(1)}" y="${(benchLastY+16).toFixed(1)}" text-anchor="end">${fmtUSDCompact(bench[bench.length-1])}</text>`;
+      <text class="bench-end-label" x="${(lastX-8).toFixed(1)}" y="${(benchLastY+16).toFixed(1)}" text-anchor="end">${fmtMoneyCompact(bench[bench.length-1])}</text>`;
     entries.forEach((e,i)=>{
       benchHoverDots += `<circle class="bench-hover-dot" data-i="${i}" r="5" cx="${x(i).toFixed(1)}" cy="${y(bench[i]).toFixed(1)}" />`;
     });
@@ -454,7 +529,7 @@ function renderChart(data, period){
       ${benchSvg}
       <path class="series-line" d="M ${linePts}" />
       <circle class="end-dot" r="4.5" cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" />
-      <text class="end-label" x="${(lastX-8).toFixed(1)}" y="${(lastY-12).toFixed(1)}" text-anchor="end">${fmtUSD(entries[entries.length-1].portfolio_value)}</text>
+      <text class="end-label" x="${(lastX-8).toFixed(1)}" y="${(lastY-12).toFixed(1)}" text-anchor="end">${fmtMoney(entries[entries.length-1].portfolio_value)}</text>
       ${labelSvg}${xLabels}
       <line class="crosshair" id="crosshair" y1="${padT}" y2="${padT+plotH}" />
       ${hoverDots}${benchHoverDots}
@@ -490,8 +565,8 @@ function renderChart(data, period){
     tooltip.style.left = ((x(closest) / W) * 100) + '%';
     tooltip.style.top = ((y(e.portfolio_value) / H) * 100) + '%';
     document.getElementById('tt-date').textContent = fmtDateForPeriod(e.date, period);
-    document.getElementById('tt-value').textContent = 'Portfolio: ' + fmtUSD(e.portfolio_value);
-    document.getElementById('tt-bench').textContent = hasBench ? 'SPY: ' + fmtUSD(bench[closest]) : '';
+    document.getElementById('tt-value').textContent = 'Portfolio: ' + fmtMoney(e.portfolio_value);
+    document.getElementById('tt-bench').textContent = hasBench ? 'CSPX: ' + fmtMoney(bench[closest]) : '';
   });
   capture.addEventListener('mouseleave', () => {
     dots.forEach(d => d.style.opacity = 0);
@@ -506,10 +581,10 @@ function renderTable(entries, hasBench, bench){
   const rows = entries.map((e,i) => `
     <tr>
       <td>${fmtDateForPeriod(e.date, currentPeriod)}</td>
-      <td class="num">${fmtUSD(e.portfolio_value)}</td>
-      ${hasBench ? `<td class="num">${fmtUSD(bench[i])}</td>` : ''}
+      <td class="num">${fmtMoney(e.portfolio_value)}</td>
+      ${hasBench ? `<td class="num">${fmtMoney(bench[i])}</td>` : ''}
     </tr>`).join('');
-  wrap.innerHTML = `<table><thead><tr><th>Datum</th><th style="text-align:right;">Portfolio</th>${hasBench ? '<th style="text-align:right;">SPY</th>' : ''}</tr></thead><tbody>${rows}</tbody></table>`;
+  wrap.innerHTML = `<table><thead><tr><th>Datum</th><th style="text-align:right;">Portfolio</th>${hasBench ? '<th style="text-align:right;">CSPX</th>' : ''}</tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 document.getElementById('toggle-table-view').addEventListener('click', (ev) => {
@@ -547,22 +622,22 @@ function renderPerformance(data){
     const pct = (diff/benchLast)*100;
     calloutHtml = `
       <div class="perf-callout">
-        <span class="perf-callout-label">Portfolio vs. kdyby jen drž a čekej (SPY)</span>
-        <span class="perf-callout-value ${dirClass(diff)}">${dirArrow(diff)} ${fmtUSD(Math.abs(diff))} (${diff>=0?'+':''}${pct.toFixed(2)} %)</span>
+        <span class="perf-callout-label">Portfolio vs. kdyby jen drž a čekej (CSPX)</span>
+        <span class="perf-callout-value ${dirClass(diff)}">${dirArrow(diff)} ${fmtMoney(Math.abs(diff))} (${diff>=0?'+':''}${pct.toFixed(2)} %)</span>
       </div>`;
     calloutNote = entries[0].date !== data.entries[0].date
-      ? `<p class="perf-callout-note">Srovnání od ${fmtDate(entries[0].date)} (odkdy je k dispozici SPY cena).</p>` : '';
+      ? `<p class="perf-callout-note">Srovnání od ${fmtDate(entries[0].date)} (odkdy je k dispozici cena CSPX).</p>` : '';
   }
   document.getElementById('perf-callout-wrap').innerHTML = calloutHtml + calloutNote;
 
   document.getElementById('perf-grid').innerHTML = `
     <div class="perf-tile">
       <div class="label">Realizovaný zisk/ztráta</div>
-      <div class="value ${typeof realized === 'number' ? dirClass(realized) : 'flat'}">${typeof realized === 'number' ? (realized>=0?'+':'')+fmtUSD(realized) : 'zatím nesledováno'}</div>
+      <div class="value ${typeof realized === 'number' ? dirClass(realized) : 'flat'}">${typeof realized === 'number' ? (realized>=0?'+':'')+fmtMoney(realized) : 'zatím nesledováno'}</div>
     </div>
     <div class="perf-tile">
       <div class="label">Nerealizovaný (otevřené pozice)</div>
-      <div class="value ${dirClass(unrealized)}">${unrealized>=0?'+':''}${fmtUSD(unrealized)}</div>
+      <div class="value ${dirClass(unrealized)}">${unrealized>=0?'+':''}${fmtMoney(unrealized)}</div>
     </div>
     <div class="perf-tile">
       <div class="label">Max. propad</div>
@@ -584,14 +659,16 @@ function renderAllocation(data){
   (last.positions||[]).forEach(p => { bySymbol[p.symbol] = (bySymbol[p.symbol]||0) + p.market_value; });
 
   const palette = [
-    {key:'cash', label:'Hotovost', color:'var(--cat-cash)'},
-    {key:'SPY',  label:'SPY',      color:'var(--cat-spy)'},
-    {key:'QQQ',  label:'QQQ',      color:'var(--cat-qqq)'},
-    {key:'AAPL', label:'AAPL',     color:'var(--cat-aapl)'},
+    {key:'cash',  label:'Hotovost', color:'var(--cat-cash)'},
+    {key:'CSPX',  label:'CSPX',     color:'var(--cat-cspx)'},
+    {key:'EQQQ',  label:'EQQQ',     color:'var(--cat-eqqq)'},
+    {key:'AAPL',  label:'AAPL',     color:'var(--cat-aapl)'},
+    {key:'MSFT',  label:'MSFT',     color:'var(--cat-msft)'},
+    {key:'GOOGL', label:'GOOGL',    color:'var(--cat-googl)'},
   ];
   const knownKeys = new Set(palette.map(p=>p.key));
-  // symboly mimo pevnou paletu (MSFT, GOOGL, VOO,...) dostanou neutrální odstín textu,
-  // ať se nepletou s hlavní kategorickou sadou
+  // symbol mimo pevnou paletu (kdyby appka v budoucnu rozšířila nabídku) dostane
+  // neutrální odstín textu, ať se neplete s hlavní kategorickou sadou
   Object.keys(bySymbol).forEach(sym => {
     if (!knownKeys.has(sym)) palette.push({key:sym, label:sym, color:'var(--text-muted)'});
   });
@@ -619,81 +696,110 @@ function renderAllocation(data){
     <svg viewBox="0 0 180 180" width="180" height="180" style="display:block;">
       ${arcs}
       <text x="${CX}" y="${CY-6}" text-anchor="middle" class="donut-center-label">Portfolio</text>
-      <text x="${CX}" y="${CY+13}" text-anchor="middle" class="donut-center-value">${fmtUSDCompact(total)}</text>
+      <text x="${CX}" y="${CY+13}" text-anchor="middle" class="donut-center-value">${fmtMoneyCompact(total)}</text>
     </svg>`;
 
   document.getElementById('donut-legend').innerHTML = segments.map(s => `
     <div class="legend-row">
       <span class="legend-swatch" style="background:${s.color}"></span>
       <span class="legend-label">${s.label}</span>
-      <span class="legend-value">${fmtUSD(s.value)} <span class="legend-pct">(${((s.value/total)*100).toFixed(1)} %)</span></span>
+      <span class="legend-value">${fmtMoney(s.value)} <span class="legend-pct">(${((s.value/total)*100).toFixed(1)} %)</span></span>
     </div>`).join('');
 
   document.getElementById('alloc-card').style.display = '';
 }
 
-function statusBadge(entry){
-  if(entry.blocked_reasons && entry.blocked_reasons.length) return `<span class="badge blocked">⚠ blokováno</span>`;
-  if(entry.trade_count > 0) return `<span class="badge ok">✓ ${entry.trade_count} obchod${entry.trade_count>1?'y':''}</span>`;
-  return `<span class="badge none">bez obchodu</span>`;
+function statusOf(entry){
+  if (entry.blocked_reasons && entry.blocked_reasons.length) return 'blocked';
+  if (entry.trade_count > 0) return 'ok';
+  return 'none';
 }
-function accentClass(entry){
-  if(entry.blocked_reasons && entry.blocked_reasons.length) return 'accent-blocked';
-  if(entry.trade_count > 0) return 'accent-ok';
-  return 'accent-none';
+const ICONS = { ok: '✓', blocked: '⚠', none: '–' };
+function statusText(entry){
+  const s = statusOf(entry);
+  if (s === 'blocked') return 'Blokováno mantinely';
+  if (s === 'ok') return entry.trade_count + (entry.trade_count === 1 ? ' obchod' : ' obchody');
+  return 'Bez obchodu';
 }
 
 const LOG_LIMIT = 10;
 
 function renderLog(data){
+  const entries = data.entries;
   const list = document.getElementById('log-list');
-  const shown = data.entries.slice(-LOG_LIMIT);
+  const shown = entries.slice(-LOG_LIMIT);
   const rows = [...shown].reverse();
 
-  document.getElementById('log-limit-note').textContent = data.entries.length > LOG_LIMIT
-    ? `Zobrazeno posledních ${LOG_LIMIT} z ${data.entries.length} dní.`
+  document.getElementById('log-limit-note').textContent = entries.length > LOG_LIMIT
+    ? `Zobrazeno posledních ${LOG_LIMIT} z ${entries.length} dní.`
     : '';
 
-  list.innerHTML = rows.map((e, idx) => {
-    const detailId = 'detail-' + idx;
-    let detailContent = '';
-    if (e.blocked_reasons && e.blocked_reasons.length) {
-      detailContent = e.blocked_reasons.map(r => `<div class="trade-line">⚠ ${r}</div>`).join('');
-    } else if (e.trades && e.trades.length) {
-      detailContent = e.trades.map(t => `
-        <div class="trade-line">
-          <span class="sym">${t.symbol} · ${t.side==='buy'?'nákup':'prodej'} · ${t.qty}</span>
-          ${t.status === 'submitted' ? '' : ' — <span style="color:var(--critical)">chyba: ' + (t.error || '') + '</span>'}
-          <span class="reasoning">${t.reasoning || ''}</span>
-        </div>`).join('');
-    } else {
-      detailContent = `<div class="trade-line" style="color:var(--text-muted)">Žádný obchod tento den.</div>`;
-    }
+  list.innerHTML = rows.map((e) => {
+    const idx = entries.indexOf(e);
+    const prev = idx > 0 ? entries[idx-1].portfolio_value : e.portfolio_value;
+    const chg = e.portfolio_value - prev;
+    const chgPct = prev ? (chg/prev)*100 : 0;
     return `
-      <div class="log-day ${accentClass(e)}" data-target="${detailId}">
-        <div class="log-day-header">
-          <div class="log-day-header-left">
-            <span class="log-day-date">${fmtDate(e.date)}</span>
-            ${statusBadge(e)}
-          </div>
-          <div class="log-day-header-right">
-            <span class="log-day-value">${fmtUSD(e.portfolio_value)}</span>
-            <span class="log-day-chevron">▾</span>
-          </div>
+      <button type="button" class="log-row" data-idx="${idx}">
+        <div class="log-icon ${statusOf(e)}">${ICONS[statusOf(e)]}</div>
+        <div class="log-info">
+          <div class="log-date">${fmtDate(e.date)}</div>
+          <div class="log-status">${statusText(e)}</div>
         </div>
-        <div class="log-day-body"><p class="log-day-summary">${e.market_summary || ''}</p></div>
-        <div class="trade-detail" id="${detailId}">${detailContent}</div>
-      </div>`;
+        <div class="log-value">
+          <div class="log-value-nums">
+            <div class="log-main">${fmtMoney(e.portfolio_value)}</div>
+            <div class="log-change ${dirClass(chg)}">${dirArrow(chg)} ${chgPct>=0?'+':''}${chgPct.toFixed(2)} %</div>
+          </div>
+          <span class="log-chevron">›</span>
+        </div>
+      </button>`;
   }).join('');
 
-  list.querySelectorAll('.log-day').forEach(item => {
-    item.addEventListener('click', () => {
-      item.classList.toggle('open');
-      document.getElementById(item.dataset.target).classList.toggle('open');
-    });
+  list.querySelectorAll('.log-row').forEach(row => {
+    row.addEventListener('click', () => openDaySheet(entries[+row.dataset.idx]));
   });
 
   document.getElementById('log-card').style.display = '';
+}
+
+function openDaySheet(e){
+  let tradesHtml;
+  if (e.blocked_reasons && e.blocked_reasons.length) {
+    tradesHtml = '<div class="sheet-label">Proč se neobchodovalo</div>' +
+      e.blocked_reasons.map(r => `<div class="sheet-blocked">⚠ ${r}</div>`).join('');
+  } else if (e.trades && e.trades.length) {
+    tradesHtml = '<div class="sheet-label">Obchody</div>' +
+      e.trades.map(t => `
+        <div class="sheet-trade">
+          <div class="st-head">${t.symbol || '?'}<span class="st-badge ${t.status==='submitted'?'buy':''}">${t.side==='buy'?'nákup':'prodej'}</span><span style="color:var(--text-muted);font-weight:400;">${t.qty ?? '?'} ks</span></div>
+          ${t.status !== 'submitted' ? `<span style="color:var(--critical);display:block;margin-top:4px;">⚠ chyba: ${t.error||''}</span>` : ''}
+          ${t.reasoning ? `<span class="st-reasoning">${t.reasoning}</span>` : ''}
+        </div>`).join('');
+  } else {
+    tradesHtml = '<div class="sheet-label">Obchody</div><p class="sheet-summary" style="color:var(--text-muted);">Žádný obchod tento den.</p>';
+  }
+
+  sheetEl.innerHTML = `
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <div class="log-icon ${statusOf(e)}">${ICONS[statusOf(e)]}</div>
+      <div class="sheet-title-wrap">
+        <div class="sheet-title">${fmtDateFull(e.date)}</div>
+        <div class="sheet-sub">${statusText(e)}</div>
+      </div>
+      <button type="button" class="sheet-close" id="sheet-close" aria-label="Zavřít">✕</button>
+    </div>
+    <div class="sheet-meta">
+      <div class="sheet-meta-item"><div class="sm-label">Hodnota portfolia</div><div class="sm-value">${fmtMoney(e.portfolio_value)}</div></div>
+      <div class="sheet-meta-item"><div class="sm-label">Obchodů</div><div class="sm-value">${e.trade_count}</div></div>
+    </div>
+    <div class="sheet-label">Shrnutí od AI</div>
+    <p class="sheet-summary">${e.market_summary || '(bez shrnutí)'}</p>
+    ${tradesHtml}
+  `;
+  document.getElementById('sheet-close').addEventListener('click', closeSheet);
+  openSheetEl();
 }
 
 loadData().then(data => {
@@ -701,6 +807,7 @@ loadData().then(data => {
     document.getElementById('last-updated').textContent = 'Zatím žádná data — počkej na první denní běh.';
     return;
   }
+  CURRENCY = data.entries[data.entries.length-1].currency || 'CZK';
   window.__ALL_ENTRIES__ = data.entries;
   renderStats(data);
   document.getElementById('chart-card').style.display = '';

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0d0d0d">
-<title>AI Trading Bot — Pozice</title>
+<title>AI Trading Bot — Portfolio</title>
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" href="./icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="./icon.svg">
@@ -14,12 +14,13 @@
     --page:            #0d0d0d;
     --surface-1:       #1a1a19;
     --surface-2:       #212120;
+    --surface-3:       #292927;
     --text-primary:    #ffffff;
     --text-secondary:  #c3c2b7;
     --text-muted:      #898781;
     --border:          rgba(255,255,255,0.10);
     --series-1:        #3987e5;
-    --good:            #0ca30c;
+    --good:            #2fbf4f;
     --critical:        #e66767;
     --warning:         #fab219;
   }
@@ -47,17 +48,40 @@
   .nav-link:hover { color: var(--text-secondary); }
   .nav-link.active { color: var(--text-primary); border-bottom-color: var(--series-1); font-weight: 600; }
 
-  /* --- Otevřené pozice --- */
-  .position-list { display: flex; flex-direction: column; gap: 10px; }
-  .position-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
-  .position-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 10px; }
-  .position-symbol { font-weight: 700; font-size: 15px; }
-  .position-value { font-variant-numeric: tabular-nums; font-weight: 600; font-size: 14px; white-space: nowrap; }
-  .position-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .pg-label { font-size: 10.5px; color: var(--text-muted); margin-bottom: 3px; }
-  .pg-value { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .pg-value.up { color: var(--good); } .pg-value.down { color: var(--critical); } .pg-value.flat { color: var(--text-primary); }
-  .position-total { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  /* --- Karty portfolia (bez grafu, klikatelné -> popup se zdůvodněním AI) --- */
+  .portfolio-list { display: flex; flex-direction: column; gap: 8px; }
+  .portfolio-row {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 12px 14px;
+    cursor: pointer; text-align: left; width: 100%;
+    font: inherit; color: inherit;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .portfolio-row:hover, .portfolio-row:focus-visible { background: var(--surface-3); border-color: rgba(255,255,255,0.18); }
+  .avatar {
+    width: 40px; height: 40px; border-radius: 999px; flex: none;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #0d0d0d; letter-spacing: .2px;
+  }
+  .p-info { flex: 1; min-width: 0; }
+  .p-name { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .p-sub { font-size: 12px; color: var(--text-muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .p-value { text-align: right; flex: none; display: flex; align-items: center; gap: 8px; }
+  .p-value-nums { text-align: right; }
+  .p-main { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .p-change { font-size: 12.5px; font-weight: 600; margin-top: 2px; white-space: nowrap; }
+  .p-change.up { color: var(--good); }
+  .p-change.down { color: var(--critical); }
+  .p-change.flat { color: var(--text-muted); }
+  .p-chevron { color: var(--text-muted); font-size: 15px; flex: none; }
+
+  .portfolio-total {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 14px 2px; margin-top: 4px; border-top: 1px solid var(--border);
+    font-size: 12.5px; color: var(--text-muted);
+  }
+  .portfolio-total strong { color: var(--text-primary); font-size: 14px; font-variant-numeric: tabular-nums; }
 
   /* --- Filtry --- */
   .filters { display: flex; flex-direction: column; gap: 10px; }
@@ -86,26 +110,59 @@
   .trade-error { font-size: 12px; color: var(--critical); margin: 4px 0 0; }
 
   footer { max-width: 880px; margin: 24px auto 0; padding: 0 20px; color: var(--text-muted); font-size: 11px; }
+
+  /* --- Vysouvací popup (bottom sheet) s AI zdůvodněním --- */
+  .sheet-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,.55);
+    opacity: 0; pointer-events: none; transition: opacity .22s ease; z-index: 40;
+  }
+  .sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+  .bottom-sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 41;
+    max-width: 620px; margin: 0 auto;
+    background: var(--surface-1); border: 1px solid var(--border); border-bottom: none;
+    border-radius: 18px 18px 0 0; padding: 10px 20px calc(24px + env(safe-area-inset-bottom));
+    max-height: 78vh; overflow-y: auto;
+    transform: translateY(100%); transition: transform .3s cubic-bezier(.22,.68,0,1);
+    box-shadow: 0 -8px 30px rgba(0,0,0,.4);
+  }
+  .bottom-sheet.open { transform: translateY(0); }
+  .sheet-handle { width: 36px; height: 4px; border-radius: 999px; background: var(--border); margin: 2px auto 16px; }
+  .sheet-header { display: flex; align-items: center; gap: 10px; }
+  .sheet-header .avatar { width: 36px; height: 36px; font-size: 11px; }
+  .sheet-title-wrap { flex: 1; min-width: 0; }
+  .sheet-title { font-weight: 700; font-size: 15px; }
+  .sheet-sub { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+  .sheet-close {
+    flex: none; width: 28px; height: 28px; border-radius: 999px;
+    background: var(--surface-2); border: 1px solid var(--border); color: var(--text-secondary);
+    font-size: 14px; line-height: 1; cursor: pointer;
+  }
+  .sheet-meta { display: flex; gap: 18px; flex-wrap: wrap; margin: 16px 0; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .sheet-meta-item .sm-label { font-size: 10.5px; color: var(--text-muted); margin-bottom: 3px; }
+  .sheet-meta-item .sm-value { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .sheet-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
+  .sheet-reasoning { font-size: 13.5px; line-height: 1.6; color: var(--text-secondary); margin: 0; }
 </style>
 </head>
 <body>
 
 <nav class="top-nav">
   <a href="index.html" class="nav-link">Přehled</a>
-  <a href="positions.html" class="nav-link active">Pozice</a>
+  <a href="positions.html" class="nav-link active">Portfolio</a>
   <a href="history.html" class="nav-link">Celá historie</a>
 </nav>
 
 <header>
-  <h1>Pozice</h1>
+  <h1>Portfolio</h1>
   <p id="page-summary">Načítám data…</p>
 </header>
 
 <main>
   <section class="card">
-    <h2 class="card-title">Otevřené pozice</h2>
-    <p class="card-sub">Co bot aktuálně drží — množství, nákupní vs. aktuální cena a nerealizovaný zisk/ztráta.</p>
-    <div class="position-list" id="open-positions"></div>
+    <h2 class="card-title">Portfolio</h2>
+    <p class="card-sub">Co bot aktuálně drží — klepnutím na pozici zobrazíš zdůvodnění AI k danému obchodu.</p>
+    <div class="portfolio-list" id="portfolio-list"></div>
   </section>
 
   <section class="card filters">
@@ -144,7 +201,27 @@
   </section>
 </main>
 
-<footer>Automaticky generováno GitHub Actions · data z Alpaca (paper trading) · rozhodnutí Claude</footer>
+<footer>Automaticky generováno GitHub Actions · data z Trading 212 (demo účet) · rozhodnutí Claude</footer>
+
+<div class="sheet-backdrop" id="sheet-backdrop"></div>
+<div class="bottom-sheet" id="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="avatar" id="sheet-avatar"></div>
+    <div class="sheet-title-wrap">
+      <div class="sheet-title" id="sheet-title"></div>
+      <div class="sheet-sub" id="sheet-sub"></div>
+    </div>
+    <button type="button" class="sheet-close" id="sheet-close" aria-label="Zavřít">✕</button>
+  </div>
+  <div class="sheet-meta">
+    <div class="sheet-meta-item"><div class="sm-label">Datum</div><div class="sm-value" id="sheet-date"></div></div>
+    <div class="sheet-meta-item"><div class="sm-label">Množství</div><div class="sm-value" id="sheet-qty"></div></div>
+    <div class="sheet-meta-item"><div class="sm-label">Cena při obchodu</div><div class="sm-value" id="sheet-price"></div></div>
+  </div>
+  <div class="sheet-label">Zdůvodnění AI</div>
+  <p class="sheet-reasoning" id="sheet-reasoning"></p>
+</div>
 
 <script>
 async function loadData() {
@@ -154,46 +231,115 @@ async function loadData() {
 }
 
 let ALL_TRADES = [];
+let CURRENCY = 'CZK';
 
-function fmtUSD(v){ return '$' + v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+// Krátký, čitelný název nástroje pro kartu (zkratka pod ním zůstává ticker) -
+// appka aktuálně obchoduje jen tuhle pevnou pětici (viz instruments.py),
+// neznámý symbol (kdyby se seznam v budoucnu rozšířil) spadne na ticker samotný.
+const INSTRUMENT_NAMES = {
+  CSPX:  'iShares Core S&P 500 ETF',
+  EQQQ:  'Invesco Nasdaq-100 ETF',
+  AAPL:  'Apple',
+  MSFT:  'Microsoft',
+  GOOGL: 'Alphabet (Google)',
+};
+// Barvy koleček - pevné přiřazení podle nástroje (ne cyklující), ať si uživatel
+// časem spojí barvu s tickerem napříč appkou.
+const AVATAR_COLORS = {
+  CSPX: '#8ec4f7', EQQQ: '#b7a6f2', AAPL: '#f0b3b3', MSFT: '#8fd6c4', GOOGL: '#f2cf8e',
+};
+function avatarBg(symbol){ return AVATAR_COLORS[symbol] || '#a9a7a0'; }
+function avatarTxt(symbol){ return (symbol || '??').slice(0,2).toUpperCase(); }
+
+function fmtMoney(v){
+  if (CURRENCY === 'CZK') return v.toLocaleString('cs-CZ',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' Kč';
+  return v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' ' + CURRENCY;
+}
 function fmtDate(d){ const dt = new Date(d+'T00:00:00Z'); return dt.toLocaleDateString('cs-CZ',{day:'numeric',month:'short',timeZone:'UTC'}); }
+function fmtDateFull(d){ const dt = new Date(d+'T00:00:00Z'); return dt.toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}); }
 function dirClass(v){ return v > 0.005 ? 'up' : (v < -0.005 ? 'down' : 'flat'); }
 
+// Najde poslední (nejnovější) provedený obchod s daným symbolem napříč celou
+// historií - použije se pro datum + zdůvodnění AI v popupu dané pozice.
+function lastTradeForSymbol(entries, symbol){
+  for (let i = entries.length - 1; i >= 0; i--) {
+    const trades = entries[i].trades || [];
+    const match = [...trades].reverse().find(t => t.symbol === symbol && t.status === 'submitted');
+    if (match) return { date: entries[i].date, trade: match };
+  }
+  return null;
+}
+
 function renderOpenPositions(data){
-  const last = data.entries[data.entries.length-1];
+  const last = data.entries[data.entries.length - 1];
   const positions = last.positions || [];
-  const wrap = document.getElementById('open-positions');
+  const wrap = document.getElementById('portfolio-list');
 
   if (!positions.length) {
     wrap.innerHTML = `<p class="empty-note">Momentálně žádné otevřené pozice — portfolio je celé v hotovosti.</p>`;
     return;
   }
 
-  const totalMv = positions.reduce((s,p)=>s+p.market_value, 0);
+  const totalMv = positions.reduce((s,p) => s + p.market_value, 0);
   wrap.innerHTML = positions.map(p => {
     const pl = p.unrealized_pl;
     const plPct = (p.unrealized_plpc || 0) * 100;
+    const found = lastTradeForSymbol(data.entries, p.symbol);
+    const dateShort = found ? fmtDate(found.date) : '?';
+    const name = INSTRUMENT_NAMES[p.symbol] || p.symbol;
     return `
-      <div class="position-card">
-        <div class="position-head">
-          <span class="position-symbol">${p.symbol}</span>
-          <span class="position-value">${fmtUSD(p.market_value)}</span>
+      <button type="button" class="portfolio-row"
+        data-symbol="${p.symbol}" data-name="${name}"
+        data-date-short="${dateShort}" data-date-full="${found ? fmtDateFull(found.date) : '?'}"
+        data-qty="${p.qty} ks" data-avg-price="${fmtMoney(p.avg_entry_price)} / ks"
+        data-reasoning="${(found && found.trade.reasoning ? found.trade.reasoning : 'Zdůvodnění se nedohledalo.').replace(/"/g,'&quot;')}">
+        <div class="avatar" style="background:${avatarBg(p.symbol)}">${avatarTxt(p.symbol)}</div>
+        <div class="p-info">
+          <div class="p-name">${name}</div>
+          <div class="p-sub">${p.symbol} · ${p.qty} ks · nakoupeno ${dateShort}</div>
         </div>
-        <div class="position-grid">
-          <div><div class="pg-label">Množství</div><div class="pg-value">${p.qty} ks</div></div>
-          <div><div class="pg-label">Průměrná nákupní cena</div><div class="pg-value">${fmtUSD(p.avg_entry_price)}</div></div>
-          <div><div class="pg-label">Aktuální cena</div><div class="pg-value">${fmtUSD(p.current_price)}</div></div>
-          <div><div class="pg-label">Nerealizovaný zisk/ztráta</div><div class="pg-value ${dirClass(pl)}">${pl>=0?'+':''}${fmtUSD(pl)} (${plPct>=0?'+':''}${plPct.toFixed(2)} %)</div></div>
+        <div class="p-value">
+          <div class="p-value-nums">
+            <div class="p-main">${fmtMoney(p.market_value)}</div>
+            <div class="p-change ${dirClass(pl)}">${pl>=0?'↗':'↘'} ${plPct>=0?'+':''}${plPct.toFixed(2)} %</div>
+          </div>
+          <span class="p-chevron">›</span>
         </div>
-      </div>`;
-  }).join('') + `<p class="position-total">Celková tržní hodnota otevřených pozic: ${fmtUSD(totalMv)}</p>`;
+      </button>`;
+  }).join('') + `
+    <div class="portfolio-total">
+      <span>Celková tržní hodnota portfolia</span>
+      <strong>${fmtMoney(totalMv)}</strong>
+    </div>`;
+
+  wrap.querySelectorAll('.portfolio-row').forEach(row => {
+    row.addEventListener('click', () => openPositionSheet(row.dataset));
+  });
 }
+
+function openPositionSheet(d){
+  document.getElementById('sheet-avatar').style.background = avatarBg(d.symbol);
+  document.getElementById('sheet-avatar').textContent = avatarTxt(d.symbol);
+  document.getElementById('sheet-title').textContent = `${d.name} (${d.symbol})`;
+  document.getElementById('sheet-sub').textContent = `Nákup · ${d.dateFull}`;
+  document.getElementById('sheet-date').textContent = d.dateFull;
+  document.getElementById('sheet-qty').textContent = d.qty;
+  document.getElementById('sheet-price').textContent = d.avgPrice;
+  document.getElementById('sheet-reasoning').textContent = d.reasoning;
+  openSheetEl();
+}
+
+const backdrop = document.getElementById('sheet-backdrop');
+const sheetEl = document.getElementById('bottom-sheet');
+function openSheetEl(){ backdrop.classList.add('open'); sheetEl.classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeSheet(){ backdrop.classList.remove('open'); sheetEl.classList.remove('open'); document.body.style.overflow = ''; }
+backdrop.addEventListener('click', closeSheet);
+document.getElementById('sheet-close').addEventListener('click', closeSheet);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
 
 function flattenTrades(entries){
   const out = [];
-  entries.forEach(e => {
-    (e.trades || []).forEach(t => out.push({ date: e.date, ...t }));
-  });
+  entries.forEach(e => { (e.trades || []).forEach(t => out.push({ date: e.date, ...t })); });
   return out;
 }
 
@@ -249,6 +395,7 @@ loadData().then(data => {
     document.getElementById('page-summary').textContent = 'Zatím žádná data — počkej na první denní běh.';
     return;
   }
+  CURRENCY = data.entries[data.entries.length-1].currency || 'CZK';
 
   renderOpenPositions(data);
 
