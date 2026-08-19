@@ -32,8 +32,17 @@ má rate limit 1 dotaz/50s, appka ho proto volá nejvýš jednou za spuštění)
 import os
 import json
 import base64
+import http.cookiejar
 import urllib.request
 import urllib.error
+
+# Sdílený cookie jar pro celý běh - Cloudflare (WAF před Trading 212 API) na
+# některé endpointy (viz /equity/positions, ověřeno na živém běhu - HTTP 403
+# s __cf_bm cookie a prázdným tělem, typický Cloudflare bot-management pattern)
+# vyžaduje, aby si klient "zapamatoval" cookie z dřívější odpovědi a poslal ho
+# zpátky - normální prohlížeč to dělá automaticky, urllib bez tohohle ne.
+_cookie_jar = http.cookiejar.CookieJar()
+_opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(_cookie_jar))
 
 _instruments_cache = None
 
@@ -100,7 +109,7 @@ def _request(method, path, body=None):
         req.add_header("Content-Type", "application/json")
 
     try:
-        with urllib.request.urlopen(req, timeout=20) as resp:
+        with _opener.open(req, timeout=20) as resp:
             raw = resp.read().decode("utf-8", errors="replace")
             # DOČASNÝ diagnostický log (viz ladění prvního živého běhu v chatu) -
             # ukazuje, že tenhle konkrétní požadavek prošel, i s náhledem těla.
