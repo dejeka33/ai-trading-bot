@@ -9,11 +9,15 @@ def build_report(date_str, account_before, account_after, decision, trade_result
     lines.append(decision.get("market_summary", "(bez shrnutí)"))
     lines.append("")
 
+    # Trading 212 účet může být v jakékoliv měně (u tohoto pilota CZK, ne USD
+    # jako dřív u Alpaky) - bere se přímo z account snapshotu, ne natvrdo.
+    currency = account_before.get("currency", "USD")
+
     lines.append("## Stav portfolia")
-    lines.append(f"- Hotovost: {account_before['cash']:.2f} USD")
-    lines.append(f"- Hodnota portfolia: {account_before['portfolio_value']:.2f} USD")
+    lines.append(f"- Hotovost: {account_before['cash']:.2f} {currency}")
+    lines.append(f"- Hodnota portfolia: {account_before['portfolio_value']:.2f} {currency}")
     if account_after:
-        lines.append(f"- Hodnota portfolia po obchodech: {account_after['portfolio_value']:.2f} USD")
+        lines.append(f"- Hodnota portfolia po obchodech: {account_after['portfolio_value']:.2f} {currency}")
     lines.append("")
 
     if account_before["positions"]:
