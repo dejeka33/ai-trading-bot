@@ -371,6 +371,9 @@ def main():
     final_value = portfolio_values[-1]
     final_benchmark = benchmark_values[-1] if benchmark_values else None
     total_trades = sum(1 for e in log for t in e["trades"] if t["status"] == "filled")
+    # Skutečně použitý model (ne natvrdo napsaný text) - ať shrnutí vždy odpovídá
+    # tomu, co je aktuálně nastavené jako výchozí v decision.py / DECISION_MODEL.
+    model_used = os.environ.get("DECISION_MODEL", "claude-sonnet-4-6").strip()
 
     summary = {
         "starting_cash": STARTING_CASH,
@@ -384,7 +387,7 @@ def main():
         "assumptions": [
             "Fill se simuluje za zavírací cenu daného dne (žádný spread/slippage).",
             "Simulují se jen obchodní dny akciového trhu (víkendy vynechány, i pro krypto).",
-            "AI se volá reálně pro každý den (max_tokens=2000, model podle DECISION_MODEL/výchozí claude-haiku-4-5).",
+            f"AI se volá reálně pro každý den (max_tokens=2000, použitý model: {model_used}).",
         ],
     }
 

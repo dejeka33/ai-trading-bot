@@ -1,18 +1,25 @@
 # Rizikové mantinely pro AI trading bota
 # Toto jsou VÝCHOZÍ konzervativní hodnoty pro paper trading účet.
 # Uprav podle svých preferencí, než spustíme první ostrý běh.
+#
+# PILOTNÍ VERZE NA TRADING 212 (2026-08): appka přešla z Alpaca na Trading 212 kvůli
+# PRIIPs/KID omezení pro EU/CZ investory (US-domicilované ETF SPY/QQQ/VOO nejde jako
+# retail investor v EU koupit) - SPY a VOO nahrazeny za CSPX, QQQ za EQQQ (viz
+# instruments.py pro přesné ISIN). Krypto (BTC/ETH) z pilotní verze VYŘAZENO -
+# Trading 212 Crypto je samostatný účet mimo Invest/ISA, beta obchodovací API
+# na něj nesahá, takže by to appka stejně nemohla automatizovat.
 
 account:
   mode: paper                # paper | live -- NEMĚNIT na "live" bez explicitního souhlasu uživatele
   starting_universe:
     stocks_etfs: true
-    crypto: true
+    crypto: false             # viz poznámka výše - krypto zatím mimo T212 pilot
 
 position_limits:
   max_position_size_pct: 10      # max. % hodnoty portfolia v jedné pozici
   max_single_trade_pct: 5        # max. % portfolia v jednom obchodu za den
   max_daily_trades: 5            # kolik obchodů smí bot za den maximálně provést
-  max_total_crypto_allocation_pct: 30  # krypto je volatilnější -> nižší strop
+  max_total_crypto_allocation_pct: 0   # krypto appka v pilotní verzi neobchoduje
 
 risk_controls:
   allow_leverage: false
@@ -23,17 +30,15 @@ risk_controls:
 
 allowed_instruments:
   stocks_etfs:
-    - SPY
-    - QQQ
+    - CSPX     # iShares Core S&P 500 UCITS ETF - nahrazuje SPY i VOO
+    - EQQQ     # Invesco EQQQ Nasdaq-100 UCITS ETF - nahrazuje QQQ
     - AAPL
     - MSFT
     - GOOGL
-    - VOO
-  crypto:
-    - BTC/USD
-    - ETH/USD
+  crypto: []
   # Bot smí obchodovat POUZE nástroje z tohoto seznamu.
   # Rozšíření seznamu = vědomé rozhodnutí uživatele, ne AI.
+  # Přesné ISIN a datové tickery (Stooq/EODHD) pro každý nástroj viz instruments.py.
 
 reporting:
   send_daily_report: true

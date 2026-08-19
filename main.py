@@ -3,16 +3,25 @@ Hlavní denní běh: stáhne data -> zeptá se AI na rozhodnutí -> zvaliduje pr
 mantinelům -> provede obchody -> vygeneruje a uloží report.
 
 Spouští se přes GitHub Actions (viz .github/workflows/daily_trading.yml).
-Vyžaduje proměnné prostředí: ALPACA_API_KEY_ID, ALPACA_API_SECRET_KEY,
-ALPACA_API_BASE_URL, ALPACA_PAPER, ANTHROPIC_API_KEY.
+
+PILOTNÍ VERZE NA TRADING 212 (2026-08): nahrazuje dřívější Alpaca verzi (viz
+git historie pro původní data_fetch.py/execute.py, pokud by bylo někdy potřeba
+se vrátit). Vyžaduje proměnné prostředí: T212_API_ID, T212_API_KEY (Trading 212
+API - viz broker_t212.py), ANTHROPIC_API_KEY. Volitelně T212_BASE_URL (default
+demo/paper - viz broker_t212.py), EODHD_API_KEY (záložní zdroj dat - viz
+market_data.py), FRED_API_KEY.
+
+Krypto (BTC/ETH) v této verzi appka NEOBCHODUJE - Trading 212 Crypto je
+samostatný účet mimo Invest/ISA, na který se beta obchodovací API nevztahuje.
 """
 import os
 from datetime import datetime, timezone
 
-from data_fetch import get_clients, get_account_snapshot, get_recent_bars, get_recent_news
+from instruments import INSTRUMENTS
+import market_data
+import broker_t212
 from risk_rules import load_risk_limits, allowed_symbols, validate_decision
 from decision import get_decision
-from execute import execute_trades
 from report import build_report
 from history import load_history, update_history
 from fred_data import get_macro_context
@@ -23,10 +32,8 @@ def compute_realized_pl_delta(account_before, trade_results):
     """
     Odhad realizovaného zisku/ztráty z dnešních prodejů, pro dashboard (karta
     "Výkonnost"). Jako realizační cenu použije cenu pozice v okamžiku
-    rozhodování (account_before) - u tržních příkazů na paper účtu je rozdíl
-    oproti přesné fill ceně zanedbatelný, ale nejde o stoprocentně přesné
-    číslo (Alpaca vrací fill cenu tržního příkazu až asynchronně po
-    vykonání, tady bychom na ni museli čekat/pollovat).
+    rozhodování (account_before) - u tržních příkazů je rozdíl oproti přesné
+    fill ceně zanedbatelný, ale nejde o stoprocentně přesné číslo.
     """
     positions_by_symbol = {p["symbol"]: p for p in account_before.get("positions", [])}
     delta = 0.0
@@ -42,15 +49,25 @@ def compute_realized_pl_delta(account_before, trade_results):
 
 def main():
     limits = load_risk_limits()
-    stocks, crypto = allowed_symbols(limits)
+    stocks, crypto = allowed_symbols(limits)  # crypto bude vždy [] v této verzi
 
-    trading_client, stock_data_client, crypto_data_client, news_client = get_clients()
+    # Jen ty nástroje z instruments.py, které jsou zároveň povolené v risk_limits.yaml -
+    # kdyby se risk_limits.yaml zúžilo, appka si o data řekne jen pro to, co smí obchodovat.
+    active_instruments = {s: INSTRUMENTS[s] for s in stocks if s in INSTRUMENTS}
+    missing = [s for s in stocks if s not in INSTRUMENTS]
+    if missing:
+        print(f"POZOR: symboly {missing} jsou v risk_limits.yaml, ale chybí v instruments.py "
+              f"(nemají ISIN/datové tickery) - appka je bude ignorovat.")
 
-    account_before = get_account_snapshot(trading_client)
-    bars = get_recent_bars(stock_data_client, crypto_data_client, stocks, crypto)
-    news = get_recent_news(news_client, stocks)
-    # FRED je volitelný - pokud FRED_API_KEY není nastavený, macro bude None
-    # a bot pokračuje úplně stejně jako dřív (viz fred_data.get_macro_context).
+    account_before = broker_t212.get_account_snapshot(INSTRUMENTS)
+    bars = market_data.get_recent_bars(active_instruments)
+
+    # Zprávy (dřív Alpaca News API) v pilotní verzi zatím nejsou - decision.py
+    # umí fungovat i bez nich (viz news_section fallback v build_prompt).
+    news = None
+
+    # FRED je volitelný a nezávislý na brokerovi - pokud FRED_API_KEY není
+    # nastavený, macro bude None a appka pokračuje úplně stejně jako dřív.
     macro = get_macro_context()
 
     decision = get_decision(account_before, bars, limits, news=news, macro=macro)
@@ -62,13 +79,13 @@ def main():
 
     trade_results = []
     if ok and decision.get("trades"):
-        trade_results = execute_trades(trading_client, decision["trades"])
+        trade_results = broker_t212.execute_trades(decision["trades"], INSTRUMENTS)
     elif not ok:
         print("Rozhodnutí porušilo mantinely, obchody se neprovedou:", reasons)
 
     # Vždy zjistíme aktuální stav účtu (i beze dnů bez obchodu se mohla změnit
     # hodnota otevřených pozic vlivem pohybu trhu) - používá se pro report i dashboard.
-    account_after = get_account_snapshot(trading_client)
+    account_after = broker_t212.get_account_snapshot(INSTRUMENTS)
 
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     report_md = build_report(
@@ -82,12 +99,11 @@ def main():
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(report_md)
 
-    # SPY cena pro dashboard (srovnání "drž a čekej SPY") - SPY je vždy mezi
-    # povolenými nástroji v risk_limits.yaml, takže bars["SPY"] existuje bez
-    # ohledu na to, jestli bot SPY zrovna drží.
+    # CSPX cena pro dashboard (srovnání "drž a čekej") - nahrazuje dřívější SPY,
+    # ze stejného důvodu (PRIIPs) jako všude jinde v této appce.
     spy_price = None
-    if "SPY" in bars and bars["SPY"]:
-        spy_price = bars["SPY"][-1]["c"]
+    if "CSPX" in bars and bars["CSPX"]:
+        spy_price = bars["CSPX"][-1]["c"]
 
     prev_history = load_history()
     prev_realized_pl_cum = (
@@ -107,9 +123,10 @@ def main():
     # webpush_notify.py). Posílá se vždy account_after (aktuální stav po
     # případných obchodech).
     blocked = reasons if not ok else []
+    currency = account_after.get("currency", "GBP")
     send_web_push(
         "AI Trading Bot (dlouhodobý)",
-        f"{build_short_summary(trade_results, blocked)} — ${account_after['portfolio_value']:,.2f}",
+        f"{build_short_summary(trade_results, blocked)} — {account_after['portfolio_value']:,.2f} {currency}",
     )
 
     # Pro GitHub Actions step summary (pěkně vidět report přímo v UI běhu)
