@@ -7,11 +7,15 @@ on:
   workflow_dispatch:
     inputs:
       start_date:
-        description: "Od (YYYY-MM-DD). Prázdné = 365 dní zpět od konce."
+        description: "Od (YYYY-MM-DD). Prázdné = 30 dní zpět od konce (~měsíční test)."
         required: false
         type: string
       end_date:
         description: "Do (YYYY-MM-DD). Prázdné = včerejšek."
+        required: false
+        type: string
+      starting_cash:
+        description: "Počáteční kapitál v CZK. Prázdné = 10000 (stejně jako živý pilot na T212)."
         required: false
         type: string
 
@@ -36,14 +40,17 @@ jobs:
 
       - name: Run backtest
         env:
-          ALPACA_API_KEY_ID: ${{ secrets.ALPACA_API_KEY_ID }}
-          ALPACA_API_SECRET_KEY: ${{ secrets.ALPACA_API_SECRET_KEY }}
-          ALPACA_API_BASE_URL: ${{ secrets.ALPACA_API_BASE_URL }}
-          ALPACA_PAPER: "true"
+          # Backtest od 2026-08 běží na stejné architektuře jako živý provoz
+          # (Trading212/EODHD, viz main.py) - žádné Alpaca secrets už nejsou
+          # potřeba. EODHD_API_KEY je volitelný (bez něj appka zkusí Stooq
+          # záložně, viz market_data.py), ale doporučený - jinak backtest
+          # snadno narazí na to, že Stooq bez vlastního apikey dnes nefunguje.
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          EODHD_API_KEY: ${{ secrets.EODHD_API_KEY }}
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}   # volitelné
           BACKTEST_START_DATE: ${{ inputs.start_date }}
           BACKTEST_END_DATE: ${{ inputs.end_date }}
+          BACKTEST_STARTING_CASH: ${{ inputs.starting_cash }}
         run: python backtest.py
 
       - name: Commit výsledek zpět do repozitáře
@@ -52,4 +59,4 @@ jobs:
           git config user.email "trading-bot@users.noreply.github.com"
           git add backtest/
           git diff --staged --quiet || git commit -m "Backtest $(date -u +%Y-%m-%d)"
-          git push
+          git diff --staged --quiet || git push
