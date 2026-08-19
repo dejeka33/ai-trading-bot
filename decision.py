@@ -74,6 +74,13 @@ nebo zprávami, je dostatečný důvod k obchodu, pokud se vejde do mantinelů. 
 (žádný obchod) používej jen tehdy, když jsou data skutečně rozporuplná nebo neexistuje žádný
 rozumný krok - ne jako výchozí bezpečnou volbu jen proto, že si nejsi stoprocentně jistý.
 
+DŮLEŽITÉ - zlomkové obchody: broker (Trading 212) podporuje NECELÁ množství (např. qty 0.6,
+ne jen celá čísla). Účet je malý a některé nástroje (např. CSPX, EQQQ) mají vysokou cenu za
+kus vzhledem k limitu na jeden obchod (max_single_trade_pct v mantinelech) - klidně navrhuj
+necelý počet kusů, aby ses do limitu vešel/a, místo abys obchod kvůli tomu úplně vynechal/a.
+Počítej qty tak, aby qty * aktuální cena (z tržních dat níže) vyšlo pod limitem na obchod,
+ne nad ním.
+
 AKTUÁLNÍ STAV ÚČTU:
 {json.dumps(account_snapshot, indent=2, ensure_ascii=False)}
 
