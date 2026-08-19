@@ -60,7 +60,10 @@ def main():
               f"(nemají ISIN/datové tickery) - appka je bude ignorovat.")
 
     account_before = broker_t212.get_account_snapshot(INSTRUMENTS)
-    bars = market_data.get_recent_bars(active_instruments)
+    # account_currency: appka ceny nástrojů převádí do měny účtu (viz fx.py) -
+    # bez tohohle by risk_rules.py porovnávala cenu v GBP/USD přímo proti
+    # mantinelu v CZK (viz POZOR o měnách v instruments.py).
+    bars = market_data.get_recent_bars(active_instruments, account_currency=account_before.get("currency"))
 
     # Zprávy (dřív Alpaca News API) v pilotní verzi zatím nejsou - decision.py
     # umí fungovat i bez nich (viz news_section fallback v build_prompt).

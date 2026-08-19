@@ -7,15 +7,18 @@ tržní/historická data - viz docs.trading212.com, sekce Account Data/Positions
 Orders, žádná sekce "Market Data").
 
 Zdroje:
-- Stooq (https://stooq.com) - primární. Zdarma, bez API klíče, CSV přes HTTP.
-  Pro evropské (LSE) tickery používá příponu ".uk" (např. "eqqq.uk"), pro
-  americké akcie příponu ".us" (např. "aapl.us"). Neoficiální zdroj (scraping
-  veřejné CSV stránky) - může se kdykoliv bez varování rozbít nebo změnit formát.
-- EODHD (https://eodhd.com) - záložní zdroj, použije se jen když Stooq selže
-  nebo vrátí prázdná data. Oficiální API, ale free tier má limit 20 dotazů/den,
-  proto se nepoužívá jako primární (appka běžně potřebuje ceny pro 5-8 tickerů
-  denně, na free tier je malá rezerva). Vyžaduje EODHD_API_KEY (volitelné -
-  pokud není nastavený, fallback se prostě přeskočí a symbol zůstane bez dat).
+- EODHD (https://eodhd.com) - PRIMÁRNÍ zdroj. Oficiální API, free tier 20
+  dotazů/den (appka běžně potřebuje 5-8 tickerů/den, vejde se s rezervou).
+  Vyžaduje EODHD_API_KEY - samoobslužná bezplatná registrace na
+  eodhd.com/register, token hned po registraci, žádná karta netřeba.
+- Stooq (https://stooq.com) - záložní, použije se jen když EODHD selže/chybí
+  klíč. PŮVODNĚ byl plánovaný jako primární (zdarma, bez klíče, CSV přes HTTP),
+  ale od dubna 2026 Stooq vyžaduje VLASTNÍ apikey i pro obyčejné CSV stažení
+  (ověřeno živě na prvním testu appky - místo dat vrátil jen text "Get your
+  apikey: 1. Open https://stooq.com/q/d/?s=...&get_apikey", appka to tehdy
+  tiše vyhodnotila jako "žádná data"). Bez Stooq apikey (získává se emailem na
+  www@stooq.com, nejistá rychlost) tenhle zdroj dnes reálně nefunguje - je tu
+  jen pro případ, že by se klíč v budoucnu získal.
 
 POZOR: tento modul, stejně jako Alpaca verze, spoléhá na síťový přístup, který
 v cloudovém sandboxu Cowork není na allowlistu (ověřeno) - reálně poběží až
@@ -28,6 +31,8 @@ from datetime import datetime, timedelta, timezone
 
 import urllib.request
 import urllib.error
+
+import fx
 
 
 STOOQ_URL = "https://stooq.com/q/d/l/?s={symbol}&d1={d1}&d2={d2}&i=d"
@@ -117,16 +122,25 @@ def _fetch_eodhd_bars(eodhd_symbol, start, end, api_token):
     return bars
 
 
-def get_recent_bars(symbol_map, lookback_days=14):
+def get_recent_bars(symbol_map, lookback_days=14, account_currency=None):
     """
     Stáhne denní bary pro zadané symboly. `symbol_map` je typicky přímo
     instruments.INSTRUMENTS (nebo jeho podmnožina) - slovník ve tvaru:
         {
-            "CSPX": {"stooq": "cspx.uk", "eodhd": "CSPX.LSE", "price_divisor": 1},
-            "AAPL": {"stooq": "aapl.us", "eodhd": "AAPL.US", "price_divisor": 1},
+            "CSPX": {"stooq": "cspx.uk", "eodhd": "CSPX.LSE", "price_divisor": 1, "currency": "GBP"},
+            "AAPL": {"stooq": "aapl.us", "eodhd": "AAPL.US", "price_divisor": 1, "currency": "USD"},
             ...
         }
     "price_divisor" je volitelný (default 1) - viz normalizace GBX/GBP níže.
+    "currency" je volitelná - měna ceny PO price_divisor úpravě (viz fx.py).
+
+    `account_currency` (volitelné, typicky account_snapshot["currency"] z
+    broker_t212.py) - pokud je zadaná a liší se od measy nástroje, appka ceny
+    ještě převede přes fx.py (viz POZOR o měnách v instruments.py). Bez tohohle
+    parametru appka ceny nepřevádí (zachová se dřívější chování) - důležité
+    hlavně pro risk_rules.py, který porovnává qty * cena proti mantinelu
+    v měně účtu.
+
     Vrací {symbol: [bary]} - stejný tvar jako dřívější Alpaca get_recent_bars,
     aby zbytek appky (decision.py, main.py, backtest.py) nemusel měnit, jak
     s daty pracuje. Symbol bez jakýchkoliv dat (oba zdroje selhaly) se do
@@ -141,18 +155,25 @@ def get_recent_bars(symbol_map, lookback_days=14):
     result = {}
     for symbol, sources in symbol_map.items():
         bars = []
-        stooq_symbol = sources.get("stooq")
-        if stooq_symbol:
-            bars = _fetch_stooq_bars(stooq_symbol, start, end)
+
+        # EODHD je teď PRIMÁRNÍ zdroj (ne Stooq) - Stooq od dubna 2026 vyžaduje
+        # vlastní apikey i pro obyčejné CSV stažení (ověřeno živě - appka místo
+        # dat dostávala jen text "Get your apikey..."), zatímco EODHD free tier
+        # (20 dotazů/den, samoobslužná registrace) funguje bez čekání na email.
+        eodhd_symbol = sources.get("eodhd")
+        if eodhd_symbol and eodhd_token:
+            bars = _fetch_eodhd_bars(eodhd_symbol, start, end, eodhd_token)
+        elif eodhd_symbol and not eodhd_token:
+            print(f"{symbol}: EODHD_API_KEY není nastavený, zkouším Stooq (nemusí fungovat "
+                  f"bez vlastního Stooq apikey - viz poznámka v hlavičce modulu).")
 
         if not bars:
-            eodhd_symbol = sources.get("eodhd")
-            if eodhd_symbol and eodhd_token:
-                print(f"{symbol}: Stooq nevrátil data, zkouším EODHD záložně.")
-                bars = _fetch_eodhd_bars(eodhd_symbol, start, end, eodhd_token)
-            elif eodhd_symbol and not eodhd_token:
-                print(f"{symbol}: Stooq nevrátil data a EODHD_API_KEY není nastavený, "
-                      f"symbol zůstane bez dat.")
+            stooq_symbol = sources.get("stooq")
+            if stooq_symbol:
+                if eodhd_token:
+                    print(f"{symbol}: EODHD nevrátil data, zkouším Stooq záložně "
+                          f"(pravděpodobně taky selže bez Stooq apikey).")
+                bars = _fetch_stooq_bars(stooq_symbol, start, end)
 
         # Normalizace GBX/pence na GBP u LSE nástrojů - viz POZOR v instruments.py
         # (price_divisor: 1 = beze změny, 100 = GBX -> GBP). Nutné pro konzistenci
@@ -165,6 +186,25 @@ def get_recent_bars(symbol_map, lookback_days=14):
                 b["h"] /= divisor
                 b["l"] /= divisor
                 b["c"] /= divisor
+
+        # Převod do měny účtu (viz fx.py a POZOR o měnách v instruments.py) -
+        # BEZ TOHOHLE appka porovnávala cenu v cizí měně (GBP/USD) přímo proti
+        # mantinelu v měně účtu (CZK), což na živém testu 19.8.2026 vedlo k
+        # obchodům, které vypadaly "pod limitem", ale ve skutečnosti stály
+        # řádově víc (nebo je broker rovnou odmítl pro nedostatek prostředků).
+        instrument_currency = sources.get("currency")
+        if bars and account_currency and instrument_currency and instrument_currency.upper() != account_currency.upper():
+            rate = fx.get_fx_rate(instrument_currency, account_currency)
+            if rate is not None:
+                for b in bars:
+                    b["o"] *= rate
+                    b["h"] *= rate
+                    b["l"] *= rate
+                    b["c"] *= rate
+            else:
+                print(f"{symbol}: kurz {instrument_currency}->{account_currency} se nepodařilo "
+                      f"získat - ceny zůstávají v {instrument_currency}, risk-limit kontrola pro "
+                      f"tenhle symbol dnes může být nespolehlivá.")
 
         if bars:
             result[symbol] = bars

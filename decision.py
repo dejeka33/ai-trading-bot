@@ -84,7 +84,9 @@ ne nad ním.
 AKTUÁLNÍ STAV ÚČTU:
 {json.dumps(account_snapshot, indent=2, ensure_ascii=False)}
 
-TRŽNÍ DATA (posledních ~14 dní, denní svíčky):
+TRŽNÍ DATA (posledních ~14 dní, denní svíčky; ceny jsou už PŘEVEDENÉ do měny
+účtu - viz "currency" ve stavu účtu výše - žádný další přepočet měny není
+potřeba, počítej s nimi přímo):
 {json.dumps(bars, indent=2, ensure_ascii=False)}
 {news_section}{macro_section}
 RIZIKOVÉ MANTINELY (ZÁVAZNÉ - nesmíš je porušit):

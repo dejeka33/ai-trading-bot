@@ -28,6 +28,16 @@ a komunitní diskuze si u formátu tickeru protiřečily (viděli jsme "AAPL_US_
 identifikátor nezávislý na tom, jaký tvar tickeru si zrovna T212 API zvolí -
 přesný T212 ticker si appka sama dohledá za běhu přes
 GET /equity/metadata/instruments (viz broker_t212.py, resolve_ticker_by_isin).
+
+POZOR - "currency" pole: měna, ve které jsou ceny z market_data.py PO
+price_divisor úpravě (GBP u CSPX/EQQQ, USD u AAPL/MSFT/GOOGL). Trading 212
+účet v tomto pilotu je veden v CZK - market_data.py proto tyhle ceny ještě
+převádí přes fx.py na měnu účtu, než se dostanou do decision.py/risk_rules.py.
+Bez tohohle převodu appka na živém testu (19.8.2026) porovnávala číslo v cizí
+měně přímo proti mantinelu v CZK - obchody vypadaly "pod limitem", ale ve
+skutečnosti stály řádově víc (u USD nástrojů to brokera rovnou odmítlo jako
+"Insufficient funds", u GBP nástrojů to prošlo, ale utratilo ~25x víc, než
+appka počítala).
 """
 
 INSTRUMENTS = {
@@ -36,29 +46,34 @@ INSTRUMENTS = {
         "stooq": "cspx.uk",
         "eodhd": "CSPX.LSE",
         "price_divisor": 1,     # kotovaný přímo v GBP (viz POZOR výše)
+        "currency": "GBP",      # měna ceny PO price_divisor úpravě - viz fx.py
     },
     "EQQQ": {  # Invesco EQQQ Nasdaq-100 UCITS ETF (nahrazuje QQQ)
         "isin": "IE0032077012",
         "stooq": "eqqq.uk",
         "eodhd": "EQQQ.LSE",
         "price_divisor": 100,   # kotovaný v GBX/pencích (viz POZOR výše)
+        "currency": "GBP",      # měna ceny PO price_divisor úpravě - viz fx.py
     },
     "AAPL": {
         "isin": "US0378331005",
         "stooq": "aapl.us",
         "eodhd": "AAPL.US",
         "price_divisor": 1,     # USD, žádný pence problém
+        "currency": "USD",
     },
     "MSFT": {
         "isin": "US5949181045",
         "stooq": "msft.us",
         "eodhd": "MSFT.US",
         "price_divisor": 1,
+        "currency": "USD",
     },
     "GOOGL": {  # Alphabet Class A (ne GOOG/Class C)
         "isin": "US02079K3059",
         "stooq": "googl.us",
         "eodhd": "GOOGL.US",
         "price_divisor": 1,
+        "currency": "USD",
     },
 }
