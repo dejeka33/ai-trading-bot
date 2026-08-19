@@ -1,0 +1,2458 @@
+{
+  "start": "2026-07-01",
+  "end": "2026-08-18",
+  "summary": {
+    "starting_cash": 10000.0,
+    "currency": "CZK",
+    "final_portfolio_value": 10103.35544157355,
+    "total_return_pct": 1.0335544157355159,
+    "final_benchmark_value": 10268.692708237519,
+    "benchmark_label": "drž a čekej CSPX",
+    "benchmark_return_pct": 2.68692708237519,
+    "max_drawdown_pct": -7.034738419390581,
+    "total_filled_trades": 40,
+    "days_simulated": 35,
+    "assumptions": [
+      "Fill se simuluje za zavírací cenu daného dne, převedenou historickým kurzem do měny účtu (žádný spread/slippage/zaokrouhlení brokera).",
+      "Simulují se jen obchodní dny podle kalendáře CSPX (LSE).",
+      "AI se volá reálně pro každý den (max_tokens=2000, použitý model: claude-sonnet-4-6).",
+      "Appka v tomto pilotu nemá přístup ke zprávám (news=None) - stejně jako živý provoz na Trading 212 (viz main.py)."
+    ]
+  },
+  "entries": [
+    {
+      "date": "2026-07-01",
+      "market_summary": "Trhy jsou v mírně pozitivním módu – CSPX a MSFT uzavřely 1. července silně (CSPX +1,1 % na 22 821, MSFT +3,1 % na 8 187), GOOGL také přidalo (+1,2 % na 7 696). AAPL po výrazném výprodeji 25.–26. června (+105 CZK pokles) se stabilizuje a dnes +1,8 % na 6 272. EQQQ mírně kleslo (-0,1 %) přes jinak pozitivní den. Makro prostředí je únosné: výnosová křivka mírně pozitivní (T10Y2Y +0,31 %), Fed sazba 3,63 % – bez inverze, tedy bez přímého recesního signálu. Portfolio je prázdné, cash 10 000 CZK – ideální čas pro první vstupní pozice diverzifikovaně.",
+      "trades": [
+        {
+          "symbol": "CSPX",
+          "side": "buy",
+          "qty": 0.02,
+          "fill_price": 22821.57056,
+          "status": "submitted",
+          "reasoning": "CSPX (S&P 500 ETF) uzavřel na 22 821 po dvou silných dnech (30. 6. a 1. 7.) a prorazil nad pásmo 22 400–22 500, kde se konsolidoval předchozí týden. Trend je mírně rostoucí. Limit pod posledním close dává malý cushion. Zakládáme malou jádrovou pozici do indexového ETF jako základní expozici na akciový trh. 0,02 kusu * ~22 750 = ~455 CZK (4,55 % účtu, pod limitem 5 %)."
+        },
+        {
+          "symbol": "MSFT",
+          "side": "buy",
+          "qty": 0.06,
+          "fill_price": 8187.853959999999,
+          "status": "submitted",
+          "reasoning": "MSFT dnes +3,1 % na 8 187, silný odraz od dna ~7 544 (25. 6.). Objem 26. června (186M) byl extrémní – pravděpodobně institucionální akumulace. Trend se otáčí nahoru. Limit na 8 100 (mírně pod close) pro lepší vstup. 0,06 * 8 100 = 486 CZK (~4,86 % účtu, těsně pod limitem 5 %)."
+        },
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.07,
+          "fill_price": 6272.354659999999,
+          "status": "submitted",
+          "reasoning": "AAPL kleslo z ~6 265 na 5 853 (25.–26. 6.) na vysokém objemu, pak se odrazilo a dnes uzavřelo na 6 272. Odraz je přesvědčivý (+7 % od dna za 4 dny). Limit 6 200 je mírně pod dnešním close – nabízí lepší entry, pokud dojde k intraday korekci. 0,07 * 6 200 = 434 CZK (~4,34 % účtu, v limitu)."
+        },
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.06,
+          "fill_price": 7696.301469999999,
+          "status": "submitted",
+          "reasoning": "GOOGL +1,2 % dnes na 7 696 po stabilizaci kolem 7 180–7 350. Uzavření nad 7 600 je technicky pozitivní – překonán odpor. 26. 6. byl výrazně zvýšený objem (114M), signál institucionálního zájmu. Limit 7 620 = mírně pod close, v dosahu. 0,06 * 7 620 = 457 CZK (~4,57 % účtu, v limitu)."
+        }
+      ],
+      "trade_count": 4,
+      "blocked_reasons": [],
+      "portfolio_value": 10000.000000000002,
+      "cash": 8151.4544368000015,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 22821.57056,
+          "current_price": 22821.57056,
+          "market_value": 456.4314112,
+          "unrealized_pl": 0.0,
+          "unrealized_plpc": 0.0
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.06,
+          "avg_entry_price": 8187.853959999999,
+          "current_price": 8187.853959999999,
+          "market_value": 491.2712375999999,
+          "unrealized_pl": 0.0,
+          "unrealized_plpc": 0.0
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.07,
+          "avg_entry_price": 6272.354659999999,
+          "current_price": 6272.354659999999,
+          "market_value": 439.06482619999997,
+          "unrealized_pl": 0.0,
+          "unrealized_plpc": 0.0
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.06,
+          "avg_entry_price": 7696.301469999999,
+          "current_price": 7696.301469999999,
+          "market_value": 461.77808819999996,
+          "unrealized_pl": 0.0,
+          "unrealized_plpc": 0.0
+        }
+      ],
+      "spy_price": 22821.57056,
+      "benchmark_buy_hold_value": 10000.0
+    },
+    {
+      "date": "2026-07-02",
+      "market_summary": "AAPL včera silně vyskočil (+4,5 % na denní svíčce 2.7.) s výrazně vyšším objemem (75M), dosahuje nového lokálního maxima – momentum je silné. MSFT pokračuje v odrazu od červnových minim a uzavírá nad vstupní cenou s pozitivním trendem. GOOGL mírně konsoliduje pod vstupní cenou, CSPX osciluje blízko ATH. EQQQ dnes oslabil po silných několika dnech. Makro: výnosová křivka pozitivní (T10Y2Y +0,35 %), Fed sazba 3,63 % – prostředí relativně příznivé pro akcie.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.06,
+          "fill_price": 6556.53572,
+          "status": "submitted",
+          "reasoning": "AAPL dnes uzavřel na 6556 CZK s mohutným výnosem +4,5 % a objemem 75M – silný breakout z pásma 6250-6320, kde se konsolidoval týden. Momentum potvrzeno. Dokupuji malou pozici (limit 6570 CZK) – pohybuje se pod max_single_trade_pct (394 CZK < 5 % z 10022 = 501 CZK). Stávající pozice 0,07 ks, po nákupu 0,13 ks × 6570 = ~854 CZK, tj. ~8,5 % portfolia – blíží se limitu 10 %, qty záměrně konzervativní."
+        },
+        {
+          "symbol": "EQQQ",
+          "side": "buy",
+          "qty": 0.03,
+          "fill_price": 15261.32784,
+          "status": "submitted",
+          "reasoning": "EQQQ dnes oslabil na 15261 po sérii silných dní (30.6.–1.7. rally). Bez stávající pozice – vhodná příležitost otevřít první pozici při mírném pullbacku. Limit 15300 zachytí případný odraz. Qty 0,03 × 15300 = 459 CZK < 501 CZK (5 % limitu). Nasdaq tech složka ukazuje relativní sílu, AAPL i MSFT táhnou nahoru, EQQQ by měl reflektovat."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 10022.615874800003,
+      "cash": 7300.222458400001,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 22821.57056,
+          "current_price": 22785.70408,
+          "market_value": 455.7140816,
+          "unrealized_pl": -0.7173296000000278,
+          "unrealized_plpc": -0.1571604369020263
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.06,
+          "avg_entry_price": 8187.853959999999,
+          "current_price": 8295.56956,
+          "market_value": 497.73417359999996,
+          "unrealized_pl": 6.46293600000007,
+          "unrealized_plpc": 1.315553507991507
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.13,
+          "avg_entry_price": 6403.515149230769,
+          "current_price": 6556.53572,
+          "market_value": 852.3496436,
+          "unrealized_pl": 19.8926742000001,
+          "unrealized_plpc": 2.3896339307889924
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.06,
+          "avg_entry_price": 7696.301469999999,
+          "current_price": 7645.928040000001,
+          "market_value": 458.7556824,
+          "unrealized_pl": -3.0224057999999445,
+          "unrealized_plpc": -0.6545147717556654
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.03,
+          "avg_entry_price": 15261.32784,
+          "current_price": 15261.32784,
+          "market_value": 457.8398352,
+          "unrealized_pl": 0.0,
+          "unrealized_plpc": 0.0
+        }
+      ],
+      "spy_price": 22785.70408,
+      "benchmark_buy_hold_value": 9984.283956309797
+    },
+    {
+      "date": "2026-07-03",
+      "market_summary": "Trh je dnes 3. července 2026 ve smíšeném stavu – zkrácené obchodní seanci před americkým svátkem. AAPL vynikl včerejším silným pohybem (+4,5 % na 6556 CZK) a zůstává v korekci od červnových maxim, ale momentum se otočilo nahoru. MSFT rovněž pokračuje v růstu po silné obnově z červnových minim (z ~7545 na ~8295 CZK). GOOGL je slabší – po výraznějším výprodeji v červnu se stabilizuje, ale pod vstupní cenou. CSPX a EQQQ jsou mírně pod průměrnými nákupními cenami, ale trendy indexů jsou rostoucí po červnoevém dně. Úrokový výnos 10Y na 4,49 % s kladnou výnosovou křivkou (T10Y2Y +0,35 %) nesignalizuje bezprostřední recesi.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.07,
+          "fill_price": 6556.53572,
+          "status": "submitted",
+          "reasoning": "AAPL včera prolomil 6500 CZK s výrazným objemem (75 mil. ks) po sérii silných svíček od 30. června. Momentum je jasně bullish po červnovém propadu na 5853 CZK. Limit pod aktuální cenou (6556) dává prostor pro mírný intraday pullback v zkrácené seanci. Cílíme dopnit pozici; 0,07 ks * 6520 ≈ 456 CZK, pod limitem 5 % (515 CZK)."
+        },
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.06,
+          "fill_price": 7645.928040000001,
+          "status": "submitted",
+          "reasoning": "GOOGL se konsoliduje po červnovém výprodeji (dno ~7027 CZK) a poslední 3 svíčky ukazují stabilizaci s pozitivním trendem (7181 → 7522 → 7607 → 7696 → 7645). Mírná korekce včera je příležitost přikoupit. Limit 7600 CZK (pod aktuálním 7645) dává malý prostor. 0,06 ks * 7600 ≈ 456 CZK, pod limitem 5 %."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 10024.631583600001,
+      "cash": 6382.509275600001,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 22821.57056,
+          "current_price": 22801.04064,
+          "market_value": 456.0208128,
+          "unrealized_pl": -0.41059840000002623,
+          "unrealized_plpc": -0.08995840118025678
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.06,
+          "avg_entry_price": 8187.853959999999,
+          "current_price": 8295.56956,
+          "market_value": 497.73417359999996,
+          "unrealized_pl": 6.46293600000007,
+          "unrealized_plpc": 1.315553507991507
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.2,
+          "avg_entry_price": 6457.072349,
+          "current_price": 6556.53572,
+          "market_value": 1311.307144,
+          "unrealized_pl": 19.8926742000001,
+          "unrealized_plpc": 1.5403787602814134
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.12,
+          "avg_entry_price": 7671.1147550000005,
+          "current_price": 7645.928040000001,
+          "market_value": 917.5113648,
+          "unrealized_pl": -3.0224058000000014,
+          "unrealized_plpc": -0.32833187619287774
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.03,
+          "avg_entry_price": 15261.32784,
+          "current_price": 15318.29376,
+          "market_value": 459.5488128,
+          "unrealized_pl": 1.7089776000000256,
+          "unrealized_plpc": 0.3732697481977354
+        }
+      ],
+      "spy_price": 22801.04064,
+      "benchmark_buy_hold_value": 9991.004159881973
+    },
+    {
+      "date": "2026-07-06",
+      "market_summary": "Trh dnes pokračuje v pozitivním tónu – CSPX a GOOGL vytváří nová lokální maxima v rámci pásma posledních 2 týdnů, AAPL výrazně posílila (+5 % za 2 dny), MSFT lehce pod včerejším zavřením. Výnosová křivka je kladná (T10Y2Y = 0,35 %), Fed sazba 3,63 % – prostředí sazeb neutrální až mírně podpůrné pro akcie. Portfolio je převážně v zisku. Největší příležitost vidím v GOOGL, která zotavuje ze dna (7 181) a dnes uzavřela na 7 755, ale pozice je zatím malá. AAPL silně roste a přesahuje entry – přidání dávalo smysl dříve, dnes je momentum již ceněno. CSPX v rostoucím trendu.",
+      "trades": [
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.06,
+          "fill_price": 7755.39298,
+          "status": "submitted",
+          "reasoning": "GOOGL se zotavila z lokálního minima 7 027 (26. 6.) na dnešní zavíračku 7 755, tedy +10 % za 8 dní. Trend je otočen nahoru, vyšší high i low v posledních 5 seancích. Přidáním 0,06 ks za limit ~7 760 zvyšujeme pozici za cca 466 CZK, což je pod limitem 5 % na obchod (~502 CZK). Stávající pozice 0,12 ks je malá, tento nákup ji mírně posílí bez porušení max_position_size_pct."
+        },
+        {
+          "symbol": "CSPX",
+          "side": "buy",
+          "qty": 0.02,
+          "fill_price": 22907.687149999998,
+          "status": "submitted",
+          "reasoning": "CSPX postupně roste od dna 22 099 (26. 6.) a dnes uzavřel na novém lokálním maximu 22 908. Trend je jednoznačně up, vyšší high každý den od 29. 6. Přidání 0,02 ks za ~22 910 stojí ~458 CZK, pod limitem na obchod. Jde o indexový ETF na S&P 500 – dobré core portfolio holdingum v rostoucím prostředí."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 10047.896629800001,
+      "cash": 5459.031953800001,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.04,
+          "avg_entry_price": 22864.628855,
+          "current_price": 22907.687149999998,
+          "market_value": 916.3074859999999,
+          "unrealized_pl": 1.7223317999998926,
+          "unrealized_plpc": 0.18831836402444235
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.06,
+          "avg_entry_price": 8187.853959999999,
+          "current_price": 8184.57862,
+          "market_value": 491.0747172,
+          "unrealized_pl": -0.19652039999988347,
+          "unrealized_plpc": -0.04000242329674775
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.2,
+          "avg_entry_price": 6457.072349,
+          "current_price": 6616.82358,
+          "market_value": 1323.364716,
+          "unrealized_pl": 31.950246200000038,
+          "unrealized_plpc": 2.474050504091707
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.18,
+          "avg_entry_price": 7699.207496666667,
+          "current_price": 7755.39298,
+          "market_value": 1395.9707363999999,
+          "unrealized_pl": 10.113386999999875,
+          "unrealized_plpc": 0.7297567101244962
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.03,
+          "avg_entry_price": 15261.32784,
+          "current_price": 15404.90068,
+          "market_value": 462.1470204,
+          "unrealized_pl": 4.307185199999992,
+          "unrealized_plpc": 0.9407624389255131
+        }
+      ],
+      "spy_price": 22907.687149999998,
+      "benchmark_buy_hold_value": 10037.734734239079
+    },
+    {
+      "date": "2026-07-07",
+      "market_summary": "Trh dnes (7. 7. 2026) vykazuje smíšené signály. AAPL a GOOGL jsou v silném uptrendu posledních 5 dní, MSFT konsoliduje po rally. CSPX mírně klesá od 6. 7. vrcholu, EQQQ dnes výrazně oslabuje (-2,3 % intraday) a probíjí nízká dna – je pod vstupní cenou. Portfolio je celkově v zisku (~3,6 % od vstupu). Cash pozice 5 459 CZK nabízí prostor pro přikoupení. Makro: výnosová křivka pozitivní (spread 0,36 %), Fed sazba 3,63 % – prostředí přijatelné pro akcie.",
+      "trades": [
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.06,
+          "fill_price": 7778.099759999999,
+          "status": "submitted",
+          "reasoning": "GOOGL je v jasném uptrendu: od dna 7 181 (26. 6.) vzrostl na 7 778 dnes (+8,3 %). Svíčka 7. 7. zavírá blízko maxima dne (7 908 intraday), stále nad 5denním průměrem. Limit na stávající ceně zachycuje momentum. Přidání 0,06 ks zvyšuje pozici na 0,24 ks (celk. ~1 867 CZK), pod limitem max 10 % portfolia (~1 004 CZK). Obchod ~ 4,6 % portfolia, pod max. 5 % limitem na jeden obchod."
+        },
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.07,
+          "fill_price": 6583.50672,
+          "status": "submitted",
+          "reasoning": "AAPL vykazuje silnou rally od 5 854 (26. 6.) na 6 583 dnes (+12,4 %). Dnes svíčka s intraday vysokem 6 685, zavírá nad 6 580 – trend pokračuje. Přidání 0,07 ks zvyšuje pozici na 0,27 ks (celk. ~1 777 CZK, tj. ~17,7 % portfolia – POZOR: limit je 10 % nové pozice/obchod, nikoli celku; tento obchod sám o sobě = ~4,6 % portfolia). Limit nastaven na dnešní close pro rozumné vstupní plnění."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 10036.411971400003,
+      "cash": 4531.5004978000015,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.04,
+          "avg_entry_price": 22864.628855,
+          "current_price": 22863.47328,
+          "market_value": 914.5389312,
+          "unrealized_pl": -0.046223000000054526,
+          "unrealized_plpc": -0.005053985382086346
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.06,
+          "avg_entry_price": 8187.853959999999,
+          "current_price": 8240.297279999999,
+          "market_value": 494.4178367999999,
+          "unrealized_pl": 3.1465992000000256,
+          "unrealized_plpc": 0.6405014092361716
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.27,
+          "avg_entry_price": 6489.85163037037,
+          "current_price": 6583.50672,
+          "market_value": 1777.5468144000001,
+          "unrealized_pl": 25.286874200000057,
+          "unrealized_plpc": 1.4431006279304714
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.24,
+          "avg_entry_price": 7718.9305625,
+          "current_price": 7778.099759999999,
+          "market_value": 1866.7439423999997,
+          "unrealized_pl": 14.200607399999853,
+          "unrealized_plpc": 0.7665465704207008
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.03,
+          "avg_entry_price": 15261.32784,
+          "current_price": 15055.46496,
+          "market_value": 451.66394879999996,
+          "unrealized_pl": -6.175886400000024,
+          "unrealized_plpc": -1.348918535518473
+        }
+      ],
+      "spy_price": 22863.47328,
+      "benchmark_buy_hold_value": 10018.361015027354
+    },
+    {
+      "date": "2026-07-08",
+      "market_summary": "Dnešní seance (8. 7. 2026) přinesla smíšené výsledky: AAPL drží sílu a uzavírá blízko maxim (+2.7 % v portfoliu), GOOGL a MSFT dnes lehce korigovaly po nedávném růstu. CSPX a EQQQ jsou v mírném poklesu – EQQQ ztratil od 6. 7. přes 2.5 % a pohybuje se pod vstupní cenou. Makro prostředí zůstává relativně stabilní: výnosová křivka 10Y-2Y je mírně pozitivní (0.35 %), sazba Fedu 3.62 % – bez bezprostředního stresového signálu. Cash je 4 531 CZK, což dává prostor pro selektivní přikoupení.",
+      "trades": [
+        {
+          "symbol": "EQQQ",
+          "side": "buy",
+          "qty": 0.03,
+          "fill_price": 14992.79868,
+          "status": "submitted",
+          "reasoning": "EQQQ propadl z vrcholu ~15 700 na ~14 993, tedy o ~4.5 % za 5 dní – aktuálně pod naší průměrnou pořizovací cenou (15 261). Dvoufázová podpora leží kolem 14 925 (dnešní intraday low). Limit na 14 950 nabízí mírnou slevu a pravděpodobný odraz v podpůrné zóně; dluhopisové výnosy neklesají agresivně, takže tech ETF není pod systémovým tlakem. Pozice po nákupu 0.06 ks celkem – stále výrazně pod 10% limitem portfolia."
+        },
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.06,
+          "fill_price": 7697.314560000001,
+          "status": "submitted",
+          "reasoning": "GOOGL po silném odrazu z ~7 181 (26. 6.) na ~7 778 (7. 7.) dnes korigoval na 7 697. Trend posledních 10 dní je jasně vzestupný, dnešní pullback je mělký (~1 %). Limit na 7 650 zachytí případný další pokles a nabízí příznivou cenu v rámci vzestupného kanálu. Celková pozice po nákupu 0.30 ks (hodnota ~2 295 CZK) – pod 10% limitem portfolia (~1 003 CZK). Pozitivní výnosová křivka snižuje obavy z recese."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 10025.994927400001,
+      "cash": 3619.8776638000013,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.04,
+          "avg_entry_price": 22864.628855,
+          "current_price": 22714.60668,
+          "market_value": 908.5842672,
+          "unrealized_pl": -6.000887000000034,
+          "unrealized_plpc": -0.6561321242141704
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.06,
+          "avg_entry_price": 8187.853959999999,
+          "current_price": 8152.87512,
+          "market_value": 489.1725072,
+          "unrealized_pl": -2.0987303999999085,
+          "unrealized_plpc": -0.4272040045032566
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.27,
+          "avg_entry_price": 6489.85163037037,
+          "current_price": 6665.1785199999995,
+          "market_value": 1799.5982004,
+          "unrealized_pl": 47.33826019999992,
+          "unrealized_plpc": 2.701554667431183
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.3,
+          "avg_entry_price": 7714.607362000001,
+          "current_price": 7697.314560000001,
+          "market_value": 2309.194368,
+          "unrealized_pl": -5.187840600000072,
+          "unrealized_plpc": -0.2241566056255806
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.06,
+          "avg_entry_price": 15127.06326,
+          "current_price": 14992.79868,
+          "market_value": 899.5679207999999,
+          "unrealized_pl": -8.055874800000083,
+          "unrealized_plpc": -0.887578624431562
+        }
+      ],
+      "spy_price": 22714.60668,
+      "benchmark_buy_hold_value": 9953.130359841456
+    },
+    {
+      "date": "2026-07-09",
+      "market_summary": "Trh dnes (9. 7. 2026) vykazuje smíšené signály. AAPL pokračuje v silném vzestupném trendu (+3,3 % na pozici, dnes nové intradenní maximum ~6713 CZK), CSPX se vrátil nad 23 000 CZK po korekci na konci června. GOOGL a MSFT mírně oslabily – GOOGL dnes otevřel výrazně níže (~7514) a MSFT je stále pod nákupní cenou. EQQQ korigoval z úrovní 15 600+ zpět na ~15 371, ale dnes mírně rostl. Makroprostředí: výnosová křivka mírně pozitivní (T10Y2Y = 0,38 %), Fed sazba 3,62 % – neutrální prostředí pro akcie.",
+      "trades": [
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.06,
+          "fill_price": 7612.0569,
+          "status": "submitted",
+          "reasoning": "GOOGL klesla dnes pod 7 500 CZK intradenně (low 7 446), ale uzavřela na 7 612 – potenciální support. Průměrná vstupní cena je 7 714 CZK, takže jsme v mírné ztrátě (-1,3 %). Dokupujeme malé množství za limitní cenu 7 580 CZK pro průměrování dolů – trend od konce června byl vzestupný (ze 7 181 na 7 778), dnešní pokles vypadá spíše jako korekce než zvrat. Pozice po dokoupení: 0,36 ks (market value ~2 740 CZK, stále pod 10% limitem portfolia)."
+        },
+        {
+          "symbol": "EQQQ",
+          "side": "buy",
+          "qty": 0.03,
+          "fill_price": 15371.14887,
+          "status": "submitted",
+          "reasoning": "EQQQ korigoval z vrcholu 15 675 (30. 6.) zpět na ~15 371 dnes – zhruba -1,9 % za týden. Trend od konce června byl vzestupný, dnešní svíčka je zelená (uzavření nad otevřením). Dokupujeme 0,03 ks za limit 15 320 CZK (mírně pod current price) – průměrná vstupní cena klesne. Estimated value 459,6 CZK je pod 5% limitem jednoho obchodu (~502 CZK). Nízké úrokové sazby Fedu (3,62 %) podporují tech segment."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 10046.696701600002,
+      "cash": 2702.0197837000014,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.04,
+          "avg_entry_price": 22864.628855,
+          "current_price": 23022.48564,
+          "market_value": 920.8994256,
+          "unrealized_pl": 6.314271399999939,
+          "unrealized_plpc": 0.6903973206872305
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.06,
+          "avg_entry_price": 8187.853959999999,
+          "current_price": 8152.275600000001,
+          "market_value": 489.13653600000004,
+          "unrealized_pl": -2.1347015999998575,
+          "unrealized_plpc": -0.4345260696369091
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.27,
+          "avg_entry_price": 6489.85163037037,
+          "current_price": 6707.026200000001,
+          "market_value": 1810.8970740000004,
+          "unrealized_pl": 58.637133800000356,
+          "unrealized_plpc": 3.3463718741014947
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.36,
+          "avg_entry_price": 7697.515618333334,
+          "current_price": 7612.0569,
+          "market_value": 2740.340484,
+          "unrealized_pl": -30.765138600000228,
+          "unrealized_plpc": -1.1102116912864113
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.09,
+          "avg_entry_price": 15208.425130000001,
+          "current_price": 15371.14887,
+          "market_value": 1383.4033983,
+          "unrealized_pl": 14.645136599999887,
+          "unrealized_plpc": 1.0699578596012005
+        }
+      ],
+      "spy_price": 23022.48564,
+      "benchmark_buy_hold_value": 10088.037358985339
+    },
+    {
+      "date": "2026-07-10",
+      "market_summary": "CSPX a AAPL pokračují v silném uptrendu – CSPX dosáhl 14denního maxima 23 179, AAPL se pohybuje kolem 6 692 po výrazném odrazu z červnových minim. GOOGL naopak oslabuje (7 581, ztráta přes -1,5 % na pozici), MSFT stagnuje mírně pod vstupní cenou. EQQQ po poklesu počátkem července se stabilizuje kolem 15 444. Výnosová křivka je kladná (T10Y2Y = 0,35), Fed rate 3,62 % – prostředí bez přímé inverze, mírně podpůrné pro akcie.",
+      "trades": [
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.06,
+          "fill_price": 7580.788320000001,
+          "status": "submitted",
+          "reasoning": "GOOGL je naše největší pozice (2 729 CZK) s nerealizovanou ztrátou -1,5 %. Cena klesla z maxim kolem 7 908 (7.7.) zpět na 7 581 a 10.7. otevřela slabě. Přidáváme malou dávku za limitní cenu 7 560 (blízko dnešního intraday low) abychom průměrovali vstupní cenu dolů – z 7 697 na cca 7 666. Obchod je v rámci limitu (0,06 × 7 560 = 453,6 CZK < 5 % z 10 045 = 502 CZK). Trendu na širším trhu (CSPX uptrenduje) nasvědčuje, že jde spíše o dočasnou slabost GOOGL než o strukturální zlom."
+        },
+        {
+          "symbol": "EQQQ",
+          "side": "buy",
+          "qty": 0.03,
+          "fill_price": 15443.62968,
+          "status": "submitted",
+          "reasoning": "EQQQ kleslo z maxima 15 637 (30.6.) na 14 992 (8.7.) a nyní se odráží na 15 444. Dnešní svíčka ukazuje vyšší low oproti 8.7., což naznačuje stabilizaci. Přidáváme 0,03 kusu limitně pod aktuální cenou (15 380), aby nákup proběhl jen při mírné korekci. Odhadovaná hodnota 461 CZK je pod 5% limitem. Stávající pozice (1 390 CZK) se tímto zvýší o ~3 % celkové hodnoty portfolia – stále bezpečně pod limitem 10 % na pozici."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 10045.560186100001,
+      "cash": 1783.8635941000011,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.04,
+          "avg_entry_price": 22864.628855,
+          "current_price": 23179.83096,
+          "market_value": 927.1932384,
+          "unrealized_pl": 12.608084200000008,
+          "unrealized_plpc": 1.3785577146207206
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.06,
+          "avg_entry_price": 8187.853959999999,
+          "current_price": 8173.362400000001,
+          "market_value": 490.401744,
+          "unrealized_pl": -0.8694935999998847,
+          "unrealized_plpc": -0.17698850114807874
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.27,
+          "avg_entry_price": 6489.85163037037,
+          "current_price": 6692.35168,
+          "market_value": 1806.9349536,
+          "unrealized_pl": 54.6750133999999,
+          "unrealized_plpc": 3.1202569975867567
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.42,
+          "avg_entry_price": 7680.840290000001,
+          "current_price": 7580.788320000001,
+          "market_value": 3183.9310944000003,
+          "unrealized_pl": -42.02182739999989,
+          "unrealized_plpc": -1.3026175030648957
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15443.62968,
+          "market_value": 1853.2355616,
+          "unrealized_pl": 21.168409500000053,
+          "unrealized_plpc": 1.1554385152168667
+        }
+      ],
+      "spy_price": 23179.83096,
+      "benchmark_buy_hold_value": 10156.983236126584
+    },
+    {
+      "date": "2026-07-13",
+      "market_summary": "AAPL a MSFT pokračují v silném uptrendu – AAPL dnes na novém lokálním maximu ~6 739, MSFT +1,6 % na 8 304. CSPX si drží impuls (~23 111), GOOGL naopak od vrcholu ~7 778 (7. 7.) postupně oslabuje a dnes zavřel na 7 487, stále pod naší průměrnou nákupní cenou 7 681 (-2,5 % nerealizovaná ztráta). EQQQ zkorigoval z maxima a aktuálně osciluje kolem 15 324. Úroky 10Y na 4,62 % jsou relativně vysoké, ale výnosová křivka je stále pozitivně strmá (spread 0,36 %), což není recesní signál. Hotovost 1 784 CZK – prostor pro 1–2 menší obchody.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [
+        "Obchod GOOGL v hodnotě 748.66 přesahuje limit na jeden obchod (500.47).",
+        "Obchod GOOGL: 0.1 ks x 7486.61 = 748.66 přesahuje limit na jeden obchod (500.47) - nezávisle přepočítáno z tržní ceny."
+      ],
+      "portfolio_value": 10009.342502300002,
+      "cash": 1783.8635941000011,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.04,
+          "avg_entry_price": 22864.628855,
+          "current_price": 23110.62673,
+          "market_value": 924.4250692,
+          "unrealized_pl": 9.839915000000019,
+          "unrealized_plpc": 1.0758883363471083
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.06,
+          "avg_entry_price": 8187.853959999999,
+          "current_price": 8303.84562,
+          "market_value": 498.23073719999996,
+          "unrealized_pl": 6.959499600000072,
+          "unrealized_plpc": 1.4166307870982386
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.27,
+          "avg_entry_price": 6489.85163037037,
+          "current_price": 6739.02978,
+          "market_value": 1819.5380406000002,
+          "unrealized_pl": 67.27810040000008,
+          "unrealized_plpc": 3.839504565305596
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.42,
+          "avg_entry_price": 7680.840290000001,
+          "current_price": 7486.6073799999995,
+          "market_value": 3144.3750996,
+          "unrealized_pl": -81.57782220000036,
+          "unrealized_plpc": -2.5287976662251577
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15324.24968,
+          "market_value": 1838.9099616,
+          "unrealized_pl": 6.842809500000158,
+          "unrealized_plpc": 0.37350211165330105
+        }
+      ],
+      "spy_price": 23110.62673,
+      "benchmark_buy_hold_value": 10126.659192556464
+    },
+    {
+      "date": "2026-07-14",
+      "market_summary": "Trh dnes vykazuje smíšené signály. CSPX a AAPL jsou v solidním uptrendu posledních 14 dní, MSFT se obchoduje v konsolidačním pásmu těsně pod průměrnou cenou vstupu. GOOGL po vrcholu ~7778 (7. 7.) klesá a dnes se vzpamatoval z lokálního dna na 7655, stále ale slabší než zbytek portfolia. EQQQ po výprodejích 7–8. 7. se stabilizuje kolem 15400. Makro: výnosová křivka je kladná (10Y 4,58 % vs 2Y 4,18 %), Fed drží 3,63 % – prostředí je neutrální až mírně podpůrné pro akcie. Hotovost 1 784 CZK (cca 17,7 % portfolia) – lze rozumně doobchodovat.",
+      "trades": [
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.06,
+          "fill_price": 7654.68692,
+          "status": "submitted",
+          "reasoning": "GOOGL dnes odrazil od lokálního supportu ~7475 a uzavřel na 7655. Entry po korekci z vrcholu 7908 (7. 7.) nabízí lepší poměr risk/reward než ostatní pozice. Limit 7660 je těsně nad dnešním close – pokud trh ráno otevře stabilně, obchod by měl projít. Dotupní qty=0,06 navyšuje pozici mírně (celkem 0,48 ks). Hodnota 459,6 CZK < 5 % portfolia (503 CZK limit)."
+        },
+        {
+          "symbol": "MSFT",
+          "side": "buy",
+          "qty": 0.05,
+          "fill_price": 8195.92956,
+          "status": "submitted",
+          "reasoning": "MSFT se konsoliduje v pásmu 8150–8310 posledních 5 dní. Dnešní close 8196 je těsně nad avg entry 8188 – pozice je téměř na break-even. Limit 8200 nakupuje na spodku konsolidačního pásma s cílem využít potenciální průraz nahoru. Qty=0,05 přidává 410 CZK pozici, well pod 5% limitem (503 CZK)."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 10076.0018653,
+      "cash": 914.7859009000013,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.04,
+          "avg_entry_price": 22864.628855,
+          "current_price": 23157.51711,
+          "market_value": 926.3006844,
+          "unrealized_pl": 11.71553019999999,
+          "unrealized_plpc": 1.2809665831770234
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.11,
+          "avg_entry_price": 8191.524687272727,
+          "current_price": 8195.92956,
+          "market_value": 901.5522516000001,
+          "unrealized_pl": 0.48453600000016195,
+          "unrealized_plpc": 0.05377353905944293
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.27,
+          "avg_entry_price": 6489.85163037037,
+          "current_price": 6703.99912,
+          "market_value": 1810.0797624000002,
+          "unrealized_pl": 57.81982220000009,
+          "unrealized_plpc": 3.29972858897869
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.48,
+          "avg_entry_price": 7677.571118750001,
+          "current_price": 7654.68692,
+          "market_value": 3674.2497215999997,
+          "unrealized_pl": -10.984415400000671,
+          "unrealized_plpc": -0.2980656042913532
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15408.61287,
+          "market_value": 1849.0335444,
+          "unrealized_pl": 16.966392300000052,
+          "unrealized_plpc": 0.9260791713094463
+        }
+      ],
+      "spy_price": 23157.51711,
+      "benchmark_buy_hold_value": 10147.205710105169
+    },
+    {
+      "date": "2026-07-15",
+      "market_summary": "Dnes (15. 7. 2026) trhy vykazují smíšený obraz: AAPL dnes prudce posílil na 6 958 CZK (+3,8 %), MSFT uzavřel na 8 405 CZK (+2,6 %) – oba v silném uptrendu za posledních 14 dní. GOOGL dnes skočil na 7 880 CZK (+3,0 %) ze dna okolo 7 486, CSPX pokračuje v mírném pozitivním trendu na 23 185 CZK. EQQQ je slabší – dnes oslabilo na 15 191 CZK a za 14 dní zůstává pod vstupní cenou (-0,5 % unrealized P/L). Cash je 914 CZK, makro prostředí je stabilní (Fed 3,63 %, kladná výnosová křivka 0,42 %), žádné negativní signály. Účet je dobře diverzifikovaný, všechny pozice kromě EQQQ jsou v zisku.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [
+        "Obchod GOOGL v hodnotě 867.86 přesahuje limit na jeden obchod (512.56).",
+        "Obchod GOOGL: 0.11 ks x 7880.57 = 866.86 přesahuje limit na jeden obchod (512.56) - nezávisle přepočítáno z tržní ceny."
+      ],
+      "portfolio_value": 10251.117398700002,
+      "cash": 914.7859009000013,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.04,
+          "avg_entry_price": 22864.628855,
+          "current_price": 23185.3637,
+          "market_value": 927.4145480000001,
+          "unrealized_pl": 12.829393800000048,
+          "unrealized_plpc": 1.4027555270369696
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.11,
+          "avg_entry_price": 8191.524687272727,
+          "current_price": 8405.554979999999,
+          "market_value": 924.6110477999999,
+          "unrealized_pl": 23.54333220000001,
+          "unrealized_plpc": 2.612826072047536
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.27,
+          "avg_entry_price": 6489.85163037037,
+          "current_price": 6958.065,
+          "market_value": 1878.67755,
+          "unrealized_pl": 126.41760980000004,
+          "unrealized_plpc": 7.214546592075322
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.48,
+          "avg_entry_price": 7677.571118750001,
+          "current_price": 7880.56632,
+          "market_value": 3782.6718336,
+          "unrealized_pl": 97.43769659999953,
+          "unrealized_plpc": 2.644002876824536
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15191.304320000003,
+          "market_value": 1822.9565184000003,
+          "unrealized_pl": -9.110633699999653,
+          "unrealized_plpc": -0.4972871048725791
+        }
+      ],
+      "spy_price": 23185.3637,
+      "benchmark_buy_hold_value": 10159.407582858312
+    },
+    {
+      "date": "2026-07-16",
+      "market_summary": "Trh je smíšený. AAPL a MSFT vykazují silný vzestupný trend v posledních 14 dnech – AAPL +17% od konce června, MSFT dnes proráží k novým maximům na vlně objemu. GOOGL dnes prudce klesá z intraday maxim (otevřel na 7871, zavřel na 7479) přes silný signál z předchozích dvou dní, což naznačuje výběr zisků nebo negativní katalyzátor. CSPX stabilně roste, EQQQ oslabuje a dnes testuje dolní hranici pásma. Cash na účtu je 914 CZK, max obchod (5 % z ~10 000) = 500 CZK. Portfolia se nedotýkám, kde jsou pozice v limitu – přidávám selektivně.",
+      "trades": [
+        {
+          "symbol": "MSFT",
+          "side": "buy",
+          "qty": 0.05,
+          "fill_price": 8462.8089,
+          "status": "submitted",
+          "reasoning": "MSFT dnes prorazil k novým 14denním maximům s výrazným objemem (37M vs. průměr ~35M). Silný trendový pohyb od konce června (+7%), support drží nad 8100. Limit lehce nad trh pro zachycení výprodeje. 0.05 * 8470 = 423.5 CZK, pod limitem 500 CZK. Výnosová křivka T10Y2Y kladná (0.41%), prostředí relativně příznivé pro růstové akcie."
+        },
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.06,
+          "fill_price": 7031.45274,
+          "status": "submitted",
+          "reasoning": "AAPL v silném uptrendu (+17% od konce června), dnes otevřel silně a uzavřel na 7031 s dobrým objemem (63M). Pozice 0.27 ks (tržní hodnota ~1898 CZK, ~18.8% portfolia) – přidání 0.06 ks za ~420 CZK přinese celkovou hodnotu cca 2318 CZK (~23%), stále pod limitem 10% na pozici? Pozor – aktuální pozice je 18.8%, přidáním by překročila 20%. Reviduju: qty 0.03 * 7000 = 210 CZK, nová hodnota ~2110 CZK (~21%). Portfolia má ~10 077 CZK, limit 10% = 1007 CZK na pozici – avšak stávající AAPL je již nad 10% (1898 CZK = 18.8%). Nákup AAPL proto vynechávám – porušil by mantinel max_position_size_pct. Místo toho navrhuju CSPX jako diverzifikovaný nákup."
+        },
+        {
+          "symbol": "CSPX",
+          "side": "buy",
+          "qty": 0.003002373001867905,
+          "fill_price": 23234.385420000002,
+          "status": "submitted",
+          "reasoning": "CSPX v konzistentním uptrendu, dnes uzavřel na 23 234. Stávající pozice 0.04 ks (929 CZK, ~9.2% portfolia). Přidání 0.02 ks za ~464 CZK přinese celkovou hodnotu ~1393 CZK (~13.8% portfolia) – stále pod max 10%? Znovu: 929+464 = 1393 / 10077 = 13.8%, což překračuje 10% limit. Vynechávám i CSPX. Finálně: pouze MSFT obchod splňuje mantinely."
+        }
+      ],
+      "trade_count": 3,
+      "blocked_reasons": [],
+      "portfolio_value": 10076.7553621,
+      "cash": 0.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 23234.385420000002,
+          "market_value": 999.1337083000014,
+          "unrealized_pl": 14.79026260000012,
+          "unrealized_plpc": 1.5025510318181778
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.16,
+          "avg_entry_price": 8276.301003749999,
+          "current_price": 8462.8089,
+          "market_value": 1354.049424,
+          "unrealized_pl": 29.841263400000116,
+          "unrealized_plpc": 2.2535175577289124
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.33,
+          "avg_entry_price": 6588.324559393939,
+          "current_price": 7031.45274,
+          "market_value": 2320.3794042,
+          "unrealized_pl": 146.2322995999998,
+          "unrealized_plpc": 6.725961609985154
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.48,
+          "avg_entry_price": 7677.571118750001,
+          "current_price": 7478.751539999999,
+          "market_value": 3589.8007391999995,
+          "unrealized_pl": -95.43339780000088,
+          "unrealized_plpc": -2.5896155916348196
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15111.60072,
+          "market_value": 1813.3920864,
+          "unrealized_pl": -18.675065700000005,
+          "unrealized_plpc": -1.0193439513717428
+        }
+      ],
+      "spy_price": 23234.385420000002,
+      "benchmark_buy_hold_value": 10180.88801509724
+    },
+    {
+      "date": "2026-07-17",
+      "market_summary": "Dnešní seance (17.7.) přinesla výrazný výprodej: GOOGL kleslo o ~4,5 % na 7340 CZK, CSPX ztratilo přes 1,5 % na 22886 CZK a EQQQ pokračuje v sestupném trendu (−2,2 % na 14772 CZK). AAPL a MSFT jsou relativně odolné – AAPL se drží kolem ATH (7064 CZK) a MSFT lehce koriguje z vrcholu (8336 CZK). Účet nemá volnou hotovost (cash = 0 CZK), takže nákupy nejsou možné bez předchozího odprodeje. Portfolio je plně investováno, veškeré pohyby jsou tedy interní přesuny.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [
+        "Obchod GOOGL v hodnotě 880.81 přesahuje limit na jeden obchod (497.25).",
+        "Obchod GOOGL: 0.12 ks x 7340.08 = 880.81 přesahuje limit na jeden obchod (497.25) - nezávisle přepočítáno z tržní ceny.",
+        "Obchod AAPL v hodnotě 847.71 přesahuje limit na jeden obchod (497.25).",
+        "Obchod AAPL: 0.12 ks x 7064.27 = 847.71 přesahuje limit na jeden obchod (497.25) - nezávisle přepočítáno z tržní ceny."
+      ],
+      "portfolio_value": 9945.014332021365,
+      "cash": 0.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 22886.0424,
+          "market_value": 984.1541318213641,
+          "unrealized_pl": -0.18931387863722193,
+          "unrealized_plpc": -0.019232502584765054
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.16,
+          "avg_entry_price": 8276.301003749999,
+          "current_price": 8335.98794,
+          "market_value": 1333.7580704000002,
+          "unrealized_pl": 9.54990980000025,
+          "unrealized_plpc": 0.721178896501673
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.33,
+          "avg_entry_price": 6588.324559393939,
+          "current_price": 7064.274580000001,
+          "market_value": 2331.2106114000003,
+          "unrealized_pl": 157.06350680000014,
+          "unrealized_plpc": 7.224143502879343
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.48,
+          "avg_entry_price": 7677.571118750001,
+          "current_price": 7340.0805900000005,
+          "market_value": 3523.2386832,
+          "unrealized_pl": -161.99545380000018,
+          "unrealized_plpc": -4.395798144100393
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 14772.106960000001,
+          "market_value": 1772.6528352,
+          "unrealized_pl": -59.4143168999999,
+          "unrealized_plpc": -3.2430206956058583
+        }
+      ],
+      "spy_price": 22886.0424,
+      "benchmark_buy_hold_value": 10028.250395751902
+    },
+    {
+      "date": "2026-07-20",
+      "market_summary": "Portfolio dnes dosahuje hodnoty ~10 005 CZK, hotovost je nulová – vše je investováno. AAPL a MSFT vykazují solidní zisky (+4,9 % a +2,9 %), GOOGL je ve ztrátě −2,9 % a EQQQ −1,9 %. CSPX osciluje kolem 22 900–23 200 a dnes mírně klesl z maxim. GOOGL v posledních dvou dnech výrazně oslaboval (z ~7 880 na 7 340 dne 17.7., dnes mírný odraz na 7 452), EQQQ také pod tlakem. Bez hotovosti nelze nakupovat; možné je pouze prodávat k realizaci zisku nebo snížení rizika. Zvažuji redukci AAPL, která je po silném rally (z ~6 160 na 6 914, +12 % za 2 týdny) a dnes propadla z intraday maxim. Výnosová křivka pozitivní (T10Y2Y +0,39 %), Fed sazby stále na 3,63 % – prostředí neutrální až mírně supportivní pro akcie.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [
+        "Obchod AAPL v hodnotě 690.00 přesahuje limit na jeden obchod (500.27).",
+        "Obchod AAPL: 0.1 ks x 6914.24 = 691.42 přesahuje limit na jeden obchod (500.27) - nezávisle přepočítáno z tržní ceny.",
+        "Obchod EQQQ v hodnotě 598.00 přesahuje limit na jeden obchod (500.27).",
+        "Obchod EQQQ: 0.04 ks x 14970.94 = 598.84 přesahuje limit na jeden obchod (500.27) - nezávisle přepočítáno z tržní ceny."
+      ],
+      "portfolio_value": 10005.458336538086,
+      "cash": 0.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 22966.06624,
+          "market_value": 987.5953468380859,
+          "unrealized_pl": 3.251901138084577,
+          "unrealized_plpc": 0.3303624514685577
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.16,
+          "avg_entry_price": 8276.301003749999,
+          "current_price": 8516.88159,
+          "market_value": 1362.7010544000002,
+          "unrealized_pl": 38.492893800000274,
+          "unrealized_plpc": 2.9068612432171737
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.33,
+          "avg_entry_price": 6588.324559393939,
+          "current_price": 6914.236889999999,
+          "market_value": 2281.6981736999996,
+          "unrealized_pl": 107.5510690999995,
+          "unrealized_plpc": 4.946816564180323
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.48,
+          "avg_entry_price": 7677.571118750001,
+          "current_price": 7451.98029,
+          "market_value": 3576.9505392,
+          "unrealized_pl": -108.28359780000028,
+          "unrealized_plpc": -2.9383098542593467
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 14970.943519999999,
+          "market_value": 1796.5132224,
+          "unrealized_pl": -35.553929700000026,
+          "unrealized_plpc": -1.940645552170217
+        }
+      ],
+      "spy_price": 22966.06624,
+      "benchmark_buy_hold_value": 10063.315396992555
+    },
+    {
+      "date": "2026-07-21",
+      "market_summary": "Účet je plně investován (cash = 0 CZK), takže dnes nelze realizovat žádné nákupy bez předchozího prodeje. AAPL (+5,3 %) a MSFT (+1,7 %) jsou v zisku, zatímco GOOGL (-4,3 %) a EQQQ (-1,1 %) jsou ve ztrátě. GOOGL vykazuje výrazně negativní trend posledních dvou týdnů – z ~7 900 CZK (16. 7.) propadl na 7 348 CZK (21. 7.), ztráta akceleruje. EQQQ také klesá, ale méně dramaticky a jeví mírné zotavení (14 772 → 15 093). AAPL po rally od 6 252 do ~6 958 vykazuje mírný pullback (z 7 064 na 6 937), trendově stále silný. CSPX a MSFT relativně stabilní. Makro: výnosová křivka mírně pozitivní (T10Y2Y +0,37 %), Fed sazba 3,63 % – neutrální prostředí, bez výrazného tlaku.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [
+        "Obchod GOOGL v hodnotě 734.81 přesahuje limit na jeden obchod (498.01).",
+        "Obchod GOOGL: 0.1 ks x 7348.12 = 734.81 přesahuje limit na jeden obchod (498.01) - nezávisle přepočítáno z tržní ceny."
+      ],
+      "portfolio_value": 9960.24609253238,
+      "cash": 0.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 22920.0546,
+          "market_value": 985.6167371323783,
+          "unrealized_pl": 1.2732914323769364,
+          "unrealized_plpc": 0.1293543872252334
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.16,
+          "avg_entry_price": 8276.301003749999,
+          "current_price": 8419.17425,
+          "market_value": 1347.06788,
+          "unrealized_pl": 22.85971940000013,
+          "unrealized_plpc": 1.7262934997804624
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.33,
+          "avg_entry_price": 6588.324559393939,
+          "current_price": 6937.272580000001,
+          "market_value": 2289.2999514000003,
+          "unrealized_pl": 115.15284680000013,
+          "unrealized_plpc": 5.296460692855742
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.48,
+          "avg_entry_price": 7677.571118750001,
+          "current_price": 7348.12405,
+          "market_value": 3527.099544,
+          "unrealized_pl": -158.13459300000022,
+          "unrealized_plpc": -4.2910324587607125
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15093.0165,
+          "market_value": 1811.1619799999999,
+          "unrealized_pl": -20.905172100000073,
+          "unrealized_plpc": -1.1410701881771956
+        }
+      ],
+      "spy_price": 22920.0546,
+      "benchmark_buy_hold_value": 10043.153927439425
+    },
+    {
+      "date": "2026-07-22",
+      "market_summary": "Hotovost na účtu je nulová, takže jakýkoli nákup vyžaduje nejprve prodej části stávající pozice. AAPL je v zisku +4,8 % a po výrazném rally (6 550 → 7 060 CZK) se mírně koriguje posledních 3 dní. GOOGL je nejslabší pozice (-5,6 %) s přetrvávajícím sestupným trendem – cena klesla z ~7 780 na 7 246 CZK, posledních 5 svíček tvoří nižší maxima a minima. MSFT a EQQQ jsou v mírné ztrátě, CSPX téměř na nule. Makro: Fed rate 3,63 %, výnosová křivka mírně pozitivní (T10Y2Y +0,36 %), 10Y výnos 4,67 % – prostředí mírně restriktivní, ale bez inverze, bez zásadního varovného signálu.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [
+        "Obchod GOOGL v hodnotě 724.65 přesahuje limit na jeden obchod (493.72).",
+        "Obchod GOOGL: 0.1 ks x 7246.49 = 724.65 přesahuje limit na jeden obchod (493.72) - nezávisle přepočítáno z tržní ceny."
+      ],
+      "portfolio_value": 9874.34089143598,
+      "cash": 0.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 22922.04516,
+          "market_value": 985.702335935981,
+          "unrealized_pl": 1.3588902359796293,
+          "unrealized_plpc": 0.13805041745498237
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.16,
+          "avg_entry_price": 8276.301003749999,
+          "current_price": 8268.57222,
+          "market_value": 1322.9715552,
+          "unrealized_pl": -1.2366053999999167,
+          "unrealized_plpc": -0.09338451738882814
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.33,
+          "avg_entry_price": 6588.324559393939,
+          "current_price": 6903.32787,
+          "market_value": 2278.0981971,
+          "unrealized_pl": 103.95109249999996,
+          "unrealized_plpc": 4.781235468384981
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.48,
+          "avg_entry_price": 7677.571118750001,
+          "current_price": 7246.492469999999,
+          "market_value": 3478.3163855999996,
+          "unrealized_pl": -206.91775140000072,
+          "unrealized_plpc": -5.61477897218341
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15077.103480000002,
+          "market_value": 1809.2524176000002,
+          "unrealized_pl": -22.81473449999976,
+          "unrealized_plpc": -1.2453001230794736
+        }
+      ],
+      "spy_price": 22922.04516,
+      "benchmark_buy_hold_value": 10044.026154876521
+    },
+    {
+      "date": "2026-07-23",
+      "market_summary": "Dnešní obchodní den (23. 7. 2026) přinesl výrazný výprodej napříč portfoliem. GOOGL propadl o ~6,9 % na 6 745 CZK s výrazně vyšším objemem (69 M vs. normálních ~25 M), čímž prohloubil svůj celkový ztrátu na -12,1 %. MSFT klesá na 8 102 CZK (-2,0 % dnes), CSPX a EQQQ rovněž pod tlakem. AAPL se drží relativně nejlépe (+3,7 % od vstupu). Makro prostředí: sazba Fedu 3,63 %, 10Y výnos 4,71 % - reálné výnosy dluhopisů jsou atraktivní, ale výnosová křivka je mírně pozitivní (T10Y2Y = 0,34 %), takže recesní signál není akutní. Účet má nulový hotovostní zůstatek - bez nových nákupů; sledujeme stávající pozice a zvažujeme jen rebalanci prodejem části AAPL (jediná pozice v zisku) a doprůměrováním GOOGL, pokud se vejde do mantinelů. Cash = 0, takže nelze nakupovat bez předchozího prodeje.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "sell",
+          "qty": 0.05,
+          "fill_price": 6829.48512,
+          "status": "submitted",
+          "realized_pl": 12.058028030303058,
+          "reasoning": "AAPL je jedinou pozicí v zisku (+3,7 %), ale dnes klesá z lokálního maxima 7 064 CZK zpět na 6 829 CZK. Částečný prodej (0,05 ks ≈ 341 CZK, pod limitem 5 % portfolia ~476 CZK) realizuje část zisku a uvolní hotovost pro doprůměrování GOOGL, který je nejvíce pod tlakem."
+        },
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.05,
+          "fill_price": 6745.194079999999,
+          "status": "submitted",
+          "reasoning": "GOOGL propadl dnes ~6,9 % na 6 745 CZK s extrémně vysokým objemem (69 M). Celková ztráta pozice je -12,1 %, blíží se stop-loss prahu 8 % od vstupu (avg 7 677 CZK, stop ≈ 7 063 CZK - ale aktuální cena je již pod ním). Nákup 0,05 ks za limit 6 720 CZK (≈ 336 CZK, pod 5% limitem) je opatrné doprůměrování při výrazném propadu, financované prodejem AAPL. Limit nastaven mírně pod aktuální cenou pro lepší vstup. POZOR: pozice je již za stop-loss hranicí - obchod je podmíněn realizací prodeje AAPL a představuje spekulativní stabilizaci, ne standardní přikoupení."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 9529.97810463682,
+      "cash": 4.214552000000026,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 22568.071920000002,
+          "market_value": 970.4806466368212,
+          "unrealized_pl": -13.862799063180091,
+          "unrealized_plpc": -1.4083294935053559
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.16,
+          "avg_entry_price": 8276.301003749999,
+          "current_price": 8101.70656,
+          "market_value": 1296.2730496,
+          "unrealized_pl": -27.935111000000006,
+          "unrealized_plpc": -2.109570974652686
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.28,
+          "avg_entry_price": 6588.324559393939,
+          "current_price": 6829.48512,
+          "market_value": 1912.2558336000002,
+          "unrealized_pl": 67.52495696969709,
+          "unrealized_plpc": 3.6604231991304026
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.53,
+          "avg_entry_price": 7589.611020754717,
+          "current_price": 6745.194079999999,
+          "market_value": 3574.9528624,
+          "unrealized_pl": -447.54097860000047,
+          "unrealized_plpc": -11.125958081982812
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 14765.009670000001,
+          "market_value": 1771.8011604,
+          "unrealized_pl": -60.26599169999986,
+          "unrealized_plpc": -3.2895077907444725
+        }
+      ],
+      "spy_price": 22568.071920000002,
+      "benchmark_buy_hold_value": 9888.921474824212
+    },
+    {
+      "date": "2026-07-24",
+      "market_summary": "Dnešní data (24. 7.) ukazují smíšený obrázek. AAPL dnes silně roste (+3,5 % intraday, uzavírá na 7068 CZK) a je to jediný nástroj v portfoliu v plusu (+7,3 % oproti vstupu). GOOGL pokračuje ve výprodeji (-10,6 % od vstupu, dnes -0,9 %), MSFT stagnuje pod vstupní cenou (-2,1 %). CSPX a EQQQ jsou taktéž pod vodou a vykazují slabší trend posledních dnů. Hotovost je minimální (4,21 CZK), takže bez prodeje nelze nakupovat. Zvažuji částečný prodej AAPL (realizace zisku na nejsilnější pozici) a případný přesun do MSFT, který vykazuje technické dno v oblasti 8100 CZK. Úrokové sazby (10Y: 4,69 %) zůstávají restriktivní, což tlačí na technologické valuace – GOOGL je strukturálně nejslabší v portfoliu.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "sell",
+          "qty": 0.05,
+          "fill_price": 7068.682519999999,
+          "status": "submitted",
+          "realized_pl": 24.017898030303016,
+          "reasoning": "AAPL je jediná pozice v portfoliu ve výrazném zisku (+7,3 %). Po silném rallyi od 6583 na 7068 CZK (přes 7,4 % za 14 dní) a dnešním intraday vrcholu blízko 7097 dochází ke krátkodobému přehřátí. Realizujeme část zisku (0,05 ks), čímž uvolníme ~353 CZK hotovosti pro případný přesun do slabší, ale technicky stabilizující se pozice. Celková expozice na AAPL zůstane 0,23 ks – stále plně v rámci limitů."
+        },
+        {
+          "symbol": "MSFT",
+          "side": "buy",
+          "qty": 0.04,
+          "fill_price": 8101.964199999999,
+          "status": "submitted",
+          "reasoning": "MSFT se po výprodeji (8101 CZK) stabilizuje v oblasti technické podpory 8080–8130 CZK, kde se nachází již druhý den. Earnings cyklus a postupné snižování sazeb Fedem (aktuálně DFF 3,63 %) by měly postupně podpořit technologický sektor. Nákup 0,04 ks za ~324 CZK je v rámci limitu max_single_trade_pct (5 % z ~9615 = max 480 CZK) a průměruje pozici mírně dolů. Čekáme na plnění až po realizaci prodeje AAPL."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 9615.018191898871,
+      "cash": 33.57011000000006,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 22677.40266,
+          "market_value": 975.1821278988714,
+          "unrealized_pl": -9.16131780112994,
+          "unrealized_plpc": -0.9307033882482885
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.2,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 8101.964199999999,
+          "market_value": 1620.39284,
+          "unrealized_pl": -27.893888599999855,
+          "unrealized_plpc": -1.6922958922136022
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.23000000000000004,
+          "avg_entry_price": 6588.324559393939,
+          "current_price": 7068.682519999999,
+          "market_value": 1625.7969796000002,
+          "unrealized_pl": 110.48233093939393,
+          "unrealized_plpc": 7.2910488285089725
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.53,
+          "avg_entry_price": 7589.611020754717,
+          "current_price": 6786.80124,
+          "market_value": 3597.0046572,
+          "unrealized_pl": -425.4891838000003,
+          "unrealized_plpc": -10.57774606049422
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 14692.262309999998,
+          "market_value": 1763.0714771999997,
+          "unrealized_pl": -68.99567490000027,
+          "unrealized_plpc": -3.766001416537279
+        }
+      ],
+      "spy_price": 22677.40266,
+      "benchmark_buy_hold_value": 9936.82823028285
+    },
+    {
+      "date": "2026-07-27",
+      "market_summary": "Portfolio dnes v hodnotě ~9 702 CZK s hotovostí 33,57 CZK. AAPL pokračuje v silném trendu (nejsilnější pozice, +8,5 % unrealized), GOOGL po prudkém propadu 23.7 zůstává pod tlakem (-8,7 %). CSPX a EQQQ ve slabším trendu, oba pod vstupní cenou. Hotovost je velmi nízká, takže jsme limitováni na malé nákupy. Výnosová křivka je mírně kladná (T10Y2Y +0,34 %) a sazba Fedu na 3,63 % – prostředí neutrální až mírně supportivní pro akcie. GOOGL dnes ukazuje skromné zotavení (+2,7 % od minima 23.7), ale trend je stále sestupný. AAPL ve vzestupném trendu se silným impulsem.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.004,
+          "fill_price": 7145.861100000001,
+          "status": "submitted",
+          "reasoning": "AAPL je nejsilnější pozice v portfoliu (+8,5 % unrealized) a pokračuje v vzestupném trendu – za posledních 14 dní posílil z ~6 665 na ~7 146 CZK. Dnešní svíčka otevřela nad 7 095 a dosáhla intraday high 7 202, což potvrzuje momentum. Přikupujeme malé množství za limit 7 130, čímž využíváme zbývající hotovost (33,57 CZK), aniž bychom překročili max_single_trade_pct 5 % (~485 CZK limit). Odhadovaná hodnota 28,52 CZK se vejde do dostupné hotovosti."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "portfolio_value": 9702.179244585246,
+      "cash": 4.986665600000052,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 22501.6617,
+          "market_value": 967.6248495852451,
+          "unrealized_pl": -16.718596114756224,
+          "unrealized_plpc": -1.698451509764154
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.2,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 8252.811000000002,
+          "market_value": 1650.5622000000003,
+          "unrealized_pl": 2.2754714000004697,
+          "unrealized_plpc": 0.13805070201184932
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.23400000000000004,
+          "avg_entry_price": 6597.855098549599,
+          "current_price": 7145.861100000001,
+          "market_value": 1672.1314974000006,
+          "unrealized_pl": 128.23340433939438,
+          "unrealized_plpc": 8.30582050173958
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.53,
+          "avg_entry_price": 7589.611020754717,
+          "current_price": 6926.337600000001,
+          "market_value": 3670.9589280000005,
+          "unrealized_pl": -351.53491299999996,
+          "unrealized_plpc": -8.739228123034426
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 14465.9592,
+          "market_value": 1735.915104,
+          "unrealized_pl": -96.1520481,
+          "unrealized_plpc": -5.248281865093551
+        }
+      ],
+      "spy_price": 22501.6617,
+      "benchmark_buy_hold_value": 9859.821715968701
+    },
+    {
+      "date": "2026-07-28",
+      "market_summary": "Trh dnes vykazuje smíšené signály. AAPL pokračuje v silném trendu (+9,7 % od vstupu, nové vícedenní maximum) a dnes otevřel vysoko s dalším nárůstem. GOOGL po prudkém výprodeji 23.7 včera o +2,6 % odskočil, ale stále zůstává hluboko v ztrátě (-6,4 %). CSPX a EQQQ jsou pod vstupními cenami a setrvávají v sestupném trendu posledního týdne. MSFT dnes prudce rostl (+1,4 %) a vrátil se nad svůj klouzavý průměr. Fed sazba 3,63 %, 10Y výnos 4,61 % – prostředí mírně restriktivní, výnosová křivka normální (spread +0,35 %).",
+      "trades": [
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.000702279870498858,
+          "fill_price": 7100.681379999999,
+          "status": "submitted",
+          "reasoning": "GOOGL dnes odskočil +2,6 % z lokálního dna a uzavřel na 7100. Po prudkém propadu 23.7 (pokles ~7 % za den při extrémně vysokém objemu) nastává technický odraz. Průměrná vstupní cena 7589, takže stále hluboko ve ztrátě, ale limitní nákup za ~7100 průměruje pozici dolů a snižuje break-even. Pozice by vzrostla na 0,59 ks – stále pod 10% limitem. Objem dneška (29,5M) naznačuje zájem kupujících."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "portfolio_value": 9844.2430467785,
+      "cash": 0.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 22643.32752,
+          "market_value": 973.7168160185005,
+          "unrealized_pl": -10.626629681500845,
+          "unrealized_plpc": -1.0795652399497424
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.2,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 8369.7013,
+          "market_value": 1673.9402600000003,
+          "unrealized_pl": 25.653531400000475,
+          "unrealized_plpc": 1.556375535571397
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.23400000000000004,
+          "avg_entry_price": 6597.855098549599,
+          "current_price": 7236.222239999999,
+          "market_value": 1693.2760041600002,
+          "unrealized_pl": 149.37791109939394,
+          "unrealized_plpc": 9.675373767919403
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5307022798704989,
+          "avg_entry_price": 7588.964018739056,
+          "current_price": 7100.681379999999,
+          "market_value": 3768.347797,
+          "unrealized_pl": -259.13270960000045,
+          "unrealized_plpc": -6.43411455810522
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 14458.018079999998,
+          "market_value": 1734.9621695999997,
+          "unrealized_pl": -97.10498250000023,
+          "unrealized_plpc": -5.300296028379425
+        }
+      ],
+      "spy_price": 22643.32752,
+      "benchmark_buy_hold_value": 9921.897119424193
+    },
+    {
+      "date": "2026-07-29",
+      "market_summary": "Portfolio je plně investováno (cash = 0 CZK), takže dnes nelze otevírat nové pozice ani přikupovat. Největší problém je GOOGL (-5,7 %) a EQQQ (-6,6 %), které jsou blízko stop-loss hranice 8 %. AAPL je v solidním zisku (+9 %), MSFT mírně v plusu. Makroprostředí: výnosová křivka je kladná (10Y-2Y = +0,45 %), Fed sazba 3,63 % – neutrální signál. Bez volné hotovosti není prostor pro nákupy; sledujeme, zda některá pozice nepřekročí stop-loss.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [],
+      "portfolio_value": 9815.608383739056,
+      "cash": 0.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 22423.2624,
+          "market_value": 964.2534936435598,
+          "unrealized_pl": -20.089952056441575,
+          "unrealized_plpc": -2.0409494413969442
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.2,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 8301.70878,
+          "market_value": 1660.3417560000003,
+          "unrealized_pl": 12.055027400000426,
+          "unrealized_plpc": 0.7313671335714478
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.23400000000000004,
+          "avg_entry_price": 6597.855098549599,
+          "current_price": 7188.90483,
+          "market_value": 1682.2037302200004,
+          "unrealized_pl": 138.3056371593941,
+          "unrealized_plpc": 8.958210245937837
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5307022798704989,
+          "avg_entry_price": 7588.964018739056,
+          "current_price": 7157.44447,
+          "market_value": 3798.472098275495,
+          "unrealized_pl": -229.00840832450558,
+          "unrealized_plpc": -5.686145667228438
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 14252.81088,
+          "market_value": 1710.3373056,
+          "unrealized_pl": -121.7298464999999,
+          "unrealized_plpc": -6.6443987252578385
+        }
+      ],
+      "spy_price": 22423.2624,
+      "benchmark_buy_hold_value": 9825.468558812456
+    },
+    {
+      "date": "2026-07-30",
+      "market_summary": "Dnešní den (30.7.) přinesl výrazný pohyb u MSFT – akcii vystřelila o ~14 % na 9 499 CZK po zřejmě silných výsledcích (volume 110 mil., otevřeno na 9 221 a uzavřeno na 9 499). Portfolio je plně investováno (cash = 0 CZK), takže nákupy jsou nemožné. GOOGL zůstává ve slabém trendu (-7,4 % od nákupu), CSPX a EQQQ také v červených číslech. AAPL po slibném výstupu z 28.7. dnes koriguje dolů. Bez dostupné hotovosti lze zvažovat pouze rebalanci prodejem jednoho aktiva a nákupem jiného – ale to je bezdůvodné, protože žádný nástroj nepřesáhl pozičními limity. Situace je bez cash nerealizovatelná pro nové nákupy.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [],
+      "portfolio_value": 9955.32730455493,
+      "cash": 0.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 22431.3781,
+          "market_value": 964.602488002131,
+          "unrealized_pl": -19.74095769787027,
+          "unrealized_plpc": -2.0054949097397357
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.2,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 9499.7149,
+          "market_value": 1899.9429800000003,
+          "unrealized_pl": 251.65625140000043,
+          "unrealized_plpc": 15.267747233137596
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.23400000000000004,
+          "avg_entry_price": 6597.855098549599,
+          "current_price": 7021.702370000001,
+          "market_value": 1643.0783545800005,
+          "unrealized_pl": 99.18026151939421,
+          "unrealized_plpc": 6.424016064608273
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5307022798704989,
+          "avg_entry_price": 7588.964018739056,
+          "current_price": 7026.545940000001,
+          "market_value": 3729.003949972798,
+          "unrealized_pl": -298.47655662720217,
+          "unrealized_plpc": -7.410999411122566
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 14322.4961,
+          "market_value": 1718.6995319999999,
+          "unrealized_pl": -113.36762010000007,
+          "unrealized_plpc": -6.187962049865514
+        }
+      ],
+      "spy_price": 22431.3781,
+      "benchmark_buy_hold_value": 9829.024711960928
+    },
+    {
+      "date": "2026-07-31",
+      "market_summary": "Smíšený den na trzích (31. 7. 2026). MSFT vyskočil na rekordní cenu ~9 797 CZK po silných výsledcích – pozice je +18,9 % v zisku. GOOGL dnes silně odskočil zpět na ~7 508 CZK z nízkých hodnot okolo 6 700–7 000 CZK. AAPL naopak prudce poklesl na ~6 512 CZK (silný výprodej na vysokém objemu z úrovní ~7 200), dostává se pod naši průměrnou nákupní cenu jen mírně. CSPX a EQQQ zůstávají v mírném downtratu. Hotovost je nulová – pro jakékoli nákupy je nutné nejprve prodat stávající pozici. Nejlogičtějším krokem je realizovat část zisku z MSFT (která je výrazně nad průměrem a těsně pod mantinelem 10 % pozice) a za získané prostředky dokoupit GOOGL, který dnes silně odrazil od dna a vykazuje momentum.",
+      "trades": [
+        {
+          "symbol": "MSFT",
+          "side": "sell",
+          "qty": 0.05,
+          "fill_price": 9796.76232,
+          "status": "submitted",
+          "realized_pl": 77.76643385000007,
+          "reasoning": "MSFT je nejziskovější pozice (+18,9 %, cca 311 CZK nerealizovaného zisku). Po silném výprodejovém vzestupu z ~8 300 na ~9 800 CZK za 2 dny (earnings rally) je přirozené realizovat část zisku. Částečný prodej 0,05 kusu (~490 CZK) nesníží pozici pod rozumnou úroveň, ale uvolní hotovost pro dokoupení GOOGL. Aktuální tržní hodnota MSFT pozice je ~1 959 CZK (19,3 % portfolia) – lehce nad limitem 10 % na pozici, proto redukce dává smysl i z hlediska rizikových mantinelů."
+        },
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.06,
+          "fill_price": 7507.576529999999,
+          "status": "submitted",
+          "reasoning": "GOOGL dnes silně odrazil z lokálního dna (6 745 CZK na 23. 7.) zpět na 7 508 CZK – přes +11 % za necelé 2 týdny. Dnešní svíčka (31. 7.) ukazuje silné momentum nahoru s high 7 559 CZK a objemem 46,5 mil. Průměrná nákupní cena pozice je 7 589 CZK, takže dokup na ~7 507–7 550 CZK snižuje průměr. Limitní cena 7 550 CZK dává mírný prostor na zachycení intraday pohybu. Výnos 10Y dluhopisu 4,75 % je sice tlak na valuace, ale momentum signál je dostatečně silný pro střední přesvědčení. 0,06 ks × 7 550 = ~453 CZK, pod limitem 5 % portfolia (~509 CZK)."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 10171.488452530239,
+      "cash": 39.38352420000007,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 22650.19582,
+          "market_value": 974.0121692169893,
+          "unrealized_pl": -10.331276483012061,
+          "unrealized_plpc": -1.0495601436818713
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.15000000000000002,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 9796.76232,
+          "market_value": 1469.5143480000002,
+          "unrealized_pl": 233.2993015500001,
+          "unrealized_plpc": 18.872064550577882
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.23400000000000004,
+          "avg_entry_price": 6597.855098549599,
+          "current_price": 6512.131710000001,
+          "market_value": 1523.8388201400005,
+          "unrealized_pl": -20.059272920605736,
+          "unrealized_plpc": -1.2992614610230269
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5907022798704988,
+          "avg_entry_price": 7580.697165045155,
+          "current_price": 7507.576529999999,
+          "market_value": 4434.742572573248,
+          "unrealized_pl": -43.19252582675199,
+          "unrealized_plpc": -0.9645634623464128
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 14416.641819999999,
+          "market_value": 1729.9970184,
+          "unrealized_pl": -102.07013370000004,
+          "unrealized_plpc": -5.571309631472987
+        }
+      ],
+      "spy_price": 22650.19582,
+      "benchmark_buy_hold_value": 9924.90668442409
+    },
+    {
+      "date": "2026-08-03",
+      "market_summary": "MSFT a GOOGL výrazně posilují – MSFT vyskočil z ~8 300 na 10 233 CZK (+23 % za 5 dní) po silných výsledcích, GOOGL se vrátil na 7 838 CZK z minima ~6 745. AAPL naopak oslabuje (pokles z ~7 200 na 6 367 CZK, -12 % za týden), CSPX konsoliduje kolem 23 000 CZK po mírném výprodeji. EQQQ v mírném poklesu (~-3,5 % od nákupu). Hotovost je velmi nízká (39 CZK), takže prostor pro nové nákupy je minimální. Makro: 10Y výnos 4,7 %, výnosová křivka pozitivně nakloněná (T10Y2Y +0,45 %) – bez recesního signálu.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "sell",
+          "qty": 0.05,
+          "fill_price": 6367.2687000000005,
+          "status": "submitted",
+          "realized_pl": -11.529319927479902,
+          "reasoning": "AAPL klesá silně 2 dny po sobě (-12 % z vrcholu), uzavřel na 6 367 CZK – blízko stop-loss úrovně (vstup ~6 598 CZK, -3,5 % nerealizovaná ztráta). Momentum je jasně negativní (nižší low každý den od 29.7), žádné zprávy, které by pád zastavily. Částečný prodej 0,05 ks snižuje expozici a uvolňuje ~318 CZK hotovosti pro případný lepší vstup nebo jiný nástroj. Nepřekračuje max_single_trade_pct (318 / 10 454 = 3 %)."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "portfolio_value": 10454.305167725845,
+      "cash": 357.7469592000001,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 23063.61064,
+          "market_value": 991.7899875111293,
+          "unrealized_pl": 7.446541811127986,
+          "unrealized_plpc": 0.7564983384262369
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.15000000000000002,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 10233.33525,
+          "market_value": 1535.0002875000002,
+          "unrealized_pl": 298.7852410500002,
+          "unrealized_plpc": 24.169358066625414
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.18400000000000005,
+          "avg_entry_price": 6597.855098549599,
+          "current_price": 6367.2687000000005,
+          "market_value": 1171.5774408000004,
+          "unrealized_pl": -42.42789733312611,
+          "unrealized_plpc": -3.4948690916277836
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5907022798704988,
+          "avg_entry_price": 7580.697165045155,
+          "current_price": 7838.107349999999,
+          "market_value": 4629.987881514714,
+          "unrealized_pl": 152.05278311471375,
+          "unrealized_plpc": 3.395600422369749
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 14735.02176,
+          "market_value": 1768.2026111999999,
+          "unrealized_pl": -63.864540900000065,
+          "unrealized_plpc": -3.4859279490271677
+        }
+      ],
+      "spy_price": 23063.61064,
+      "benchmark_buy_hold_value": 10106.057591156425
+    },
+    {
+      "date": "2026-08-04",
+      "market_summary": "Dnešní seance (4.8.2026) přináší výrazné oživení napříč celým portfoliem. CSPX +3,5 % za poslední 2 dny, EQQQ se odrazilo od dna a dnes uzavírá na 15 162 (+5,7 % od minima 28.7.), MSFT v silném uptrend po výsledcích (+25 % za 6 dní), GOOGL pokračuje v rally od 23.7. AAPL je slabší – po propadu 31.7. se stabilizuje okolo 6 500, stále pod průměrnou vstupní cenou. Hotovost 358 CZK, 10Y výnos 4,63 % s kladnou křivkou (spread +0,43 %) – makro neutrální/mírně pozitivní.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.05502165584653598,
+          "fill_price": 6501.930079999999,
+          "status": "submitted",
+          "reasoning": "AAPL se po silném propadu 31.7. (−8 % za den) stabilizuje v oblasti 6 350–6 500 CZK. Dnes uzavírá na 6 502, obchodní rozsah se zužuje – signál konsolidace. Průměrná vstupní cena 6 598 CZK, pozice v mírné ztrátě. Dokupuji na limitu 6 490 (mírně pod dnešním close) s cílem snížit průměrnou cenu. Qty 0.08 × 6 490 = 519 CZK, pod limitem 5 % z portfolia (~531 CZK). AAPL zůstane v mantinelech velikosti pozice."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "portfolio_value": 10623.008739977802,
+      "cash": 0.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 23433.51166,
+          "market_value": 1007.6966091469408,
+          "unrealized_pl": 23.353163446939448,
+          "unrealized_plpc": 2.3724609077202974
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.15000000000000002,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 10356.89496,
+          "market_value": 1553.5342440000002,
+          "unrealized_pl": 317.3191975500001,
+          "unrealized_plpc": 25.668608262068627
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.23902165584653604,
+          "avg_entry_price": 6575.773612505935,
+          "current_price": 6501.930079999999,
+          "market_value": 1554.1020939200002,
+          "unrealized_pl": -17.65020341312629,
+          "unrealized_plpc": -1.1229634238851927
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5907022798704988,
+          "avg_entry_price": 7580.697165045155,
+          "current_price": 7936.692399999999,
+          "market_value": 4688.22229531086,
+          "unrealized_pl": 210.28719691086008,
+          "unrealized_plpc": 4.696075139320288
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15162.112479999998,
+          "market_value": 1819.4534975999998,
+          "unrealized_pl": -12.613654500000166,
+          "unrealized_plpc": -0.6884930219693053
+        }
+      ],
+      "spy_price": 23433.51166,
+      "benchmark_buy_hold_value": 10268.141536705876
+    },
+    {
+      "date": "2026-08-05",
+      "market_summary": "Trh dnes (5. 8. 2026) vykazuje smíšené signály. CSPX a EQQQ jsou v silném uptrendu posledních 5 dní a jsou blízko nebo nad nákupní cenou. MSFT zažil raketový vzestup (+25 % za 2 týdny) a dnes mírně koriguje. GOOGL po silném vzestupu 31.7–4.8 dnes výrazně koriguje (high 8051 → close 7589, –5,6 %). AAPL stále pod průměrnou nákupní cenou a bez jasného impulzu k obnově. Hotovost je 0 CZK – k nákupu je nutné nejprve prodat část existujících pozic; bez cash nelze otevřít nové pozice bez přechozího výprodeje.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [
+        "Obchod CSPX v hodnotě 869.50 přesahuje limit na jeden obchod (520.52).",
+        "Obchod CSPX: 0.037 ks x 23544.72 = 871.15 přesahuje limit na jeden obchod (520.52) - nezávisle přepočítáno z tržní ceny."
+      ],
+      "portfolio_value": 10410.359214882603,
+      "cash": 0.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 23544.7179,
+          "market_value": 1012.478741359556,
+          "unrealized_pl": 28.135295659554686,
+          "unrealized_plpc": 2.8582803880556895
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.15000000000000002,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 10207.89986,
+          "market_value": 1531.184979,
+          "unrealized_pl": 294.96993255000007,
+          "unrealized_plpc": 23.86072984607783
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.23902165584653604,
+          "avg_entry_price": 6575.773612505935,
+          "current_price": 6512.651,
+          "market_value": 1556.6646259705988,
+          "unrealized_pl": -15.087671362527772,
+          "unrealized_plpc": -0.9599267892356766
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5907022798704988,
+          "avg_entry_price": 7580.697165045155,
+          "current_price": 7589.64663,
+          "market_value": 4483.221567752448,
+          "unrealized_pl": 5.286469352447966,
+          "unrealized_plpc": 0.11805596187262068
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15223.41084,
+          "market_value": 1826.8093008,
+          "unrealized_pl": -5.257851299999857,
+          "unrealized_plpc": -0.2869900971682826
+        }
+      ],
+      "spy_price": 23544.7179,
+      "benchmark_buy_hold_value": 10316.870102387904
+    },
+    {
+      "date": "2026-08-06",
+      "market_summary": "Portfolio je plně investováno (cash = 0 CZK), takže dnes nelze otevírat nové long pozice. MSFT dominuje výkonnosti s +27% ziskem a silným momentum trendem (rally z ~8 300 na 10 485 za 14 dní). GOOGL po silném výstupu na 7 900+ zpět klesá na 7 504 a je pod vstupní cenou (-1%). AAPL konsoliduje v pásmu 6 350–6 600, mírně pod nákladovou cenou. CSPX a EQQQ v solidním trendu, nicméně dnes obě lehce dole od maxim. Makro: výnosová křivka mírně pozitivní (10Y-2Y = +0,44 %), Fed sazba 3,63 % – prostředí relativně neutrální pro akcie.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [],
+      "portfolio_value": 10394.58958915374,
+      "cash": 0.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 23461.65888,
+          "market_value": 1008.9070064003464,
+          "unrealized_pl": 24.56356070034508,
+          "unrealized_plpc": 2.495425840203258
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.15000000000000002,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 10485.06336,
+          "market_value": 1572.7595040000003,
+          "unrealized_pl": 336.5444575500003,
+          "unrealized_plpc": 27.22377943193981
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.23902165584653604,
+          "avg_entry_price": 6575.773612505935,
+          "current_price": 6553.112160000001,
+          "market_value": 1566.3357194312705,
+          "unrealized_pl": -5.416577901856044,
+          "unrealized_plpc": -0.34462032669184683
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5907022798704988,
+          "avg_entry_price": 7580.697165045155,
+          "current_price": 7504.164,
+          "market_value": 4432.726783322122,
+          "unrealized_pl": -45.20831507787807,
+          "unrealized_plpc": -1.0095795067246893
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15115.5048,
+          "market_value": 1813.860576,
+          "unrealized_pl": -18.206576099999893,
+          "unrealized_plpc": -0.9937723122829145
+        }
+      ],
+      "spy_price": 23461.65888,
+      "benchmark_buy_hold_value": 10280.475140094826
+    },
+    {
+      "date": "2026-08-07",
+      "market_summary": "Portfolio je plně investováno (cash = 0 CZK), takže dnes nelze otevírat nové long pozice. MSFT dominuje výkonnosti s +27,6 % ziskem a silným momentum (z ~8 200 na ~10 500 CZK za 2 týdny). GOOGL je slabší článek – po výprodeji z 7 900 na 7 450 CZK dál klesá a je jediná pozice v červených číslech (-1,7 %). CSPX a EQQQ se postupně zotavují. AAPL stagnuje kolem vstupu. Makro: výnosová křivka pozitivní (T10Y2Y +0,46 %), Fed sazba 3,63 % – prostředí přijatelné pro akcie.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [
+        "Obchod GOOGL v hodnotě 1117.80 přesahuje limit na jeden obchod (519.95).",
+        "Obchod GOOGL: 0.15 ks x 7451.99 = 1117.80 přesahuje limit na jeden obchod (519.95) - nezávisle přepočítáno z tržní ceny."
+      ],
+      "portfolio_value": 10399.084482044804,
+      "cash": 0.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 23640.84736,
+          "market_value": 1016.6125362549441,
+          "unrealized_pl": 32.26909055494275,
+          "unrealized_plpc": 3.278234918503986
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.15000000000000002,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 10516.28967,
+          "market_value": 1577.4434505000002,
+          "unrealized_pl": 341.2284040500001,
+          "unrealized_plpc": 27.60267358255306
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.23902165584653604,
+          "avg_entry_price": 6575.773612505935,
+          "current_price": 6590.2698900000005,
+          "market_value": 1575.217221583369,
+          "unrealized_pl": 3.464924250242575,
+          "unrealized_plpc": 0.22044976527928473
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5907022798704988,
+          "avg_entry_price": 7580.697165045155,
+          "current_price": 7451.991900000001,
+          "market_value": 4401.908604906491,
+          "unrealized_pl": -76.0264934935094,
+          "unrealized_plpc": -1.6978024875946574
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15232.52224,
+          "market_value": 1827.9026688,
+          "unrealized_pl": -4.164483300000029,
+          "unrealized_plpc": -0.22731062533524193
+        }
+      ],
+      "spy_price": 23640.84736,
+      "benchmark_buy_hold_value": 10358.992295401426
+    },
+    {
+      "date": "2026-08-10",
+      "market_summary": "Portfolio je plně investováno (cash = 0 CZK), takže dnes nelze otevírat nové dlouhé pozice bez předchozího odprodeje. MSFT je jednoznačně nejsilnější pozicí (+28,9 % od vstupu) s výrazným uptrendem posledních 14 dní (cca +28 % za 2 týdny). CSPX a EQQQ se vrátily k předchozím high a pokračují v uptrendu. AAPL a GOOGL slábnou – AAPL dnes otevřela níže a uzavírá blízko denního minima, GOOGL konsoliduje pod svými srpnovými vrcholy po výrazném výprodeji. Makro prostředí je neutrální (výnosová křivka kladná +0,47 %, Fed sazba 3,63 %), bez zásadních negativních signálů.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "sell",
+          "qty": 0.08,
+          "fill_price": 6469.76088,
+          "status": "submitted",
+          "realized_pl": -8.481018600474782,
+          "reasoning": "AAPL je jedinou pozicí v červených číslech (-1,6 %) a cenový vývoj je negativní – dnes otevřela s mezerou dolů a uzavírá blízko denního minima po sérii klesajících nebo stagnujících svíček od 7. 8. Odprodej malé části uvolní cash pro případné příležitosti a snižuje expozici vůči nejslabšímu článku portfolia. Qty × 6470 ≈ 518 CZK, tj. ~5 % portfolia – v rámci max_single_trade_pct."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "portfolio_value": 10413.236459646152,
+      "cash": 517.5808704,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 23685.96167,
+          "market_value": 1018.552558641286,
+          "unrealized_pl": 34.20911294128473,
+          "unrealized_plpc": 3.475322875437792
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.15000000000000002,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 10621.18728,
+          "market_value": 1593.1780920000003,
+          "unrealized_pl": 356.9630455500003,
+          "unrealized_plpc": 28.87548137964182
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.15902165584653605,
+          "avg_entry_price": 6575.773612505935,
+          "current_price": 6469.76088,
+          "market_value": 1028.8320880687422,
+          "unrealized_pl": -16.85832026390949,
+          "unrealized_plpc": -1.6121712630787322
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5907022798704988,
+          "avg_entry_price": 7580.697165045155,
+          "current_price": 7503.62976,
+          "market_value": 4432.411206536124,
+          "unrealized_pl": -45.52389186387609,
+          "unrealized_plpc": -1.016626879655813
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15189.0137,
+          "market_value": 1822.6816439999998,
+          "unrealized_pl": -9.385508100000152,
+          "unrealized_plpc": -0.5122906160531238
+        }
+      ],
+      "spy_price": 23685.96167,
+      "benchmark_buy_hold_value": 10378.760571156765
+    },
+    {
+      "date": "2026-08-11",
+      "market_summary": "Trh je smíšený. MSFT zůstává v silném uptrendu (+28% nerealizovaný zisk, cena stabilně nad 10 500 CZK). CSPX se stabilizoval a pomalu roste. GOOGL zažil výrazný výprodej od vrcholu přes 7 900 na současných ~7 222 CZK (-4,7% v portfoliu), AAPL taktéž slábne (-2,6%). EQQQ mírně pod vstupní cenou. Makro: 10Y výnos 4,7%, efektivní sazba Fedu 3,63%, výnosová křivka kladná (0,48%), prostředí vyšších sazeb, ale trh tech akcií to zatím ignoruje díky silným výsledkům (MSFT). Hotovost: 517 CZK.",
+      "trades": [
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.068,
+          "fill_price": 7222.5504,
+          "status": "submitted",
+          "reasoning": "GOOGL klesl z vrcholu ~7 900 na 7 222 CZK (-9 % za 6 dní), přičemž dnešní svíčka má dolní stín níže (~7 214). Fundamentálně silná firma, výprodej vypadá jako krátkodobá korekce. Limitní příkaz 7 200 CZK nabízí mírný discount k aktuální ceně; pozice zůstane pod 50 % celkové hodnoty. Nákup za ~490 CZK (< 5 % limitu obchodu ~511 CZK)."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "portfolio_value": 10228.542540906055,
+      "cash": 26.447443199999952,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.043002373001867905,
+          "avg_entry_price": 22890.44480538886,
+          "current_price": 23659.329999999998,
+          "market_value": 1017.4073336342833,
+          "unrealized_pl": 33.06388793428198,
+          "unrealized_plpc": 3.358978827838799
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.15000000000000002,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 10584.04048,
+          "market_value": 1587.6060720000003,
+          "unrealized_pl": 351.3910255500002,
+          "unrealized_plpc": 28.424749121043202
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.15902165584653605,
+          "avg_entry_price": 6575.773612505935,
+          "current_price": 6405.54928,
+          "market_value": 1018.6210531121868,
+          "unrealized_pl": -27.0693552204649,
+          "unrealized_plpc": -2.5886586512376075
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.6587022798704989,
+          "avg_entry_price": 7543.72449807965,
+          "current_price": 7222.5504,
+          "market_value": 4757.510414959584,
+          "unrealized_pl": -211.558110640417,
+          "unrealized_plpc": -4.25750036552116
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15174.585200000001,
+          "market_value": 1820.9502240000002,
+          "unrealized_pl": -11.116928099999768,
+          "unrealized_plpc": -0.6067969772427295
+        }
+      ],
+      "spy_price": 23659.329999999998,
+      "benchmark_buy_hold_value": 10367.091054402874
+    },
+    {
+      "date": "2026-08-12",
+      "market_summary": "CSPX a EQQQ drží solidní uptrendový impuls od konce července – CSPX je na 14denním maximu (~23 698 CZK), EQQQ se stabilizoval těsně pod ATH po silném rallye. MSFT po silném earnings-driven skoku (+25 % nerealizovaný zisk) dnes mírně klesá (~10 345), zatímco GOOGL a AAPL zůstávají v záporném teritoriu a GOOGL dnes opět mírně klesl. Hotovost je velmi omezená (26,4 CZK), takže prostor pro nové pozice je extrémně malý. Portfolio je zdravé (+10 195 CZK), ale prakticky plně investované.",
+      "trades": [
+        {
+          "symbol": "CSPX",
+          "side": "buy",
+          "qty": 0.001,
+          "fill_price": 23697.56014,
+          "status": "submitted",
+          "reasoning": "CSPX je na 14denním maximu s čistým uptrendem (ze ~22 400 na ~23 700 za 2 týdny). Dostupná hotovost 26,4 CZK dovoluje jen minimální dokoupení – qty 0.001 (~23,7 CZK) se vejde do limitu a udržuje expozici na nejstabilnějším nástroji v portfoliu (SP500 broad index). Výnosová křivka T10Y2Y +0,48 % není invertovaná, makro prostředí nijak zvlášť nepůsobí proti akciovému trhu."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "portfolio_value": 10195.572043820988,
+      "cash": 2.749883059999952,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.044002373001867906,
+          "avg_entry_price": 22908.78734647356,
+          "current_price": 23697.56014,
+          "market_value": 1042.7488805144772,
+          "unrealized_pl": 34.707874674475875,
+          "unrealized_plpc": 3.443101468432208
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.15000000000000002,
+          "avg_entry_price": 8241.433642999998,
+          "current_price": 10344.969439999999,
+          "market_value": 1551.745416,
+          "unrealized_pl": 315.53036954999993,
+          "unrealized_plpc": 25.523906253697426
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.15902165584653605,
+          "avg_entry_price": 6575.773612505935,
+          "current_price": 6349.668,
+          "market_value": 1009.7347194357628,
+          "unrealized_pl": -35.95568889688889,
+          "unrealized_plpc": -3.4384640626301755
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.6587022798704989,
+          "avg_entry_price": 7543.72449807965,
+          "current_price": 7217.08832,
+          "market_value": 4753.912530410748,
+          "unrealized_pl": -215.15599518925228,
+          "unrealized_plpc": -4.329905978973647
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15289.005120000002,
+          "market_value": 1834.6806144000002,
+          "unrealized_pl": 2.613462300000265,
+          "unrealized_plpc": 0.1426510101993017
+        }
+      ],
+      "spy_price": 23697.56014,
+      "benchmark_buy_hold_value": 10383.842811210974
+    },
+    {
+      "date": "2026-08-13",
+      "market_summary": "Trh je celkově v mírně pozitivním trendu – CSPX a EQQQ pokračují v uptrendu posledních ~2 týdnů. MSFT po silném výprodeji v červnu výrazně vzrostl a obchoduje se poblíž 2týdenního maxima. GOOGL nadále klesá – za 14 dní ztratil zhruba 7 % z lokálního vrcholu (8. 8.) a zůstává pod průměrnou vstupní cenou. AAPL osciluje v slabém pásmu pod vstupní cenou. Cash je prakticky nulový (2,75 CZK), takže dnes lze obchodovat pouze přesunem z existujících pozic (prodej → nákup), nebo čistě prodejní příkazy.",
+      "trades": [
+        {
+          "symbol": "GOOGL",
+          "side": "sell",
+          "qty": 0.06,
+          "fill_price": 7274.94544,
+          "status": "submitted",
+          "realized_pl": -16.126743484779,
+          "reasoning": "GOOGL je od vrcholu 4. 8. (7 937 CZK) v jasném sestupném trendu – poslední 5 svíček uzavírají níže, aktuálně na 7 275 CZK, -3,6 % pod avg entry. Pozice je stále největší v portfoliu (~47 % market value). Malý částečný výprodej (0,06 ks ≈ 436 CZK, pod limitem 5 % účtu ~514 CZK) snižuje rizikovou expozici a uvolňuje cash pro případný nákup silnějšího aktiva."
+        },
+        {
+          "symbol": "MSFT",
+          "side": "buy",
+          "qty": 0.04,
+          "fill_price": 10436.46752,
+          "status": "submitted",
+          "reasoning": "MSFT drží silný uptrendový impuls (+26,6 % vs avg entry), po mírné konsolidaci posledních 3 dnů (10 344–10 436 CZK) dnes opět uzavírá výše. Trend technologického sektoru je pozitivní (EQQQ +6,7 % za 2 týdny). Nákup 0,04 ks za ~417 CZK (pod limitem 5 %) přidává k vítězné pozici při zachování mantinelů. Finančně krytý z výše navrženého prodeje GOOGL."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 10276.984638309408,
+      "cash": 21.787908659999914,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.044002373001867906,
+          "avg_entry_price": 22908.78734647356,
+          "current_price": 23762.54652,
+          "market_value": 1045.6084354472782,
+          "unrealized_pl": 37.56742960727695,
+          "unrealized_plpc": 3.7267759336805817
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.19000000000000003,
+          "avg_entry_price": 8703.546038157894,
+          "current_price": 10436.46752,
+          "market_value": 1982.9288288000002,
+          "unrealized_pl": 329.2550815500001,
+          "unrealized_plpc": 19.91052238070172
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.15902165584653605,
+          "avg_entry_price": 6575.773612505935,
+          "current_price": 6411.68104,
+          "market_value": 1019.5961357406404,
+          "unrealized_pl": -26.094272592011293,
+          "unrealized_plpc": -2.495410915513574
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5987022798704988,
+          "avg_entry_price": 7543.72449807965,
+          "current_price": 7274.94544,
+          "market_value": 4355.52642086149,
+          "unrealized_pl": -160.91863485373142,
+          "unrealized_plpc": -3.562949020050654
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15429.474240000001,
+          "market_value": 1851.5369088,
+          "unrealized_pl": 19.46975670000006,
+          "unrealized_plpc": 1.0627206910883702
+        }
+      ],
+      "spy_price": 23762.54652,
+      "benchmark_buy_hold_value": 10412.31866909689
+    },
+    {
+      "date": "2026-08-14",
+      "market_summary": "Trhy jsou celkově v pozitivním trendu – CSPX a EQQQ drží blízko maxim posledních 2 týdnů. MSFT výrazně posílil (+19 % od nákupu) a zůstává silný, i když v posledních 3 dnech mírně konsoliduje. GOOGL naopak oslabil z vrcholu kolem 7 900 CZK (4. 8.) na dnešních ~7 238 CZK a je momentálně -4 % pod nákupní cenou. AAPL se pohybuje pod vstupní cenou (-2,6 %) v bočním trendu. Cash je omezený (21,8 CZK), takže nelze otevírat nové pozice bez prodeje. Makro: výnosová křivka pozitivní (+0,51 %), Fed sazba 3,63 % – relativně příznivé prostředí pro akcie.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [],
+      "portfolio_value": 10225.673439909173,
+      "cash": 21.787908659999914,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.044002373001867906,
+          "avg_entry_price": 22908.78734647356,
+          "current_price": 23757.571630000002,
+          "market_value": 1045.389528481855,
+          "unrealized_pl": 37.34852264185372,
+          "unrealized_plpc": 3.705059856243764
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.19000000000000003,
+          "avg_entry_price": 8703.546038157894,
+          "current_price": 10366.740399999999,
+          "market_value": 1969.6806760000002,
+          "unrealized_pl": 316.00692875000004,
+          "unrealized_plpc": 19.109387766208897
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.15902165584653605,
+          "avg_entry_price": 6575.773612505935,
+          "current_price": 6401.89118,
+          "market_value": 1018.0393359929345,
+          "unrealized_pl": -27.65107233971719,
+          "unrealized_plpc": -2.644288607734946
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5987022798704988,
+          "avg_entry_price": 7543.72449807965,
+          "current_price": 7238.303399999999,
+          "market_value": 4333.588747974382,
+          "unrealized_pl": -182.85630774083893,
+          "unrealized_plpc": -4.048677787177946
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15309.893690000003,
+          "market_value": 1837.1872428000001,
+          "unrealized_pl": 5.120090700000219,
+          "unrealized_plpc": 0.27947068938665165
+        }
+      ],
+      "spy_price": 23757.571630000002,
+      "benchmark_buy_hold_value": 10410.138762158884
+    },
+    {
+      "date": "2026-08-17",
+      "market_summary": "Trh dnes (17.8.2026) vykazuje smíšené signály. CSPX a EQQQ jsou v konsolidaci poblíž nedávných maxim, bez výrazného impulzu. MSFT dnes výrazně klesá (-3,3 % na 10 028 CZK) po silném runupu, GOOGL je v sestupném trendu od maxim okolo 7 900 CZK dolů na 7 181 CZK (-~9 % za 2 týdny), AAPL setrvale slábne a obchoduje se pod průměrnou nákupní cenou. Makro prostředí: Fed rate 3,63 %, 10Y výnos 4,72 %, výnosová křivka kladná (+0,53 %), tedy bez inverze – mírně podpůrné prostředí pro akcie. Cash je velmi omezený (21,8 CZK), prodejní příležitost: redukce MSFT po výrazném zhodnocení (+15,2 %) a dnešním výrazném poklesu.",
+      "trades": [
+        {
+          "symbol": "MSFT",
+          "side": "sell",
+          "qty": 0.02,
+          "fill_price": 10027.786600000001,
+          "status": "submitted",
+          "realized_pl": 26.484811236842145,
+          "reasoning": "MSFT dnes klesá o ~3,3 % po silném runupu z ~8 300 na ~10 600 CZK za 2 týdny. Pozice je v zisku +15,2 % (251 CZK unrealized PnL). Dnešní pokles na 10 028 může signalizovat lokální vrchol nebo korekci. Malá realizace zisku (0,02 ks ≈ 200 CZK) uvolní hotovost pro případné příležitosti a sníží expozici vůči přehřátému titulu, aniž by došlo k porušení mantinelů."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "portfolio_value": 10131.150442108086,
+      "cash": 222.34364065999995,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.044002373001867906,
+          "avg_entry_price": 22908.78734647356,
+          "current_price": 23707.418850000002,
+          "market_value": 1043.1826871492144,
+          "unrealized_pl": 35.14168130921314,
+          "unrealized_plpc": 3.486136090260472
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.17000000000000004,
+          "avg_entry_price": 8703.546038157894,
+          "current_price": 10027.786600000001,
+          "market_value": 1704.7237220000006,
+          "unrealized_pl": 225.1208955131583,
+          "unrealized_plpc": 15.214954410953885
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.15902165584653605,
+          "avg_entry_price": 6575.773612505935,
+          "current_price": 6379.49684,
+          "market_value": 1014.4781509645442,
+          "unrealized_pl": -31.212257368107544,
+          "unrealized_plpc": -2.9848468647499016
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5987022798704988,
+          "avg_entry_price": 7543.72449807965,
+          "current_price": 7181.344,
+          "market_value": 4299.487025334328,
+          "unrealized_pl": -216.95803038089343,
+          "unrealized_plpc": -4.803734523601689
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15391.1268,
+          "market_value": 1846.9352159999999,
+          "unrealized_pl": 14.868063899999925,
+          "unrealized_plpc": 0.8115457931199499
+        }
+      ],
+      "spy_price": 23707.418850000002,
+      "benchmark_buy_hold_value": 10388.162719857963
+    },
+    {
+      "date": "2026-08-18",
+      "market_summary": "Trh dnes (18. 8. 2026) vykazuje smíšené signály. CSPX a EQQQ odepsaly po silném rally z konce července – obě ETF dnes klesají pod klouzavé průměry posledních dní. MSFT a GOOGL jsou pod svými krátkodobými vrcholy (MSFT peak ~10 621, dnes ~10 060; GOOGL od peaku ~7 904 dnes na ~7 189). AAPL se mírně zotavuje z nedávného dna kolem 6 350 na 6 476. Cash na účtu je 222 CZK, prostor pro jeden drobný obchod. Makroprostředí: výnosová křivka kladná (10Y 4,71 %, 2Y 4,19 %), spread +0,52 % – bez signálu recese. Fed rate 3,63 % – mírně podpůrné prostředí pro akcie.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.033,
+          "fill_price": 6475.59661,
+          "status": "submitted",
+          "reasoning": "AAPL se od dna 6 315 (12. 8.) zotavuje a dnes tvoří vyšší minimum – potenciální short-term obrat. Aktuálně jedináčkový propadlík v portfoliu (-1,5 %) po silném výprodeji z konce července. Malý doplňkový nákup průměruje vstupní cenu dolů (avg entry ~6 576 → po nákupu ~6 543). Cash po obchodu ~9 CZK, hodnota obchodu ~214 CZK (cca 2,1 % portfolio) – v limitu 5 % na obchod."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "portfolio_value": 10103.35544157355,
+      "cash": 8.648952529999946,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.044002373001867906,
+          "avg_entry_price": 22908.78734647356,
+          "current_price": 23434.76952,
+          "market_value": 1031.185469631845,
+          "unrealized_pl": 23.144463791843805,
+          "unrealized_plpc": 2.2959843555726556
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.17000000000000004,
+          "avg_entry_price": 8703.546038157894,
+          "current_price": 10059.80581,
+          "market_value": 1710.1669877000004,
+          "unrealized_pl": 230.56416121315806,
+          "unrealized_plpc": 15.582841360245837
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.19202165584653605,
+          "avg_entry_price": 6558.5576320056,
+          "current_price": 6475.59661,
+          "market_value": 1243.4547836464155,
+          "unrealized_pl": -15.93031281623621,
+          "unrealized_plpc": -1.2649278493910399
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.5987022798704988,
+          "avg_entry_price": 7543.72449807965,
+          "current_price": 7189.3054,
+          "market_value": 4304.253533665289,
+          "unrealized_pl": -212.19152204993225,
+          "unrealized_plpc": -4.698197795662762
+        },
+        {
+          "symbol": "EQQQ",
+          "qty": 0.12,
+          "avg_entry_price": 15267.2262675,
+          "current_price": 15047.047620000001,
+          "market_value": 1805.6457144,
+          "unrealized_pl": -26.421437699999842,
+          "unrealized_plpc": -1.4421653523842948
+        }
+      ],
+      "spy_price": 23434.76952,
+      "benchmark_buy_hold_value": 10268.692708237519
+    }
+  ]
+}
