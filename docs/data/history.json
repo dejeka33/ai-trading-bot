@@ -1,0 +1,44 @@
+{
+  "starting_value": 9999.99,
+  "entries": [
+    {
+      "date": "2026-08-19",
+      "portfolio_value": 9999.99,
+      "cash": 8684.05,
+      "buying_power": 8684.05,
+      "currency": "CZK",
+      "positions": [],
+      "market_summary": "Trh je smíšený – CSPX a EQQQ zaznamenaly za posledních 14 dní mírný pokles, přičemž EQQQ klesá výrazněji (z ~15 370 na ~14 958, -2,7 %). AAPL je pod tlakem od počátku srpna, ale drží relativní stabilitu kolem 6 350–6 455 CZK. MSFT se po krátkém výšlapu vrátil zpět na úroveň ~10 000 CZK a vykazuje downtrend. GOOGL je v bočním trendu s mírně negativní tendencí (~7 167 CZK). Portfolio je prázdné (cash 10 000 CZK), takže dnes budujeme první pozice. Makro: Fed sazba 3,63 % a 2Y výnos 4,19 % – spread pozitivní, bez inverze, prostředí je přijatelné pro rizikové aktivum.",
+      "trades": [
+        {
+          "symbol": "CSPX",
+          "side": "buy",
+          "qty": 0.02,
+          "status": "submitted",
+          "order_id": "53600324661",
+          "reasoning": "CSPX (S&P 500 ETF) je nejstabilnější instrument v univerzu. Za 14 dní osciluje v pásmu 23 400–23 700 CZK bez výrazného trendu. Nakupujeme malou startovní pozici za limit blízko spodní hranice pásma (23 450), čímž diverzifikujeme do nejširšího indexu. Tato pozice nepřekračuje 5 % portfolia (469 CZK < 500 CZK)."
+        },
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.07,
+          "status": "submitted",
+          "order_id": "53600324663",
+          "reasoning": "AAPL po poklesu z ~6 505 na ~6 455 drží podporu. Poslední dvě svíčky (17.–18.8.) ukazují recover z lokálního minima s vyšším objemem (38M → 46M), což naznačuje zájem nakupujících. Limit na 6 400 CZK nabízí mírnou marži pod aktuální cenou, vhodný risk/reward vstup. Pozice < 5 % portfolia."
+        },
+        {
+          "symbol": "EQQQ",
+          "side": "buy",
+          "qty": 0.03,
+          "status": "submitted",
+          "order_id": "53600324665",
+          "reasoning": "EQQQ (Nasdaq 100 ETF) klesá výrazněji než CSPX, ale dosahuje potenciální supportní zóny ~14 840–14 960 CZK (14.8. low i 19.8. intraday low). Malá pozice za limit 14 900 CZK zachycuje potenciální bounce při zachování přísné kontroly rizika. Qty 0.03 × 14 900 = 447 CZK < 500 CZK limit."
+        }
+      ],
+      "trade_count": 3,
+      "blocked_reasons": [],
+      "spy_price": 23505.49775,
+      "realized_pl_cum": 0.0
+    }
+  ]
+}
