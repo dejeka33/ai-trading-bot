@@ -1,4 +1,72 @@
 {
-  "starting_value": null,
-  "entries": []
+  "starting_value": 9997.66,
+  "entries": [
+    {
+      "date": "2026-08-20",
+      "portfolio_value": 9997.66,
+      "cash": 8800.32,
+      "buying_power": 8800.32,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 9971.48325,
+          "current_price": 9966.10723,
+          "market_value": 398.6442892,
+          "unrealized_pl": -0.22,
+          "unrealized_plpc": -0.055157290666862424
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.07,
+          "avg_entry_price": 6542.793571458109,
+          "current_price": 6543.65019,
+          "market_value": 458.0555133000001,
+          "unrealized_pl": -0.13,
+          "unrealized_plpc": -0.028384555264655543
+        },
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 19990.162500000002,
+          "current_price": 19978.047250000003,
+          "market_value": 399.56094500000006,
+          "unrealized_pl": -0.19,
+          "unrealized_plpc": -0.04752337556035374
+        }
+      ],
+      "market_summary": "Portfolio je prázdné (cash 10 000 CZK), dnes zahajujeme obchodování. AAPL dnes výrazně posílil – uzavřel na 6 551 CZK s intradenním high 6 601 po více než týdnu konsolidace (6 250–6 410), což naznačuje průraz z lokálního dna. CSPX a EQQQ mírně korigovaly (−0,4 % a −0,5 %) po krátkodobém růstu – EQQQ je navíc pod 14-denním průměrem. MSFT se stabilizoval po poklesu pod 10 000 a dnes uzavřel na 10 014 (+0,6 %). GOOGL konsoliduje v těsném pásmu 7 050–7 170 bez jasného směru. Makrokontext: Fed sazba 3,63 %, výnosová křivka normální (spread +0,46 %), 10Y dluhopis 4,71 % – mírně restriktivní prostředí, ale bez inverze výnosové křivky.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.07,
+          "status": "submitted",
+          "order_id": "53650458527",
+          "reasoning": "AAPL dnes prorazil nad lokální rezistenci na 6 410–6 440 a uzavřel na 6 551 s výrazným objemem (50 M). Po týdnu klesajícího trendu (6 459 → 6 249) jde o první jasný obrat s momentum. Limit 6 560 je mírně nad dnešní close, dáváme prostor pro potvrzení. Qty 0.07 × 6 560 = 459 CZK – pod limitem 5 % (500 CZK)."
+        },
+        {
+          "symbol": "CSPX",
+          "side": "buy",
+          "qty": 0.02,
+          "status": "submitted",
+          "order_id": "53650458529",
+          "reasoning": "CSPX je v mírném krátkodobém poklesu po vrcholu 23 630 (14. 8.), ale 14denní trend je stále pozitivní (23 401 → dnešní 23 463). Průměrný ETF na S&P 500 jako základ portfolia, nízká volatilita. Limit 23 480 je pod dnešní close (23 463) – konzervativní vstup v případě mírné korekce. Qty 0.02 × 23 480 = 469 CZK – pod limitem 500 CZK."
+        },
+        {
+          "symbol": "MSFT",
+          "side": "buy",
+          "qty": 0.04,
+          "status": "submitted",
+          "order_id": "53650458534",
+          "reasoning": "MSFT po poklesu z 10 463 na 9 866 (17.–18. 8.) dnes uzavřel na 10 014, čímž potvrdil technický odraz od supportu ~9 870–9 900. Střední přesvědčení – cenové dno zřejmě proběhlo. Limit 10 020 je těsně nad dnešní close pro vstup na potvrzení. Qty 0.04 × 10 020 = 400 CZK – pod limitem 500 CZK."
+        }
+      ],
+      "trade_count": 3,
+      "blocked_reasons": [],
+      "spy_price": 23463.85825,
+      "realized_pl_cum": 0.0
+    }
+  ]
 }
