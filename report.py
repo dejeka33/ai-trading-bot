@@ -28,7 +28,12 @@ def build_report(date_str, account_before, account_after, decision, trade_result
             lines.append(
                 f"| {p['symbol']} | {p['qty']} | {p['avg_entry_price']:.2f} | "
                 f"{p['current_price']:.2f} | {p['market_value']:.2f} | "
-                f"{p['unrealized_pl']:.2f} ({p['unrealized_plpc']*100:.2f}%) |"
+                # POZOR - bug nalezený 21.8.2026: unrealized_plpc z broker_t212.py je
+                # UŽ v procentních bodech (např. -1.77 = -1.77 %, ne -0.0177), protože
+                # tam se počítá jako "... * 100". Tady se násobilo *100 podruhé, takže
+                # report ukazoval -177.08 % místo -1.77 % (viz denní report 21.8.2026 -
+                # AAPL, MSFT, CSPX měly nesmyslně vysoké P/L procenta).
+                f"{p['unrealized_pl']:.2f} ({p['unrealized_plpc']:.2f}%) |"
             )
         lines.append("")
 
