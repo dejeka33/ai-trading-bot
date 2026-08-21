@@ -70,56 +70,56 @@
     },
     {
       "date": "2026-08-21",
-      "portfolio_value": 9989.05,
-      "cash": 4679.16,
-      "buying_power": 4679.16,
+      "portfolio_value": 9990.51,
+      "cash": 3772.53,
+      "buying_power": 3772.53,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "MSFT",
           "qty": 0.04,
           "avg_entry_price": 9971.48325,
-          "current_price": 9957.21612,
-          "market_value": 398.2886448,
-          "unrealized_pl": -1.07,
-          "unrealized_plpc": -0.26826500460701275
+          "current_price": 9978.7202,
+          "market_value": 399.148808,
+          "unrealized_pl": -0.09,
+          "unrealized_plpc": -0.022564346181898263
         },
         {
           "symbol": "AAPL",
           "qty": 0.07,
           "avg_entry_price": 6542.793571458109,
-          "current_price": 6452.05108,
-          "market_value": 451.6435756000001,
-          "unrealized_pl": -7.09,
-          "unrealized_plpc": -1.5480499755877521
+          "current_price": 6449.56984,
+          "market_value": 451.46988880000004,
+          "unrealized_pl": -7.12,
+          "unrealized_plpc": -1.5546002575719036
         },
         {
           "symbol": "CSPX",
           "qty": 0.02,
           "avg_entry_price": 19990.162500000002,
-          "current_price": 19933.249,
-          "market_value": 398.66498,
-          "unrealized_pl": -1.0,
-          "unrealized_plpc": -0.2501230292650197
+          "current_price": 19969.313000000002,
+          "market_value": 399.38626000000005,
+          "unrealized_pl": -0.46,
+          "unrealized_plpc": -0.11505659346190908
         }
       ],
-      "market_summary": "Trh je v mírném sestupu posledních 3–5 dní. CSPX, EQQQ, MSFT, AMZN, GOOGL a JPM tlačí dolů, NVDA consoliduje na slabší straně. Výraznější výjimku tvoří JNJ (silný uptred od 18.8.) a AAPL (po silném skoku 19.8. dnes korigoval, ale stále nad 14denním průměrem). Úrokové sazby zůstávají zvýšené (10Y 4,65 %, Fed rate 3,63 %), výnosová křivka pozitivní (+0,5 %), ale neposkytuje přímý obchodní signál. Portfolio (MSFT, AAPL, CSPX) je mírně ve ztrátě. Největší příležitostí je JNJ – defensivní titul v jasném uptrendu, a NVDA jako levnější zásah do AI sektoru s mírnou stabilizací pod 4 500.",
+      "market_summary": "Trh dnes vykazuje smíšené až mírně negativní tendence. CSPX a EQQQ klesají (CSPX za 2 týdny z ~23 630 na ~23 317, EQQQ z ~15 340 na ~14 763 – zhruba -2,4 % a -3,8 %), zatímco MSFT je pod vstupní cenou a AAPL se vrátila blízko vstupu po výprodeji. Pozitivním signálem je JNJ, která v posledních 3 dnech výrazně posílila (+3 % z 5 425 na 5 528). NVDA osciluje v úzkém pásmu bez jasného směru. Makroprostředí: Fed sazba 3,63 %, výnosová křivka 10Y-2Y +0,50 % (normální, mírně pozitivní), 10Y výnos 4,65 % – prostředí vyšších sazeb mírně tlačí na valuace růstových akcií (EQQQ, NVDA).",
       "trades": [
         {
           "symbol": "JNJ",
           "side": "buy",
           "qty": 0.08,
           "status": "submitted",
-          "order_id": "53650487453",
-          "reasoning": "JNJ v silném uptrendu posledních 5 dní (+5 % od 14.8. do 19.8.), defensivní charakter ho chrání při obecném tržním oslabení. Dnešní pullback od 5 653 na 5 528 nabízí lepší vstupní cenu. Limit 5 530 zachycuje dnešní close, obchod ~442 CZK je pod 5% limitem (max ~499 CZK). Diversifikace od tech-heavy portfolia."
+          "order_id": "53650487816",
+          "reasoning": "JNJ vykazuje silný uptrendový pohyb za poslední 3 dny (+3,3 % z 5 425 na 5 653, ale dnes stáhla zpět na 5 528). Defensivní sektor (healthcare) je v prostředí vyšších sazeb a nejistoty odolnější. Nákup při dnešní korekci s limitem 5 540 dává rozumnou vstupní cenu. Pozice by tvořila ~4,4 % portfolia – v mantinelech (max 10 %)."
         },
         {
-          "symbol": "NVDA",
+          "symbol": "GOOGL",
           "side": "buy",
-          "qty": 0.1,
+          "qty": 0.06,
           "status": "submitted",
-          "order_id": "53650487455",
-          "reasoning": "NVDA konsoliduje v pásmu 4 480–4 550 po poklesu z ~4 700. AI sektor zůstává strukturálně zajímavý. Vstup limitním příkazem těsně nad support 4 480 (dnešní low 4 459) s qty 0,1 ks = ~449 CZK, v mantinelech. Riziko omezené stop-lossem na 8 %."
+          "order_id": "53650487818",
+          "reasoning": "GOOGL konsoliduje v pásmu 7 000–7 170 po propadu z 7 392 (cca -5,4 % za 2 týdny). Dnešní low bylo 7 000, zavírá na 7 044 – blízko podpory. Limit 7 050 cílí na nákup u spodní hranice tohoto pásma s rozumným poměrem rizika/výnosu. Obchodovaný objem zůstává stabilní. Příp. pozice ~4,2 % portfolia, v mantinelech."
         }
       ],
       "trade_count": 2,
@@ -131,5 +131,5 @@
       "net_deposits_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-08-21T12:18:20.819818+00:00"
+  "last_cash_flow_check": "2026-08-21T12:51:12.778018+00:00"
 }
