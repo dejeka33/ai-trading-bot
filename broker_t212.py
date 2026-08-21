@@ -261,7 +261,7 @@ def get_account_snapshot(instruments_map):
     }
 
 
-def get_settled_account_snapshot(instruments_map, trade_results, max_attempts=8, delay_seconds=5):
+def get_settled_account_snapshot(instruments_map, trade_results, max_attempts=15, delay_seconds=10):
     """
     Stejné jako get_account_snapshot(), ale počká, dokud se nově koupené
     symboly reálně neobjeví v /equity/positions.
@@ -277,6 +277,15 @@ def get_settled_account_snapshot(instruments_map, trade_results, max_attempts=8,
     Použije se místo get_account_snapshot() jen tam, kde appka bere finální
     stav účtu PO obchodech (main.py) - snapshot PŘED obchody (account_before)
     tenhle problém logicky mít nemůže.
+
+    POZOR - zvětšeno 21.8.2026 z původních 8 pokusů / 5s (40s celkem) na
+    15 pokusů / 10s (2,5 min celkem): živý test ukázal, že u nově přidaných
+    symbolů (JNJ, NVDA) se propsání do /equity/positions někdy protáhne na
+    výrazně déle než 40s - appka pak i o desítky minut později ukládala
+    neúplný snapshot, přestože Trading 212 appka samotná nové pozice už dávno
+    zobrazovala. Delší čekání appku nic nestojí navíc (netýká se AI/Anthropic
+    volání, jen dotazů na Trading 212 API), jen o pár desítek vteřin prodlouží
+    běh na GitHub Actions.
     """
     bought_symbols = {
         t["symbol"] for t in trade_results
