@@ -350,3 +350,46 @@ def execute_trades(trades, instruments_map):
                 "reasoning": t.get("reasoning", ""),
             })
     return results
+
+
+def get_cash_flows(after_datetime=None, max_pages=5, page_limit=50):
+    """
+    POZOR - přidáno 21.8.2026: umožňuje appce rozeznat, když uživatel na T212
+    účet ručně přidá/vybere hotovost mimo appku - jinak by to dashboard mylně
+    vykazoval jako zisk/ztrátu appky (viz diskuze v chatu). Používá T212 API
+    endpoint GET /equity/history/transactions - schema ověřené z oficiální
+    dokumentace (docs.trading212.com/api/historical-events/transactions.md),
+    appka sama proti němu zatím NEBYLA živě testovaná (na rozdíl od ostatních
+    endpointů níže) - první ostrý běh po nasazení je potřeba zkontrolovat, jestli
+    appka pole skutečně parsuje správně (print diagnostika viz _request výše).
+
+        {"items": [{"amount", "currency", "dateTime", "reference", "type"}, ...],
+         "nextPagePath": "..." nebo None}
+        type: "DEPOSIT" | "WITHDRAW" | "FEE" | "TRANSFER" | "INTEREST_ON_FREE_CASH"
+              | "LENDING_INTEREST" - appku zajímají jen DEPOSIT/WITHDRAW.
+
+    `after_datetime`: ISO řetězec (nebo None) - appka si sama nezjišťuje, jestli
+    "nextPagePath" vrací nejnovější položky napřed nebo naopak (dokumentace to
+    neuvádí), takže radši projde až `max_pages` stránek a filtruje podle data,
+    místo aby se spoléhala na pořadí a mohla něco přeskočit.
+    """
+    flows = []
+    path = f"/equity/history/transactions?limit={page_limit}"
+    for _ in range(max_pages):
+        data = _request("GET", path)
+        items = data.get("items", [])
+        for it in items:
+            if it.get("type") not in ("DEPOSIT", "WITHDRAW"):
+                continue
+            dt = it.get("dateTime", "")
+            if after_datetime and dt <= after_datetime:
+                continue
+            flows.append(it)
+        next_path = data.get("nextPagePath")
+        if not next_path or not items:
+            break
+        # "nextPagePath" podle názvu vypadá jako celá cesta na další stránku -
+        # kdyby appka narazila na jiný tvar (jen cursor token), zkusí ho aspoň
+        # našroubovat jako query parametr, než aby stránkování úplně selhalo.
+        path = next_path if next_path.startswith("/") else f"/equity/history/transactions?cursor={next_path}"
+    return flows

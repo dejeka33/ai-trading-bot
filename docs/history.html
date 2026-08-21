@@ -264,6 +264,7 @@ function openDaySheet(e){
     <div class="sheet-meta">
       <div class="sheet-meta-item"><div class="sm-label">Hodnota portfolia</div><div class="sm-value">${fmtMoney(e.portfolio_value)}</div></div>
       <div class="sheet-meta-item"><div class="sm-label">Obchodů</div><div class="sm-value">${e.trade_count}</div></div>
+      ${e.cash_flow_net ? `<div class="sheet-meta-item"><div class="sm-label">${e.cash_flow_net > 0 ? 'Vklad mimo appku' : 'Výběr mimo appku'}</div><div class="sm-value">${e.cash_flow_net > 0 ? '+' : ''}${fmtMoney(e.cash_flow_net)}</div></div>` : ''}
     </div>
     <div class="sheet-label">Shrnutí od AI</div>
     <p class="sheet-summary">${e.market_summary || '(bez shrnutí)'}</p>

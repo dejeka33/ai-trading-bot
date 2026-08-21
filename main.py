@@ -74,6 +74,48 @@ def compute_realized_pl_delta(trade_results):
     )
 
 
+def compute_cash_flow_delta(prev_history):
+    """
+    POZOR - přidáno 21.8.2026: appka umí rozeznat, když uživatel na T212 účet
+    ručně přidá (nebo vybere) hotovost mimo appku samotnou - jinak by dashboard
+    vklad omylem vykazoval jako obchodní zisk (viz diskuze v chatu - appka umí
+    vykreslit "Portfolio vs. drž a čekej CSPX", "Od začátku" i denní změnu tak,
+    aby vklad/výběr nezkresloval, jen pokud o něm ví). Používá T212 API endpoint
+    /equity/history/transactions (viz broker_t212.get_cash_flows).
+
+    Při úplně PRVNÍM běhu po nasazení téhle featury (prev_history ještě nemá
+    "last_cash_flow_check") appka žádné starší vklady zpětně NEzapočítává - ty
+    už jsou zahrnuté v počáteční hodnotě portfolia (starting_value) - jen si
+    zapamatuje aktuální okamžik jako výchozí bod a sledování začne od PŘÍŠTÍHO
+    běhu.
+
+    Vrací (net, items, new_check) - net je dnešní čistý součet (kladné = vklad
+    převažuje), items jsou syrové položky pro uložení do historie (audit/detail),
+    new_check je nové razítko, které se má uložit jako "last_cash_flow_check".
+    """
+    last_check = prev_history.get("last_cash_flow_check")
+    now_iso = datetime.now(timezone.utc).isoformat()
+
+    if last_check is None:
+        return 0.0, [], now_iso
+
+    try:
+        flows = broker_t212.get_cash_flows(after_datetime=last_check)
+    except Exception as e:
+        # Appka radši dnešní vklad/výběr přehlédne, než aby kvůli chybě API
+        # spadl celý denní běh - jen si NEPOSUNE checkpoint, takže to zkusí
+        # dohnat příští den (get_cash_flows si tak jako tak žádá "od" daného
+        # data, ne jen "za včerejšek").
+        print(f"POZOR: nepodařilo se zjistit vklady/výběry z T212 API ({e}) - "
+              f"appka pokračuje bez téhle informace, dnešní případný vklad "
+              f"se na dashboardu neodliší od obchodního zisku.")
+        return 0.0, [], last_check
+
+    net = sum((f.get("amount") or 0.0) if f.get("type") == "DEPOSIT" else -(f.get("amount") or 0.0)
+               for f in flows)
+    return net, flows, now_iso
+
+
 def main():
     limits = load_risk_limits()
     stocks, crypto = allowed_symbols(limits)  # crypto bude vždy [] v této verzi
@@ -142,17 +184,15 @@ def main():
     # nepoužívá - jen dashboard (docs/positions.html čte trade["realized_pl"]
     # přímo z uložených dat v history.json).
     annotate_realized_pl(account_before, trade_results)
+    realized_pl_delta = compute_realized_pl_delta(trade_results)
 
     prev_history = load_history()
-    prev_realized_pl_cum = (
-        prev_history["entries"][-1].get("realized_pl_cum") if prev_history["entries"] else None
-    )
-    realized_pl_delta = compute_realized_pl_delta(trade_results)
-    realized_pl_cum = (prev_realized_pl_cum or 0.0) + realized_pl_delta
+    cash_flow_net, cash_flow_items, cash_flow_check = compute_cash_flow_delta(prev_history)
 
     update_history(
         date_str, account_after, decision, trade_results, reasons if not ok else [],
-        spy_price=spy_price, realized_pl_cum=realized_pl_cum,
+        spy_price=spy_price, realized_pl_delta=realized_pl_delta,
+        cash_flow_net=cash_flow_net, cash_flow_items=cash_flow_items, cash_flow_check=cash_flow_check,
     )
 
     print(report_md)

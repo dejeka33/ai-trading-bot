@@ -16,11 +16,39 @@ def load_history():
 
 
 def update_history(date_str, account_current, decision, trade_results, validation_reasons,
-                    spy_price=None, realized_pl_cum=None):
+                    spy_price=None, realized_pl_delta=0.0,
+                    cash_flow_net=0.0, cash_flow_items=None, cash_flow_check=None):
+    """
+    `realized_pl_delta`: kolik appka dnes realizovala prodejem (viz
+    main.compute_realized_pl_delta) - kumulativní součet (realized_pl_cum) si
+    tahle funkce počítá SAMA z předchozího dne, aby to nemusel řešit main.py.
+
+    `cash_flow_net`, `cash_flow_items`, `cash_flow_check`: POZOR - přidáno
+    21.8.2026 kvůli rozeznání ručních vkladů/výběrů na T212 účtu mimo appku
+    (viz main.compute_cash_flow_delta a broker_t212.get_cash_flows) - bez
+    tohohle by dashboard vklad omylem vykazoval jako zisk appky. cash_flow_net
+    je čistý součet dnešních vkladů/výběrů (kladné = vklad), cash_flow_items
+    jsou syrové položky z T212 API (pro detail/audit), cash_flow_check je nové
+    "poslední zkontrolované" razítko, které se uloží na kořenovou úroveň
+    (mimo jednotlivé dny) - viz load_history().
+    """
     data = load_history()
 
     if data["starting_value"] is None:
         data["starting_value"] = account_current["portfolio_value"]
+
+    # Kumulativní pole (realized_pl_cum, net_deposits_cum) se počítají vůči
+    # PŘEDCHOZÍMU dni, ne vůči poslednímu záznamu v poli jak byl uložený předtím -
+    # kdyby dnešní datum v historii už existovalo (ruční re-run stejného dne),
+    # bral by se jako "předchozí" omylem vlastní dřívější běh dneška a delta by
+    # se sečetla dvakrát. Proto se dnešní záznam napřed z výpočtu vyřadí.
+    entries_before_today = [e for e in data["entries"] if e["date"] != date_str]
+    prev_entry = entries_before_today[-1] if entries_before_today else None
+    prev_realized_pl_cum = prev_entry.get("realized_pl_cum", 0.0) if prev_entry else 0.0
+    prev_net_deposits_cum = prev_entry.get("net_deposits_cum", 0.0) if prev_entry else 0.0
+
+    realized_pl_cum = prev_realized_pl_cum + (realized_pl_delta or 0.0)
+    net_deposits_cum = prev_net_deposits_cum + (cash_flow_net or 0.0)
 
     entry = {
         "date": date_str,
@@ -42,12 +70,20 @@ def update_history(date_str, account_current, decision, trade_results, validatio
         # kdy jsou data k dispozici.
         "spy_price": spy_price,
         "realized_pl_cum": realized_pl_cum,
+        # Vklady/výběry mimo appku (viz POZOR výše) - u dní před 21.8.2026 tahle
+        # pole chybí/jsou 0, dashboard to bere jako "žádný vklad ten den".
+        "cash_flow_net": cash_flow_net or 0.0,
+        "cash_flow_items": cash_flow_items or [],
+        "net_deposits_cum": net_deposits_cum,
     }
 
     # Pokud dnešní datum už v historii je (např. ruční re-run stejný den), přepiš ho
-    data["entries"] = [e for e in data["entries"] if e["date"] != date_str]
+    data["entries"] = entries_before_today
     data["entries"].append(entry)
     data["entries"].sort(key=lambda e: e["date"])
+
+    if cash_flow_check is not None:
+        data["last_cash_flow_check"] = cash_flow_check
 
     os.makedirs(os.path.dirname(HISTORY_PATH), exist_ok=True)
     with open(HISTORY_PATH, "w", encoding="utf-8") as f:

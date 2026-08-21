@@ -376,14 +376,45 @@ function closeSheet(){ backdrop.classList.remove('open'); sheetEl.classList.remo
 backdrop.addEventListener('click', closeSheet);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
 
+// POZOR - přidáno 21.8.2026: appka umí rozeznat, když uživatel na T212 účet
+// ručně přidá/vybere hotovost mimo appku (viz main.py compute_cash_flow_delta,
+// pole "cash_flow_net" u každého dne) - bez tohohle by vklad vypadal jako
+// obchodní zisk appky. U dní PŘED zavedením téhle featury pole chybí, cf()
+// tam vrátí 0 (appka se chová přesně jako předtím).
+function cf(entry){ return entry.cash_flow_net || 0; }
+
+// TWR (time-weighted return) index - "jak by appka vydělávala, kdyby žádné
+// vklady/výběry nebyly" - eliminuje efekt toho, KDY přesně vklad přišel.
+// index[0] = 1 (100 %); index[i] = index[i-1] * (V[i] - vklad[i]) / V[i-1] -
+// vklad se tak do výkonu toho dne nezapočítá (bere se, že přišel na začátku
+// dne, ne jako by ho appka "vydělala"). Používá se pro "Od začátku" (%),
+// "Denní změna" (%) a "Max. propad", aby vklad/výběr žádnou z těch tří
+// hodnot nezkreslil.
+function twrIndexSeries(entries){
+  const idx = [1];
+  for (let i = 1; i < entries.length; i++) {
+    const prevV = entries[i-1].portfolio_value;
+    const r = prevV ? (entries[i].portfolio_value - cf(entries[i])) / prevV : 1;
+    idx.push(idx[i-1] * r);
+  }
+  return idx;
+}
+
 // Přepočte benchmark cenu (CSPX) na hodnotu "kdyby jsi od prvního bodu v pohledu
-// místo AI jen koupil a držel CSPX". Vrací null, pokud pro aktuální rozsah chybí
-// byť jediný den se zaznamenanou cenou (např. dny před zavedením trackování) -
-// v tom případě se benchmark zatím nezobrazuje, místo zavádějícího výpadku.
+// místo AI jen koupil a držel CSPX" - VČETNĚ stejných vkladů/výběrů ve stejnou
+// dobu (jinak by pozdější vklad appku vykreslil jako by "porazila CSPX" jen
+// díky tomu, že jsi přidal peníze, ne díky rozhodování AI - viz diskuze v chatu
+// 21.8.2026). Vrací null, pokud pro aktuální rozsah chybí byť jediný den se
+// zaznamenanou cenou (např. dny před zavedením trackování) - v tom případě se
+// benchmark zatím nezobrazuje, místo zavádějícího výpadku.
 function benchmarkSeries(entries){
   if (!entries.every(e => typeof e.spy_price === 'number')) return null;
-  const base = entries[0];
-  return entries.map(e => base.portfolio_value * (e.spy_price / base.spy_price));
+  const shadow = [entries[0].portfolio_value];
+  for (let i = 1; i < entries.length; i++) {
+    const growth = shadow[i-1] * (entries[i].spy_price / entries[i-1].spy_price);
+    shadow.push(growth + cf(entries[i]));
+  }
+  return shadow;
 }
 
 function renderStats(data){
@@ -392,10 +423,17 @@ function renderStats(data){
   const prev = entries.length > 1 ? entries[entries.length-2] : null;
 
   const start = data.starting_value ?? last.portfolio_value;
-  const delta = last.portfolio_value - start;
-  const deltaPct = start ? (delta/start)*100 : 0;
+  const netDeposits = last.net_deposits_cum || 0;
+  // Kč částka "od začátku" je bez vkladů/výběrů (kolik appka reálně vydělala/
+  // prodělala nad rámec toho, co jsi do ní sám vložil) - % je TWR (viz výše),
+  // takže obě čísla mají stejný smysl: "jak se dařilo AI", ne "kolik je teď
+  // na účtu víc, než na začátku".
+  const delta = last.portfolio_value - start - netDeposits;
+  const twrIdx = twrIndexSeries(entries);
+  const deltaPct = (twrIdx[twrIdx.length - 1] - 1) * 100;
 
-  const dailyDelta = prev ? last.portfolio_value - prev.portfolio_value : null;
+  const todayFlow = cf(last);
+  const dailyDelta = prev ? (last.portfolio_value - todayFlow) - prev.portfolio_value : null;
   const dailyPct = (prev && prev.portfolio_value) ? (dailyDelta/prev.portfolio_value)*100 : null;
 
   const heroValueEl = document.getElementById('hero-value');
@@ -419,6 +457,11 @@ function renderStats(data){
     <div class="delta-row">
       <span class="delta-tag">Denní změna</span>
       <span class="delta ${dirClass(dailyDelta)}">${dirArrow(dailyDelta)} ${fmtMoney(Math.abs(dailyDelta))} (${dailyPct>=0?'+':''}${dailyPct.toFixed(2)} %) oproti včerejšku</span>
+    </div>` : ''}
+    ${todayFlow !== 0 ? `
+    <div class="delta-row">
+      <span class="delta-tag">${todayFlow > 0 ? 'Vklad dnes' : 'Výběr dnes'}</span>
+      <span class="delta flat">${todayFlow > 0 ? '+' : ''}${fmtMoney(todayFlow)} mimo appku (nepočítá se do výkonu)</span>
     </div>` : ''}
   `;
 
@@ -624,12 +667,17 @@ document.getElementById('toggle-table-view').addEventListener('click', (ev) => {
   renderChart({ entries: window.__ALL_ENTRIES__ }, currentPeriod);
 });
 
+// Propad se počítá na TWR indexu (viz twrIndexSeries výše), ne na syrové
+// hodnotě portfolia - jinak by vklad hned po propadu vypadal jako "zotavení"
+// a výběr by mohl vypadat jako propad, který se ve skutečnosti nestal.
 function computeMaxDrawdown(entries){
+  const idx = twrIndexSeries(entries);
   let peak = -Infinity, peakDate = entries[0].date;
   let maxDD = 0, maxDDPeakDate = entries[0].date, maxDDTroughDate = entries[0].date;
-  entries.forEach(e => {
-    if (e.portfolio_value > peak) { peak = e.portfolio_value; peakDate = e.date; }
-    const dd = peak ? (e.portfolio_value - peak) / peak : 0;
+  entries.forEach((e, i) => {
+    const v = idx[i];
+    if (v > peak) { peak = v; peakDate = e.date; }
+    const dd = peak ? (v - peak) / peak : 0;
     if (dd < maxDD) { maxDD = dd; maxDDPeakDate = peakDate; maxDDTroughDate = e.date; }
   });
   return { maxDD, peakDate: maxDDPeakDate, troughDate: maxDDTroughDate };
@@ -679,6 +727,12 @@ function renderPerformance(data){
       <div class="value flat">${tradedPct.toFixed(0)} %</div>
       <div class="perf-sub">${traded} z ${entries.length} dní</div>
     </div>
+    ${(last.net_deposits_cum || 0) !== 0 ? `
+    <div class="perf-tile">
+      <div class="label">Vklady/výběry mimo appku</div>
+      <div class="value flat">${last.net_deposits_cum >= 0 ? '+' : ''}${fmtMoney(last.net_deposits_cum)}</div>
+      <div class="perf-sub">nepočítá se do výkonu appky (viz "Od začátku")</div>
+    </div>` : ''}
   `;
   document.getElementById('perf-card').style.display = '';
 }
