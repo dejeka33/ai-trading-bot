@@ -28,23 +28,50 @@ from fred_data import get_macro_context
 from webpush_notify import send_web_push, build_short_summary
 
 
-def compute_realized_pl_delta(account_before, trade_results):
+def annotate_realized_pl(account_before, trade_results):
     """
-    Odhad realizovaného zisku/ztráty z dnešních prodejů, pro dashboard (karta
-    "Výkonnost"). Jako realizační cenu použije cenu pozice v okamžiku
-    rozhodování (account_before) - u tržních příkazů je rozdíl oproti přesné
-    fill ceně zanedbatelný, ale nejde o stoprocentně přesné číslo.
+    POZOR - přidáno 21.8.2026 kvůli kartě "Uzavřené obchody" na dashboardu
+    (docs/positions.html), která u KAŽDÉHO prodeje zvlášť ukazuje, jestli se
+    appce vyplatil (zeleně/červeně) - dřív se realizovaný P/L počítal jen
+    souhrnně za celý den (viz compute_realized_pl_delta níže), ne za
+    jednotlivý obchod.
+
+    Jako realizační cenu použije cenu pozice v okamžiku rozhodování
+    (account_before) - u tržních příkazů je rozdíl oproti přesné fill ceně
+    z brokera zanedbatelný, ale nejde o stoprocentně přesné číslo (appka si
+    přesnou fill cenu z T212 API zatím nestahuje).
+
+    Mutuje prvky trade_results na místě (doplní jim klíče realized_pl,
+    realized_pl_pct, sell_price u prodejů) a zároveň to samé vrací.
     """
     positions_by_symbol = {p["symbol"]: p for p in account_before.get("positions", [])}
-    delta = 0.0
     for t in trade_results:
         if t.get("status") != "submitted" or t.get("side") != "sell":
             continue
         pos = positions_by_symbol.get(t.get("symbol"))
         if not pos:
             continue
-        delta += t.get("qty", 0) * (pos["current_price"] - pos["avg_entry_price"])
-    return delta
+        qty = t.get("qty", 0) or 0
+        sell_price = pos["current_price"]
+        cost_basis = qty * pos["avg_entry_price"]
+        realized_pl = qty * (sell_price - pos["avg_entry_price"])
+        t["realized_pl"] = realized_pl
+        t["realized_pl_pct"] = (realized_pl / cost_basis * 100) if cost_basis else 0.0
+        t["sell_price"] = sell_price
+    return trade_results
+
+
+def compute_realized_pl_delta(trade_results):
+    """
+    Součet realizovaného P/L ze všech dnešních prodejů (viz annotate_realized_pl
+    výše, který musí proběhnout PŘED voláním téhle funkce) - používá se pro
+    kumulativní "realizovaný P/L" na dashboardu (karta "Výkonnost").
+    """
+    return sum(
+        t.get("realized_pl", 0.0)
+        for t in trade_results
+        if t.get("status") == "submitted" and t.get("side") == "sell"
+    )
 
 
 def main():
@@ -110,11 +137,17 @@ def main():
     if "CSPX" in bars and bars["CSPX"]:
         spy_price = bars["CSPX"][-1]["c"]
 
+    # annotate_realized_pl MUSÍ proběhnout před uložením do historie (níže) i
+    # před sestavením reportu výše by bylo taky možné, ale report tahle pole
+    # nepoužívá - jen dashboard (docs/positions.html čte trade["realized_pl"]
+    # přímo z uložených dat v history.json).
+    annotate_realized_pl(account_before, trade_results)
+
     prev_history = load_history()
     prev_realized_pl_cum = (
         prev_history["entries"][-1].get("realized_pl_cum") if prev_history["entries"] else None
     )
-    realized_pl_delta = compute_realized_pl_delta(account_before, trade_results)
+    realized_pl_delta = compute_realized_pl_delta(trade_results)
     realized_pl_cum = (prev_realized_pl_cum or 0.0) + realized_pl_delta
 
     update_history(
