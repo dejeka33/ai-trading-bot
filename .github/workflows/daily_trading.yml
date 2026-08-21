@@ -68,6 +68,9 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
           EODHD_API_KEY: ${{ secrets.EODHD_API_KEY }}
+          # POZOR - přidáno 21.8.2026 (viz news_data.py) - volitelné, appka bez
+          # tohohle klíče dál funguje stejně jako dřív (news=None).
+          ALPHAVANTAGE_API_KEY: ${{ secrets.ALPHAVANTAGE_API_KEY }}
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           PUSH_SUBSCRIPTION_JSON: ${{ secrets.PUSH_SUBSCRIPTION_JSON }}
         run: python main.py
