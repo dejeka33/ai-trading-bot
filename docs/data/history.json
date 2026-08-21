@@ -70,56 +70,56 @@
     },
     {
       "date": "2026-08-21",
-      "portfolio_value": 9988.07,
-      "cash": 6650.49,
-      "buying_power": 6650.49,
+      "portfolio_value": 9988.64,
+      "cash": 5612.85,
+      "buying_power": 5612.85,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "MSFT",
           "qty": 0.04,
           "avg_entry_price": 9971.48325,
-          "current_price": 9963.62599,
-          "market_value": 398.54503960000005,
-          "unrealized_pl": -0.98,
-          "unrealized_plpc": -0.24570065842511443
+          "current_price": 9958.0432,
+          "market_value": 398.321728,
+          "unrealized_pl": -1.19,
+          "unrealized_plpc": -0.29835079951621035
         },
         {
           "symbol": "AAPL",
           "qty": 0.07,
           "avg_entry_price": 6542.793571458109,
-          "current_price": 6446.67506,
-          "market_value": 451.2672542,
-          "unrealized_pl": -7.65,
-          "unrealized_plpc": -1.670321905958576
+          "current_price": 6451.224,
+          "market_value": 451.5856800000001,
+          "unrealized_pl": -7.32,
+          "unrealized_plpc": -1.5982688041329123
         },
         {
           "symbol": "CSPX",
           "qty": 0.02,
           "avg_entry_price": 19990.162500000002,
-          "current_price": 19900.28425,
-          "market_value": 398.005685,
-          "unrealized_pl": -1.49,
-          "unrealized_plpc": -0.37268331360487933
+          "current_price": 19929.868000000002,
+          "market_value": 398.59736000000004,
+          "unrealized_pl": -1.04,
+          "unrealized_plpc": -0.2601279504356205
         }
       ],
-      "market_summary": "Trh je ve smíšeném až mírně medvědím módu. CSPX a EQQQ oslabují posledních 5 dní (EQQQ -3,6 % od vrcholu 14.8., CSPX -1,3 %). MSFT klesá od 10.8. a drží se pod entry cenou (-0,4 %). AAPL naopak silně odrazil od dna (6 250) a ve dnech 18.–19.8. výrazně vzrostl na 6 551, dnes ale trochu koriguje na 6 437 – stále nad naší průměrnou cenou. NVDA a AMZN jsou v pomalém sestupu. JPM dnes spadl výrazně (-1,6 %). JNJ po rally koriguje z vrcholu 5 716 na 5 528. Fed sazba 3,63 %, 2Y výnos 4,19 % – mírně invertované prostředí nadále zatěžuje growth akcie.",
+      "market_summary": "Trh je pod tlakem: CSPX i EQQQ ztrácejí druhý týden v řadě, přičemž EQQQ za poslední 4 dny odepsalo přibližně 3,7 %. MSFT a AMZN jsou pod svými 14denními maximy, GOOGL stagnuje. Pozitivní výjimkou je JNJ, která od 18. 8. výrazně rostla (z ~5 425 na ~5 653 CZK), ale 20. 8. prudce korigovala na ~5 528 CZK – vhodný vstup s protitrendovým potenciálem při celkově defenzivním ladění trhu. NVDA a JPM rovněž klesají. Výnosová křivka je kladná (T10Y2Y +0,5 %), Fed sazba 3,63 % – prostředí není recesní, ale vyšší výnosy (10Y 4,65 %) tlačí na ocenění růstových akcií. Navrhujeme 2 obchody: přikoupení JNJ (defenzivní sektor, korekce v silném uptrendu) a malou pozici v GOOGL (levnější valuace, podpora u 7 000 CZK).",
       "trades": [
         {
           "symbol": "JNJ",
           "side": "buy",
-          "qty": 0.07,
+          "qty": 0.09,
           "status": "submitted",
-          "order_id": "53650486009",
-          "reasoning": "JNJ dnes koriguje z nedávného vrcholu 5 716 na 5 528 (-3,3 %). Defensivní sektor (healthcare) je v prostředí zvýšených sazeb a medvědího sentimentu na growth akciích atraktivnější. Korekce po silné rally vypadá jako technický pullback, ne fundamentální změna. Limitní cena 5 520 hledá mírně lepší vstup pod aktuální cenou."
+          "order_id": "53650486961",
+          "reasoning": "JNJ vytvořila silný uptend (5 360 → 5 653 CZK za týden) a 20. 8. výrazně zkorigovala na ~5 528 CZK – pravděpodobně profit-taking po rychlém pohybu. Defenzivní sektor (healthcare) je atraktivní při tlakovém makroprostředí s vysokými výnosy. Limit 5 540 CZK dává mírný polštář nad posledním closem (~5 528). Pozice 0,09 ks × 5 540 ≈ 499 CZK je v rámci limitu max 5 % hodnoty účtu (~499 CZK)."
         },
         {
           "symbol": "GOOGL",
           "side": "buy",
-          "qty": 0.05,
+          "qty": 0.07,
           "status": "submitted",
-          "order_id": "53650486011",
-          "reasoning": "GOOGL se pohybuje v úzkém pásmu ~7 000–7 130 posledních 5 dní a drží support kolem 7 000–7 045. Dnes zavřel na 7 044, blízko supportu. Střední přesvědčení – konsolidace bez dalšího výrazného průlomu dolů může předcházet odrazení. Limit pod aktuální cenou (7 010) pro lepší risk/reward."
+          "order_id": "53650486963",
+          "reasoning": "GOOGL konsoliduje v pásmu 7 000–7 170 CZK s podporou u 7 000 CZK (tato hladina vydržela i při výprodejích 11.–12. 8.). Relativně nízká valuace v rámci Big Tech a omezená expozice vůči výprodejům EQQQ/MSFT/AMZN. Limit 7 050 CZK je těsně nad klíčovou podporou. 0,07 ks × 7 050 ≈ 494 CZK splňuje mantinel max 5 % portfolia."
         }
       ],
       "trade_count": 2,
