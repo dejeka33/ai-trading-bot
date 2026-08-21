@@ -76,4 +76,38 @@ INSTRUMENTS = {
         "price_divisor": 1,
         "currency": "USD",
     },
+    # Přidáno 21.8.2026 na základě rozboru koncentračního rizika (viz risk_rules.py
+    # POZOR výše u max_position_size_pct) - cíl je rozložit univerzum přes různé
+    # sektory, ne jen přidat další tech tituly silně korelované s AAPL/MSFT/GOOGL.
+    # ISIN ověřeny přes více nezávislých zdrojů (Deutsche Börse, justETF, Fidelity,
+    # Morgan Stanley, Euronext) - viz diskuze v chatu.
+    "AMZN": {  # Amazon.com - e-commerce/cloud (AWS), jiný sektor než AAPL/MSFT/GOOGL
+        "isin": "US0231351067",
+        "stooq": "amzn.us",
+        "eodhd": "AMZN.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
+    "JPM": {  # JPMorgan Chase - finanční sektor
+        "isin": "US46625H1005",
+        "stooq": "jpm.us",
+        "eodhd": "JPM.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
+    "JNJ": {  # Johnson & Johnson - zdravotnictví/farmacie
+        "isin": "US4781601046",
+        "stooq": "jnj.us",
+        "eodhd": "JNJ.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
+    "NVDA": {  # Nvidia - polovodiče (populární, ale POZOR: silně korelované s
+               # existujícím tech univerzem, nepřidává skutečnou sektorovou diverzitu)
+        "isin": "US67066G1040",
+        "stooq": "nvda.us",
+        "eodhd": "NVDA.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
 }

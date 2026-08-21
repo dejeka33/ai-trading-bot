@@ -35,6 +35,12 @@ allowed_instruments:
     - AAPL
     - MSFT
     - GOOGL
+    # Přidáno 21.8.2026 kvůli sektorové diverzitě (viz instruments.py) - vědomé
+    # rozšíření univerzum uživatelem po rozboru koncentračního rizika v backtestu.
+    - AMZN     # e-commerce/cloud
+    - JPM      # finanční sektor
+    - JNJ      # zdravotnictví/farmacie
+    - NVDA     # polovodiče - POZOR, silně korelované s AAPL/MSFT/GOOGL, nepřidává sektorovou diverzitu
   crypto: []
   # Bot smí obchodovat POUZE nástroje z tohoto seznamu.
   # Rozšíření seznamu = vědomé rozhodnutí uživatele, ne AI.

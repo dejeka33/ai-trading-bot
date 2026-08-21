@@ -37,6 +37,23 @@ def validate_decision(decision, limits, account_snapshot, prices=None):
 
     portfolio_value = account_snapshot["portfolio_value"]
     max_trade_value = portfolio_value * (limits["position_limits"]["max_single_trade_pct"] / 100)
+    max_position_value = portfolio_value * (limits["position_limits"]["max_position_size_pct"] / 100)
+
+    # POZOR - bug nalezený 21.8.2026 při rozboru 5měsíčního backtestu: appka měla
+    # v konfiguraci max_position_size_pct (max. % portfolia CELKEM v jedné pozici,
+    # napříč všemi dřívějšími nákupy), ale tahle funkce ho nikdy nekontrolovala -
+    # hlídal se jen max_single_trade_pct (limit na JEDEN obchod za den). Výsledek:
+    # AI mohla postupně, obchod po obchodu (každý jednotlivě pod limitem), nabudovat
+    # v jednom titulu klidně třetinu celého portfolia (živě se to stalo - GOOGL
+    # 34 %, MSFT 33 %, AAPL 16 % po 108 dnech backtestu), aniž by to appka byť
+    # jednou odmítla. Teď se navíc kontroluje: existující tržní hodnota pozice
+    # (z account_snapshot) + součet VŠECH nákupů daného symbolu v tomto rozhodnutí
+    # (mínus prodeje) proti max_position_size_pct. Prodeje se nekontrolují - ty
+    # koncentraci jen snižují.
+    existing_value_by_symbol = {
+        p["symbol"]: p.get("market_value", 0.0) for p in account_snapshot.get("positions", [])
+    }
+    projected_delta_by_symbol = {}
 
     for t in trades:
         symbol = t.get("symbol")
@@ -59,6 +76,7 @@ def validate_decision(decision, limits, account_snapshot, prices=None):
         # co si myslí, že to stojí. Bez tohohle appka věřila jen estimated_value.
         price = (prices or {}).get(symbol)
         qty = t.get("qty")
+        computed_value = None
         if price is not None and qty is not None:
             computed_value = qty * price
             if computed_value > max_trade_value:
@@ -74,6 +92,27 @@ def validate_decision(decision, limits, account_snapshot, prices=None):
                         f"od skutečné hodnoty qty x cena ({computed_value:.2f}, rozdíl {diff_pct:.0f} %) "
                         "- rozhodnutí vypadá nekonzistentně, pro jistotu se neprovede."
                     )
+
+        # Preferuj nezávisle přepočítanou hodnotu (computed_value) před tím, co
+        # tvrdí AI (est_value) - stejná logika jako u kontroly jednoho obchodu výše.
+        trade_value = computed_value if computed_value is not None else est_value
+        if trade_value is not None and symbol is not None:
+            if t.get("side") == "buy":
+                projected_delta_by_symbol[symbol] = projected_delta_by_symbol.get(symbol, 0.0) + trade_value
+            elif t.get("side") == "sell":
+                projected_delta_by_symbol[symbol] = projected_delta_by_symbol.get(symbol, 0.0) - trade_value
+
+    for symbol, delta in projected_delta_by_symbol.items():
+        if delta <= 0:
+            continue
+        projected_value = existing_value_by_symbol.get(symbol, 0.0) + delta
+        if projected_value > max_position_value:
+            reasons.append(
+                f"Pozice {symbol} by po tomto obchodu (obchodech) dosáhla {projected_value:.2f} "
+                f"({(projected_value / portfolio_value * 100) if portfolio_value else 0:.1f} % portfolia), "
+                f"což přesahuje limit na celkovou koncentraci v jedné pozici "
+                f"({limits['position_limits']['max_position_size_pct']} % = {max_position_value:.2f})."
+            )
 
     # Denní pojistka - pokud je portfolio dnes už v hlubší ztrátě, než je povoleno, žádné nové obchody
     # (toto se v praxi porovnává s hodnotou na začátku dne - viz main.py, kde se počítá daily_pl_pct)
