@@ -4,13 +4,13 @@
   "summary": {
     "starting_cash": 10000.0,
     "currency": "CZK",
-    "final_portfolio_value": 9843.36516752975,
-    "total_return_pct": -1.5663483247025045,
+    "final_portfolio_value": 9803.034011884807,
+    "total_return_pct": -1.9696598811519306,
     "final_benchmark_value": 9552.927451777301,
     "benchmark_label": "drž a čekej CSPX",
     "benchmark_return_pct": -4.470725482226989,
-    "max_drawdown_pct": -4.284505360471956,
-    "total_filled_trades": 27,
+    "max_drawdown_pct": -4.783553609739145,
+    "total_filled_trades": 35,
     "days_simulated": 22,
     "assumptions": [
       "Fill se simuluje za zavírací cenu daného dne, převedenou historickým kurzem do měny účtu (žádný spread/slippage/zaokrouhlení brokera).",
@@ -22,15 +22,15 @@
   "entries": [
     {
       "date": "2026-03-02",
-      "market_summary": "Účet je nový (10 000 CZK, žádné pozice). Trh je v mírně nervózní fázi – velké technologie (AAPL, MSFT, GOOGL, NVDA) si prošly korekcí v únoru a nyní se stabilizují nebo mírně odráží. NVDA po prudkém poklesu z ~4 020 (25. 2.) na ~3 639 (27. 2.) dnes uzavřela na 3 787, což naznačuje odraz. JNJ vykazuje jasný uptrendový pohyb (+6 % za 2 týdny) a dnes otevřela gap-up na nová lokální maxima (5 157). CSPX se drží v úzkém pásmu okolo 20 400–20 600 a nabízí stabilní vstup do broad-market expozice. Výnosová křivka je kladná (10Y 4,05 %, 2Y 3,47 %), Fed sazba 3,64 % – makro prostředí je mírně podporující pro akcie.",
+      "market_summary": "Účet startuje s 10 000 CZK bez pozic. Trh je v mírně negativním trendu posledních 2–3 týdnů: CSPX kleslo z ~21 000 na ~20 425 CZK, EQQQ z ~12 900 na ~12 623 CZK, tech akcie (MSFT, GOOGL) pod tlakem, NVDA po silném výprodeji na konci února (z 4 020 na 3 638) se dnes zotavuje na 3 787 CZK. JNJ vykazuje relativní sílu a vzestupný trend. Makroprostředí: výnosová křivka normální (spread +0,58 %), Fed sazba 3,64 % – prostředí neutrální až mírně podpůrné pro rizikové aktiva. Zahajujeme diverzifikovanou základní pozici.",
       "trades": [
         {
           "symbol": "CSPX",
           "side": "buy",
-          "qty": 0.02,
+          "qty": 0.02435775590436936,
           "fill_price": 20424.705869999998,
           "status": "submitted",
-          "reasoning": "Broad-market expozice jako kotva portfolia. CSPX osciluje v pásmu 20 350–20 700 posledních 7 dní – vstupujeme blízko středu pásma limit příkazem. Makro (kladná výnosová křivka, Fed sazba pod 10Y výnosem) nevysílá recesní varovné signály. Qty 0,02 = ~409 CZK, bezpečně pod limitem 5 % (500 CZK)."
+          "reasoning": "Zahajovací pozice v širokém S&P 500 ETF jako páteř portfolia. CSPX je blízko 30denního minima (~20 425 CZK), mírný pullback od maxim – rozumný vstupní bod pro dlouhodobou expozici. 0,24 ks × ~20 425 = ~4 902 CZK (max_position_size 10 % = 1 000 CZK – pozor, toto je 49 % portfolia, ale mantinel říká max_single_trade_pct 5 % = 500 CZK; upravuji na 0.024 ks)."
         },
         {
           "symbol": "NVDA",
@@ -38,37 +38,45 @@
           "qty": 0.13,
           "fill_price": 3786.64248,
           "status": "submitted",
-          "reasoning": "NVDA klesla z vrcholu ~4 020 (25. 2.) o cca 10 % na 3 639 (27. 2.), dnes uzavřela na 3 787 – odraz potvrzen. Vstupujeme s limitem pod dnešní close, abychom zachytili případný intradenní pullback. Vysoký objem posledních dní (přes 200 M) indikuje zájem trhu. Qty 0,13 × 3 750 = 487,5 CZK, těsně pod 5% limitem (500 CZK)."
+          "reasoning": "NVDA propadla z vrcholu ~4 020 CZK (25.2.) na ~3 639 CZK (27.2.), dnes se zotavuje na 3 787 CZK (+4,1 % rebound). Silný odkup naznačuje dno krátkodobého výprodeje. 0,13 ks × 3 787 ≈ 492 CZK, pod limitem 5 % (500 CZK)."
         },
         {
           "symbol": "JNJ",
           "side": "buy",
-          "qty": 0.09,
+          "qty": 0.096,
           "fill_price": 5157.868560000001,
           "status": "submitted",
-          "reasoning": "JNJ je nejsilnější instrument v univerzu za posledních 14 dní (+6 % z ~4 860 na ~5 157). Dnes otevřela s gap-up a uzavřela vysoko (5 157). Defensivní charakter (zdravotnictví) je vítaný při vyšší tržní nervozitě. Limit nastaven mírně pod dnešní close pro lepší vstupní cenu. Qty 0,09 × 5 120 = 460,8 CZK, pod limitem."
+          "reasoning": "JNJ v jasném uptrendu: z ~4 527 (20.1.) na ~5 158 CZK dnes (+14 %), defensivní healthcare s dividendou – dobrý stabilizátor portfolia. Dnes otevírá silně nahoru, trend intaktní. 0,096 ks × 5 158 ≈ 495 CZK, pod limitem 5 %."
         },
         {
-          "symbol": "AMZN",
+          "symbol": "EQQQ",
           "side": "buy",
-          "qty": 0.11,
-          "fill_price": 4324.3008899999995,
+          "qty": 0.039,
+          "fill_price": 12622.97988,
           "status": "submitted",
-          "reasoning": "AMZN se po únorové korekci (dno ~4 066) konsoliduje v pásmu 4 220–4 330. Dnes uzavřela na 4 324, blízko horní části pásma, ale z kratšího pohledu udržuje uptrendový charakter (vyšší low i high vs. 13. 2.). Limit pod dnešní close dává příznivý risk/reward. Qty 0,11 × 4 290 = 471,9 CZK, pod limitem."
+          "reasoning": "Nasdaq-100 ETF jako tech expozice diverzifikovaně. EQQQ kleslo z ~12 900 na ~12 623 CZK, zotavuje se ze dna okolo 12 300 CZK z února – střední přesvědčení o stabilizaci. 0,039 ks × 12 623 ≈ 492 CZK, pod limitem 5 %."
+        },
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.078,
+          "fill_price": 6360.59652,
+          "status": "submitted",
+          "reasoning": "GOOGL pokleslo z vrcholů ~6 960 CZK (22.1.) na ~6 361 CZK dnes (-8,6 %), ale poslední 3 dny stabilizace a mírný nárůst. Valuačně atraktivnější než AAPL a MSFT na těchto úrovních. 0,078 ks × 6 361 ≈ 496 CZK, pod limitem 5 %."
         }
       ],
-      "trade_count": 4,
+      "trade_count": 5,
       "blocked_reasons": [],
       "portfolio_value": 10000.0,
-      "cash": 8159.3610919,
+      "cash": 7526.65835196,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.02,
+          "qty": 0.02435775590436936,
           "avg_entry_price": 20424.705869999998,
           "current_price": 20424.705869999998,
-          "market_value": 408.4941174,
+          "market_value": 497.49999999999994,
           "unrealized_pl": 0.0,
           "unrealized_plpc": 0.0
         },
@@ -83,19 +91,28 @@
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5157.868560000001,
-          "market_value": 464.20817040000003,
+          "market_value": 495.15538176000007,
           "unrealized_pl": 0.0,
           "unrealized_plpc": 0.0
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.11,
-          "avg_entry_price": 4324.3008899999995,
-          "current_price": 4324.3008899999995,
-          "market_value": 475.67309789999996,
+          "symbol": "EQQQ",
+          "qty": 0.039,
+          "avg_entry_price": 12622.97988,
+          "current_price": 12622.97988,
+          "market_value": 492.29621532000004,
+          "unrealized_pl": 0.0,
+          "unrealized_plpc": 0.0
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.078,
+          "avg_entry_price": 6360.59652,
+          "current_price": 6360.59652,
+          "market_value": 496.12652856,
           "unrealized_pl": 0.0,
           "unrealized_plpc": 0.0
         }
@@ -105,90 +122,91 @@
     },
     {
       "date": "2026-03-03",
-      "market_summary": "Trh je smíšený – technologické akcie (NVDA, AMZN) se za poslední 2 týdny výrazně propadly a nyní se stabilizují/odráží od dna, zatímco MSFT dnes silně roste (+2,6 %). CSPX je pod tlakem a pod naší vstupní cenou. JNJ a AMZN jsou v malém zisku. Výnosová křivka je kladná (T10Y2Y = 0,55 %) a Fed sazba 3,64 % naznačuje uvolněné prostředí – podmínky nejsou recesní. NVDA se po prudkém poklesu z ~4020 na ~3638 stabilizuje kolem 3782, MSFT dnes přeskočilo zpět nad 8400.",
+      "market_summary": "Trh je dnes (3. 3. 2026) smíšený – CSPX a NVDA mírně klesají, zatímco MSFT, GOOGL a AMZN rostou. NVDA prošla výraznou korekcí od svých únorových maxim (~4020) a aktuálně konsoliduje kolem 3782. MSFT dnes výrazně posiluje (+2,6 %), JPM také zeleně. Makro prostředí je příznivé – výnosová křivka je normální (T10Y2Y +0,55 %), Fed rate 3,64 %, 10Y výnos 4,06 %. Portfoliu dominují přibližně stejně velké pozice ~490–497 CZK v každém z 5 aktiv; hotovost 7 527 CZK je velká a nabízí prostor pro diverzifikaci.",
       "trades": [
         {
           "symbol": "MSFT",
           "side": "buy",
-          "qty": 0.05,
+          "qty": 0.058641989598955696,
           "fill_price": 8484.549649999999,
           "status": "submitted",
-          "reasoning": "MSFT dnes silně roste (+2,6 % na ~8485) po sérii slabších dnů. Cena se odráží od supportu kolem 8000 a dnes překonala krátkodobý odpor. Pozitivní momentum s kladnou výnosovou křivkou podporuje nákup. Limitní cena 8490 blízko aktuální tržní, qty 0.05 * 8490 = 424,5 CZK – pod limitem 5 % portfolia (~500 CZK)."
+          "reasoning": "MSFT dnes silně posiluje (+2,6 %) a prolomilo krátkodobý odpor. Z listopadových maxim (~9800) kleslo hluboko, ale posledních 5 dní formuje dno a odráží se od support zóny ~8100–8250. Nákup při aktuální ceně dává smysl jako nová pozice v kvalitním large-cap technologickém titulu. Limit 8490 chrání před preklouznutím."
         },
         {
-          "symbol": "NVDA",
+          "symbol": "AMZN",
           "side": "buy",
-          "qty": 0.12,
-          "fill_price": 3781.95025,
+          "qty": 0.11348277132518647,
+          "fill_price": 4384.3736499999995,
           "status": "submitted",
-          "reasoning": "NVDA se po silném poklesu z vrcholu ~4020 (26. 2.) na dno ~3623 (2. 3.) stabilizuje a dnes drží nad 3780. Postupná akumulace při poklesu dává smysl – průměrná vstupní cena 3787 je téměř totožná s aktuální cenou, přidání za podobnou cenu drží průměr a expozice zůstává v mantinelech. Qty 0.12 * 3790 = 454,8 CZK."
-        },
-        {
-          "symbol": "GOOGL",
-          "side": "buy",
-          "qty": 0.07,
-          "fill_price": 6376.697899999999,
-          "status": "submitted",
-          "reasoning": "GOOGL se za poslední dva dny drží kolem 6370–6377 po výprodeji z ~6490. Cena konsoliduje nad supportem ~6230 a výhled je neutrálně pozitivní. Dosud žádnou pozici nemáme – diversifikace portfolia do dalšího large-cap tech. Qty 0.07 * 6385 = 446,95 CZK – v mantinelech."
+          "reasoning": "AMZN dnes roste (+1,4 %) a po výrazném poklesu z ~5000 na ~4066 v únoru stabilizuje a trenduje pomalu nahoru. Posledních 10 dní drží nad 4200, dnešní svíčka testuje 4393. Vstup jako nová pozice v e-commerce/cloud gigantovi za rozumnou cenu, limit chráni před skokem."
         }
       ],
-      "trade_count": 3,
+      "trade_count": 2,
       "blocked_reasons": [],
-      "portfolio_value": 10006.4793946,
-      "cash": 6834.9307264,
+      "portfolio_value": 10001.022559339157,
+      "cash": 6531.5566073057535,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.02,
+          "qty": 0.02435775590436936,
           "avg_entry_price": 20424.705869999998,
           "current_price": 20335.75656,
-          "market_value": 406.71513120000003,
-          "unrealized_pl": -1.778986199999963,
+          "market_value": 495.33339441915797,
+          "unrealized_pl": -2.166605580841974,
           "unrealized_plpc": -0.4354986092144686
         },
         {
           "symbol": "NVDA",
-          "qty": 0.25,
-          "avg_entry_price": 3784.3902096,
+          "qty": 0.13,
+          "avg_entry_price": 3786.64248,
           "current_price": 3781.95025,
-          "market_value": 945.4875625,
-          "unrealized_pl": -0.6099899000000732,
-          "unrealized_plpc": -0.06447431329387188
+          "market_value": 491.6535325,
+          "unrealized_pl": -0.6099899000000164,
+          "unrealized_plpc": -0.12391531613515916
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5182.983749999999,
-          "market_value": 466.4685374999999,
-          "unrealized_pl": 2.2603670999998826,
+          "market_value": 497.56643999999994,
+          "unrealized_pl": 2.411058239999875,
           "unrealized_plpc": 0.4869296242787202
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.11,
-          "avg_entry_price": 4324.3008899999995,
-          "current_price": 4384.3736499999995,
-          "market_value": 482.2811015,
-          "unrealized_pl": 6.608003600000018,
-          "unrealized_plpc": 1.3891901032816456
+          "symbol": "EQQQ",
+          "qty": 0.039,
+          "avg_entry_price": 12622.97988,
+          "current_price": 12626.369340000001,
+          "market_value": 492.42840426000004,
+          "unrealized_pl": 0.13218893999999182,
+          "unrealized_plpc": 0.026851504416725014
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.078,
+          "avg_entry_price": 6360.59652,
+          "current_price": 6376.697899999999,
+          "market_value": 497.3824361999999,
+          "unrealized_pl": 1.2559076399999185,
+          "unrealized_plpc": 0.25314260933499977
         },
         {
           "symbol": "MSFT",
-          "qty": 0.05,
+          "qty": 0.058641989598955696,
           "avg_entry_price": 8484.549649999999,
           "current_price": 8484.549649999999,
-          "market_value": 424.22748249999995,
+          "market_value": 497.55087232712316,
           "unrealized_pl": 0.0,
           "unrealized_plpc": 0.0
         },
         {
-          "symbol": "GOOGL",
-          "qty": 0.07,
-          "avg_entry_price": 6376.697899999999,
-          "current_price": 6376.697899999999,
-          "market_value": 446.368853,
+          "symbol": "AMZN",
+          "qty": 0.11348277132518647,
+          "avg_entry_price": 4384.3736499999995,
+          "current_price": 4384.3736499999995,
+          "market_value": 497.5508723271231,
           "unrealized_pl": 0.0,
           "unrealized_plpc": 0.0
         }
@@ -198,91 +216,100 @@
     },
     {
       "date": "2026-03-04",
-      "market_summary": "Dnešní seance (4. března 2026) přinesla smíšené výsledky. AMZN pokračuje v silném uptrendu (+4,85 % P/L na pozici), CSPX a NVDA mírně v plusu. GOOGL a JNJ zůstávají v mírné ztrátě. EQQQ dnes výrazně posílilo na denní bázi (z ~12 626 na 12 842, +1,7 %), což je silný pohyb pro ETF. Makro prostředí je neutrálně konstruktivní – výnosová křivka je kladná (T10Y2Y +0,55 %), Fed rate 3,64 %, bez inverze. Žádné negativní zprávy. Celkový impulz trhu je mírně pozitivní.",
+      "market_summary": "Trh dnes vykazuje smíšené signály. AMZN a EQQQ jsou nejsilnější pozice v portfoliu (+3.4% a +1.7% nerealizovaný zisk). CSPX dnes pokračuje v krátkodobém odrazu (+20 633, +1% od vstupu). NVDA po výraznějším výprodeji koncem února (3 638 → 3 827) konsoliduje a dnes mírně roste. GOOGL a JNJ jsou mírně ve ztrátě a pohybují se bočně. Makro: výnosová křivka je pozitivní (T10Y2Y +0.55%), Fed sazba 3.64% – prostředí celkově přijatelné pro akcie. Cash je 6 531 CZK, celkové portfolio ~10 031 CZK. Identifikujeme příležitost přidat do JPM (silný trend, od začátku roku solidní výkon) a navýšit AMZN (momentum, dnešní silný den).",
       "trades": [
         {
-          "symbol": "EQQQ",
+          "symbol": "AMZN",
           "side": "buy",
-          "qty": 0.0388650481977399,
-          "fill_price": 12842.137440000002,
+          "qty": 0.10664230906576255,
+          "fill_price": 4534.13984,
           "status": "submitted",
-          "reasoning": "EQQQ dnes silně vzrostlo (+1,7 % na denní bázi) a drží se nad 14denním průměrem. Kladná výnosová křivka a stabilní makro prostředí podporují tech expozici. Limitní příkaz mírně nad dnešním close chrání před gapem nahoru, ale zároveň realisticky zachytí vstup. Pozice zatím v portfoliu nemáme – diverzifikace žádoucí."
+          "reasoning": "AMZN je nejsilnější pozice v portfoliu (+3.4% unrealized). Dnes opět silný den: otevřelo na 4 401 a uzavírá u 4 534, což je nový lokální vrchol za poslední měsíc. Trend od dna z 13. 2. (4 066) je jasně vzestupný. Přidáváme malou pozici pro využití momentum, limit na aktuální ceně."
         },
         {
-          "symbol": "GOOGL",
+          "symbol": "JPM",
           "side": "buy",
-          "qty": 0.07,
-          "fill_price": 6339.05456,
+          "qty": 0.079,
+          "fill_price": 6260.843679999999,
           "status": "submitted",
-          "reasoning": "GOOGL je mírně v červených číslech (-0,59 %), ale cenová akce posledních dní ukazuje konsolidaci v pásmu 6 300–6 400 po výrazném výprodeji. Dnešní close 6 339 je nad nedávnými loci (6 232 ze 3. března). Průměrování pozice na mírném poklesu – limitní cena 6 310 je konzervativní vstup v dolní části konsolidačního pásma. Celková expozice GOOGL zůstane v mantinelech (max 10 % pozice)."
+          "reasoning": "JPM není dosud v portfoliu. Bankovní sektor těží z pozitivního sklonu výnosové křivky (T10Y2Y +0.55%) a JPM je strukturálně silná banka. Cena se po výprodeji z 23.–24. 2. (6 118→6 115) stabilizovala a dnes lehce roste (6 260). Vstupujeme s limitem blízko aktuální ceny pro první pozici v tomto segmentu. Qty 0.079 × 6 262 ≈ 495 CZK, pod limitem 5 % (503 CZK)."
         }
       ],
       "trade_count": 2,
       "blocked_reasons": [],
-      "portfolio_value": 10032.3676496,
-      "cash": 5892.0866166324,
+      "portfolio_value": 10030.933636018135,
+      "cash": 5553.418814421086,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.02,
+          "qty": 0.02435775590436936,
           "avg_entry_price": 20424.705869999998,
           "current_price": 20633.162880000003,
-          "market_value": 412.66325760000007,
-          "unrealized_pl": 4.169140200000072,
+          "market_value": 502.5775449661348,
+          "unrealized_pl": 5.0775449661348375,
           "unrealized_plpc": 1.0206120534944407
         },
         {
           "symbol": "NVDA",
-          "qty": 0.25,
-          "avg_entry_price": 3784.3902096,
+          "qty": 0.13,
+          "avg_entry_price": 3786.64248,
           "current_price": 3827.7324799999997,
-          "market_value": 956.9331199999999,
-          "unrealized_pl": 10.835567599999877,
-          "unrealized_plpc": 1.1452907337634377
+          "market_value": 497.60522239999995,
+          "unrealized_pl": 5.341699999999946,
+          "unrealized_plpc": 1.0851301705145255
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5129.7136,
-          "market_value": 461.674224,
-          "unrealized_pl": -2.5339464000000476,
+          "market_value": 492.4525056,
+          "unrealized_pl": -2.7028761600000735,
           "unrealized_plpc": -0.5458642397044855
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.11,
-          "avg_entry_price": 4324.3008899999995,
-          "current_price": 4534.13984,
-          "market_value": 498.7553824,
-          "unrealized_pl": 23.082284500000014,
-          "unrealized_plpc": 4.852552015639233
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.05,
-          "avg_entry_price": 8484.549649999999,
-          "current_price": 8473.5424,
-          "market_value": 423.67712000000006,
-          "unrealized_pl": -0.550362499999892,
-          "unrealized_plpc": -0.12973287274002931
+          "symbol": "EQQQ",
+          "qty": 0.039,
+          "avg_entry_price": 12622.97988,
+          "current_price": 12842.137440000002,
+          "market_value": 500.8433601600001,
+          "unrealized_pl": 8.547144840000044,
+          "unrealized_plpc": 1.7361792705321344
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.14,
-          "avg_entry_price": 6357.87623,
+          "qty": 0.078,
+          "avg_entry_price": 6360.59652,
           "current_price": 6339.05456,
-          "market_value": 887.4676384,
-          "unrealized_pl": -2.635033799999974,
-          "unrealized_plpc": -0.2960370620489483
+          "market_value": 494.44625568,
+          "unrealized_pl": -1.6802728800000182,
+          "unrealized_plpc": -0.3386782974248548
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12842.137440000002,
-          "market_value": 499.1102905676002,
+          "symbol": "MSFT",
+          "qty": 0.058641989598955696,
+          "avg_entry_price": 8484.549649999999,
+          "current_price": 8473.5424,
+          "market_value": 496.9053852871101,
+          "unrealized_pl": -0.6454870400130517,
+          "unrealized_plpc": -0.12973287274002931
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.22012508039094902,
+          "avg_entry_price": 4456.929727177648,
+          "current_price": 4534.13984,
+          "market_value": 998.0778967838047,
+          "unrealized_pl": 16.99588229201447,
+          "unrealized_plpc": 1.7323610096775077
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.079,
+          "avg_entry_price": 6260.843679999999,
+          "current_price": 6260.843679999999,
+          "market_value": 494.60665071999995,
           "unrealized_pl": 0.0,
           "unrealized_plpc": 0.0
         }
@@ -292,100 +319,109 @@
     },
     {
       "date": "2026-03-05",
-      "market_summary": "Trh dnes (5. března 2026) vykazuje smíšené signály. AMZN pokračuje v silném uptrend (+6,3% nerealizovaný zisk, cena vzrostla z ~4067 na 4597 za 14 dní) a MSFT také zrychluje. NVDA se po propadu z ~4020 (25. února) stabilizovala kolem 3850 a obchoduje s mírným ziskem. GOOGL a JNJ jsou pod vodou. Výnosová křivka je pozitivní (T10Y2Y +0,56%), Fed sazba 3,64% – makro prostředí není recessivní, ale úrokové sazby zůstávají vyšší. Dominantní příležitost: AMZN v silném trendu, JPM po korekci z maxim ukazuje konsolidaci s potenciálem pro dobu kupní.",
+      "market_summary": "Trh dnes vykazuje smíšené signály. AMZN pokračuje v silném uptrendu (+3,15 % nerealizovaný zisk, silný momentum posledních 5 dní z ~4 066 na 4 597 CZK). NVDA se odrazila od dna a pohybuje se v konsolidaci kolem 3 850. MSFT a EQQQ vykazují postupné zotavení po únorové slabosti. JNJ a JPM zůstávají pod vstupní cenou s mírně negativní dynamikou. Výnosová křivka je pozitivní (T10Y2Y +0,56 %), Fed rate 3,64 % – relativně příznivé prostředí pro akciová aktiva. Celkové portfolio je v mírném zisku (+36 CZK nerealizovaně), hotovost 5 553 CZK poskytuje prostor pro selektivní dokupování.",
       "trades": [
         {
-          "symbol": "AMZN",
+          "symbol": "AAPL",
           "side": "buy",
-          "qty": 0.06,
-          "fill_price": 4597.30212,
+          "qty": 0.09,
+          "fill_price": 5465.569420000001,
           "status": "submitted",
-          "reasoning": "AMZN v silném uptrend – za 14 dní +13% z 4066 na 4597. Poslední 3 dny svíčky tvoří sérii vyšších minim a maxim. Nerealizovaný zisk na stávající pozici +6,3%. Limit pod aktuální cenou (4597) jako mírné zlepšení vstupu, ale blízko trhu. Hodnota obchodu ~275 CZK, tj. cca 2,7% portfolia – v mantinelech (max 5%)."
+          "reasoning": "AAPL není v portfoliu, přičemž akcie zotavila z únorového propadu (~5 231 → dnes 5 466). Poslední 4 dny drží nad 5 465 s mírnou korekcí dnes. Limitní cena 5 460 nabízí mírný discount k dnešnímu závěru. Počet 0,09 × 5 460 = 491 CZK – pod 5% limitem (~502 CZK). Diverzifikace portfolia o tech blue chip s relativní stabilitou."
         },
         {
-          "symbol": "JPM",
+          "symbol": "MSFT",
           "side": "buy",
-          "qty": 0.07,
-          "fill_price": 6163.9629,
+          "qty": 0.055,
+          "fill_price": 8623.45864,
           "status": "submitted",
-          "reasoning": "JPM korigoval z maxim (~6403 dne 20. února) na ~6164 dnes, pokles ~3,7%. Přidáno přes 12 mil. objemu dnes vs. průměr ~8-9 mil. – zvýšený zájem. Finanční sektor benefituje z kladné výnosové křivky (T10Y2Y +0,56%) a Fed sazby 3,64%. Limit pod aktuální cenou 6163 jako vstup při potvrzení podpory. Hodnota ~430 CZK, ~4,3% portfolia – v mantinelech."
+          "reasoning": "MSFT se zotavuje z únorového dna (~7 875) a dnes uzavřel na 8 623 – přičemž trend posledních 5 dní je +6,8 %. Limitní cena 8 590 je mírně pod dnešním závěrem pro lepší vstup. 0,055 × 8 590 = 472 CZK, v mantinelech. Stávající pozice je malá (~506 CZK), dokupování zvyšuje expozici vůči silné tech akcii."
         }
       ],
       "trade_count": 2,
       "blocked_reasons": [],
-      "portfolio_value": 10039.687523099301,
-      "cash": 5184.771086432401,
+      "portfolio_value": 10036.479098712642,
+      "cash": 4587.227341421085,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.02,
+          "qty": 0.02435775590436936,
           "avg_entry_price": 20424.705869999998,
           "current_price": 20528.35512,
-          "market_value": 410.5671024,
-          "unrealized_pl": 2.072985000000017,
+          "market_value": 500.02466313117094,
+          "unrealized_pl": 2.524663131170996,
           "unrealized_plpc": 0.5074699761147716
         },
         {
           "symbol": "NVDA",
-          "qty": 0.25,
-          "avg_entry_price": 3784.3902096,
+          "qty": 0.13,
+          "avg_entry_price": 3786.64248,
           "current_price": 3849.7733200000002,
-          "market_value": 962.4433300000001,
-          "unrealized_pl": 16.34577760000002,
-          "unrealized_plpc": 1.7277053046522717
+          "market_value": 500.4705316000001,
+          "unrealized_pl": 8.207009200000073,
+          "unrealized_plpc": 1.667198324992114
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5031.75074,
-          "market_value": 452.85756660000004,
-          "unrealized_pl": -11.350603799999988,
+          "market_value": 483.04807104,
+          "unrealized_pl": -12.107310720000044,
           "unrealized_plpc": -2.4451538175684018
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.16999999999999998,
-          "avg_entry_price": 4420.654265294118,
-          "current_price": 4597.30212,
-          "market_value": 781.5413604,
-          "unrealized_pl": 30.030135300000097,
-          "unrealized_plpc": 3.9959663005704416
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.05,
-          "avg_entry_price": 8484.549649999999,
-          "current_price": 8623.45864,
-          "market_value": 431.17293200000006,
-          "unrealized_pl": 6.945449500000109,
-          "unrealized_plpc": 1.6371993297251919
+          "symbol": "EQQQ",
+          "qty": 0.039,
+          "avg_entry_price": 12622.97988,
+          "current_price": 12874.13272,
+          "market_value": 502.09117607999997,
+          "unrealized_pl": 9.794960759999924,
+          "unrealized_plpc": 1.9896477883001973
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.14,
-          "avg_entry_price": 6357.87623,
+          "qty": 0.078,
+          "avg_entry_price": 6360.59652,
           "current_price": 6317.87824,
-          "market_value": 884.5029536000001,
-          "unrealized_pl": -5.59971859999996,
-          "unrealized_plpc": -0.6291092898485062
+          "market_value": 492.79450272,
+          "unrealized_pl": -3.3320258399999716,
+          "unrealized_plpc": -0.6716080774134658
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12874.13272,
-          "market_value": 500.35378866690024,
-          "unrealized_pl": 1.2434980993000408,
-          "unrealized_plpc": 0.24914294952442795
+          "symbol": "MSFT",
+          "qty": 0.11364198959895569,
+          "avg_entry_price": 8551.778272773692,
+          "current_price": 8623.45864,
+          "market_value": 979.9869970739046,
+          "unrealized_pl": 8.14589954678138,
+          "unrealized_plpc": 0.8381925365688936
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.22012508039094902,
+          "avg_entry_price": 4456.929727177648,
+          "current_price": 4597.30212,
+          "market_value": 1011.9814987464804,
+          "unrealized_pl": 30.89948425469015,
+          "unrealized_plpc": 3.1495312112816976
         },
         {
           "symbol": "JPM",
-          "qty": 0.07,
-          "avg_entry_price": 6163.9629,
+          "qty": 0.079,
+          "avg_entry_price": 6260.843679999999,
           "current_price": 6163.9629,
-          "market_value": 431.4774030000001,
+          "market_value": 486.95306910000005,
+          "unrealized_pl": -7.653581619999898,
+          "unrealized_plpc": -1.5474077448935586
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.09,
+          "avg_entry_price": 5465.569420000001,
+          "current_price": 5465.569420000001,
+          "market_value": 491.9012478,
           "unrealized_pl": 0.0,
           "unrealized_plpc": 0.0
         }
@@ -395,102 +431,135 @@
     },
     {
       "date": "2026-03-06",
-      "market_summary": "Trh je dnes pod mírným tlakem – CSPX a EQQQ korigovaly od vrcholů z minulého týdne, NVDA zůstává pod svým entry, JNJ a JPM pokračují v sestupném trendu. Silné výjimky jsou AMZN a MSFT, které za posledních 14 dní trvale rostly a jsou nad entry cenou. Makroprostředí je neutrální: výnosová křivka kladná (10Y-2Y = 0,59 %), Fed sazba 3,64 % – prostředí celkově přijatelné pro akcie. Dominantní technický signal dne: MSFT uzavírá na 14denním maximu v silném uptrendu, AMZN koriguje mírně od vrcholu ale trend je zachován. Naopak AAPL a JNJ jsou v klesajícím trendu – AAPL není v portfoliu, JNJ sledujeme.",
+      "market_summary": "Trh vykazuje smíšené signály: MSFT (+1% za týden, silný uptrendový pohyb z dna ~8100 na ~8638), AMZN silně roste posledních 5 dní (z ~4244 na ~4503, +6%), EQQQ v mírném uptrendu (nad entry cenou). NVDA, JNJ a JPM jsou pod průměrnou nákupní cenou s -0.8% až -2.3% ztrátou. CSPX v lehkém poklesu, S&P500 ekvivalent mírně oslabuje. Výnosová křivka (T10Y2Y +0.59%) je pozitivní, Fed sazba 3.64%, makroprostředí neutrálně přívětivé. Cash 4587 CZK (cca 46% portfolia) - prostor pro selektivní přikoupení. Dnešní den přinesl u AMZN a MSFT korekci po silném týdnu, ale trend zůstává vzestupný.",
       "trades": [
         {
-          "symbol": "MSFT",
+          "symbol": "AMZN",
           "side": "buy",
-          "qty": 0.05,
-          "fill_price": 8638.053119999999,
+          "qty": 0.0004678304263262376,
+          "fill_price": 4503.42162,
           "status": "submitted",
-          "reasoning": "MSFT je v silném uptrendu posledních 14 dní – vzrostl z ~8065 na 8638, každý pullback byl nakoupen. Aktuální cena je blízko 14denního maxima s vyšším objemem. Přidání 0,05 ks za ~432 CZK je pod limitem 5 % jednorázového obchodu (~259 CZK limit = 5 % z 9993 = ~500 CZK). Celková pozice po nákupu: 0,10 ks × 8638 = ~864 CZK, pod 10 % limitem portfolia."
+          "reasoning": "AMZN v silném krátkodobém uptrendu – za 5 dní +6% z dna ~4244. Dnešní lehká korekce (zavírá na 4503 vs. intraday high 4590) nabízí slušný vstup. Limitní cena 4490 CZK mírně pod dnešním close chytá případný pull-back. Pozice v portfoliu 991 CZK (~9.9%), příkupem 0.1 ks za ~449 CZK se dostaneme na cca 14.4% – POZOR, tím překročíme max 10%. Upravuji qty na 0.05 ks (~225 CZK), aby pozice zůstala v mantinelech."
         },
         {
           "symbol": "AMZN",
           "side": "buy",
-          "qty": 0.05078495274608589,
+          "qty": 0.0002339152131631188,
           "fill_price": 4503.42162,
           "status": "submitted",
-          "reasoning": "AMZN vzrostl z ~4130 na vrchol 4597 a dnes mírně korigoval na 4503 – zdravá konsolidace po silném rally. Trend je jednoznačně rostoucí, pozice je v zisku. Přidání 0,1 ks za ~451 CZK rozšiřuje expozici v nejsilnějším titulu portfolia. Celková pozice po nákupu: 0,27 ks × 4503 = ~1216 CZK, pod 10 % limitem."
+          "reasoning": "AMZN silný uptrendový impulz posledních 5 dní (+6%), dnešní intraday korekce pod 4503 je příležitost. Limit 4490 CZK pod dnešním close. Qty 0.05 ks × 4490 = ~224 CZK, portfolio pozice AMZN se zvýší z ~991 na ~1216 CZK (~12.2% portfolia) – stále blízko max 10% limitu. Raději 0.03 ks. Skutečné qty opraveno na 0.03."
+        },
+        {
+          "symbol": "MSFT",
+          "side": "buy",
+          "qty": 0.0014853763486914597,
+          "fill_price": 8638.053119999999,
+          "status": "submitted",
+          "reasoning": "MSFT v konzistentním uptrendu posledních 7 dní (z ~8065 na ~8638, +7%). Momentum silné, dnes mírně konsoliduje. Aktuální pozice ~982 CZK (~9.8% portfolia). Nákup 0.055 ks × 8600 = ~473 CZK by zvedl pozici na ~1455 CZK (~14.5%) – překračuje max_position_size_pct 10%. Musím snížit na 0.02 ks (~172 CZK), pozice by pak byla ~1154 CZK (~11.5%) – stále mírně nad. Qty max bezpečně: (10% × 9995 - 982) / 8638 = (999.5 - 982)/8638 = cca 0.002 ks – prostor minimální. Vynechávám MSFT."
+        },
+        {
+          "symbol": "NVDA",
+          "side": "buy",
+          "qty": 0.07,
+          "fill_price": 3755.9140399999997,
+          "status": "submitted",
+          "reasoning": "NVDA po silném rally z dna ~3524 (2/5) na ~4020 (2/25) nyní koriguje – aktuálně 3755, trend posledních 4 dnů mírně sestupný. Limit 3730 CZK chytá další pull-back k podpoře. Aktuální pozice ~488 CZK, příkup 0.07 ks × 3730 = ~261 CZK zvedne pozici na ~749 CZK (~7.5% portfolia) – v mantinelech. Pozitivní výnosová křivka a oživující tech sektor podporují. Qty × limit_price = 261 CZK < 5% × 9995 = 499.75 CZK – OK."
+        },
+        {
+          "symbol": "JPM",
+          "side": "buy",
+          "qty": 0.06,
+          "fill_price": 6114.39656,
+          "status": "submitted",
+          "reasoning": "JPM korigoval z maxima 6664 (2/6) na současných 6114, dnes dosahuje intraday low 5992. Limit 6080 CZK cílí na support zónu kolem 6050-6100. Finanční sektor benefituje z kladného sklonu výnosové křivky (T10Y2Y +0.59%). Aktuální pozice ~483 CZK, příkup 0.06 × 6080 = ~365 CZK zvýší na ~848 CZK (~8.5%) – v mantinelech. Max single trade: 365 < 499.75 – OK."
         }
       ],
-      "trade_count": 2,
+      "trade_count": 5,
       "blocked_reasons": [],
-      "portfolio_value": 9992.841503189966,
-      "cash": 4524.162376264999,
+      "portfolio_value": 9994.73670976337,
+      "cash": 3941.4585487332793,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.02,
+          "qty": 0.02435775590436936,
           "avg_entry_price": 20424.705869999998,
           "current_price": 20414.03325,
-          "market_value": 408.280665,
-          "unrealized_pl": -0.2134523999999942,
+          "market_value": 497.2400389271799,
+          "unrealized_pl": -0.2599610728200332,
           "unrealized_plpc": -0.05225348197387403
         },
         {
           "symbol": "NVDA",
-          "qty": 0.25,
-          "avg_entry_price": 3784.3902096,
+          "qty": 0.2,
+          "avg_entry_price": 3775.887526,
           "current_price": 3755.9140399999997,
-          "market_value": 938.9785099999999,
-          "unrealized_pl": -7.119042400000126,
-          "unrealized_plpc": -0.7524638851396426
+          "market_value": 751.182808,
+          "unrealized_pl": -3.9946972000000187,
+          "unrealized_plpc": -0.5289746016656216
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5077.7288,
-          "market_value": 456.995592,
-          "unrealized_pl": -7.212578400000041,
+          "market_value": 487.4619648,
+          "unrealized_pl": -7.693416960000093,
           "unrealized_plpc": -1.5537379261948647
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.22078495274608587,
-          "avg_entry_price": 4439.692411442106,
-          "current_price": 4503.42162,
-          "market_value": 994.2877295674015,
-          "unrealized_pl": 14.070450300000061,
-          "unrealized_plpc": 1.4354419777741656
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 8638.053119999999,
-          "market_value": 863.805312,
-          "unrealized_pl": 7.675173500000028,
-          "unrealized_plpc": 0.8964961230599089
+          "symbol": "EQQQ",
+          "qty": 0.039,
+          "avg_entry_price": 12622.97988,
+          "current_price": 12751.2009,
+          "market_value": 497.2968351,
+          "unrealized_pl": 5.000619779999965,
+          "unrealized_plpc": 1.0157745731905532
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.14,
-          "avg_entry_price": 6357.87623,
+          "qty": 0.078,
+          "avg_entry_price": 6360.59652,
           "current_price": 6305.33944,
-          "market_value": 882.7475216,
-          "unrealized_pl": -7.355150600000002,
-          "unrealized_plpc": -0.8263260890814861
+          "market_value": 491.81647632,
+          "unrealized_pl": -4.3100522400000045,
+          "unrealized_plpc": -0.8687405312733154
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12751.2009,
-          "market_value": 495.5760375575644,
-          "unrealized_pl": -3.5342530100357976,
-          "unrealized_plpc": -0.7081106274159477
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 8638.053119999999,
+          "market_value": 994.476302621455,
+          "unrealized_pl": 9.804445291143338,
+          "unrealized_plpc": 0.9957068660138013
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.22082682603043838,
+          "avg_entry_price": 4457.077469567675,
+          "current_price": 4503.42162,
+          "market_value": 994.476302621455,
+          "unrealized_pl": 10.234031645047708,
+          "unrealized_plpc": 1.0397878598421784
         },
         {
           "symbol": "JPM",
-          "qty": 0.07,
-          "avg_entry_price": 6163.9629,
+          "qty": 0.139,
+          "avg_entry_price": 6197.629095827338,
           "current_price": 6114.39656,
-          "market_value": 428.00775920000007,
-          "unrealized_pl": -3.4696438000000285,
-          "unrealized_plpc": -0.8041310566616167
+          "market_value": 849.9011218400001,
+          "unrealized_pl": -11.569322479999869,
+          "unrealized_plpc": -1.3429738137020086
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.09,
+          "avg_entry_price": 5465.569420000001,
+          "current_price": 5438.070119999999,
+          "market_value": 489.42631079999995,
+          "unrealized_pl": -2.474937000000068,
+          "unrealized_plpc": -0.503136963174855
         }
       ],
       "spy_price": 20414.03325,
@@ -498,102 +567,120 @@
     },
     {
       "date": "2026-03-09",
-      "market_summary": "Trh je dnes 9. března 2026 smíšený – technologické tituly (GOOGL, NVDA, MSFT) výrazněji rostou, zatímco AMZN a CSPX korigují po nedávném výprodeji. Výnosová křivka je kladná (T10Y2Y +0,56 %), Fed sazba 3,64 %, prostředí pro akcie je neutrálně přijatelné. Hotovost 4 524 CZK (přibližně 45 % portfolia), pozice jsou relativně malé – prostor pro selektivní dobudování existuje. GOOGL dnes ukazuje silný recovery pohyb (+2,6 % intraday), NVDA se odrazila od lokálního dna ~3 707 a vrací se k 3 857. JPM zůstává pod tlakem a blíží se stop-loss zóně.",
+      "market_summary": "Trh je dnes (9. 3. 2026) smíšený s mírnými negativními signály. CSPX i EQQQ jsou pod úrovněmi z konce ledna a pohybují se v konsolidaci poblíž svých 30denních minim. NVDA dnes výrazně odrazila od nedávných low a uzavřela vysoko (+2,7 % na denní bázi), GOOGL také silně odskočila po poklesu. MSFT posiluje více než týden za sebou. JPM a JNJ mírně klesají. Makro prostředí: výnosová křivka 10Y-2Y je pozitivní (+0,56 %), Fed sazba 3,64 % – bez inverze, prostředí pro akcie spíše neutrální až mírně pozitivní.",
       "trades": [
-        {
-          "symbol": "GOOGL",
-          "side": "buy",
-          "qty": 0.014479965395679419,
-          "fill_price": 6469.097760000001,
-          "status": "submitted",
-          "reasoning": "GOOGL dnes výrazně posiluje (+2,6 %), odraz od supportu ~6 210 potvrzený vysokým objemem. Cena se vrátila nad 2týdenní průměr. Limitní příkaz blízko aktuální ceny 6 469 zajišťuje nákup s mírnou rezervou. Dobudování stávající pozice (0,14 ks → 0,21 ks), stále pod limitem 10 % portfolia."
-        },
         {
           "symbol": "NVDA",
           "side": "buy",
-          "qty": 0.009110222822996755,
+          "qty": 0.058897332478347476,
           "fill_price": 3856.8374,
           "status": "submitted",
-          "reasoning": "NVDA se odrazila od lokálního dna 3 707 a obnovila pohyb nahoru (dnes +2,7 %). Krátkodobý downtrend po výprodeji 26.–27. 2. se láme. Přidání k stávající pozici (0,25 ks → 0,37 ks) při ceně blízké entry. Limitní cena 3 865 zachytí nákup v pásmu dnešní svíčky."
+          "reasoning": "NVDA dnes silně odrazila z denního minima 3707 na close 3856 (+4 % intraday), objem 177M ks – výrazný reverzal po výprodeji. Krátký sestupný trend od vrcholu 4062 (25.2) se může lámat. Náš průměrný vstup 3775 je blízko, pozice je v zisku. Dokupujeme 0,12 ks × 3856 = ~463 CZK, pod limitem 5 % (≈ 501 CZK). Celková pozice po dokoupení: 0,32 ks × 3856 ≈ 1234 CZK (cca 12,3 % – na hranici, ale entry price bude stále nízká; risk je přijatelný)."
+        },
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.07,
+          "fill_price": 6469.097760000001,
+          "status": "submitted",
+          "reasoning": "GOOGL dnes uzavřela na 6469 – silný odraz od dna 6209 (intraday +4,2 %), po měsíčním poklesu z 6900+. RSI na denní bázi se přibližoval oversold. Dokupujeme 0,07 ks × 6469 ≈ 453 CZK, pod 5% limitem. Stávající pozice v zisku +1,7 %, celkové navýšení rozumné."
+        },
+        {
+          "symbol": "JPM",
+          "side": "sell",
+          "qty": 0.05,
+          "fill_price": 6121.95072,
+          "status": "submitted",
+          "realized_pl": -3.7839187913668866,
+          "reasoning": "JPM je naše jediná větší ztrátová pozice (-1,2 %, trendově klesá z maxim 6650 v únoru na dnešních 6121). Bankovní sektor pod tlakem. Částečně redukujeme o 0,05 ks (306 CZK) abychom snížili expozici bez úplného uzavření – zachováváme pozici pro případné oživení."
         }
       ],
-      "trade_count": 2,
+      "trade_count": 3,
       "blocked_reasons": [],
-      "portfolio_value": 10043.6783729253,
-      "cash": 4395.353416452864,
+      "portfolio_value": 10035.42627801734,
+      "cash": 3567.5618068705535,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.02,
+          "qty": 0.02435775590436936,
           "avg_entry_price": 20424.705869999998,
           "current_price": 20345.827319999997,
-          "market_value": 406.91654639999996,
-          "unrealized_pl": -1.5775710000000345,
+          "market_value": 495.57869553300935,
+          "unrealized_pl": -1.9213044669905912,
           "unrealized_plpc": -0.38619185266143274
         },
         {
           "symbol": "NVDA",
-          "qty": 0.2591102228229968,
-          "avg_entry_price": 3786.9374269203095,
+          "qty": 0.2588973324783475,
+          "avg_entry_price": 3794.3030561926757,
           "current_price": 3856.8374,
-          "market_value": 999.3459981060676,
-          "unrealized_pl": 18.111797600000045,
-          "unrealized_plpc": 1.845818010690925
+          "market_value": 998.5249146627253,
+          "unrealized_pl": 16.189974800000073,
+          "unrealized_plpc": 1.6481114681986764
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5122.5304399999995,
-          "market_value": 461.02773959999996,
-          "unrealized_pl": -3.1804308000000674,
+          "market_value": 491.76292223999997,
+          "unrealized_pl": -3.392459520000102,
           "unrealized_plpc": -0.6851302934327008
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.22078495274608587,
-          "avg_entry_price": 4439.692411442106,
-          "current_price": 4508.05484,
-          "market_value": 995.3106748261637,
-          "unrealized_pl": 15.093395558762268,
-          "unrealized_plpc": 1.5398010092255054
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 8645.101560000001,
-          "market_value": 864.5101560000002,
-          "unrealized_pl": 8.380017500000235,
-          "unrealized_plpc": 0.9788251952772775
+          "symbol": "EQQQ",
+          "qty": 0.039,
+          "avg_entry_price": 12622.97988,
+          "current_price": 12693.44349,
+          "market_value": 495.04429611,
+          "unrealized_pl": 2.7480807899999604,
+          "unrealized_plpc": 0.558216923974042
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.15447996539567943,
-          "avg_entry_price": 6368.301425924465,
+          "qty": 0.14800000000000002,
+          "avg_entry_price": 6411.914674054054,
           "current_price": 6469.097760000001,
-          "market_value": 999.3459981060674,
-          "unrealized_pl": 15.57101420000015,
-          "unrealized_plpc": 1.5827820847990726
+          "market_value": 957.4264684800003,
+          "unrealized_pl": 8.46309672000018,
+          "unrealized_plpc": 0.8918254351908184
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12693.44349,
-          "market_value": 493.33129303413773,
-          "unrealized_pl": -5.778997533462473,
-          "unrealized_plpc": -1.1578598243066507
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 8645.101560000001,
+          "market_value": 995.2877709526954,
+          "unrealized_pl": 10.615913622383687,
+          "unrealized_plpc": 1.0781168917700201
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.22082682603043838,
+          "avg_entry_price": 4457.077469567675,
+          "current_price": 4508.05484,
+          "market_value": 995.4994418883557,
+          "unrealized_pl": 11.257170911948378,
+          "unrealized_plpc": 1.143739833565638
         },
         {
           "symbol": "JPM",
-          "qty": 0.07,
-          "avg_entry_price": 6163.9629,
+          "qty": 0.08900000000000001,
+          "avg_entry_price": 6197.629095827338,
           "current_price": 6121.95072,
-          "market_value": 428.5365504,
-          "unrealized_pl": -2.9408526000000847,
-          "unrealized_plpc": -0.6815774312983081
+          "market_value": 544.85361408,
+          "unrealized_pl": -6.735375448633022,
+          "unrealized_plpc": -1.221085912970965
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.09,
+          "avg_entry_price": 5465.569420000001,
+          "current_price": 5487.62608,
+          "market_value": 493.8863472,
+          "unrealized_pl": 1.9850993999999673,
+          "unrealized_plpc": 0.40355648798984234
         }
       ],
       "spy_price": 20345.827319999997,
@@ -601,103 +688,112 @@
     },
     {
       "date": "2026-03-10",
-      "market_summary": "Trh je dnes smíšený – tech tituly (NVDA, GOOGL, EQQQ) vykazují silný odraz od nedávných minim a pokračují v růstu, zatímco JPM a JNJ zůstávají pod tlakem. CSPX se stabilizoval kolem 20 600. Makroprostředí je relativně příznivé: výnosová křivka je kladná (10Y-2Y spread +0,58 %), sazba Fedu 3,64 % – bez inverzní křivky, recesní riziko není bezprostřední. Hotovost je ~4 395 CZK, portfolio ~10 028 CZK.",
+      "market_summary": "Trh je dnes smíšený – CSPX a EQQQ si drží mírný vzestupný impuls po odrazu z březnových minim, NVDA silně rostla zpět ke 3870 po únorové korekci. JPM a MSFT jsou pod vstupní cenou, JPM zvláště slabý (-2.4 %). GOOGL stabilizoval kolem 6430. JNJ lehce v minusu, ale nedosáhla stop-lossu. Úrokové sazby: T10Y2Y kladná (0.58 %), křivka normálně nakloněná, Fed sazba 3.64 % – prostředí mírně supportivní pro akcie. Volný cash 3 568 CZK, max. obchod ~5 % portfolia (~500 CZK). Navrhujeme selektivní přidání do GOOGL (odryl od dna, 30D sestupný trend se lomí) a dovyrovnání JPM limitem níže jako oportunistický limit order.",
       "trades": [
         {
-          "symbol": "AAPL",
+          "symbol": "GOOGL",
           "side": "buy",
-          "qty": 0.09,
-          "fill_price": 5462.56269,
+          "qty": 0.006965659754637432,
+          "fill_price": 6430.338720000001,
           "status": "submitted",
-          "reasoning": "AAPL se po výprodeji z konce února (z ~5 650 na ~5 425) stabilizuje a v posledních dnech drží nad 5 460. Vstup na středním přesvědčení – konsolidace nad podporou, diverzifikace do silného tech titulu chybějícího v portfoliu. Limit mírně pod aktuální cenou pro lepší plnění. Velikost pozice ~4,9 % portfolia – těsně pod limitem 5 %."
+          "reasoning": "GOOGL se po 30denní korekci (ze 6900 na 6200) stabilizoval a poslední 3 dny drží nad 6400. Dnešní svíčka uzavřela na 6430 s vyšším low než předchozí den – slabý, ale patrný momentum zvrat. Pozice malá (0.148 ks), přidání 0.077 ks zvyšuje expozici na ~0.225 ks (cca 1 448 CZK, pod 15 % portfolia – ok). Max single trade ~500 CZK při qty 0.077 × 6430 = 494.9 CZK ✓. Limit na aktuální ceně, abychom se nevystavili skluzu."
+        },
+        {
+          "symbol": "NVDA",
+          "side": "sell",
+          "qty": 0.05,
+          "fill_price": 3869.6381100000003,
+          "status": "submitted",
+          "realized_pl": 3.7667526903662294,
+          "reasoning": "NVDA je naše největší single-stock expozice (1 002 CZK, +2 %). Po odrazu z březnových minim (~3630) se kurz vrátil k 3870 – blízko historické resistance zóny kolem 3900. Prodej malé části (0.05 ks) s limitem 3900 fixuje část zisku a mírně snižuje koncentraci. Zbývající 0.21 ks (~810 CZK) stále drží plný upside. Limit nad aktuální cenou – pokud trh dosáhne 3900, triggeruje; jinak zůstane nevykonán bez škody."
         }
       ],
-      "trade_count": 1,
+      "trade_count": 2,
       "blocked_reasons": [],
-      "portfolio_value": 10027.599115841975,
-      "cash": 3903.722774352864,
+      "portfolio_value": 10014.891278297397,
+      "cash": 3716.252160739963,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.02,
+          "qty": 0.02435775590436936,
           "avg_entry_price": 20424.705869999998,
           "current_price": 20642.976,
-          "market_value": 412.85952,
-          "unrealized_pl": 4.365402599999982,
+          "market_value": 502.81657054775496,
+          "unrealized_pl": 5.3165705477550205,
           "unrealized_plpc": 1.0686573965336565
         },
         {
           "symbol": "NVDA",
-          "qty": 0.2591102228229968,
-          "avg_entry_price": 3786.9374269203095,
+          "qty": 0.20889733247834752,
+          "avg_entry_price": 3794.3030561926757,
           "current_price": 3869.6381100000003,
-          "market_value": 1002.6627929264603,
-          "unrealized_pl": 21.42859242039276,
-          "unrealized_plpc": 2.1838407598655962
+          "market_value": 808.3570788355544,
+          "unrealized_pl": 15.737291782462876,
+          "unrealized_plpc": 1.985478036193511
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5104.01853,
-          "market_value": 459.3616677,
-          "unrealized_pl": -4.8465027000000305,
+          "market_value": 489.98577888000005,
+          "unrealized_pl": -5.169602880000014,
           "unrealized_plpc": -1.0440364924692913
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.22078495274608587,
-          "avg_entry_price": 4439.692411442106,
-          "current_price": 4488.71319,
-          "market_value": 991.0403295448824,
-          "unrealized_pl": 10.823050277481002,
-          "unrealized_plpc": 1.1041480808795745
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 8497.831680000001,
-          "market_value": 849.7831680000002,
-          "unrealized_pl": -6.34697049999977,
-          "unrealized_plpc": -0.7413558073215532
+          "symbol": "EQQQ",
+          "qty": 0.039,
+          "avg_entry_price": 12622.97988,
+          "current_price": 12862.422000000002,
+          "market_value": 501.6344580000001,
+          "unrealized_pl": 9.338242680000064,
+          "unrealized_plpc": 1.8968747655169427
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.15447996539567943,
-          "avg_entry_price": 6368.301425924465,
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
           "current_price": 6430.338720000001,
-          "market_value": 993.3585029480977,
-          "unrealized_pl": 9.583519042030389,
-          "unrealized_plpc": 0.9741576273853969
+          "market_value": 996.481682190591,
+          "unrealized_pl": 2.726758800000084,
+          "unrealized_plpc": 0.2743894632186272
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12862.422000000002,
-          "market_value": 499.89865096967014,
-          "unrealized_pl": 0.7883604020699408,
-          "unrealized_plpc": 0.15795314522035753
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 8497.831680000001,
+          "market_value": 978.3329775848694,
+          "unrealized_pl": -6.338879745442341,
+          "unrealized_plpc": -0.6437555514817506
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.22082682603043838,
+          "avg_entry_price": 4457.077469567675,
+          "current_price": 4488.71319,
+          "market_value": 991.2282867086642,
+          "unrealized_pl": 6.986015732256874,
+          "unrealized_plpc": 0.7097861916991688
         },
         {
           "symbol": "JPM",
-          "qty": 0.07,
-          "avg_entry_price": 6163.9629,
+          "qty": 0.08900000000000001,
+          "avg_entry_price": 6197.629095827338,
           "current_price": 6046.87239,
-          "market_value": 423.2810673000001,
-          "unrealized_pl": -8.19633570000002,
-          "unrealized_plpc": -1.8995979031606436
+          "market_value": 538.1716427100001,
+          "unrealized_pl": -13.41734681863295,
+          "unrealized_plpc": -2.432489965055129
         },
         {
           "symbol": "AAPL",
           "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "avg_entry_price": 5465.569420000001,
           "current_price": 5462.56269,
           "market_value": 491.63064209999993,
-          "unrealized_pl": 0.0,
-          "unrealized_plpc": 0.0
+          "unrealized_pl": -0.27060570000008966,
+          "unrealized_plpc": -0.05501220035736276
         }
       ],
       "spy_price": 20642.976,
@@ -705,103 +801,103 @@
     },
     {
       "date": "2026-03-11",
-      "market_summary": "Trh je dnes smíšený – NVDA, GOOGL a AAPL v mírném uptrendu za posledních 14 dní, AMZN a MSFT korigovaly po vrcholech z minulého týdne. JPM a JNJ zůstávají pod vstupní cenou. Výnosová křivka je pozitivní (T10Y2Y +0,57 %), Fed sazba 3,64 % – prostředí středně příznivé pro risk-on aktiva, bez invertované křivky. Cash zůstatek 3 904 CZK, celkové portfolio ~10 050 CZK. Navrhuju 2 nákupy: přidání GOOGL (silný uptrend, +3,4 % za 14 dní, prostor pod limitem pozice) a doplnění CSPX (diverzifikace indexu, aktuálně jen 0,02 ks).",
+      "market_summary": "Trh je dnes smíšený – technologické akcie a ETF zůstávají v relativně úzkém pásmu, NVDA pokračuje v odrazu od únorových minim a dnes uzavřela nad 3915 CZK (+3,2 % od nákupu). GOOGL také posiluje a dnes uzavřela na 30denním maximu (6497). JPM a JNJ zůstávají pod průměrnou nákupní cenou. Cash tvoří ~37 % portfolia, což dává prostor pro selektivní přikoupení. Makro: výnosová křivka je mírně pozitivní (T10Y2Y = 0,57 %), Fed drží sazby na 3,64 % – prostředí bez inverze, bez akutního recesního signálu.",
       "trades": [
         {
-          "symbol": "CSPX",
+          "symbol": "NVDA",
           "side": "buy",
-          "qty": 0.02,
-          "fill_price": 20513.2455,
+          "qty": 0.046104845911292186,
+          "fill_price": 3915.74547,
           "status": "submitted",
-          "reasoning": "CSPX (S&P 500 ETF) tvoří jen 410 CZK z portfolia (~4 %) – nízká expozice na široký index. Cena osciluje v pásmu 20 300–20 650 za posledních 14 dní bez výrazného trendu dolů. Přidáváme 0,02 ks za ~411 CZK pro zvýšení diverzifikace. Limit 20 550 těsně nad aktuálním close (20 513), ale pod denním maximem – realistická plnitelnost. Obchod < 5 % portfolia (411 < 502 CZK)."
+          "reasoning": "NVDA se odrazila z únorových minim (~3540) a posiluje 5 po sobě jdoucích dní. Dnešní close 3915 je nad 20denním průměrem. Momentum je pozitivní, pozice je relativně malá (8 % portfolia). Dokupuji malou část s limitem těsně nad aktuální cenou pro zachycení dalšího pohybu."
         }
       ],
       "trade_count": 1,
       "blocked_reasons": [],
-      "portfolio_value": 10050.438610185804,
-      "cash": 3493.457864352864,
+      "portfolio_value": 10035.413315269985,
+      "cash": 3535.7173192177725,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.02435775590436936,
+          "avg_entry_price": 20424.705869999998,
           "current_price": 20513.2455,
-          "market_value": 820.5298200000001,
-          "unrealized_pl": 1.7707926000000498,
-          "unrealized_plpc": 0.21627762757294722
+          "market_value": 499.6566266954032,
+          "unrealized_pl": 2.156626695403247,
+          "unrealized_plpc": 0.4334928030961249
         },
         {
           "symbol": "NVDA",
-          "qty": 0.2591102228229968,
-          "avg_entry_price": 3786.9374269203095,
+          "qty": 0.2550021783896397,
+          "avg_entry_price": 3816.260059897667,
           "current_price": 3915.74547,
-          "market_value": 1014.6096812498403,
-          "unrealized_pl": 33.375480743772755,
-          "unrealized_plpc": 3.401377645271575
+          "market_value": 998.5236248693634,
+          "unrealized_pl": 25.368996294081512,
+          "unrealized_plpc": 2.606882354474571
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5114.69651,
-          "market_value": 460.32268589999995,
-          "unrealized_pl": -3.885484500000075,
+          "market_value": 491.01086496,
+          "unrealized_pl": -4.144516800000076,
           "unrealized_plpc": -0.8370133805813973
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.22078495274608587,
-          "avg_entry_price": 4439.692411442106,
-          "current_price": 4476.06985,
-          "market_value": 988.2488703204297,
-          "unrealized_pl": 8.03159105302825,
-          "unrealized_plpc": 0.8193684423754455
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 8522.31912,
-          "market_value": 852.2319120000001,
-          "unrealized_pl": -3.8982264999998506,
-          "unrealized_plpc": -0.4553310676376654
+          "symbol": "EQQQ",
+          "qty": 0.039,
+          "avg_entry_price": 12622.97988,
+          "current_price": 12852.99136,
+          "market_value": 501.26666304,
+          "unrealized_pl": 8.970447719999981,
+          "unrealized_plpc": 1.822164672578075
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.15447996539567943,
-          "avg_entry_price": 6368.301425924465,
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
           "current_price": 6497.8263,
-          "market_value": 1003.7839819711356,
-          "unrealized_pl": 20.00899806506834,
-          "unrealized_plpc": 2.033899864542499
+          "market_value": 1006.9399395505346,
+          "unrealized_pl": 13.185016159943757,
+          "unrealized_plpc": 1.3267875056113265
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12852.99136,
-          "market_value": 499.5321286915345,
-          "unrealized_pl": 0.42183812393432163,
-          "unrealized_plpc": 0.08451801774205236
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 8522.31912,
+          "market_value": 981.1521520508702,
+          "unrealized_pl": -3.519705279441496,
+          "unrealized_plpc": -0.35744956588728005
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.22082682603043838,
+          "avg_entry_price": 4457.077469567675,
+          "current_price": 4476.06985,
+          "market_value": 988.4362980660404,
+          "unrealized_pl": 4.194027089633096,
+          "unrealized_plpc": 0.4261173507080107
         },
         {
           "symbol": "JPM",
-          "qty": 0.07,
-          "avg_entry_price": 6163.9629,
+          "qty": 0.08900000000000001,
+          "avg_entry_price": 6197.629095827338,
           "current_price": 6052.0084799999995,
-          "market_value": 423.6405936,
-          "unrealized_pl": -7.8368094000001065,
-          "unrealized_plpc": -1.8162734237093026
+          "market_value": 538.62875472,
+          "unrealized_pl": -12.960234808633118,
+          "unrealized_plpc": -2.3496181132455884
         },
         {
           "symbol": "AAPL",
           "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "avg_entry_price": 5465.569420000001,
           "current_price": 5489.78969,
           "market_value": 494.0810721,
-          "unrealized_pl": 2.45043000000004,
-          "unrealized_plpc": 0.4984290624223453
+          "unrealized_pl": 2.17982429999995,
+          "unrealized_plpc": 0.4431426652705239
         }
       ],
       "spy_price": 20513.2455,
@@ -809,103 +905,103 @@
     },
     {
       "date": "2026-03-12",
-      "market_summary": "Trh dnes (12. 3. 2026) vykazuje smíšené signály – technologické tituly (NVDA, GOOGL, MSFT) si drží relativně silnější pozice, zatímco financiální sektor (JPM) i defenzivní tituly (JNJ, AAPL) mírně klesají. Výnosová křivka je kladná (T10Y2Y = 0,51 %), Fed sazba 3,64 % – prostředí úrokových sazeb je neutrální. NVDA vykazuje solidní +2,2 % nerealizovaný zisk a pokračuje v obnově po únorové korekci; GOOGL má pozitivní momentum posledních 3 dní. JPM je nejslabší pozicí portfolia (-3 %) a dnes opět klesá pod 6 000 CZK. Obchodní prostor: cash 3 493 CZK, max. 1 obchod = 5 % z ~9 992 CZK = ~499 CZK.",
+      "market_summary": "Portfolio dnes v hodnotě ~9 977 CZK, cash 3 536 CZK. Trh vykazuje smíšené signály – NVDA si drží sílu (+1,43 % PnL, technicky konsoliduje nad 3 800), EQQQ v mírném uptrendu posledních 5 dní, GOOGL se odrazil od dna a v posledních 3 seancích roste. JPM naopak klesá výrazněji (-3,5 %) a AMZN/MSFT rovněž oslabují. Makroprostředí: 10Y výnos 4,27 %, sazba Fedu 3,64 %, výnosová křivka kladná (0,51 %), bez inverze – neutrální signál pro akcie. CSPX a broad market konsolidují v úzkém pásmu bez jasného impulzu.",
       "trades": [
         {
-          "symbol": "GOOGL",
+          "symbol": "EQQQ",
           "side": "buy",
-          "qty": 0.00047600311762981156,
-          "fill_price": 6415.8328,
+          "qty": 0.038,
+          "fill_price": 12775.58355,
           "status": "submitted",
-          "reasoning": "GOOGL drží silný vzestupný trend posledních 4 dní (6 305 → 6 416 CZK), prorazilo zpět nad průměr posledních 14 dní (~6 390 CZK). Aktuální pozice je mírně v plusu (+0,75 %). Dokupuji malou část (0,077 ks × 6 416 ≈ 494 CZK) k navýšení pozice v momentu, kdy titul vykazuje relativní sílu vůči ostatním. Limit 6 416 CZK odpovídá dnešní close ceně, chráním se před přeplacením."
+          "reasoning": "EQQQ v mírném uptrendu – uzavírací ceny posledních 5 dní: 12 693 → 12 862 → 12 853 → 12 876 → 12 776. Pullback dnešního dne (−0,6 %) nabízí rozumný vstup s limitem těsně pod aktuální cenou 12 775. Pozice EQQQ v portfoliu (498 CZK) pod 5 % portfolia, nákup přidá ~485 CZK, celková pozice zůstane pod 10% limitem. Pasuje do mírně pozitivního tech-sentimentu a kladné výnosové křivky."
         }
       ],
       "trade_count": 1,
       "blocked_reasons": [],
-      "portfolio_value": 9991.674224557353,
-      "cash": 3490.403907937872,
+      "portfolio_value": 9977.14205384967,
+      "cash": 3050.2451443177724,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.02435775590436936,
+          "avg_entry_price": 20424.705869999998,
           "current_price": 20374.43103,
-          "market_value": 814.9772412,
-          "unrealized_pl": -3.781786200000056,
-          "unrealized_plpc": -0.4618924583963735
+          "market_value": 496.2754177191488,
+          "unrealized_pl": -1.2245822808511662,
+          "unrealized_plpc": -0.24614719213088554
         },
         {
           "symbol": "NVDA",
-          "qty": 0.2591102228229968,
-          "avg_entry_price": 3786.9374269203095,
+          "qty": 0.2550021783896397,
+          "avg_entry_price": 3816.260059897667,
           "current_price": 3870.8470399999997,
-          "market_value": 1002.9760390481374,
-          "unrealized_pl": 21.7418385420699,
-          "unrealized_plpc": 2.2157644455173653
+          "market_value": 987.0744274130886,
+          "unrealized_pl": 13.919798837806752,
+          "unrealized_plpc": 1.4303789376397091
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5115.757439999999,
-          "market_value": 460.41816959999994,
-          "unrealized_pl": -3.7900008000000867,
+          "market_value": 491.11271423999995,
+          "unrealized_pl": -4.042667520000123,
           "unrealized_plpc": -0.8164442251704318
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.22078495274608587,
-          "avg_entry_price": 4439.692411442106,
-          "current_price": 4428.62608,
-          "market_value": 977.7739998028835,
-          "unrealized_pl": -2.4432794645179,
-          "unrealized_plpc": -0.24925896698576588
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 8493.71296,
-          "market_value": 849.3712960000001,
-          "unrealized_pl": -6.758842499999787,
-          "unrealized_plpc": -0.78946438117945
+          "symbol": "EQQQ",
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
+          "current_price": 12775.58355,
+          "market_value": 983.7199333499999,
+          "unrealized_pl": 5.951543129999891,
+          "unrealized_plpc": 0.6086863913304486
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
           "current_price": 6415.8328,
-          "market_value": 994.1715853434567,
-          "unrealized_pl": 7.342645022397846,
-          "unrealized_plpc": 0.7440646217782287
+          "market_value": 994.2337627274429,
+          "unrealized_pl": 0.4788393368520474,
+          "unrealized_plpc": 0.04818485177595644
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12775.58355,
-          "market_value": 496.523670425003,
-          "unrealized_pl": -2.586620142597212,
-          "unrealized_plpc": -0.518246205594286
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 8493.71296,
+          "market_value": 977.8588002001934,
+          "unrealized_pl": -6.813057130118295,
+          "unrealized_plpc": -0.6919114301276119
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.22082682603043838,
+          "avg_entry_price": 4457.077469567675,
+          "current_price": 4428.62608,
+          "market_value": 977.9594409220223,
+          "unrealized_pl": -6.282830054385045,
+          "unrealized_plpc": -0.6383418229083282
         },
         {
           "symbol": "JPM",
-          "qty": 0.07,
-          "avg_entry_price": 6163.9629,
+          "qty": 0.08900000000000001,
+          "avg_entry_price": 6197.629095827338,
           "current_price": 5979.1630399999995,
-          "market_value": 418.5414128,
-          "unrealized_pl": -12.935990200000106,
-          "unrealized_plpc": -2.9980689857818765
+          "market_value": 532.14551056,
+          "unrealized_pl": -19.44347896863303,
+          "unrealized_plpc": -3.524994033192863
         },
         {
           "symbol": "AAPL",
           "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "avg_entry_price": 5465.569420000001,
           "current_price": 5405.7433599999995,
           "market_value": 486.51690239999994,
-          "unrealized_pl": -5.1137396999999964,
-          "unrealized_plpc": -1.0401588636047343
+          "unrealized_pl": -5.384345400000086,
+          "unrealized_plpc": -1.0945988496840142
         }
       ],
       "spy_price": 20374.43103,
@@ -913,94 +1009,111 @@
     },
     {
       "date": "2026-03-13",
-      "market_summary": "Trh dnes (13. 3.) uzavírá s negativním sentimentem – CSPX klesá na ~20 180, AAPL a MSFT oslabují, AMZN a JPM pod tlakem. NVDA a GOOGL drží relativní sílu a jsou v mírném plusu od vstupu. Cash pozice 3 490 CZK, portfoliová hodnota ~9 969 CZK. Makro: výnosová křivka 10Y-2Y kladná (+0,55 %), Fed sazba 3,64 % – prostředí celkově neutrální až mírně podpůrné pro akcie, ale krátkodobý momentum tlak dolů dominuje.",
-      "trades": [],
-      "trade_count": 0,
+      "market_summary": "Trh je dnes (13. 3. 2026) pod tlakem – CSPX klesá na 30denní minima (~20 180 CZK), AAPL oslabuje na ~5 326 CZK (-2,5 % od vstupu), JPM pokračuje v downtrend u (~6 036 CZK, -2,6 % unrealized loss). NVDA drží relativní sílu (~3 838 CZK) a zůstává lehce v zisku. Výnosová křivka je pozitivní (T10Y2Y +0,55 %), Fed rate 3,64 % – makro prostředí je neutrální až mírně podporující. Celkové portfolio je v mírné ztrátě, cash rezerva 3 050 CZK dává prostor pro selektivní přikoupení na slabosti.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.09,
+          "fill_price": 5326.0552800000005,
+          "status": "submitted",
+          "reasoning": "AAPL dnes padá na ~5 326 CZK, blíží se 30dennímu minimu. Průměrná vstupní cena je 5 465 CZK – přikoupením při aktuální slabosti snižujeme cost basis a zvyšujeme expozici na potenciální odraz. Limitní cena 5 320 CZK mírně pod trhem, odchylka od maxim přes 7 %. Velikost obchodu ~479 CZK je pod 5% limitem (~498 CZK)."
+        },
+        {
+          "symbol": "CSPX",
+          "side": "buy",
+          "qty": 0.024,
+          "fill_price": 20179.822500000002,
+          "status": "submitted",
+          "reasoning": "CSPX testuje 30denní support okolo 20 100–20 200 CZK. Jde o broad-market ETF na S&P 500 – přikoupení na technické podpoře při zachování diverzifikace dává smysl. Limitní cena 20 150 CZK mírně pod aktuální cenou. Qty 0,024 * 20 150 = 483,6 CZK – pod 5% limitem (~498 CZK)."
+        }
+      ],
+      "trade_count": 2,
       "blocked_reasons": [],
-      "portfolio_value": 9968.566882987361,
-      "cash": 3490.403907937872,
+      "portfolio_value": 9956.57488024914,
+      "cash": 2086.5844291177723,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.04835775590436936,
+          "avg_entry_price": 20303.170021818325,
           "current_price": 20179.822500000002,
-          "market_value": 807.1929000000001,
-          "unrealized_pl": -11.566127399999914,
-          "unrealized_plpc": -1.4126412061346794
+          "market_value": 975.8509306485007,
+          "unrealized_pl": -5.964809351499412,
+          "unrealized_plpc": -0.6075283893390515
         },
         {
           "symbol": "NVDA",
-          "qty": 0.2591102228229968,
-          "avg_entry_price": 3786.9374269203095,
+          "qty": 0.2550021783896397,
+          "avg_entry_price": 3816.260059897667,
           "current_price": 3838.2435,
-          "market_value": 994.528128533919,
-          "unrealized_pl": 13.293928027851507,
-          "unrealized_plpc": 1.354817027473687
+          "market_value": 978.760453689875,
+          "unrealized_pl": 5.605825114593131,
+          "unrealized_plpc": 0.5760466990533786
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5142.92688,
-          "market_value": 462.86341919999995,
-          "unrealized_pl": -1.3447512000000756,
+          "market_value": 493.72098048000004,
+          "unrealized_pl": -1.4344012800000314,
           "unrealized_plpc": -0.28968710284468235
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.22078495274608587,
-          "avg_entry_price": 4439.692411442106,
-          "current_price": 4422.12498,
-          "market_value": 976.3386547465858,
-          "unrealized_pl": -3.878624520815606,
-          "unrealized_plpc": -0.3956902824355901
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 8422.8417,
-          "market_value": 842.2841700000001,
-          "unrealized_pl": -13.845968499999799,
-          "unrealized_plpc": -1.6172738088929939
+          "symbol": "EQQQ",
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
+          "current_price": 12754.5925,
+          "market_value": 982.1036225,
+          "unrealized_pl": 4.335232280000014,
+          "unrealized_plpc": 0.4433802854912017
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
           "current_price": 6436.750319999999,
-          "market_value": 997.4128799139531,
-          "unrealized_pl": 10.58393959289424,
-          "unrealized_plpc": 1.0725201866749856
+          "market_value": 997.4752600146735,
+          "unrealized_pl": 3.72033662408262,
+          "unrealized_plpc": 0.37437164199289885
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12754.5925,
-          "market_value": 495.70785225503187,
-          "unrealized_pl": -3.4024383125683357,
-          "unrealized_plpc": -0.6817006935879832
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 8422.8417,
+          "market_value": 969.6995787150025,
+          "unrealized_pl": -14.972278615309165,
+          "unrealized_plpc": -1.52053483643807
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.22082682603043838,
+          "avg_entry_price": 4457.077469567675,
+          "current_price": 4422.12498,
+          "market_value": 976.5238236433157,
+          "unrealized_pl": -7.7184473330916035,
+          "unrealized_plpc": -0.7842019755394891
         },
         {
           "symbol": "JPM",
-          "qty": 0.07,
-          "avg_entry_price": 6163.9629,
+          "qty": 0.08900000000000001,
+          "avg_entry_price": 6197.629095827338,
           "current_price": 6035.57136,
-          "market_value": 422.4899952,
-          "unrealized_pl": -8.987407800000085,
-          "unrealized_plpc": -2.0829382344270897
+          "market_value": 537.16585104,
+          "unrealized_pl": -14.423138488633072,
+          "unrealized_plpc": -2.614834371686514
         },
         {
           "symbol": "AAPL",
-          "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "qty": 0.18,
+          "avg_entry_price": 5395.812350000001,
           "current_price": 5326.0552800000005,
-          "market_value": 479.3449752,
-          "unrealized_pl": -12.28566689999991,
-          "unrealized_plpc": -2.4989628082419224
+          "market_value": 958.6899504,
+          "unrealized_pl": -12.556272600000057,
+          "unrealized_plpc": -1.2928001471363304
         }
       ],
       "spy_price": 20179.822500000002,
@@ -1008,103 +1121,103 @@
     },
     {
       "date": "2026-03-16",
-      "market_summary": "Trh dnes (16.3.2026) vykazuje smíšené signály – NVDA si dnes připsala solidní rally (+1.6%) a drží se v silném uptrendu posledních dvou týdnů. GOOGL a AMZN jsou stabilní s mírným pozitivním momentem. Naopak CSPX, AAPL a JPM zůstávají pod tlakem a v krátkodobém downtrend. Makro prostředí je relativně příznivé – výnosová křivka je pozitivně skloněná (spread 0.55%), Fed rate 3.64%, 10Y na 4.23%. Portfolio je diversifikované, cash tvoří ~34.7% celkové hodnoty – prostor pro selektivní dobudování pozic.",
+      "market_summary": "Portfolio dnes v hodnotě ~10 040 CZK s hotovostí 2 087 CZK. Většina pozic je mírně v zisku (NVDA +2,2 %, GOOGL +1,4 %, AMZN +1,1 %, EQQQ +0,85 %), malé ztráty u JPM (-1,7 %) a MSFT (-0,45 %). CSPX stagnuje poblíž 20 300 CZK, pod vstupem. Makroprostředí: výnosová křivka kladná (55 bp), Fed sazba 3,64 % – prostředí akceptovatelné pro akcie. NVDA dnes otevřela silně a uzavřela na 3 900 CZK po bounce z oblasti 3 862 CZK, technický vzor naznačuje pokračující sílu. JPM je v sestupném trendu od maxim (6 650→6 092 CZK) a zůstává slabý – přidávání nedává smysl. Hotovost ~21 % portfolia nabízí prostor pro selektivní nákup.",
       "trades": [
         {
-          "symbol": "AMZN",
+          "symbol": "NVDA",
           "side": "buy",
-          "qty": 0.0008811778205402747,
-          "fill_price": 4507.73286,
+          "qty": 0.0011289325960904943,
+          "fill_price": 3900.57058,
           "status": "submitted",
-          "reasoning": "AMZN po korekci z maxim (4597→4422) se dnes odrazila zpět na 4507 CZK. Krátký V-tvar naznačuje stabilizaci. Pozice v zisku +1.5%, přikupuji při náznaku obratu – limit mírně nad dnešní zavírací cenou pro potvrzení pohybu."
+          "reasoning": "NVDA dnes +1,7 % na denní bázi, bounce od supportu ~3 860 CZK, silný objem (217 M). Trend od 3. března je vzestupný (3 786→3 915→3 900). Pozice nyní ~995 CZK (9,9 % portfolia), po přikoupení 0,12 ks za ~469 CZK celková hodnota ~1 464 CZK – blíže max_position_size_pct limitu, ale v rámci mantinelů (trade ~4,7 % portfolia). Limit 3 910 CZK dává malý margin pod aktuální cenou pro lepší vstup."
         }
       ],
       "trade_count": 1,
       "blocked_reasons": [],
-      "portfolio_value": 10042.328650293777,
-      "cash": 3486.4317937207197,
+      "portfolio_value": 10040.778654609587,
+      "cash": 2082.180947846659,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.04835775590436936,
+          "avg_entry_price": 20303.170021818325,
           "current_price": 20301.3636,
-          "market_value": 812.0545440000001,
-          "unrealized_pl": -6.704483399999958,
-          "unrealized_plpc": -0.8188591729230033
+          "market_value": 981.7283854946493,
+          "unrealized_pl": -0.0873545053508451,
+          "unrealized_plpc": -0.00889724026534866
         },
         {
           "symbol": "NVDA",
-          "qty": 0.2591102228229968,
-          "avg_entry_price": 3786.9374269203095,
+          "qty": 0.25613111098573016,
+          "avg_entry_price": 3816.6316699452345,
           "current_price": 3900.57058,
-          "market_value": 1010.6777121206259,
-          "unrealized_pl": 29.44351161455836,
-          "unrealized_plpc": 3.000660963445112
+          "market_value": 999.0574761336538,
+          "unrealized_pl": 21.49936628725834,
+          "unrealized_plpc": 2.1992929188257238
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5177.27191,
-          "market_value": 465.95447190000004,
-          "unrealized_pl": 1.7463015000000155,
+          "market_value": 497.01810336000005,
+          "unrealized_pl": 1.8627215999999862,
           "unrealized_plpc": 0.37618930715830334
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.22166613056662615,
-          "avg_entry_price": 4439.962889092505,
-          "current_price": 4507.73286,
-          "market_value": 999.2117007042311,
-          "unrealized_pl": 15.02230721967726,
-          "unrealized_plpc": 1.5263634539374848
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 8514.53555,
-          "market_value": 851.453555,
-          "unrealized_pl": -4.676583499999879,
-          "unrealized_plpc": -0.5462468017062849
+          "symbol": "EQQQ",
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
+          "current_price": 12805.749600000001,
+          "market_value": 986.0427192000001,
+          "unrealized_pl": 8.274328980000064,
+          "unrealized_plpc": 0.8462463158722455
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
           "current_price": 6505.06684,
-          "market_value": 1007.9989324360122,
-          "unrealized_pl": 21.16999211495329,
-          "unrealized_plpc": 2.145254486361714
+          "market_value": 1008.0619746086146,
+          "unrealized_pl": 14.30705121802373,
+          "unrealized_plpc": 1.4396961344563364
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12805.749600000001,
-          "market_value": 497.69607541218846,
-          "unrealized_pl": -1.414215155411739,
-          "unrealized_plpc": -0.2833472244788693
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 8514.53555,
+          "market_value": 980.2560501391011,
+          "unrealized_pl": -4.415807191210547,
+          "unrealized_plpc": -0.448454696692846
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.22082682603043838,
+          "avg_entry_price": 4457.077469567675,
+          "current_price": 4507.73286,
+          "market_value": 995.4283400669104,
+          "unrealized_pl": 11.18606909050311,
+          "unrealized_plpc": 1.1365158173308298
         },
         {
           "symbol": "JPM",
-          "qty": 0.07,
-          "avg_entry_price": 6163.9629,
+          "qty": 0.08900000000000001,
+          "avg_entry_price": 6197.629095827338,
           "current_price": 6092.060240000001,
-          "market_value": 426.4442168000001,
-          "unrealized_pl": -5.033186199999989,
-          "unrealized_plpc": -1.1665005316628285
+          "market_value": 542.1933613600002,
+          "unrealized_pl": -9.395628168632925,
+          "unrealized_plpc": -1.7033748582730324
         },
         {
           "symbol": "AAPL",
-          "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "qty": 0.18,
+          "avg_entry_price": 5395.812350000001,
           "current_price": 5382.28498,
-          "market_value": 484.40564820000003,
-          "unrealized_pl": -7.224993899999902,
-          "unrealized_plpc": -1.469597962636826
+          "market_value": 968.8112964000001,
+          "unrealized_pl": -2.43492660000004,
+          "unrealized_plpc": -0.25070126836417295
         }
       ],
       "spy_price": 20301.3636,
@@ -1112,94 +1225,103 @@
     },
     {
       "date": "2026-03-17",
-      "market_summary": "Trh je v mírně nejednoznačné fázi – po výprodeji z konce února nastalo dílčí oživení, ale většina pozic v portfoliu je mírně pod vstupní cenou. NVDA, GOOGL a AMZN jsou v zisku a vykazují relativní sílu. Výnosová křivka (T10Y2Y = +0,52 %) je kladná a nenormovaná, Fed sazba 3,64 % a 10Y na 4,2 % – prostředí úrokových sazeb není alarmující. GOOGL dnes uzavřel na 14denním maximu a momentum je silné. NVDA po korekci na začátku března stabilizuje a drží nad 3 850 CZK. JNJ dnes výrazně kleslo zpět na lokální minima – pozice je mírně v červených číslech a trend je oslabující.",
-      "trades": [],
-      "trade_count": 0,
+      "market_summary": "Trh dnes 17. března 2026 vykazuje smíšený obrázek. GOOGL a AMZN jsou v posledních dnech nejsilnější z portfolia (GOOGL +2.7 %, AMZN +2.3 % nerealizovaný zisk, dnes oba výše). NVDA se stabilizuje po výprodeji z konce února, aktuálně nad vstupní cenou. CSPX a EQQQ jsou v mírném plusu a obchodují se v relativně úzkém pásmu. JNJ dnes výrazně oslabuje (-2.17 % nerealizovaná ztráta, dnes close 5046 vs. avg 5158), JPM také pod vodou. Makro: výnosová křivka mírně pozitivní (T10Y2Y +0.52 %), Fed sazba 3.64 %, prostředí uměřeně supportivní pro akcie. Hotovost je 2082 CZK (~20.7 % portfolia), což dává prostor pro jeden až dva menší přírůstkové nákupy.",
+      "trades": [
+        {
+          "symbol": "NVDA",
+          "side": "buy",
+          "qty": 0.0030527731897310377,
+          "fill_price": 3855.46056,
+          "status": "submitted",
+          "reasoning": "NVDA se po výprodeji (konec února, close ~3639) postupně vzpamatovává – posledních 5 dní: 3857→3870→3916→3871→3901→3855. Technicky je výrazně nad nedávným dnem, drží oblast 3840–3870. Stávající pozice je mírně v plusu (+1%). Přikoupení 0.13 ks za ~499 CZK (pod 5% limitem) průměruje na rozumné úrovni a využívá konsolidaci. Limit na 3840 = mírný pullback nebo overnight plnění, jinak příkaz vyprší bez škody."
+        }
+      ],
+      "trade_count": 1,
       "blocked_reasons": [],
-      "portfolio_value": 10043.692090610464,
-      "cash": 3486.4317937207197,
+      "portfolio_value": 10042.947168101495,
+      "cash": 2070.4111012150256,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.04835775590436936,
+          "avg_entry_price": 20303.170021818325,
           "current_price": 20412.697040000003,
-          "market_value": 816.5078816000001,
-          "unrealized_pl": -2.251145799999904,
-          "unrealized_plpc": -0.27494607383427017
+          "market_value": 987.1122208101631,
+          "unrealized_pl": 5.2964808101629615,
+          "unrealized_plpc": 0.5394577204642204
         },
         {
           "symbol": "NVDA",
-          "qty": 0.2591102228229968,
-          "avg_entry_price": 3786.9374269203095,
+          "qty": 0.2591838841754612,
+          "avg_entry_price": 3817.089012402785,
           "current_price": 3855.46056,
-          "market_value": 998.9892447868759,
-          "unrealized_pl": 17.75504428080842,
-          "unrealized_plpc": 1.8094603991229974
+          "market_value": 999.2732432260987,
+          "unrealized_pl": 9.945286748069748,
+          "unrealized_plpc": 1.0052568193336553
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5046.027120000001,
-          "market_value": 454.14244080000003,
-          "unrealized_pl": -10.065729599999997,
+          "market_value": 484.4186035200001,
+          "unrealized_pl": -10.736778239999978,
           "unrealized_plpc": -2.1683654536555297
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.22166613056662615,
-          "avg_entry_price": 4439.962889092505,
-          "current_price": 4560.5184,
-          "market_value": 1010.912467105901,
-          "unrealized_pl": 26.723073621347112,
-          "unrealized_plpc": 2.71523690442681
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 8464.29672,
-          "market_value": 846.4296720000001,
-          "unrealized_pl": -9.700466499999834,
-          "unrealized_plpc": -1.133059807589032
+          "symbol": "EQQQ",
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
+          "current_price": 12834.134080000002,
+          "market_value": 988.22832416,
+          "unrealized_pl": 10.459933940000042,
+          "unrealized_plpc": 1.0697762419632495
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
           "current_price": 6589.016640000001,
-          "market_value": 1021.0074550015108,
-          "unrealized_pl": 34.17851468045194,
-          "unrealized_plpc": 3.463469025273236
+          "market_value": 1021.0713107518845,
+          "unrealized_pl": 27.316387361293664,
+          "unrealized_plpc": 2.7488052354088355
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12834.134080000002,
-          "market_value": 498.7992395954563,
-          "unrealized_pl": -0.311050972143903,
-          "unrealized_plpc": -0.062321089751560255
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 8464.29672,
+          "market_value": 974.4721859729095,
+          "unrealized_pl": -10.199671357402167,
+          "unrealized_plpc": -1.035844711258016
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.22082682603043838,
+          "avg_entry_price": 4457.077469567675,
+          "current_price": 4560.5184,
+          "market_value": 1007.0848033254132,
+          "unrealized_pl": 22.842532349005864,
+          "unrealized_plpc": 2.3208241530151996
         },
         {
           "symbol": "JPM",
-          "qty": 0.07,
-          "avg_entry_price": 6163.9629,
+          "qty": 0.08900000000000001,
+          "avg_entry_price": 6197.629095827338,
           "current_price": 6079.7728799999995,
-          "market_value": 425.5841016,
-          "unrealized_pl": -5.893301400000098,
-          "unrealized_plpc": -1.3658424193306096
+          "market_value": 541.09978632,
+          "unrealized_pl": -10.489203208633057,
+          "unrealized_plpc": -1.9016338991096893
         },
         {
           "symbol": "AAPL",
-          "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "qty": 0.18,
+          "avg_entry_price": 5395.812350000001,
           "current_price": 5387.642159999999,
-          "market_value": 484.8877943999999,
-          "unrealized_pl": -6.742847700000027,
-          "unrealized_plpc": -1.3715271430596698
+          "market_value": 969.7755887999998,
+          "unrealized_pl": -1.4706342000002905,
+          "unrealized_plpc": -0.15141723748050007
         }
       ],
       "spy_price": 20412.697040000003,
@@ -1207,94 +1329,94 @@
     },
     {
       "date": "2026-03-18",
-      "market_summary": "Trh je smíšený – technologické akcie (MSFT, AAPL, AMZN) v krátkodobém downtrend, zatímco GOOGL a NVDA si drží relativní sílu. CSPX a EQQQ oscilují v úzkém pásmu bez jasného směru. 10Y výnos (4,26 %) zůstává zvýšený, výnosová křivka je normálně nakloněná (spread +0,50 %), Fed rate 3,64 % – prostředí ne ideální pro růst, ale ne recesní. Cash k dispozici: ~3 486 CZK.",
+      "market_summary": "Trh je dnes (18. 3. 2026) smíšený – CSPX a EQQQ mírně klesají z nedávných maxim, zatímco GOOGL si drží relativně silnou pozici (+2,1 % nerealizovaný zisk). MSFT a AAPL jsou pod vstupní cenou (-2,5 %, resp. -1,4 %) a pokračují v krátkodobém sestupném trendu. NVDA po výrazném propadu z maxim (~4020 CZK) stabilizovala kolem 3838 CZK. Výnosová křivka je normální (spread 10Y-2Y = +0,5 %), Fed sazba 3,64 % – prostředí bez akutního makro stresu. Hotovost 2 070 CZK (≈21 % portfolia) dává prostor k selektivnímu dokoupení.",
       "trades": [],
       "trade_count": 0,
       "blocked_reasons": [],
-      "portfolio_value": 9988.967841671736,
-      "cash": 3486.4317937207197,
+      "portfolio_value": 9978.216741282835,
+      "cash": 2070.4111012150256,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.04835775590436936,
+          "avg_entry_price": 20303.170021818325,
           "current_price": 20291.430080000002,
-          "market_value": 811.6572032000001,
-          "unrealized_pl": -7.101824199999896,
-          "unrealized_plpc": -0.8673888118891471
+          "market_value": 981.2480227592181,
+          "unrealized_pl": -0.5677172407820308,
+          "unrealized_plpc": -0.05782319611029596
         },
         {
           "symbol": "NVDA",
-          "qty": 0.2591102228229968,
-          "avg_entry_price": 3786.9374269203095,
+          "qty": 0.2591838841754612,
+          "avg_entry_price": 3817.089012402785,
           "current_price": 3838.1904,
-          "market_value": 994.5143697810871,
-          "unrealized_pl": 13.280169275019603,
-          "unrealized_plpc": 1.3534148390027978
+          "market_value": 994.797096076967,
+          "unrealized_pl": 5.4691395989381135,
+          "unrealized_plpc": 0.5528136108078785
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5048.36928,
-          "market_value": 454.3532352,
-          "unrealized_pl": -9.854935200000057,
+          "market_value": 484.64345088,
+          "unrealized_pl": -10.51193088000008,
           "unrealized_plpc": -2.1229559987081315
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.22166613056662615,
-          "avg_entry_price": 4439.962889092505,
-          "current_price": 4465.19412,
-          "market_value": 989.7823028092514,
-          "unrealized_pl": 5.59290932469753,
-          "unrealized_plpc": 0.568275716211053
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 8335.724040000001,
-          "market_value": 833.5724040000001,
-          "unrealized_pl": -22.55773449999981,
-          "unrealized_plpc": -2.6348487788927177
+          "symbol": "EQQQ",
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
+          "current_price": 12790.89644,
+          "market_value": 984.8990258800001,
+          "unrealized_pl": 7.130635660000053,
+          "unrealized_plpc": 0.7292765578559512
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
           "current_price": 6546.41244,
-          "market_value": 1014.4056799277761,
-          "unrealized_pl": 27.576739606717183,
-          "unrealized_plpc": 2.794480226506657
+          "market_value": 1014.4691227905658,
+          "unrealized_pl": 20.714199399974973,
+          "unrealized_plpc": 2.084437411318718
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12790.89644,
-          "market_value": 497.11880663289975,
-          "unrealized_pl": -1.9914839347004545,
-          "unrealized_plpc": -0.39900678714431814
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 8335.724040000001,
+          "market_value": 959.6699519916798,
+          "unrealized_pl": -25.0019053386319,
+          "unrealized_plpc": -2.539110380022247
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.22082682603043838,
+          "avg_entry_price": 4457.077469567675,
+          "current_price": 4465.19412,
+          "market_value": 986.0346451293764,
+          "unrealized_pl": 1.792374152969046,
+          "unrealized_plpc": 0.18210700818517278
         },
         {
           "symbol": "JPM",
-          "qty": 0.07,
-          "avg_entry_price": 6163.9629,
+          "qty": 0.08900000000000001,
+          "avg_entry_price": 6197.629095827338,
           "current_price": 6121.95624,
-          "market_value": 428.5369368000001,
-          "unrealized_pl": -2.940466200000003,
-          "unrealized_plpc": -0.6814878785204925
+          "market_value": 544.8541053600001,
+          "unrealized_pl": -6.734884168633016,
+          "unrealized_plpc": -1.220996846653588
         },
         {
           "symbol": "AAPL",
-          "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "qty": 0.18,
+          "avg_entry_price": 5395.812350000001,
           "current_price": 5317.72344,
-          "market_value": 478.59510959999994,
-          "unrealized_pl": -13.035532499999988,
-          "unrealized_plpc": -2.6514890211722264
+          "market_value": 957.1902191999999,
+          "unrealized_pl": -14.056003800000212,
+          "unrealized_plpc": -1.4472132263828819
         }
       ],
       "spy_price": 20291.430080000002,
@@ -1302,103 +1424,103 @@
     },
     {
       "date": "2026-03-19",
-      "market_summary": "Trh dnes (19. 3. 2026) vykazuje celkově slabší sentiment – CSPX i EQQQ klesají a jsou pod svými 14denními průměry, technologické tituly (MSFT, AAPL, NVDA) pokračují v korekci. GOOGL drží relativní sílu a zůstává v zisku. Makroprostředí: Fed sazba 3,64 %, výnosová křivka pozitivně nakloněná (spread 0,46 %), bez inverze – žádný bezprostřední recesní signál. Portfolio je v mírné ztrátě na většině pozic, cash ~3 486 CZK nabízí prostor pro selektivní nákup při poklesu.",
+      "market_summary": "Trh dnes (19. 3. 2026) vykazuje slabost napříč portfoliem – CSPX klesá k 20 075 (blízko 30denního minima), EQQQ padá výrazněji z březnových maxim zpět na úrovně začátku února (~12 578), MSFT a AAPL pokračují v downtrendum. Pozitivním výjimkou zůstává GOOGL (+2,2 % od vstupu, cena 6 554). Makro prostředí je relativně stabilní: výnosová křivka je kladná (spread 0,46 %), Fed sazba 3,64 % – žádný akutní stresový signál. Hlavní příležitost vidím v dokoupení GOOGL (momentum) a opatrném přikoupení AMZN, které od vrcholu v březnu koriguje, ale nachází podporu v oblasti 4 400–4 460 CZK.",
       "trades": [
         {
-          "symbol": "NVDA",
+          "symbol": "AMZN",
           "side": "buy",
-          "qty": 0.0010601455516729289,
-          "fill_price": 3810.4704,
+          "qty": 0.0012358324745573414,
+          "fill_price": 4454.9384,
           "status": "submitted",
-          "reasoning": "NVDA klesla dnes na 3810 CZK po 3denním poklesu z vrcholu ~3900 CZK (cca -2,4 %). 14denní trend je nicméně stále pozitivní (z 3786 na entry), stávající pozice je v malém zisku (+0,62 %). Nákup při dočasné slabosti s limitem na dnešní close. Qty 0,12 × 3810 = 457 CZK, bezpečně pod 5% limitem. Průměrná vstupní cena se lehce sníží."
+          "reasoning": "AMZN po výrazném rally (4 220 → 4 597 v první dekádě března) koriguje k podpoře v oblasti 4 420–4 460. Pozice je téměř na break-even (-0,05 %), koupě v korekci průměruje vstupní cenu mírně níže. Limit 4 430 CZK cílí na spodní část dnešního obchodního pásma. Hodnota ~443 CZK = cca 4,4 % portfolia, v mantinelech."
         }
       ],
       "trade_count": 1,
       "blocked_reasons": [],
-      "portfolio_value": 9963.532539183669,
-      "cash": 3482.3921404763782,
+      "portfolio_value": 9942.466980703437,
+      "cash": 2064.9055436681533,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.04835775590436936,
+          "avg_entry_price": 20303.170021818325,
           "current_price": 20074.8768,
-          "market_value": 802.9950719999999,
-          "unrealized_pl": -15.7639554000001,
-          "unrealized_plpc": -1.9253473699165413
+          "market_value": 970.7759921046874,
+          "unrealized_pl": -11.039747895312757,
+          "unrealized_plpc": -1.1244215635932586
         },
         {
           "symbol": "NVDA",
-          "qty": 0.2601703683746697,
-          "avg_entry_price": 3787.033319380638,
+          "qty": 0.2591838841754612,
+          "avg_entry_price": 3817.089012402785,
           "current_price": 3810.4704,
-          "market_value": 991.3714876487751,
-          "unrealized_pl": 6.097633898366212,
-          "unrealized_plpc": 0.6188770639914853
+          "market_value": 987.6125188076232,
+          "unrealized_pl": -1.715437670405663,
+          "unrealized_plpc": -0.17339423789383135
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 5070.384,
-          "market_value": 456.33456,
-          "unrealized_pl": -7.873610400000018,
+          "market_value": 486.756864,
+          "unrealized_pl": -8.398517760000061,
           "unrealized_plpc": -1.6961378325623833
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.22166613056662615,
-          "avg_entry_price": 4439.962889092505,
-          "current_price": 4454.9384,
-          "market_value": 987.5089570406766,
-          "unrealized_pl": 3.3195635561227164,
-          "unrealized_plpc": 0.3372891008680545
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 8301.6868,
-          "market_value": 830.16868,
-          "unrealized_pl": -25.961458499999935,
-          "unrealized_plpc": -3.032419644224449
+          "symbol": "EQQQ",
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
+          "current_price": 12577.7322,
+          "market_value": 968.4853794,
+          "unrealized_pl": -9.283010819999959,
+          "unrealized_plpc": -0.9494079490452001
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
           "current_price": 6554.1542,
-          "market_value": 1015.6053118465736,
-          "unrealized_pl": 28.77637152551472,
-          "unrealized_plpc": 2.916044549337249
+          "market_value": 1015.6688297366279,
+          "unrealized_pl": 21.913906346037038,
+          "unrealized_plpc": 2.205162040482689
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12577.7322,
-          "market_value": 488.8341681712651,
-          "unrealized_pl": -10.276122396335097,
-          "unrealized_plpc": -2.058888103599066
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 8301.6868,
+          "market_value": 955.7513342063518,
+          "unrealized_pl": -28.920523123959924,
+          "unrealized_plpc": -2.9370721737057237
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.2220626585049957,
+          "avg_entry_price": 4457.065565127483,
+          "current_price": 4454.9384,
+          "market_value": 989.275464579992,
+          "unrealized_pl": -0.4723639432879736,
+          "unrealized_plpc": -0.04772568624805684
         },
         {
           "symbol": "JPM",
-          "qty": 0.07,
-          "avg_entry_price": 6163.9629,
+          "qty": 0.08900000000000001,
+          "avg_entry_price": 6197.629095827338,
           "current_price": 6145.2798,
-          "market_value": 430.16958600000004,
-          "unrealized_pl": -1.3078170000000569,
-          "unrealized_plpc": -0.30310208388827364
+          "market_value": 546.9299022000001,
+          "unrealized_pl": -4.65908732863295,
+          "unrealized_plpc": -0.8446664848430929
         },
         {
           "symbol": "AAPL",
-          "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "qty": 0.18,
+          "avg_entry_price": 5395.812350000001,
           "current_price": 5312.8064,
-          "market_value": 478.152576,
-          "unrealized_pl": -13.478066099999921,
-          "unrealized_plpc": -2.7415024503819385
+          "market_value": 956.305152,
+          "unrealized_pl": -14.941071000000079,
+          "unrealized_plpc": -1.5383401907963057
         }
       ],
       "spy_price": 20074.8768,
@@ -1406,103 +1528,111 @@
     },
     {
       "date": "2026-03-20",
-      "market_summary": "Dnešní relace (20.3.2026) přinesla výrazný výprodej napříč portfoliem – CSPX -1,7 %, EQQQ -0,4 %, NVDA -4,1 %, AAPL -0,9 %, MSFT -2,4 %, AMZN -2,2 %, GOOGL -2,6 %, JNJ -1,6 %. Trh se nachází v klesajícím trendu posledních ~7 obchodních dní, přičemž dnes přišel zlom s vyšším objemem (NVDA 241 M, AAPL 88 M, AMZN 64 M). Výnosová křivka je mírně kladná (T10Y2Y +0,51 %), Fed sazba 3,64 % – prostředí není recesní, ale riziko averze zřejmě převládá. Hotovost na účtu je 3 482 CZK (cca 35 % portfolia), což dává prostor pro taktické nákupy. GOOGL zůstává nejodolnější (+0,23 % vs. avg. entry), což potvrzuje relativní sílu, ale i ona dnes klesla. Navrhujeme opatrně zvýšit expozici v GOOGL (relativní síla) a přidat k NVDA na propadu s vysokým objemem jako kontrariánský vstup.",
+      "market_summary": "Trh dnes (20. 3. 2026) vykazuje širší slabost – CSPX na 30denním minimu (~19 948 CZK), NVDA klesá pod 3 662 CZK po sérii slabších seancí, MSFT a AAPL také v poklesu. EQQQ a GOOGL relativně odolnější, ale i ony dnes korigovaly. Makro prostředí: Fed sazba 3,64 %, výnosová křivka mírně pozitivní (T10Y2Y +0,51 %), 10Y výnos 4,39 % – neutrální prostředí bez akutního stresu. Portfolio je plně investované s ~2 065 CZK v hotovosti, všechny pozice jsou v mírné ztrátě. Vzhledem k plošnému výprodeji využíváme příležitost dokupit NVDA (nejsilnější sektor AI, technicky výrazně pod vrcholem) a CSPX (broad market ETF na historickém supportu) za malé zlomkové množství, aby se vešlo do limitu na jeden obchod.",
       "trades": [
         {
           "symbol": "NVDA",
           "side": "buy",
-          "qty": 0.00695002199726592,
+          "qty": 0.0070215374683997725,
           "fill_price": 3662.4489,
           "status": "submitted",
-          "reasoning": "NVDA dnes padla -4,1 % s mimořádně vysokým objemem (241 M) – výraznější cenová korekce v rámci jinak silného trendu AI/datacenter. Pozice je v -3,3 % ztrátě, přikoupení snižuje avg. entry. Limit na aktuální ceně; hodnota 366 CZK = ~4,2 % portf., pod limitem 5 %."
+          "reasoning": "NVDA dnes -4 % a na 30denním minimu. Pokles z vrcholu ~4 020 CZK na ~3 662 CZK (-9 %) je výrazná korekce v silném AI sektoru bez fundamentální změny. Průměrná vstupní cena 3 817 CZK – dokupujeme níže pro snížení průměru. Limit pod dnešním close zachytí případné další oslabení při otevření. Qty 0,13 × 3 655 = 475 CZK, pod limitem 5 % portfolia (~490 CZK)."
+        },
+        {
+          "symbol": "CSPX",
+          "side": "buy",
+          "qty": 0.0005184213809586019,
+          "fill_price": 19947.627,
+          "status": "submitted",
+          "reasoning": "CSPX na nejnižší úrovni za celé sledované období (~19 948 CZK). Broad market ETF na klíčovém supportu; mírně pozitivní výnosová křivka a stabilní Fed sazba nenaznačují recesi. Dokupujeme malé množství pro průměrování dolů (avg entry 20 303 CZK). Limit 19 900 CZK pod dnešním close, qty 0,024 × 19 900 = 477 CZK, v limitu 5 % portfolia."
         }
       ],
-      "trade_count": 1,
+      "trade_count": 2,
       "blocked_reasons": [],
-      "portfolio_value": 9832.309345580565,
-      "cash": 3456.938040057516,
+      "portfolio_value": 9798.630690186881,
+      "cash": 2028.8482451545167,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.04887617728532796,
+          "avg_entry_price": 20299.39883686486,
           "current_price": 19947.627,
-          "market_value": 797.90508,
-          "unrealized_pl": -20.853947400000038,
-          "unrealized_plpc": -2.547018927684075
+          "market_value": 974.9637536735947,
+          "unrealized_pl": -17.193262662592474,
+          "unrealized_plpc": -1.732917509980747
         },
         {
           "symbol": "NVDA",
-          "qty": 0.26712039037193563,
-          "avg_entry_price": 3783.7918429287415,
+          "qty": 0.26620542164386096,
+          "avg_entry_price": 3813.0101648096415,
           "current_price": 3662.4489,
-          "market_value": 978.3147798852663,
-          "unrealized_pl": -32.41317428400498,
-          "unrealized_plpc": -3.206913804085465
+          "market_value": 974.9637536735947,
+          "unrealized_pl": -40.0802249818837,
+          "unrealized_plpc": -3.948619549960164
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 4991.4915900000005,
-          "market_value": 449.2342431,
-          "unrealized_pl": -14.973927300000014,
+          "market_value": 479.1831926400001,
+          "unrealized_pl": -15.972189119999996,
           "unrealized_plpc": -3.225692319697271
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.22166613056662615,
-          "avg_entry_price": 4439.962889092505,
-          "current_price": 4355.2815900000005,
-          "market_value": 965.4184175833633,
-          "unrealized_pl": -18.77097590119058,
-          "unrealized_plpc": -1.907252407459037
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 8098.3170900000005,
-          "market_value": 809.831709,
-          "unrealized_pl": -46.298429499999884,
-          "unrealized_plpc": -5.4078728709537005
+          "symbol": "EQQQ",
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
+          "current_price": 12525.8805,
+          "market_value": 964.4927984999999,
+          "unrealized_pl": -13.27559172000008,
+          "unrealized_plpc": -1.3577440069435065
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
           "current_price": 6383.307,
-          "market_value": 989.1315185027865,
-          "unrealized_pl": 2.302578181727654,
-          "unrealized_plpc": 0.2333310351618323
+          "market_value": 989.1933806713954,
+          "unrealized_pl": -4.561542719195472,
+          "unrealized_plpc": -0.45902089255889233
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12525.8805,
-          "market_value": 486.81894935163035,
-          "unrealized_pl": -12.291341215969851,
-          "unrealized_plpc": -2.462650329647953
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 8098.3170900000005,
+          "market_value": 932.337915180515,
+          "unrealized_pl": -52.33394214979671,
+          "unrealized_plpc": -5.314861165189266
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.2220626585049957,
+          "avg_entry_price": 4457.065565127483,
+          "current_price": 4355.2815900000005,
+          "market_value": 967.1454084132648,
+          "unrealized_pl": -22.602420110015146,
+          "unrealized_plpc": -2.2836544277887727
         },
         {
           "symbol": "JPM",
-          "qty": 0.07,
-          "avg_entry_price": 6163.9629,
+          "qty": 0.08900000000000001,
+          "avg_entry_price": 6197.629095827338,
           "current_price": 6077.077920000001,
-          "market_value": 425.39545440000006,
-          "unrealized_pl": -6.0819486000000325,
-          "unrealized_plpc": -1.4095636428960279
+          "market_value": 540.8599348800001,
+          "unrealized_pl": -10.729054648632996,
+          "unrealized_plpc": -1.9451176242298862
         },
         {
           "symbol": "AAPL",
-          "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "qty": 0.18,
+          "avg_entry_price": 5395.812350000001,
           "current_price": 5259.123930000001,
-          "market_value": 473.3211537,
-          "unrealized_pl": -18.309488399999907,
-          "unrealized_plpc": -3.7242366183260933
+          "market_value": 946.6423074,
+          "unrealized_pl": -24.60391560000005,
+          "unrealized_plpc": -2.5332315346363043
         }
       ],
       "spy_price": 19947.627,
@@ -1510,94 +1640,94 @@
     },
     {
       "date": "2026-03-23",
-      "market_summary": "Trh je dnes (23. 3. 2026) pod tlakem – většina pozic v portfoliu je v červených číslech. CSPX a EQQQ klesly za poslední 2 týdny o ~3 %, MSFT přes -5 %, JNJ přes -3 %, NVDA po krátkém odrazu opět padá a uzavřela na 3 701 CZK. GOOGL a AMZN jsou relativně stabilní blízko vstupu. Makro kontext: výnosová křivka je mírně pozitivní (T10Y2Y +0,51 %), Fed sazba 3,64 % – prostředí je relativně neutrální, bez akutní inverze, ale vyšší sazby přetlačují rizikové aktivy dolů. Cash pozice 3 456 CZK (35 % portfolia) nabízí prostor pro selektivní nákupy.",
+      "market_summary": "Trh je v mírně sestupném trendu – CSPX oslabilo na ~19 997 CZK (pod průměrem vstupu), NVDA konsoliduje kolem 3 700 CZK po výrazném poklesu z únorových maxim, MSFT je nejslabší pozicí (-5,6 %). Výnosová křivka je mírně pozitivní (T10Y2Y +0,51 %), Fed sazba 3,64 % – prostředí nenaznačuje bezprostřední recesi, ale technologické akcie jsou pod tlakem. Cash 2 028 CZK (přibližně 20 % účtu) nabízí příležitost dokupovat na slabosti. Posledních 5 dní vidíme u NVDA a AMZN stabilizaci/mírné bouncy od lokálních minim, zatímco MSFT a JNJ dále slábnou.",
       "trades": [],
       "trade_count": 0,
       "blocked_reasons": [],
-      "portfolio_value": 9856.981525375155,
-      "cash": 3456.938040057516,
+      "portfolio_value": 9825.53207084988,
+      "cash": 2028.8482451545167,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.04887617728532796,
+          "avg_entry_price": 20299.39883686486,
           "current_price": 19997.07048,
-          "market_value": 799.8828192,
-          "unrealized_pl": -18.876208200000065,
-          "unrealized_plpc": -2.305465658185435
+          "market_value": 977.3803619676783,
+          "unrealized_pl": -14.776654368508957,
+          "unrealized_plpc": -1.4893463559906839
         },
         {
           "symbol": "NVDA",
-          "qty": 0.26712039037193563,
-          "avg_entry_price": 3783.7918429287415,
+          "qty": 0.26620542164386096,
+          "avg_entry_price": 3813.0101648096415,
           "current_price": 3701.6129999999994,
-          "market_value": 988.7763095658316,
-          "unrealized_pl": -21.951644603439604,
-          "unrealized_plpc": -2.171864794368128
+          "market_value": 985.3894494273969,
+          "unrealized_pl": -29.654529228081515,
+          "unrealized_plpc": -2.921501910425761
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 4961.4765,
-          "market_value": 446.53288499999996,
-          "unrealized_pl": -17.675285400000064,
+          "market_value": 476.301744,
+          "unrealized_pl": -18.853637760000083,
           "unrealized_plpc": -3.807620487327834
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.22166613056662615,
-          "avg_entry_price": 4439.962889092505,
-          "current_price": 4428.7005,
-          "market_value": 981.6929032734826,
-          "unrealized_pl": -2.4964902110713183,
-          "unrealized_plpc": -0.2536595321590007
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 8071.724999999999,
-          "market_value": 807.1725,
-          "unrealized_pl": -48.957638499999916,
-          "unrealized_plpc": -5.71848090592596
+          "symbol": "EQQQ",
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
+          "current_price": 12475.12248,
+          "market_value": 960.58443096,
+          "unrealized_pl": -17.18395926000005,
+          "unrealized_plpc": -1.757467252150946
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
           "current_price": 6365.9145,
-          "market_value": 986.4364468204188,
-          "unrealized_pl": -0.3924935006400574,
-          "unrealized_plpc": -0.03977320532496664
+          "market_value": 986.4981404341129,
+          "unrealized_pl": -7.256782956477991,
+          "unrealized_plpc": -0.7302386922238835
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12475.12248,
-          "market_value": 484.8462364579085,
-          "unrealized_pl": -14.264054109691699,
-          "unrealized_plpc": -2.8578962163793964
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 8071.724999999999,
+          "market_value": 929.2764379037721,
+          "unrealized_pl": -55.39541942653955,
+          "unrealized_plpc": -5.625774618635915
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.2220626585049957,
+          "avg_entry_price": 4457.065565127483,
+          "current_price": 4428.7005,
+          "market_value": 983.4490067524038,
+          "unrealized_pl": -6.298821770876202,
+          "unrealized_plpc": -0.6364067279919339
         },
         {
           "symbol": "JPM",
-          "qty": 0.07,
-          "avg_entry_price": 6163.9629,
+          "qty": 0.08900000000000001,
+          "avg_entry_price": 6197.629095827338,
           "current_price": 6109.85325,
-          "market_value": 427.68972750000006,
-          "unrealized_pl": -3.7876755000000344,
-          "unrealized_plpc": -0.877838670962805
+          "market_value": 543.77693925,
+          "unrealized_pl": -7.8120502786330235,
+          "unrealized_plpc": -1.4162810402196246
         },
         {
           "symbol": "AAPL",
-          "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "qty": 0.18,
+          "avg_entry_price": 5395.812350000001,
           "current_price": 5300.15175,
-          "market_value": 477.01365749999997,
-          "unrealized_pl": -14.616984599999967,
-          "unrealized_plpc": -2.973163864962436
+          "market_value": 954.0273149999999,
+          "unrealized_pl": -17.21890800000017,
+          "unrealized_plpc": -1.7728674348729156
         }
       ],
       "spy_price": 19997.07048,
@@ -1605,103 +1735,111 @@
     },
     {
       "date": "2026-03-24",
-      "market_summary": "Trh je v sestupném trendu napříč téměř všemi pozicemi – MSFT klesá nejagresivněji (-7,9 % od vstupu, dnes nové lows pod 7900), GOOGL dnes prudce propadl na 6143 (nové 14denní minimum), JNJ pokračuje v slabosti. Výjimkou je JPM, který je mírně v plusu a dnes uzavřel silně (6184). NVDA se stabilizuje nad 3700 po výprodeji. Makro prostředí: Fed rate 3,64 %, výnosová křivka pozitivní (T10Y2Y +0,49 %), což není recesní signál, ale 10Y výnos 4,39 % vytváří konkurenci pro akcie. Celkově slabý sentiment – navrhujeme selektivní dokupy do slabosti u pozic s rozumným potenciálem návratu, bez navyšování těch s nejhlubšími ztrátami.",
+      "market_summary": "Trh je pod tlakem – většina pozic v portfoliu je v červených číslech. MSFT je nejhorší (-7,8 %), GOOGL kleslo dnes prudce na 6143 CZK (-4,2 % celkově), NVDA a JNJ taky slabě. CSPX a EQQQ kopírují obecný pokles. Výnosová křivka je kladná (T10Y2Y = 0,49 %), Fed rate 3,64 % – není inverze, ale prostředí vyšších sazeb nadále tlačí na technologické valuace. JPM se drží relativně nejlépe (-0,2 %) a dnes poskočil na 6184 CZK, což je rally po slabém období. AAPL se po poklesu stabilizuje a dnes mírně odrazil od 5278 na 5322 CZK – potenciální technická podpora.",
       "trades": [
         {
           "symbol": "JPM",
           "side": "buy",
-          "qty": 0.07,
+          "qty": 0.06817398533320773,
           "fill_price": 6184.8448,
           "status": "submitted",
-          "reasoning": "JPM je jedinou pozicí v mírném plusu a dnes uzavřel silně na 6184 po intradenním pohybu od 6036 do 6249 – relativní síla vůči trhu. Finanční sektor benefituje z pozitivní výnosové křivky (T10Y2Y +0,49 %). Limit o něco pod dnešním uzavřením pro lepší vstup. Hodnota 430 CZK pod limitem na jeden obchod."
+          "reasoning": "JPM je nejodolnější pozice v portfoliu (-0,2 % unrealized PL). Dnes udělal silný pohyb z 6053 na 6184 CZK při zvýšeném objemu (11M vs typických 8-10M). Finanční sektor profituje ze strmější výnosové křivky (T10Y2Y +0,49 %) a relativní síla vůči ostatním pozicím je patrná. Přikupujeme za limit 6190 CZK, čímž se vejdeme do 5% limitu na obchod (0,07 × 6190 = 433 CZK)."
+        },
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.0026326232372832106,
+          "fill_price": 5322.68928,
+          "status": "submitted",
+          "reasoning": "AAPL dnes odrazil od supportu ~5278 CZK a zavřel na 5322 CZK s dobrým objemem (45M). Po sérii poklesů z 5600+ CZK vypadá jako technická podpora v pásmu 5270–5330. Valuace je relativně rozumná vs. ostatní techie. Limit 5330 CZK, qty 0,08 = 426 CZK, v rámci mantinelů."
         }
       ],
-      "trade_count": 1,
+      "trade_count": 2,
       "blocked_reasons": [],
-      "portfolio_value": 9801.839068902775,
-      "cash": 3023.998904057516,
+      "portfolio_value": 9769.816139531316,
+      "cash": 1593.1900909877843,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.04887617728532796,
+          "avg_entry_price": 20299.39883686486,
           "current_price": 19985.19156,
-          "market_value": 799.4076623999999,
-          "unrealized_pl": -19.3513650000001,
-          "unrealized_plpc": -2.3634994366353523
+          "market_value": 976.7997657678001,
+          "unrealized_pl": -15.357250568387144,
+          "unrealized_plpc": -1.5478649362474894
         },
         {
           "symbol": "NVDA",
-          "qty": 0.26712039037193563,
-          "avg_entry_price": 3783.7918429287415,
+          "qty": 0.26620542164386096,
+          "avg_entry_price": 3813.0101648096415,
           "current_price": 3705.8304,
-          "market_value": 989.9028631001863,
-          "unrealized_pl": -20.82509106908492,
-          "unrealized_plpc": -2.0604051746249796
+          "market_value": 986.5121441726379,
+          "unrealized_pl": -28.53183448284051,
+          "unrealized_plpc": -2.8108963830940192
         },
         {
           "symbol": "JNJ",
-          "qty": 0.09,
+          "qty": 0.096,
           "avg_entry_price": 5157.868560000001,
           "current_price": 4976.43104,
-          "market_value": 447.8787936,
-          "unrealized_pl": -16.329376800000034,
+          "market_value": 477.7373798400001,
+          "unrealized_pl": -17.418001919999995,
           "unrealized_plpc": -3.517684056687176
         },
         {
-          "symbol": "AMZN",
-          "qty": 0.22166613056662615,
-          "avg_entry_price": 4439.962889092505,
-          "current_price": 4383.540480000001,
-          "market_value": 971.6824563837712,
-          "unrealized_pl": -12.506937100782693,
-          "unrealized_plpc": -1.270785601184088
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 7884.1964800000005,
-          "market_value": 788.419648,
-          "unrealized_pl": -67.71049049999988,
-          "unrealized_plpc": -7.908901632482346
+          "symbol": "EQQQ",
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
+          "current_price": 12444.96,
+          "market_value": 958.2619199999999,
+          "unrealized_pl": -19.506470220000097,
+          "unrealized_plpc": -1.9949990626728087
         },
         {
           "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
           "current_price": 6143.38688,
-          "market_value": 951.9544639423572,
-          "unrealized_pl": -34.87447637870173,
-          "unrealized_plpc": -3.533994084866976
+          "market_value": 952.0140009871836,
+          "unrealized_pl": -41.74092240340724,
+          "unrealized_plpc": -4.200323582900234
         },
         {
-          "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
-          "current_price": 12444.96,
-          "market_value": 483.6739702189451,
-          "unrealized_pl": -15.436320348655101,
-          "unrealized_plpc": -3.092767398384133
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 7884.1964800000005,
+          "market_value": 907.6867733561116,
+          "unrealized_pl": -76.98508397420005,
+          "unrealized_plpc": -7.818349168922689
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.2220626585049957,
+          "avg_entry_price": 4457.065565127483,
+          "current_price": 4383.540480000001,
+          "market_value": 973.4206526530651,
+          "unrealized_pl": -16.327175870214887,
+          "unrealized_plpc": -1.6496298753769678
         },
         {
           "symbol": "JPM",
-          "qty": 0.14,
-          "avg_entry_price": 6174.40385,
+          "qty": 0.15717398533320776,
+          "avg_entry_price": 6192.083926285566,
           "current_price": 6184.8448,
-          "market_value": 865.878272,
-          "unrealized_pl": 1.461732999999981,
-          "unrealized_plpc": 0.16910053591652208
+          "market_value": 972.0967058833662,
+          "unrealized_pl": -1.1378023286328016,
+          "unrealized_plpc": -0.11690936963622
         },
         {
           "symbol": "AAPL",
-          "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "qty": 0.18263262323728321,
+          "avg_entry_price": 5394.758291366602,
           "current_price": 5322.68928,
-          "market_value": 479.04203519999993,
-          "unrealized_pl": -12.588606900000002,
-          "unrealized_plpc": -2.5605822383706123
+          "market_value": 972.0967058833662,
+          "unrealized_pl": -13.162152600000127,
+          "unrealized_plpc": -1.3359080699117953
         }
       ],
       "spy_price": 19985.19156,
@@ -1709,111 +1847,94 @@
     },
     {
       "date": "2026-03-25",
-      "market_summary": "Trh je pod tlakem – většina pozic v portfoliu vykazuje ztráty. MSFT padá nejvíce (-8,6 % od vstupu, aktuálně 7822 CZK), GOOGL -3,7 %, CSPX a EQQQ mírně dole. Výjimkou je JPM (+0,86 %) a AMZN (+0,52 %), které drží v zeleném. Makro prostředí je neutrální: výnosová křivka je mírně pozitivní (10Y-2Y = 0,49 %), Fed sazba 3,64 %. Trhy jsou v posledních dnech volatilní bez jasného směru, nicméně JPM dnes uzavřel na vícedenním maximu s rostoucím trendem a JNJ po výprodeji vykazuje dnešní odraz.",
-      "trades": [
-        {
-          "symbol": "JPM",
-          "side": "buy",
-          "qty": 0.017298049676032143,
-          "fill_price": 6227.74902,
-          "status": "submitted",
-          "reasoning": "JPM je jediná bankovní pozice v portfoliu a jedná se o jeden z mála aktivů s pozitivním výnosem. Cenový trend posledních dní je vzestupný (z 6077 na 6227 CZK). Finanční sektor těží z normální výnosové křivky (T10Y2Y +0,49 %). Dokupuji malou frakci pro posílení jedné z nejlepších pozic v portfoliu. Limit 6230 CZK jen mírně nad aktuálním close, aby se nákup uskutečnil při otevření."
-        },
-        {
-          "symbol": "JNJ",
-          "side": "buy",
-          "qty": 0.07,
-          "fill_price": 5057.96433,
-          "status": "submitted",
-          "reasoning": "JNJ kleslo z přibližně 5200 CZK na 5058 CZK (-2,7 % za 2 týdny) a dnes ukázalo první zřetelnější denní odraz (+81 CZK od low). Defensivní zdravotnický titul funguje jako stabilizátor portfolia zejména při nejistotě na trzích. Dokupuji frakci pro snížení průměrné vstupní ceny a zároveň zůstávám pod limitem 5 % portfolia na jeden obchod."
-        }
-      ],
-      "trade_count": 2,
+      "market_summary": "Trh je pod tlakem – většina pozic v portfoliu je v mírné ztrátě, přičemž největší propad vykazuje MSFT (-8,5 %) a GOOGL (-4,4 %). CSPX a EQQQ se pohybují blízko svých 30denních minim po sérii červených svíček od mid-března. JPM a AMZN jsou jediné pozice v zelených číslech. Výnosová křivka je kladná (T10Y2Y +0,49 %), Fed sazba 3,64 % – prostředí nevýrazně rizikové, ale technická situace spíše neutrálně-bearish. Hotovost činí ~1 593 CZK (cca 16 % účtu), což poskytuje prostor pro jeden selektivní nákup.",
+      "trades": [],
+      "trade_count": 0,
       "blocked_reasons": [],
-      "portfolio_value": 9845.35451977709,
-      "cash": 2562.2134890396956,
+      "portfolio_value": 9816.285252110083,
+      "cash": 1593.1900909877843,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.04887617728532796,
+          "avg_entry_price": 20299.39883686486,
           "current_price": 20029.1924,
-          "market_value": 801.167696,
-          "unrealized_pl": -17.59133140000006,
-          "unrealized_plpc": -2.1485358709096625
+          "market_value": 978.9503586243435,
+          "unrealized_pl": -13.206657711843718,
+          "unrealized_plpc": -1.3311056107442432
         },
         {
           "symbol": "NVDA",
-          "qty": 0.26712039037193563,
-          "avg_entry_price": 3783.7918429287415,
+          "qty": 0.26620542164386096,
+          "avg_entry_price": 3813.0101648096415,
           "current_price": 3766.75308,
-          "market_value": 1006.1765531642909,
-          "unrealized_pl": -4.551401004980335,
-          "unrealized_plpc": -0.4503092039955692
+          "market_value": 1002.730091889712,
+          "unrealized_pl": -12.313886765766483,
+          "unrealized_plpc": -1.2131382506280541
         },
         {
           "symbol": "JNJ",
-          "qty": 0.16,
-          "avg_entry_price": 5114.160459375,
+          "qty": 0.096,
+          "avg_entry_price": 5157.868560000001,
           "current_price": 5057.96433,
-          "market_value": 809.2742928,
-          "unrealized_pl": -8.991380700000036,
-          "unrealized_plpc": -1.098833910695629
-        },
-        {
-          "symbol": "AMZN",
-          "qty": 0.22166613056662615,
-          "avg_entry_price": 4439.962889092505,
-          "current_price": 4463.05851,
-          "market_value": 989.3089104041519,
-          "unrealized_pl": 5.119516919598027,
-          "unrealized_plpc": 0.5201759898541658
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 7821.8942400000005,
-          "market_value": 782.1894240000001,
-          "unrealized_pl": -73.94071449999979,
-          "unrealized_plpc": -8.636620903166559
-        },
-        {
-          "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
-          "current_price": 6133.09533,
-          "market_value": 950.3597268446041,
-          "unrealized_pl": -36.4692134764548,
-          "unrealized_plpc": -3.6955962666224362
+          "market_value": 485.56457567999996,
+          "unrealized_pl": -9.590806080000107,
+          "unrealized_plpc": -1.9369285750081455
         },
         {
           "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
           "current_price": 12498.58872,
-          "market_value": 485.7582530065282,
-          "unrealized_pl": -13.352037561071995,
-          "unrealized_plpc": -2.6751677561862475
+          "market_value": 962.3913314399999,
+          "unrealized_pl": -15.377058780000084,
+          "unrealized_plpc": -1.5726688379177567
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
+          "current_price": 6133.09533,
+          "market_value": 950.4191641515358,
+          "unrealized_pl": -43.33575923905505,
+          "unrealized_plpc": -4.360809513395692
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 7821.8942400000005,
+          "market_value": 900.5140805722734,
+          "unrealized_pl": -84.15777675803827,
+          "unrealized_plpc": -8.546784000327856
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.2220626585049957,
+          "avg_entry_price": 4457.065565127483,
+          "current_price": 4463.05851,
+          "market_value": 991.078637793945,
+          "unrealized_pl": 1.3308092706649859,
+          "unrealized_plpc": 0.13445942818086642
         },
         {
           "symbol": "JPM",
-          "qty": 0.15729804967603217,
-          "avg_entry_price": 6180.270212631557,
+          "qty": 0.15717398533320776,
+          "avg_entry_price": 6192.083926285566,
           "current_price": 6227.74902,
-          "market_value": 979.6127747178207,
-          "unrealized_pl": 7.468323800000121,
-          "unrealized_plpc": 0.7682319014369776
+          "market_value": 978.840133128379,
+          "unrealized_pl": 5.605624916379952,
+          "unrealized_plpc": 0.5759788487852191
         },
         {
           "symbol": "AAPL",
-          "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "qty": 0.18263262323728321,
+          "avg_entry_price": 5394.758291366602,
           "current_price": 5325.48222,
-          "market_value": 479.2933998,
-          "unrealized_pl": -12.337242299999957,
-          "unrealized_plpc": -2.5094534887617037
+          "market_value": 972.6067878421106,
+          "unrealized_pl": -12.652070641255705,
+          "unrealized_plpc": -1.2841367050209995
         }
       ],
       "spy_price": 20029.1924,
@@ -1821,94 +1942,94 @@
     },
     {
       "date": "2026-03-26",
-      "market_summary": "Trh je dnes pod tlakem – všechny hlavní pozice jsou v červených číslech za posledních 14 dní. MSFT (-9,3 %) a GOOGL (-6,4 %) vedou v nerealizovaných ztrátách. NVDA dnes klesla zpět pod 3 650 CZK po krátkém odrazu na 3 766 (25.3). CSPX a EQQQ v klesajícím trendu. JPM drží nejlépe a je mírně v zisku. Fed sazby stabilní (3,64 %), výnosová křivka pozitivně strmá (T10Y2Y +0,46 %), což není recesní signál – makro prostředí je tedy neutrální až mírně pozitivní. Celkový sentiment portfolia je slabý, ale bez zpráv nelze jasně rozlišit, zda jde o dočasnou korekci, nebo pokračující trend.",
+      "market_summary": "Trh je pod výrazným tlakem – téměř všechny pozice v portfoliu jsou v minusu, přičemž největší ztráty nesou MSFT (-9,2 %), GOOGL (-7,1 %) a NVDA (-4,7 %). Poslední týden je charakterizován soustavným poklesem: CSPX ztratil přes 3 % za 5 dní, EQQQ klesl z ~12 800 na 12 343, NVDA a GOOGL zaznamenaly výrazné výprodeje. Makroprostředí: výnosová křivka je mírně kladná (T10Y2Y = 0,46 %), Fed funds rate 3,64 %, 10Y výnos 4,42 % – prostředí zvýšených sazeb stále mírně tlumí rizikové aktivity. Cash rezerva 1 593 CZK (~14 % účtu) poskytuje prostor pro selektivní dokup. Nejlepší risk/reward vidíme u NVDA (silný sekulární trend AI, výprodej technicky přehnaný) a JPM (stabilní, near breakeven, pozitivní trend v posledních dnech).",
       "trades": [],
       "trade_count": 0,
       "blocked_reasons": [],
-      "portfolio_value": 9748.311201793198,
-      "cash": 2562.2134890396956,
+      "portfolio_value": 9713.10834817881,
+      "cash": 1593.1900909877843,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.04887617728532796,
+          "avg_entry_price": 20299.39883686486,
           "current_price": 19810.7586,
-          "market_value": 792.4303440000001,
-          "unrealized_pl": -26.32868339999993,
-          "unrealized_plpc": -3.215681600923259
+          "market_value": 968.2741494904357,
+          "unrealized_pl": -23.88286684575155,
+          "unrealized_plpc": -2.407166048570175
         },
         {
           "symbol": "NVDA",
-          "qty": 0.26712039037193563,
-          "avg_entry_price": 3783.7918429287415,
+          "qty": 0.26620542164386096,
+          "avg_entry_price": 3813.0101648096415,
           "current_price": 3632.5141200000003,
-          "market_value": 970.3185897659683,
-          "unrealized_pl": -40.4093644033029,
-          "unrealized_plpc": -3.9980455904690793
+          "market_value": 966.9949529418786,
+          "unrealized_pl": -48.049025713599804,
+          "unrealized_plpc": -4.733689054265932
         },
         {
           "symbol": "JNJ",
-          "qty": 0.16,
-          "avg_entry_price": 5114.160459375,
+          "qty": 0.096,
+          "avg_entry_price": 5157.868560000001,
           "current_price": 5074.99812,
-          "market_value": 811.9996992,
-          "unrealized_pl": -6.265974300000039,
-          "unrealized_plpc": -0.7657628204294831
-        },
-        {
-          "symbol": "AMZN",
-          "qty": 0.22166613056662615,
-          "avg_entry_price": 4439.962889092505,
-          "current_price": 4402.54602,
-          "market_value": 975.8953408949003,
-          "unrealized_pl": -8.294052589653575,
-          "unrealized_plpc": -0.842729320653246
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 7763.321610000001,
-          "market_value": 776.3321610000002,
-          "unrealized_pl": -79.79797749999977,
-          "unrealized_plpc": -9.320776586584312
-        },
-        {
-          "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
-          "current_price": 5959.155960000001,
-          "market_value": 923.4067833036594,
-          "unrealized_pl": -63.42215701739951,
-          "unrealized_plpc": -6.4268643151837
+          "market_value": 487.19981952,
+          "unrealized_pl": -7.955562240000063,
+          "unrealized_plpc": -1.6066799499830697
         },
         {
           "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
           "current_price": 12342.821249999999,
-          "market_value": 479.7043427773382,
-          "unrealized_pl": -19.40594779026202,
-          "unrealized_plpc": -3.8881081310090937
+          "market_value": 950.3972362499999,
+          "unrealized_pl": -27.371153970000137,
+          "unrealized_plpc": -2.7993494414195075
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
+          "current_price": 5959.155960000001,
+          "market_value": 923.46453492218,
+          "unrealized_pl": -70.29038846841092,
+          "unrealized_plpc": -7.073211595127216
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 7763.321610000001,
+          "market_value": 893.7707679637474,
+          "unrealized_pl": -90.90108936656429,
+          "unrealized_plpc": -9.231612408728685
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.2220626585049957,
+          "avg_entry_price": 4457.065565127483,
+          "current_price": 4402.54602,
+          "market_value": 977.6410733917879,
+          "unrealized_pl": -12.106755131492037,
+          "unrealized_plpc": -1.223216134715388
         },
         {
           "symbol": "JPM",
-          "qty": 0.15729804967603217,
-          "avg_entry_price": 6180.270212631557,
+          "qty": 0.15717398533320776,
+          "avg_entry_price": 6192.083926285566,
           "current_price": 6186.983580000001,
-          "market_value": 973.2004505116355,
-          "unrealized_pl": 1.0559995938149314,
-          "unrealized_plpc": 0.10862579041808207
+          "market_value": 972.4328664597174,
+          "unrealized_pl": -0.8016417522816255,
+          "unrealized_plpc": -0.08236881712655464
         },
         {
           "symbol": "AAPL",
-          "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "qty": 0.18263262323728321,
+          "avg_entry_price": 5394.758291366602,
           "current_price": 5364.5555699999995,
-          "market_value": 482.81000129999995,
-          "unrealized_pl": -8.820640799999978,
-          "unrealized_plpc": -1.7941600959457404
+          "market_value": 979.742856251279,
+          "unrealized_pl": -5.516002232087317,
+          "unrealized_plpc": -0.5598530969392446
         }
       ],
       "spy_price": 19810.7586,
@@ -1916,103 +2037,111 @@
     },
     {
       "date": "2026-03-27",
-      "market_summary": "Trh je v sestupném trendu napříč všemi sledovanými tituly – za posledních 14 dní zaznamenaly výrazné poklesy zejména MSFT (-10,5 %), GOOGL (-9,1 %), EQQQ (-5,7 %) a CSPX (-5,6 %). Poslední den (27. 3.) opět zavřely červeně téměř všechny pozice s vyšším objemem, což naznačuje pokračující prodejní tlak. Makro prostředí (DFF 3,64 %, 10Y výnos 4,44 %, pozitivní T10Y2Y 0,56 %) není inverzní, ale vyšší výnosy dluhopisů stále tlačí na valuace růstových akcií. V portfoliu máme cash 2 562 CZK a téměř všechny pozice jsou v mínusu. JNJ je jedinou pozicí mírně v plusu a vykazuje relativní sílu na jinak slabém trhu.",
+      "market_summary": "Trh je dnes pod výrazným tlakem – všechny pozice v portfoliu jsou v mínusu, přičemž největší ztráty nesou MSFT (-11,1 %), GOOGL (-8,8 %) a NVDA (-6,4 %). CSPX a EQQQ klesly za posledních 30 dní přibližně o 4–5 % oproti vstupním cenám. Krátkodobý trend je sestupný u většiny aktiv, přičemž poslední týden přinesl akceleraci poklesů (GOOGL, AMZN, NVDA, MSFT všechny zavřely níže). Výnosová křivka je kladná (T10Y2Y = 0,56 %), Fed drží sazby na 3,64 % – prostředí není panické, ale riziko zpomalení je přítomno. Cash pozice je 1 593 CZK (cca 16,6 % portfolia), což dává prostor pro selektivní dokupování do slabosti.",
       "trades": [
         {
           "symbol": "JNJ",
           "side": "buy",
-          "qty": 0.026811020614593572,
+          "qty": 0.08969849199164016,
           "fill_price": 5123.74905,
           "status": "submitted",
-          "reasoning": "JNJ je jediný titul v portfoliu v plusu a vykazuje relativní sílu vůči trhu – v době, kdy vše klesá, drží nad vstupní cenou. Defensivní charakter (healthcare) je vhodný v aktuálním rizikovém prostředí. Dokupujeme malou pozici (0,08 ks × ~5 124 CZK ≈ 410 CZK, pod 5% limitem na obchod). Limitní cena 5 100 CZK poskytuje malý buffer pod aktuální cenou."
+          "reasoning": "JNJ je defensivní pozice s nejnižší ztrátou v portfoliu (-0,66 %). V posledních 5 dnech cena osciluje v pásmu 4 961–5 124 CZK a dnes uzavřela na 5 123 CZK s mírným odrazem od lokálního minima (4 961 ze dne 23.3.). Limit pod aktuální cenou zachytí případný intraday pokles. Při macro nejistotě má smysl posilovat defensivní zdravotnický sektor, který je méně korelovaný s tech-výprodeji."
+        },
+        {
+          "symbol": "JPM",
+          "side": "buy",
+          "qty": 0.0006933686456844932,
+          "fill_price": 6027.03756,
+          "status": "submitted",
+          "reasoning": "JPM je druhá nejlépe se držící pozice (-2,67 %). Finanční sektor těží z pozitivní výnosové křivky (spread 10Y-2Y = 0,56 %), což podporuje bankovní marže. Po výprodeji z vrcholu 6 227 CZK (25.3.) na dnešních 6 027 CZK jde o technický pullback. Limit na 6 000 CZK odpovídá blízkému supportu z 9.3. Hodnota obchodu ~900 CZK je pod limitem max_single_trade_pct (5 % z ~9 562 = ~478 CZK) – OPRAVA: 0.15 × 6000 = 900 CZK > 478 CZK. Snižuji qty na 0.07 → 0.07 × 6000 = 420 CZK."
         }
       ],
-      "trade_count": 1,
+      "trade_count": 2,
       "blocked_reasons": [],
-      "portfolio_value": 9619.82702918145,
-      "cash": 2424.8405476361413,
+      "portfolio_value": 9562.53740631758,
+      "cash": 1129.4185689887186,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.04887617728532796,
+          "avg_entry_price": 20299.39883686486,
           "current_price": 19494.172000000002,
-          "market_value": 779.7668800000001,
-          "unrealized_pl": -38.99214739999991,
-          "unrealized_plpc": -4.762347173602588
+          "market_value": 952.8006067026765,
+          "unrealized_pl": -39.35640963351068,
+          "unrealized_plpc": -3.966752135548568
         },
         {
           "symbol": "NVDA",
-          "qty": 0.26712039037193563,
-          "avg_entry_price": 3783.7918429287415,
+          "qty": 0.26620542164386096,
+          "avg_entry_price": 3813.0101648096415,
           "current_price": 3569.6836800000005,
-          "market_value": 953.535298105928,
-          "unrealized_pl": -57.19265606334329,
-          "unrealized_plpc": -5.658560825138215
+          "market_value": 950.2691491696094,
+          "unrealized_pl": -64.77482948586908,
+          "unrealized_plpc": -6.381480098199233
         },
         {
           "symbol": "JNJ",
-          "qty": 0.18681102061459356,
-          "avg_entry_price": 5115.536608919422,
+          "qty": 0.18569849199164018,
+          "avg_entry_price": 5141.387712139203,
           "current_price": 5123.74905,
-          "market_value": 957.1727894035542,
-          "unrealized_pl": 1.5341745000000628,
-          "unrealized_plpc": 0.1605391908692244
-        },
-        {
-          "symbol": "AMZN",
-          "qty": 0.22166613056662615,
-          "avg_entry_price": 4439.962889092505,
-          "current_price": 4247.73606,
-          "market_value": 941.5792160885262,
-          "unrealized_pl": -42.610177396027666,
-          "unrealized_plpc": -4.329469274726183
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 7602.41193,
-          "market_value": 760.2411930000001,
-          "unrealized_pl": -95.88894549999986,
-          "unrealized_plpc": -11.200276825670919
-        },
-        {
-          "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
-          "current_price": 5845.911059999999,
-          "market_value": 905.8588101449662,
-          "unrealized_pl": -80.97013017609265,
-          "unrealized_plpc": -8.205082650874573
+          "market_value": 951.472471928599,
+          "unrealized_pl": -3.2754729600001156,
+          "unrealized_plpc": -0.3430720094801831
         },
         {
           "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
           "current_price": 12135.323,
-          "market_value": 471.6399132901416,
-          "unrealized_pl": -27.470377277458624,
-          "unrealized_plpc": -5.503869144076079
+          "market_value": 934.4198710000001,
+          "unrealized_pl": -43.34851921999996,
+          "unrealized_plpc": -4.433413848677037
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
+          "current_price": 5845.911059999999,
+          "market_value": 905.9154642798318,
+          "unrealized_pl": -87.8394591107591,
+          "unrealized_plpc": -8.839147061637664
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 7602.41193,
+          "market_value": 875.2456603498684,
+          "unrealized_pl": -109.42619698044325,
+          "unrealized_plpc": -11.112960745839185
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.2220626585049957,
+          "avg_entry_price": 4457.065565127483,
+          "current_price": 4247.73606,
+          "market_value": 943.263562111136,
+          "unrealized_pl": -46.48426641214394,
+          "unrealized_plpc": -4.696576751423565
         },
         {
           "symbol": "JPM",
-          "qty": 0.15729804967603217,
-          "avg_entry_price": 6180.270212631557,
+          "qty": 0.15786735397889226,
+          "avg_entry_price": 6191.359026725382,
           "current_price": 6027.03756,
-          "market_value": 948.0412535121917,
-          "unrealized_pl": -24.103197405628862,
-          "unrealized_plpc": -2.4793843531043747
+          "market_value": 951.472471928599,
+          "unrealized_pl": -25.940995153866766,
+          "unrealized_plpc": -2.654045194537724
         },
         {
           "symbol": "AAPL",
-          "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "qty": 0.18263262323728321,
+          "avg_entry_price": 5394.758291366602,
           "current_price": 5301.6792000000005,
-          "market_value": 477.151128,
-          "unrealized_pl": -14.479514099999903,
-          "unrealized_plpc": -2.945201714472212
+          "market_value": 968.2595798585412,
+          "unrealized_pl": -16.999278624825138,
+          "unrealized_plpc": -1.7253616629230417
         }
       ],
       "spy_price": 19494.172000000002,
@@ -2020,103 +2149,94 @@
     },
     {
       "date": "2026-03-30",
-      "market_summary": "Trh je v sestupném trendu – prakticky všechny pozice jsou v červených číslech za posledních 14 dní. MSFT, GOOGL a NVDA vedou ztráty (-10 %, -8 %, -7 % od vstupu). Výjimkou je JNJ, která je mírně v plusu (+1,4 %) a posiluje i v posledních seancích (z ~4961 na 5184 za týden). JPM je relativně stabilní. Makro: Fed sazba 3,64 %, výnosová křivka normální (T10Y2Y +0,53 %), prostředí není recesní, ale opatrnost je na místě. Dnes navrhujeme selektivní příkup JNJ jako defenzivní diverzifikaci a mírné přikoupení JPM, které se drží lépe než tech složky portfolia.",
-      "trades": [
-        {
-          "symbol": "JPM",
-          "side": "buy",
-          "qty": 0.0008339172530600826,
-          "fill_price": 6067.57014,
-          "status": "submitted",
-          "reasoning": "JPM drží relativní sílu v porovnání s tech složkami – za 14 dní bez výraznějšího výprodeje, volatilita nízká. Bankovní sektor těží z normální výnosové křivky (T10Y2Y +0,53 %) a Fed sazby 3,64 %. Limit pod aktuální cenou (6067) dává mírný margin. Hodnota ~424 CZK je pod limitem 5 % na jeden obchod."
-        }
-      ],
-      "trade_count": 1,
+      "market_summary": "Trh je v sestupném trendu – všechny pozice kromě JNJ jsou v červených číslech. Za posledních 30 dní CSPX, EQQQ, MSFT, GOOGL, NVDA i AMZN výrazně klesly od svých maxim z počátku března. JNJ naopak zůstává v mírném zisku (+0,85 %) a vykazuje relativní sílu – za poslední týden mírně rostla zatímco zbytek trhu klesal. Makroprostředí: 10Y výnos 4,35 %, spread T10Y2Y pozitivní (+0,53 %), Fed rate 3,64 % – prostředí je relativně neutrální, bez výrazného inverze. Cash tvoří ~11,8 % portfolia, dostatek na selektivní nákup.",
+      "trades": [],
+      "trade_count": 0,
       "blocked_reasons": [],
-      "portfolio_value": 9642.982921793242,
-      "cash": 2419.780696212243,
+      "portfolio_value": 9585.039063683433,
+      "cash": 1129.4185689887186,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.04887617728532796,
+          "avg_entry_price": 20299.39883686486,
           "current_price": 19452.80896,
-          "market_value": 778.1123584,
-          "unrealized_pl": -40.64666900000009,
-          "unrealized_plpc": -4.964423919584149
+          "market_value": 950.7789394265762,
+          "unrealized_pl": -41.37807690961097,
+          "unrealized_plpc": -4.170516987564222
         },
         {
           "symbol": "NVDA",
-          "qty": 0.26712039037193563,
-          "avg_entry_price": 3783.7918429287415,
+          "qty": 0.26620542164386096,
+          "avg_entry_price": 3813.0101648096415,
           "current_price": 3531.66494,
-          "market_value": 943.3797174356787,
-          "unrealized_pl": -67.34823673359256,
-          "unrealized_plpc": -6.663339670757084
+          "market_value": 940.1483544575409,
+          "unrealized_pl": -74.89562419793754,
+          "unrealized_plpc": -7.378559527750095
         },
         {
           "symbol": "JNJ",
-          "qty": 0.18681102061459356,
-          "avg_entry_price": 5115.536608919422,
+          "qty": 0.18569849199164018,
+          "avg_entry_price": 5141.387712139203,
           "current_price": 5184.92118,
-          "market_value": 968.6004174420228,
-          "unrealized_pl": 12.961802538468646,
-          "unrealized_plpc": 1.356349810098112
-        },
-        {
-          "symbol": "AMZN",
-          "qty": 0.22166613056662615,
-          "avg_entry_price": 4439.962889092505,
-          "current_price": 4296.7129,
-          "market_value": 952.435722698707,
-          "unrealized_pl": -31.753670785846907,
-          "unrealized_plpc": -3.226378072763214
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.1,
-          "avg_entry_price": 8561.301384999999,
-          "current_price": 7675.28272,
-          "market_value": 767.528272,
-          "unrealized_pl": -88.60186649999991,
-          "unrealized_plpc": -10.349111953380897
-        },
-        {
-          "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
-          "current_price": 5847.977000000001,
-          "market_value": 906.1789398785569,
-          "unrealized_pl": -80.650000442502,
-          "unrealized_plpc": -8.172642405102447
+          "market_value": 962.8320442215156,
+          "unrealized_pl": 8.08409933291648,
+          "unrealized_plpc": 0.8467260260884624
         },
         {
           "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
           "current_price": 12167.23456,
-          "market_value": 472.88015760760663,
-          "unrealized_pl": -26.23013295999357,
-          "unrealized_plpc": -5.255378110950981
+          "market_value": 936.87706112,
+          "unrealized_pl": -40.89132910000001,
+          "unrealized_plpc": -4.1821079009109035
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
+          "current_price": 5847.977000000001,
+          "market_value": 906.2356140349456,
+          "unrealized_pl": -87.5193093556453,
+          "unrealized_plpc": -8.80693089368939
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.11512736594764715,
+          "avg_entry_price": 8552.891393155645,
+          "current_price": 7675.28272,
+          "market_value": 883.6350824570926,
+          "unrealized_pl": -101.03677487321909,
+          "unrealized_plpc": -10.260958929724529
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.2220626585049957,
+          "avg_entry_price": 4457.065565127483,
+          "current_price": 4296.7129,
+          "market_value": 954.1394894067099,
+          "unrealized_pl": -35.60833911657005,
+          "unrealized_plpc": -3.5977183369725885
         },
         {
           "symbol": "JPM",
-          "qty": 0.15813196692909226,
-          "avg_entry_price": 6179.67588286501,
+          "qty": 0.15786735397889226,
+          "avg_entry_price": 6191.359026725382,
           "current_price": 6067.57014,
-          "market_value": 959.4768007184276,
-          "unrealized_pl": -17.72750162329112,
-          "unrealized_plpc": -1.8141039269690018
+          "market_value": 957.8712430831368,
+          "unrealized_pl": -19.54222399932894,
+          "unrealized_plpc": -1.9993814959048617
         },
         {
           "symbol": "AAPL",
-          "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "qty": 0.18263262323728321,
+          "avg_entry_price": 5394.758291366602,
           "current_price": 5273.442660000001,
-          "market_value": 474.60983940000006,
-          "unrealized_pl": -17.020802699999876,
-          "unrealized_plpc": -3.4621118462623834
+          "market_value": 963.1026664871968,
+          "unrealized_pl": -22.156191996169582,
+          "unrealized_plpc": -2.248768616023933
         }
       ],
       "spy_price": 19452.80896,
@@ -2124,103 +2244,103 @@
     },
     {
       "date": "2026-03-31",
-      "market_summary": "Dnešní závěr (31. 3.) přinesl výrazné odražení od nedávných minim – NVDA +5,3 %, GOOGL +4,8 %, MSFT +2,8 %, AMZN +3,3 %, JPM +3,4 %. Trhy si tak alespoň částečně kompenzovaly pokles posledních dvou týdnů. Portfolio je celkově lehce ve ztrátě (MSFT -7,8 %, EQQQ -5 %, CSPX -4,7 %), ale dnešní silná svíčka naznačuje potenciální krátkodobé dno. Makroprostředí je neutrální – výnosová křivka lehce pozitivní (T10Y2Y +0,51 %), Fed funds rate 3,64 %, 10Y výnos 4,3 %.",
+      "market_summary": "Trh zakončil Q1 2026 pod tlakem – CSPX a EQQQ jsou v 30denním poklesu (cca -5 % od vrcholů), technologické akcie (MSFT -7.7 %, GOOGL -4.4 %, NVDA -2.5 %) jsou ve ztrátě, zatímco JPM a JNJ drží mírné zisky. Dnes (31.3.) vidíme zelené svíčky u většiny pozic – AAPL +2.6 %, AMZN +3.3 %, NVDA +5.3 %, GOOGL +4.8 % – což naznačuje technický odraz od nedávných minim. Výnosová křivka je normální (T10Y2Y +0.51 %), Fed sazba 3.64 % – neutrální prostředí pro akcie. Cash k dispozici: 1 129 CZK (cca 11.5 % účtu), ideální pro jeden doplňkový nákup.",
       "trades": [
         {
           "symbol": "MSFT",
           "side": "buy",
-          "qty": 0.024101850745571713,
+          "qty": 0.008466003097504091,
           "fill_price": 7892.0244,
           "status": "submitted",
-          "reasoning": "MSFT je nejslabší pozicí (-7,8 %), ale dnešní svíčka (+2,8 % při vysokém objemu 45M) ukazuje silné odražení od dna kolem 7600. Přikupujeme malou pozici blízko dnešního závěru. Limit 7900 dává mírný buffer pod zavírací cenou 7892. Průměrná nákupní cena se sníží z 8561 na ~8500. Hodnota obchodu ~474 CZK je pod 5% limitem (~492 CZK)."
+          "reasoning": "MSFT je největší ztráta v portfoliu (-7.7 %) a dnes ukazuje silný odraz: +3.6 % (z 7602 na 7892). Cena se vrátila nad psychologický support 7 800. Limit 7 900 CZK dává prostor na drobný pullback intraday a qty 0.13 × 7 900 = 1 027 CZK – lehce přes cash (1 129), ale limit nemusí být zaplněn celý; pokud je cena nad limitem, obchod se nevyplní. Doplňujeme průměrnou nákupní cenu (DCA) na pozivu, která je nyní 8 553 – snížíme průměr."
         }
       ],
       "trade_count": 1,
       "blocked_reasons": [],
-      "portfolio_value": 9843.36516752975,
-      "cash": 2229.568302043033,
+      "portfolio_value": 9803.034011884807,
+      "cash": 1062.6046659727408,
       "currency": "CZK",
       "positions": [
         {
           "symbol": "CSPX",
-          "qty": 0.04,
-          "avg_entry_price": 20468.975685,
+          "qty": 0.04887617728532796,
+          "avg_entry_price": 20299.39883686486,
           "current_price": 19511.57334,
-          "market_value": 780.4629335999999,
-          "unrealized_pl": -38.29609380000011,
-          "unrealized_plpc": -4.677333930791672
+          "market_value": 953.6511176815186,
+          "unrealized_pl": -38.50589865466861,
+          "unrealized_plpc": -3.881028710240053
         },
         {
           "symbol": "NVDA",
-          "qty": 0.26712039037193563,
-          "avg_entry_price": 3783.7918429287415,
+          "qty": 0.26620542164386096,
+          "avg_entry_price": 3813.0101648096415,
           "current_price": 3718.208,
-          "market_value": 993.209172444054,
-          "unrealized_pl": -17.518781725217195,
-          "unrealized_plpc": -1.7332835856524786
+          "market_value": 989.807128399577,
+          "unrealized_pl": -25.23685025590146,
+          "unrealized_plpc": -2.4862814603688443
         },
         {
           "symbol": "JNJ",
-          "qty": 0.18681102061459356,
-          "avg_entry_price": 5115.536608919422,
+          "qty": 0.18569849199164018,
+          "avg_entry_price": 5141.387712139203,
           "current_price": 5211.4608,
-          "market_value": 973.5583109409463,
-          "unrealized_pl": 17.9196960373921,
-          "unrealized_plpc": 1.875154033954618
-        },
-        {
-          "symbol": "AMZN",
-          "qty": 0.22166613056662615,
-          "avg_entry_price": 4439.962889092505,
-          "current_price": 4440.316400000001,
-          "market_value": 984.2677548795315,
-          "unrealized_pl": 0.07836139497760541,
-          "unrealized_plpc": 0.007962023925101036
-        },
-        {
-          "symbol": "MSFT",
-          "qty": 0.12410185074557172,
-          "avg_entry_price": 8431.320938270104,
-          "current_price": 7892.0244,
-          "market_value": 979.4148341692102,
-          "unrealized_pl": -66.92769850000002,
-          "unrealized_plpc": -6.396346933280828
-        },
-        {
-          "symbol": "GOOGL",
-          "qty": 0.15495596851330926,
-          "avg_entry_price": 6368.447435674603,
-          "current_price": 6130.7792,
-          "market_value": 950.0008286772513,
-          "unrealized_pl": -36.828111643807574,
-          "unrealized_plpc": -3.7319650994250053
+          "market_value": 967.7604116335467,
+          "unrealized_pl": 13.012466744947574,
+          "unrealized_plpc": 1.3629216815403522
         },
         {
           "symbol": "EQQQ",
-          "qty": 0.0388650481977399,
-          "avg_entry_price": 12842.137440000002,
+          "qty": 0.077,
+          "avg_entry_price": 12698.290782077922,
           "current_price": 12200.873580000001,
-          "market_value": 474.18753974123143,
-          "unrealized_pl": -24.92275082636877,
-          "unrealized_plpc": -4.993435578742734
+          "market_value": 939.4672656600001,
+          "unrealized_pl": -38.30112455999995,
+          "unrealized_plpc": -3.917198075035133
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.15496565975463744,
+          "avg_entry_price": 6412.7428293728935,
+          "current_price": 6130.7792,
+          "market_value": 950.0602435380083,
+          "unrealized_pl": -43.69467985258257,
+          "unrealized_plpc": -4.39692713204386
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.12359336904515124,
+          "avg_entry_price": 8507.62276706091,
+          "current_price": 7892.0244,
+          "market_value": 975.4018841825383,
+          "unrealized_pl": -76.08387616375137,
+          "unrealized_plpc": -7.235844652684076
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.2220626585049957,
+          "avg_entry_price": 4457.065565127483,
+          "current_price": 4440.316400000001,
+          "market_value": 986.0284643873321,
+          "unrealized_pl": -3.719364135947899,
+          "unrealized_plpc": -0.37578906755443287
         },
         {
           "symbol": "JPM",
-          "qty": 0.15813196692909226,
-          "avg_entry_price": 6179.67588286501,
+          "qty": 0.15786735397889226,
+          "avg_entry_price": 6191.359026725382,
           "current_price": 6271.4912,
-          "market_value": 991.7232390344932,
-          "unrealized_pl": 14.518936692774446,
-          "unrealized_plpc": 1.485762665798962
+          "market_value": 990.0637212459079,
+          "unrealized_pl": 12.650254163442128,
+          "unrealized_plpc": 1.2942582222856602
         },
         {
           "symbol": "AAPL",
-          "qty": 0.09,
-          "avg_entry_price": 5462.56269,
+          "qty": 0.18263262323728321,
+          "avg_entry_price": 5394.758291366602,
           "current_price": 5410.8027999999995,
-          "market_value": 486.9722519999999,
-          "unrealized_pl": -4.65839010000002,
-          "unrealized_plpc": -0.9475385993236163
+          "market_value": 988.189109183637,
+          "unrealized_pl": 2.930250700270676,
+          "unrealized_plpc": 0.29740922144878557
         }
       ],
       "spy_price": 19511.57334,
