@@ -66,11 +66,12 @@ STARTING_CASH = float((os.environ.get("BACKTEST_STARTING_CASH") or "").strip() o
 ACCOUNT_CURRENCY = os.environ.get("BACKTEST_CURRENCY", "CZK").strip().upper()
 BENCHMARK_SYMBOL = "CSPX"  # nahrazuje dřívější SPY (viz risk_limits.yaml - PRIIPs)
 DEFAULT_LOOKBACK_DAYS = 30
-# POZOR - prodlouženo 21.8.2026 z 14 na 30 (souběžně s market_data.py
-# get_recent_bars, viz POZOR tam) - appka dřív rozhodovala jen z necelých tří
-# obchodních týdnů historie. MUSÍ zůstat stejné jako lookback_days v
-# market_data.py, ať backtest realisticky odpovídá tomu, co appka vidí naživo.
-LOOKBACK_DAYS_BARS = 30
+# POZOR - 21.8.2026 krátce zkusmo prodlouženo z 14 na 30, ale vráceno zpátky
+# týž den - měsíční backtest s delší historií (2026-03-01 -> 2026-03-31)
+# dopadl hůř než s 14 dny (viz POZOR u get_recent_bars v market_data.py pro
+# celé zdůvodnění). MUSÍ zůstat stejné jako lookback_days v market_data.py,
+# ať backtest realisticky odpovídá tomu, co appka vidí naživo.
+LOOKBACK_DAYS_BARS = 14
 
 
 def parse_args():

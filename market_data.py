@@ -122,7 +122,7 @@ def _fetch_eodhd_bars(eodhd_symbol, start, end, api_token):
     return bars
 
 
-def get_recent_bars(symbol_map, lookback_days=30, account_currency=None):
+def get_recent_bars(symbol_map, lookback_days=14, account_currency=None):
     """
     Stáhne denní bary pro zadané symboly. `symbol_map` je typicky přímo
     instruments.INSTRUMENTS (nebo jeho podmnožina) - slovník ve tvaru:
@@ -148,11 +148,18 @@ def get_recent_bars(symbol_map, lookback_days=30, account_currency=None):
     symbol musí mít bary (viz podmínky "if symbol in bars.data" v původním
     data_fetch.py).
 
-    POZOR - lookback_days prodloužen 21.8.2026 z 14 na 30 (kalendářních dní,
-    tedy cca 21 obchodních dní / měsíc): appka dřív rozhodovala jen z necelých
-    tří obchodních týdnů historie, bez šance vidět delší trend. Musí jít ruku
-    v ruce se stejnou hodnotou LOOKBACK_DAYS_BARS v backtest.py, ať appka
-    naživo i v simulaci vidí srovnatelně dlouhou historii.
+    POZOR - lookback_days 21.8.2026 krátce zkusmo prodloužen z 14 na 30
+    (kalendářních dní), ale vráceno zpátky na 14 týž den - měsíční backtest
+    (2026-03-01 -> 2026-03-31) s delší historií dopadl na stejném období hůř
+    než s 14 dny (nižší náskok nad benchmarkem, vyšší max. propad, víc
+    obchodů = víc prostoru pro chybu), žádný prokázaný přínos. Šlo o jediný
+    testovaný měsíc a rozhodnutí AI nejsou deterministická, takže tenhle
+    jeden výsledek neznamená, že delší historie škodí obecně - jen že se tu
+    neprokázala výhoda, která by ospravedlnila vyšší náklad (delší
+    prompt = víc tokenů za každé rozhodnutí). Kdyby se k tomu chtělo vrátit,
+    otestovat příště na víc než jednom měsíci najednou. Musí jít ruku v ruce
+    se stejnou hodnotou LOOKBACK_DAYS_BARS v backtest.py, ať appka naživo i
+    v simulaci vidí srovnatelně dlouhou historii.
     """
     end = datetime.now(timezone.utc)
     start = end - timedelta(days=lookback_days)
