@@ -20,7 +20,10 @@ from datetime import datetime, timezone
 from instruments import INSTRUMENTS
 import market_data
 import broker_t212
-from risk_rules import load_risk_limits, allowed_symbols, validate_decision, clip_oversized_trades
+from risk_rules import (
+    load_risk_limits, allowed_symbols, validate_decision,
+    clip_oversized_trades, clip_concentrated_trades,
+)
 from decision import get_decision
 from report import build_report
 from history import load_history, update_history
@@ -147,10 +150,14 @@ def main():
     # Aktuální ceny z nezávislého zdroje (tržní data, ne to, co si spočítala AI) -
     # slouží k přepočtu qty * cena při validaci, viz risk_rules.validate_decision.
     prices = {symbol: series[-1]["c"] for symbol, series in bars.items() if series}
-    # clip_oversized_trades MUSÍ proběhnout před validate_decision - zmenší
-    # nákupy přesahující limit na jeden obchod, místo aby je appka celé
-    # zahodila (viz POZOR v risk_rules.py, nalezeno 21.8.2026 v backtestu).
+    # clip_oversized_trades i clip_concentrated_trades MUSÍ proběhnout před
+    # validate_decision - zmenší nákupy přesahující limit na jeden obchod,
+    # resp. limit na koncentraci v jedné pozici, místo aby appka kvůli
+    # jedinému přesahujícímu nákupu zahodila CELÝ den (viz POZOR u obou
+    # funkcí v risk_rules.py; druhá nalezena 21.8.2026 v měsíčním backtestu,
+    # potom co první opravu odhalila druhý, dřív skrytý limit).
     clip_oversized_trades(decision, limits, account_before, prices=prices)
+    clip_concentrated_trades(decision, limits, account_before, prices=prices)
     ok, reasons = validate_decision(decision, limits, account_before, prices=prices)
 
     trade_results = []

@@ -72,6 +72,119 @@ def clip_oversized_trades(decision, limits, account_snapshot, prices=None):
     return decision
 
 
+def clip_concentrated_trades(decision, limits, account_snapshot, prices=None):
+    """
+    POZOR - přidáno 21.8.2026, po měsíčním backtestu (2026-03-01 -> 2026-03-31)
+    s už nasazenou clip_oversized_trades: limit na JEDEN obchod přestal appku
+    blokovat (0 dní za měsíc), ale limit na CELKOVOU koncentraci v jedné pozici
+    (max_position_size_pct) začal blokovat ještě častěji (13 z 22 dní) - appka
+    se opakovaně snažila natáhnout GOOGL/NVDA/JNJ přes 10 % portfolia a celý
+    den se kvůli tomu (stejnou "všechno nebo nic" logikou ve validate_decision)
+    zahodil, i když šlo dotyčný nákup jen zmenšit a zbytek dne v klidu provést.
+
+    Stejný princip jako clip_oversized_trades: volá se PŘED validate_decision
+    (a PO clip_oversized_trades, ať pracuje už se zmenšenými qty) - u nákupů,
+    které by natáhly pozici NAD limit koncentrace, jejich celkovou hodnotu (za
+    daný symbol, pokud je nákupů na stejný symbol víc) úměrně ZMENŠÍ přesně na
+    tolik, kolik se do limitu ještě vejde (s rezervou 0,5 %, stejně jako u
+    clip_oversized_trades) - místo aby appka o ten nákup, a tím pádem (kvůli
+    ok=False pro celý den) i o VŠECHNY ostatní, jinak v pořádku velké obchody
+    toho dne, přišla úplně.
+
+    Prodeje stejného symbolu ve stejný den se do výpočtu čistě NETTUJÍ (snižují
+    potřebu klipovat) - prodeje samotné se neklipují, ty koncentraci jen snižují.
+
+    Pokud je pozice na limitu (nebo přes limit) UŽ TEĎ, i bez jakéhokoli
+    nového nákupu (např. pohybem trhu od minulého rozhodnutí), nákup(y) do
+    tohodle symbolu se z rozhodnutí úplně ODEBEROU (ne jen qty=0 - appka by se
+    zbytečně pokoušela poslat brokerovi nulový pokyn).
+
+    Mutuje decision["trades"] na místě (může prvky i mazat) a zároveň to samé
+    vrací.
+    """
+    portfolio_value = account_snapshot["portfolio_value"]
+    max_position_value = portfolio_value * (limits["position_limits"]["max_position_size_pct"] / 100)
+    safety_margin = 0.995
+
+    existing_value_by_symbol = {
+        p["symbol"]: p.get("market_value", 0.0) for p in account_snapshot.get("positions", [])
+    }
+
+    def trade_value(t):
+        # Stejná priorita jako jinde v tomhle souboru - nezávisle přepočítaná
+        # hodnota (skutečná tržní cena) je spolehlivější než estimated_value od AI.
+        symbol = t.get("symbol")
+        qty = t.get("qty")
+        price = (prices or {}).get(symbol)
+        if price is not None and qty is not None:
+            return qty * price
+        return t.get("estimated_value")
+
+    trades = decision.get("trades", [])
+
+    sell_value_by_symbol = {}
+    for t in trades:
+        if t.get("side") != "sell":
+            continue
+        symbol = t.get("symbol")
+        val = trade_value(t)
+        if symbol is not None and val is not None:
+            sell_value_by_symbol[symbol] = sell_value_by_symbol.get(symbol, 0.0) + val
+
+    buy_trades_by_symbol = {}
+    for t in trades:
+        if t.get("side") != "buy":
+            continue
+        symbol = t.get("symbol")
+        if symbol is None:
+            continue
+        buy_trades_by_symbol.setdefault(symbol, []).append(t)
+
+    trades_to_remove_ids = set()
+
+    for symbol, buy_trades in buy_trades_by_symbol.items():
+        total_buy_value = sum(v for v in (trade_value(t) for t in buy_trades) if v is not None)
+        if total_buy_value <= 0:
+            continue
+
+        existing = existing_value_by_symbol.get(symbol, 0.0)
+        sells = sell_value_by_symbol.get(symbol, 0.0)
+        allowed_buy_value = (max_position_value * safety_margin) - existing + sells
+
+        if allowed_buy_value >= total_buy_value:
+            continue  # v pořádku, nic se neklipuje
+
+        if allowed_buy_value <= 0:
+            print(f"POZOR: pozice {symbol} je už na/přes limit koncentrace "
+                  f"({existing:.2f} vs. {max_position_value:.2f}) - dnešní nákup(y) "
+                  f"tohohle symbolu se úplně odeberou z rozhodnutí, ať appka nepřijde "
+                  f"o ostatní, jinak v pořádku obchody.")
+            trades_to_remove_ids.update(id(t) for t in buy_trades)
+            continue
+
+        scale = allowed_buy_value / total_buy_value
+        print(f"POZOR: nákupy {symbol} by pozici natáhly na {existing + total_buy_value:.2f} "
+              f"(limit koncentrace {max_position_value:.2f}) - zmenšuji jejich celkovou "
+              f"hodnotu z {total_buy_value:.2f} na {allowed_buy_value:.2f} (x{scale:.3f}), "
+              f"místo abych je (a tím i zbytek dne) zahodil/a.")
+        for t in buy_trades:
+            qty = t.get("qty")
+            if qty is None:
+                continue
+            new_qty = qty * scale
+            t["qty"] = new_qty
+            price = (prices or {}).get(symbol)
+            if price is not None:
+                t["estimated_value"] = new_qty * price
+            elif t.get("estimated_value") is not None:
+                t["estimated_value"] = t["estimated_value"] * scale
+
+    if trades_to_remove_ids:
+        decision["trades"] = [t for t in trades if id(t) not in trades_to_remove_ids]
+
+    return decision
+
+
 def validate_decision(decision, limits, account_snapshot, prices=None):
     """
     Zkontroluje navržené obchody proti mantinelům PŘED provedením.
