@@ -17,9 +17,13 @@ Krypto appka v této verzi neobchoduje vůbec (risk_limits.yaml,
 allowed_instruments.crypto: []) - Trading 212 Crypto je samostatný účet mimo
 Invest/ISA, beta obchodovací API na něj nesahá, backtest ho proto neřeší.
 
-Zprávy appka v pilotní verzi na Trading 212 nemá (viz main.py, news=None) -
-backtest proto taky žádné historické zprávy nestahuje ani nepředává, stejně
-jako živý provoz (dřívější Alpaca News API tu odpadlo spolu s Alpakou).
+POZOR - přidáno 21.8.2026: appka teď (viz news_data.py) umí volitelně
+stahovat zprávy přes Alpha Vantage NEWS_SENTIMENT - stejně jako živý provoz
+(main.py), i backtest je používá, pokud je nastavený ALPHAVANTAGE_API_KEY
+(bez něj appka pokračuje jako dřív, news=None). Na rozdíl od cen appka
+zprávy pro CELÉ testované období stáhne JEDNÍM voláním (fetch_all_news) a
+pak si je pro každý simulovaný den vyřízne (news_as_of) - stejný princip
+úspory volání jako u cen (fetch_all_bars) a makra (fetch_all_fred) níže.
 
 DŮLEŽITÉ principy (nezměněno oproti dřívější verzi):
 1. AI dostává pro každý simulovaný den POUZE data, která by v ten den reálně
@@ -61,6 +65,7 @@ from risk_rules import (
 )
 from decision import get_decision
 from fred_data import SERIES as FRED_SERIES, FRED_BASE_URL
+from news_data import fetch_all_news, news_as_of
 
 STARTING_CASH = float((os.environ.get("BACKTEST_STARTING_CASH") or "").strip() or "10000")
 ACCOUNT_CURRENCY = os.environ.get("BACKTEST_CURRENCY", "CZK").strip().upper()
@@ -344,6 +349,10 @@ def main():
 
     all_fred = fetch_all_fred(start, end)
 
+    print("Stahuji zprávy (Alpha Vantage NEWS_SENTIMENT, pokud je nastavený "
+          "ALPHAVANTAGE_API_KEY - jinak appka pokračuje bez nich)...")
+    all_news = fetch_all_news(list(active_instruments.keys()), start, end)
+
     if BENCHMARK_SYMBOL not in all_bars or not all_bars[BENCHMARK_SYMBOL]:
         raise RuntimeError(
             f"Nepodařilo se stáhnout data pro {BENCHMARK_SYMBOL} - z nich se odvozuje "
@@ -370,10 +379,10 @@ def main():
     for i, day_str in enumerate(trading_days):
         bars_today = bars_as_of(all_bars, list(active_instruments.keys()), day_str)
         macro_today = macro_as_of(all_fred, day_str)
+        news_today = news_as_of(all_news, list(active_instruments.keys()), day_str)
         account_snapshot = make_account_snapshot(cash, positions, all_bars, day_str)
 
-        # news=None - appka v tomto pilotu na Trading 212 zprávy vůbec nemá (viz main.py).
-        decision = get_decision_with_retry(account_snapshot, bars_today, limits, news=None, macro=macro_today)
+        decision = get_decision_with_retry(account_snapshot, bars_today, limits, news=news_today, macro=macro_today)
 
         trade_results = []
         blocked_reasons = []
@@ -451,8 +460,9 @@ def main():
             "do měny účtu (žádný spread/slippage/zaokrouhlení brokera).",
             f"Simulují se jen obchodní dny podle kalendáře {BENCHMARK_SYMBOL} (LSE).",
             f"AI se volá reálně pro každý den (max_tokens=2000, použitý model: {model_used}).",
-            "Appka v tomto pilotu nemá přístup ke zprávám (news=None) - stejně jako živý "
-            "provoz na Trading 212 (viz main.py).",
+            "Zprávy (Alpha Vantage NEWS_SENTIMENT) appka používá jen pokud je nastavený "
+            "ALPHAVANTAGE_API_KEY (a jen pro US tickery, ne CSPX/EQQQ - viz news_data.py); "
+            "bez klíče pokračuje bez nich, stejně jako živý provoz na Trading 212 (main.py).",
         ],
     }
 

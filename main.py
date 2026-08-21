@@ -25,6 +25,7 @@ from risk_rules import (
     clip_oversized_trades, clip_concentrated_trades,
 )
 from decision import get_decision
+from news_data import get_recent_news
 from report import build_report
 from history import load_history, update_history
 from fred_data import get_macro_context
@@ -137,9 +138,12 @@ def main():
     # mantinelu v CZK (viz POZOR o měnách v instruments.py).
     bars = market_data.get_recent_bars(active_instruments, account_currency=account_before.get("currency"))
 
-    # Zprávy (dřív Alpaca News API) v pilotní verzi zatím nejsou - decision.py
-    # umí fungovat i bez nich (viz news_section fallback v build_prompt).
-    news = None
+    # POZOR - přidáno 21.8.2026: zprávy přes Alpha Vantage NEWS_SENTIMENT
+    # (viz news_data.py) - volitelné, appka bez nastaveného
+    # ALPHAVANTAGE_API_KEY dál funguje jako dřív (news=None, viz news_section
+    # fallback v decision.py.build_prompt). Jen pro "obyčejné" US tickery
+    # (ne CSPX/EQQQ, viz POZOR v news_data.py).
+    news = get_recent_news(stocks)
 
     # FRED je volitelný a nezávislý na brokerovi - pokud FRED_API_KEY není
     # nastavený, macro bude None a appka pokračuje úplně stejně jako dřív.
