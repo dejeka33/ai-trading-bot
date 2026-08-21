@@ -72,6 +72,14 @@ def _fetch_feed(tickers, time_from=None, time_to=None, limit=200, api_key=None):
         print(f"Alpha Vantage: nepodařilo se stáhnout zprávy (pokračuji bez nich): {msg}")
         return []
 
+    # POZOR - přidáno 21.8.2026 po prvním živém testu napojení: appka sice
+    # zprávy stáhla bez chyby, ale v reasoningu AI se vůbec neobjevily - bez
+    # tohohle výpisu nebylo poznat, jestli feed přišel prázdný (AV pro dané
+    # okno/tickery nic nenašel), nebo se něco ztratilo až při dalším
+    # zpracování (_simplify_articles/news_as_of). Teď je to vidět přímo v logu.
+    print(f"Alpha Vantage: staženo {len(data['feed'])} zpráv pro tickery {', '.join(tickers)}"
+          f"{' (' + time_from + ' -> ' + (time_to or 'teď') + ')' if time_from else ''}.")
+
     return data["feed"]
 
 
@@ -127,6 +135,8 @@ def get_recent_news(symbols, lookback_days=3, limit_per_symbol=3):
         return None
 
     articles = _simplify_articles(feed, covered, limit_per_symbol=limit_per_symbol)
+    print(f"Alpha Vantage: {len(feed)} zpráv staženo -> {len(articles)} po výběru "
+          f"nejrelevantnějších pro appku.")
     return articles or None
 
 
@@ -187,4 +197,9 @@ def news_as_of(all_feed, symbols, day_str, lookback_days=3, limit_per_symbol=3):
             windowed.append(article)
 
     covered = _covered_symbols(symbols)
-    return _simplify_articles(windowed, covered, limit_per_symbol=limit_per_symbol)
+    simplified = _simplify_articles(windowed, covered, limit_per_symbol=limit_per_symbol)
+    # POZOR - přidáno 21.8.2026, viz stejný důvod jako u výpisu v _fetch_feed.
+    print(f"  news_as_of({day_str}): {len(all_feed)} zpráv v celém staženém feedu -> "
+          f"{len(windowed)} v okně {lookback_days} dní -> {len(simplified)} po výběru "
+          f"nejrelevantnějších pro appku.")
+    return simplified
