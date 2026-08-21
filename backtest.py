@@ -55,7 +55,7 @@ import requests
 
 from instruments import INSTRUMENTS
 from market_data import fetch_symbol_bars_raw
-from risk_rules import load_risk_limits, allowed_symbols, validate_decision
+from risk_rules import load_risk_limits, allowed_symbols, validate_decision, clip_oversized_trades
 from decision import get_decision
 from fred_data import SERIES as FRED_SERIES, FRED_BASE_URL
 
@@ -376,6 +376,10 @@ def main():
             # backtest odhalí stejný typ chyby (qty neodpovídá estimated_value).
             prices_today = {s: close_price(all_bars, s, day_str) for s in active_instruments}
             prices_today = {s: p for s, p in prices_today.items() if p is not None}
+            # clip_oversized_trades MUSÍ proběhnout před validate_decision -
+            # stejná logika a stejný důvod jako v main.py (viz POZOR v
+            # risk_rules.py, nalezeno 21.8.2026 v tomhle backtestu).
+            clip_oversized_trades(decision, limits, account_snapshot, prices=prices_today)
             ok, reasons = validate_decision(decision, limits, account_snapshot, prices=prices_today)
             if ok and decision.get("trades"):
                 for t in decision["trades"]:

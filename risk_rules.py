@@ -13,6 +13,65 @@ def allowed_symbols(limits):
     return stocks, crypto
 
 
+def clip_oversized_trades(decision, limits, account_snapshot, prices=None):
+    """
+    POZOR - přidáno 21.8.2026 po rozboru 108denního backtestu (2026-03-01 ->
+    2026-07-31): appka dřív při PŘEKROČENÍ limitu na jeden obchod
+    (max_single_trade_pct) zahodila CELÉ dnešní rozhodnutí - i jiné, jinak
+    v pořádku velké obchody navržené ten samý den (viz validate_decision níže,
+    kde jeden "reasons" důvod shodí ok=False pro celý den). Živě se to stalo ve
+    26 z 108 dní backtestu, často jen o pár desítek korun přes limit (např. 4.
+    3. 2026: EQQQ 513,69 Kč vs. limit 501,41 Kč - přesah jen 2,4 %, celý den
+    appka kvůli tomu neobchodovala vůbec, i když měla jasnou vůli).
+
+    Tahle funkce se volá PŘED validate_decision - u každého nákupu, který
+    přesahuje limit na jeden obchod, qty úměrně ZMENŠÍ, ať se vejde pod limit
+    (s malou rezervou 0,5 %, ať to po zaokrouhlení nezávisle přepočítané ceny
+    znovu nepřesáhne o pár haléřů) - místo aby appka obchod celý zahodila.
+    validate_decision zůstává i tak spuštěná hned potom jako finální pojistka
+    (kontroluje i jiné věci - koncentraci v pozici, počet obchodů za den,
+    povolené symboly - ty se tímhle klipováním neřeší, jen limit na 1 obchod).
+
+    Prodeje (side="sell") se neklipují - u těch limit na jeden obchod nedává
+    stejný smysl (snížení pozice/rizika, ne jeho navýšení).
+
+    Mutuje decision["trades"] na místě a zároveň to samé vrací.
+    """
+    portfolio_value = account_snapshot["portfolio_value"]
+    max_trade_value = portfolio_value * (limits["position_limits"]["max_single_trade_pct"] / 100)
+    safety_margin = 0.995
+
+    for t in decision.get("trades", []):
+        if t.get("side") != "buy":
+            continue
+        symbol = t.get("symbol")
+        qty = t.get("qty")
+        if qty is None:
+            continue
+
+        # Stejná priorita jako ve validate_decision - nezávisle přepočítaná
+        # hodnota (skutečná tržní cena) je spolehlivější než to, co si AI sama
+        # spočítala do estimated_value.
+        price = (prices or {}).get(symbol)
+        est_value = t.get("estimated_value")
+        current_value = (qty * price) if price is not None else est_value
+        if current_value is None or current_value <= max_trade_value:
+            continue
+
+        scale = (max_trade_value * safety_margin) / current_value
+        new_qty = qty * scale
+        print(f"POZOR: obchod {symbol} ({current_value:.2f}) přesahoval limit na jeden obchod "
+              f"({max_trade_value:.2f}) - zmenšuji qty z {qty} na {new_qty:.4f}, místo abych "
+              f"obchod celý zahodil/a.")
+        t["qty"] = new_qty
+        if price is not None:
+            t["estimated_value"] = new_qty * price
+        elif est_value is not None:
+            t["estimated_value"] = est_value * scale
+
+    return decision
+
+
 def validate_decision(decision, limits, account_snapshot, prices=None):
     """
     Zkontroluje navržené obchody proti mantinelům PŘED provedením.
