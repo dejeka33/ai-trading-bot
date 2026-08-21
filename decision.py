@@ -65,6 +65,15 @@ Např. záporné/invertované rozpětí T10Y2Y (10Y výnos nižší než 2Y) bý
 spojováno s vyšší pravděpodobností ekonomického zpomalení v následujících měsících.
 """
 
+    # POZOR - přidáno 21.8.2026 spolu s prodloužením lookback_days v
+    # market_data.py/backtest.py (14 -> 30 dní): počet dní v promptu se teď
+    # počítá ZE SKUTEČNÝCH dat (délka nejdelší dostupné řady), ne jako natvrdo
+    # napsané číslo - kdyby se lookback v budoucnu zase změnil, tenhle popisek
+    # se sám nerozejde s realitou (dřív byl string "~14 dní" nezávislý na
+    # skutečné hodnotě lookback_days a nikdo by si nemusel všimnout, že
+    # neodpovídá).
+    bars_days = max((len(series) for series in bars.values()), default=0)
+
     return f"""
 Jsi obchodní asistent spravující PAPER TRADING účet (fiktivní peníze, reálná tržní data).
 Tvým úkolem je jednou denně aktivně vyhodnotit situaci a v rámci přísných mantinelů navrhnout
@@ -84,9 +93,9 @@ ne nad ním.
 AKTUÁLNÍ STAV ÚČTU:
 {json.dumps(account_snapshot, indent=2, ensure_ascii=False)}
 
-TRŽNÍ DATA (posledních ~14 dní, denní svíčky; ceny jsou už PŘEVEDENÉ do měny
-účtu - viz "currency" ve stavu účtu výše - žádný další přepočet měny není
-potřeba, počítej s nimi přímo):
+TRŽNÍ DATA (posledních {bars_days} obchodních dní, denní svíčky; ceny jsou už
+PŘEVEDENÉ do měny účtu - viz "currency" ve stavu účtu výše - žádný další
+přepočet měny není potřeba, počítej s nimi přímo):
 {json.dumps(bars, indent=2, ensure_ascii=False)}
 {news_section}{macro_section}
 RIZIKOVÉ MANTINELY (ZÁVAZNÉ - nesmíš je porušit):
