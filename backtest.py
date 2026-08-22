@@ -69,6 +69,12 @@ from news_data import fetch_all_news, news_as_of
 
 STARTING_CASH = float((os.environ.get("BACKTEST_STARTING_CASH") or "").strip() or "10000")
 ACCOUNT_CURRENCY = os.environ.get("BACKTEST_CURRENCY", "CZK").strip().upper()
+# POZOR - přidáno 21.8.2026: umožňuje pro tenhle konkrétní běh vypnout zprávy
+# (news=[] pro každý den, i když ALPHAVANTAGE_API_KEY je nastavený) - k
+# porovnání appky SE zprávami / BEZ zpráv na STEJNÉM období, aniž by se
+# muselo sahat na GitHub secret (ten sdílí i živý denní provoz, viz
+# daily_trading.yml - appka ho proto nechává eventy dál nastavený).
+DISABLE_NEWS = os.environ.get("BACKTEST_DISABLE_NEWS", "").strip().lower() in ("1", "true", "yes")
 BENCHMARK_SYMBOL = "CSPX"  # nahrazuje dřívější SPY (viz risk_limits.yaml - PRIIPs)
 DEFAULT_LOOKBACK_DAYS = 30
 # POZOR - 21.8.2026 krátce zkusmo prodlouženo z 14 na 30, ale vráceno zpátky
@@ -349,9 +355,15 @@ def main():
 
     all_fred = fetch_all_fred(start, end)
 
-    print("Stahuji zprávy (Alpha Vantage NEWS_SENTIMENT, pokud je nastavený "
-          "ALPHAVANTAGE_API_KEY - jinak appka pokračuje bez nich)...")
-    all_news = fetch_all_news(list(active_instruments.keys()), start, end)
+    if DISABLE_NEWS:
+        print("Zprávy jsou pro tenhle běh VYPNUTÉ (BACKTEST_DISABLE_NEWS) - appka "
+              "poběží se stejnými zprávami jako appka bez news integrace, i kdyby "
+              "ALPHAVANTAGE_API_KEY byl nastavený.")
+        all_news = []
+    else:
+        print("Stahuji zprávy (Alpha Vantage NEWS_SENTIMENT, pokud je nastavený "
+              "ALPHAVANTAGE_API_KEY - jinak appka pokračuje bez nich)...")
+        all_news = fetch_all_news(list(active_instruments.keys()), start, end)
 
     if BENCHMARK_SYMBOL not in all_bars or not all_bars[BENCHMARK_SYMBOL]:
         raise RuntimeError(
@@ -373,7 +385,12 @@ def main():
     bench_shares = STARTING_CASH / bench_start_price if bench_start_price else None
 
     log = []
-    result_path = f"backtest/result_{start.isoformat()}_{end.isoformat()}.json"
+    # POZOR - přidáno 21.8.2026: běh s BACKTEST_DISABLE_NEWS má JINÝ název
+    # souboru ("_no_news" navíc) - jinak by pro STEJNÉ období přepsal výsledek
+    # normálního (se zprávami) běhu, čímž by appka přišla o srovnávací data
+    # (přesně proto appka tohle přepínání dělá - porovnat obojí na stejném období).
+    suffix = "_no_news" if DISABLE_NEWS else ""
+    result_path = f"backtest/result_{start.isoformat()}_{end.isoformat()}{suffix}.json"
     os.makedirs("backtest", exist_ok=True)
 
     for i, day_str in enumerate(trading_days):
@@ -462,7 +479,9 @@ def main():
             f"AI se volá reálně pro každý den (max_tokens=2000, použitý model: {model_used}).",
             "Zprávy (Alpha Vantage NEWS_SENTIMENT) appka používá jen pokud je nastavený "
             "ALPHAVANTAGE_API_KEY (a jen pro US tickery, ne CSPX/EQQQ - viz news_data.py); "
-            "bez klíče pokračuje bez nich, stejně jako živý provoz na Trading 212 (main.py).",
+            "bez klíče pokračuje bez nich, stejně jako živý provoz na Trading 212 (main.py)."
+            + (" Pro TENHLE běh byly zprávy záměrně VYPNUTÉ (BACKTEST_DISABLE_NEWS=true) "
+               "kvůli srovnání se/bez zpráv na stejném období." if DISABLE_NEWS else ""),
         ],
     }
 

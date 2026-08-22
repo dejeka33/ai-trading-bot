@@ -18,6 +18,11 @@ on:
         description: "Počáteční kapitál v CZK. Prázdné = 10000 (stejně jako živý pilot na T212)."
         required: false
         type: string
+      disable_news:
+        description: "true = vypnout zprávy pro tenhle běh (appka poběží, jako by ALPHAVANTAGE_API_KEY nebyl nastavený) - pro srovnání appky se/bez zpráv na STEJNÉM období. Prázdné/false = normální chování."
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -54,6 +59,10 @@ jobs:
           BACKTEST_START_DATE: ${{ inputs.start_date }}
           BACKTEST_END_DATE: ${{ inputs.end_date }}
           BACKTEST_STARTING_CASH: ${{ inputs.starting_cash }}
+          # POZOR - přidáno 21.8.2026 (viz backtest.py) - umožňuje porovnat appku
+          # se zprávami / bez zpráv na stejném období, aniž by se muselo sahat na
+          # GitHub secret ALPHAVANTAGE_API_KEY (ten sdílí i denní živý provoz).
+          BACKTEST_DISABLE_NEWS: ${{ inputs.disable_news }}
           # POZOR - přidáno 21.8.2026: Python defaultně bufferuje stdout, když
           # neběží v interaktivním terminálu (přesně tenhle případ v GitHub
           # Actions) - živý test ukázal, že se pak průběžné hlášky (kolikátý
