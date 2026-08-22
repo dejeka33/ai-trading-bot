@@ -142,7 +142,96 @@
       "cash_flow_net": 0.0,
       "cash_flow_items": [],
       "net_deposits_cum": 0.0
+    },
+    {
+      "date": "2026-08-22",
+      "portfolio_value": 9997.14,
+      "cash": 3020.36,
+      "buying_power": 3020.36,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 9941.1015,
+          "current_price": 9969.136540000001,
+          "market_value": 398.76546160000004,
+          "unrealized_pl": 0.49,
+          "unrealized_plpc": 0.1232257813683926
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.07,
+          "avg_entry_price": 6522.8585714580195,
+          "current_price": 6383.94966,
+          "market_value": 446.87647620000007,
+          "unrealized_pl": -10.63,
+          "unrealized_plpc": -2.328076581663475
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2,
+          "avg_entry_price": 4504.159000000001,
+          "current_price": 4439.84332,
+          "market_value": 887.968664,
+          "unrealized_pl": -14.3,
+          "unrealized_plpc": -1.5874217584237145
+        },
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 19972.425,
+          "current_price": 19962.854,
+          "market_value": 399.25708,
+          "unrealized_pl": -0.7,
+          "unrealized_plpc": -0.17524161437582067
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.4,
+          "avg_entry_price": 5524.552000000001,
+          "current_price": 5586.394,
+          "market_value": 2234.5576,
+          "unrealized_pl": 21.19,
+          "unrealized_plpc": 0.9589012828551526
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.24,
+          "avg_entry_price": 7061.15391673538,
+          "current_price": 7113.8914,
+          "market_value": 1707.333936,
+          "unrealized_pl": 10.12,
+          "unrealized_plpc": 0.5971639644722798
+        }
+      ],
+      "market_summary": "Trh je v posledních 10 dnech pod tlakem – CSPX oslabuje od vrcholu ~23 600 na ~23 300, EQQQ klesá výrazněji z ~15 300 na ~14 800. Technologické akcie jsou smíšené: MSFT a NVDA v klesajícím trendu, GOOGL relativně stabilní kolem 7 100, AAPL volatilní po výkyvu. JNJ je nejsilnější pozicí (+0,96 % nerealizovaný zisk) a drží se dobře. Úrokové prostředí je restriktivní (Fed 3,63 %, 10Y na 4,69 %), výnosová křivka mírně kladná (+0,5 %), bez signálu bezprostřední recese. Cash 3 980 CZK (≈40 % hodnoty portfolia) – prostor pro selektivní nákupy.",
+      "trades": [
+        {
+          "symbol": "AMZN",
+          "side": "buy",
+          "qty": 0.09,
+          "status": "submitted",
+          "order_id": "53800756265",
+          "reasoning": "AMZN nemáme v portfoliu a jde o povolenou akcii. Cena klesla z ~5 730 na ~5 330 (-7 %), přičemž sentiment zpráv je středně bullish (Deane nakupuje 26K kusů, Focus Financial jen redukuje). Pokles vypadá jako přecenění, ne fundamentální změna. Limitní cena 5 335 blízko aktuálního close (5 331), tedy konservativní entry. Qty 0,09 × 5 335 = 480 CZK, pod 5% limitem."
+        },
+        {
+          "symbol": "JPM",
+          "side": "buy",
+          "qty": 0.06,
+          "status": "submitted",
+          "order_id": "53800756267",
+          "reasoning": "JPM kleslo z vrcholu ~7 527 (12.8.) na ~7 247 (-3,7 %) při neutrálních zprávách a stabilním bankovním sektoru. Výnosová křivka je kladná (+0,5 %), Fed sazba 3,63 % – mírně podpůrné pro banky. Cena dosáhla lokálního supportu (~7 220–7 250). Žádnou JPM pozici nemáme, jde o diverzifikaci do financí. Qty 0,06 × 7 250 = 435 CZK, pod 5% limitem (~499 CZK)."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "spy_price": 23309.044499999996,
+      "realized_pl_cum": 0.0,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-08-21T14:38:19.287851+00:00"
+  "last_cash_flow_check": "2026-08-22T14:28:14.306211+00:00"
 }
