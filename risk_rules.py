@@ -236,8 +236,27 @@ def validate_decision(decision, limits, account_snapshot, prices=None):
             if not limits["risk_controls"]["allow_short_selling"]:
                 reasons.append(f"Short selling není povolen ({symbol}).")
 
+        # POZOR - bug nalezený 22.8.2026 v 6měsíčním backtestu (2026-02-21 ->
+        # 2026-08-21): limit na jeden obchod (max_single_trade_pct) se tu
+        # dřív kontroloval u VŠECH obchodů stejně přísně, včetně prodejů -
+        # ale clip_oversized_trades() prodeje ZÁMĚRNĚ neklipuje (viz komentář
+        # tam - "snížení pozice/rizika, ne jeho navýšení", limit na jeden
+        # obchod u prodeje logicky nedává smysl). Výsledek: když appka chtěla
+        # prodat celou (větší) pozici najednou, klipovací funkce ji nechala
+        # beze změny, ale tahle kontrola ji stejně odmítla - a kvůli
+        # "všechno nebo nic" designu celého validate_decision() se tím
+        # zahodil CELÝ den, i jiné v pořádku obchody. Živě se to stalo 8x za
+        # 6 měsíců - u 6 z 8 dní appka zkoušela prodat ZTRÁTOVOU pozici
+        # (JNJ/MSFT v mínusu -0,75 až -8,1 %), takže appka byla nucená dál
+        # držet ztrátu, místo aby ji omezila. Přesně stejný typ chyby, jakou
+        # řešila oprava z 21.8.2026 (viz clip_oversized_trades výš), jen na
+        # prodejní straně, kterou tehdejší oprava nepokrývala. Teď se limit
+        # na jeden obchod u prodejů vůbec nekontroluje - konzistentně s tím,
+        # jak se k nim appka chová při klipování.
+        is_sell = t.get("side") == "sell"
+
         est_value = t.get("estimated_value")
-        if est_value is not None and est_value > max_trade_value:
+        if not is_sell and est_value is not None and est_value > max_trade_value:
             reasons.append(
                 f"Obchod {symbol} v hodnotě {est_value:.2f} přesahuje limit na jeden obchod "
                 f"({max_trade_value:.2f})."
@@ -251,12 +270,15 @@ def validate_decision(decision, limits, account_snapshot, prices=None):
         computed_value = None
         if price is not None and qty is not None:
             computed_value = qty * price
-            if computed_value > max_trade_value:
+            if not is_sell and computed_value > max_trade_value:
                 reasons.append(
                     f"Obchod {symbol}: {qty} ks x {price:.2f} = {computed_value:.2f} přesahuje "
                     f"limit na jeden obchod ({max_trade_value:.2f}) - nezávisle přepočítáno z tržní ceny."
                 )
             elif est_value is not None and est_value > 0:
+                # Konzistenční kontrola (AI qty vs. AI estimated_value) platí
+                # dál i pro prodeje - jen limit na jeden obchod se u nich
+                # neuplatňuje (viz POZOR výš).
                 diff_pct = abs(computed_value - est_value) / est_value * 100
                 if diff_pct > 20:
                     reasons.append(
