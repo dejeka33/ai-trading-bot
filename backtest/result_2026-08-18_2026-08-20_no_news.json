@@ -1,0 +1,251 @@
+{
+  "start": "2026-08-18",
+  "end": "2026-08-20",
+  "summary": {
+    "starting_cash": 10000.0,
+    "currency": "CZK",
+    "final_portfolio_value": 9956.1897714,
+    "total_return_pct": -0.43810228599999723,
+    "final_benchmark_value": 9949.653966129556,
+    "benchmark_label": "drž a čekej CSPX",
+    "benchmark_return_pct": -0.5034603387044423,
+    "max_drawdown_pct": -0.476062385817727,
+    "total_filled_trades": 7,
+    "days_simulated": 3,
+    "assumptions": [
+      "Fill se simuluje za zavírací cenu daného dne, převedenou historickým kurzem do měny účtu (žádný spread/slippage/zaokrouhlení brokera).",
+      "Simulují se jen obchodní dny podle kalendáře CSPX (LSE).",
+      "AI se volá reálně pro každý den (max_tokens=2000, použitý model: claude-sonnet-4-6).",
+      "Zprávy (Alpha Vantage NEWS_SENTIMENT) appka používá jen pokud je nastavený ALPHAVANTAGE_API_KEY (a jen pro US tickery, ne CSPX/EQQQ - viz news_data.py); bez klíče pokračuje bez nich, stejně jako živý provoz na Trading 212 (main.py). Pro TENHLE běh byly zprávy záměrně VYPNUTÉ (BACKTEST_DISABLE_NEWS=true) kvůli srovnání se/bez zpráv na stejném období."
+    ]
+  },
+  "entries": [
+    {
+      "date": "2026-08-18",
+      "market_summary": "Trh je dnes (18. 8. 2026) pod tlakem – CSPX oslabuje o ~1,2 % z víkendového maxima, EQQQ klesá o ~2,3 % (největší tech sell-off za 2 týdny). NVDA, AMZN, GOOGL a MSFT všechny odepisují. Výjimkou je JNJ (+3,4 %), která silně outperformuje – obranný rotační signál. 10Y výnos 4,71 % vs. 2Y 4,19 % dává kladné rozpětí (0,52 %), křivka normální, Fed sazba 3,63 %. Dnešní slabost v rizikových aktivech a síla defensivního JNJ naznačují krátkodobou rotaci do bezpečnějších aktiv. Portfolio je zatím prázdné (100 % cash), první den obchodování.",
+      "trades": [
+        {
+          "symbol": "JNJ",
+          "side": "buy",
+          "qty": 0.08,
+          "fill_price": 5662.67457,
+          "status": "submitted",
+          "reasoning": "JNJ dnes +3,4 % – jediný instrument v zelené. Defensivní sektor (healthcare) outperformuje v den, kdy tech a broad market odepisují. Kladná výnosová křivka a vyšší 10Y výnosy zvyšují atraktivitu dividendových/defensivních titulů. Limit pod intraday high (5675 CZK), ale nad otevírací cenou – chci potvrdit sílu, ne honit peak. Qty 0.08 × 5665 = 453 CZK ≈ 4,5 % portfolia, vejde se do max_single_trade_pct (5 %)."
+        },
+        {
+          "symbol": "CSPX",
+          "side": "buy",
+          "qty": 0.02,
+          "fill_price": 23434.76952,
+          "status": "submitted",
+          "reasoning": "CSPX dnes oslabuje ~1,2 % po 3týdenním uptrendu (22 431 → 23 707 CZK). Dnešní pullback je první větší korekce po nepřetržitém růstu – reasonable dip-buy do broad market ETF. Limit na 23 450 CZK (mírně pod aktuální cenou 23 434) pro lepší vstup. Qty 0.02 × 23 450 = 469 CZK ≈ 4,7 % portfolia. Diverzifikace vůči single-stock riziku JNJ."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 10000.0,
+      "cash": 9078.290644,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "JNJ",
+          "qty": 0.08,
+          "avg_entry_price": 5662.67457,
+          "current_price": 5662.67457,
+          "market_value": 453.0139656,
+          "unrealized_pl": 0.0,
+          "unrealized_plpc": 0.0
+        },
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 23434.76952,
+          "current_price": 23434.76952,
+          "market_value": 468.69539040000006,
+          "unrealized_pl": 0.0,
+          "unrealized_plpc": 0.0
+        }
+      ],
+      "spy_price": 23434.76952,
+      "benchmark_buy_hold_value": 10000.0
+    },
+    {
+      "date": "2026-08-19",
+      "market_summary": "Trh dnes vykazuje smíšené signály. AAPL dnes výrazně posílilo (+1,9 % na 6 597 CZK), AMZN se odráží od nedávného dna, MSFT se stabilizuje kolem 10 084 CZK po výrazném poklesu oproti vrcholu. NVDA naopak klesá a dostala se pod 4 530 CZK. CSPX a EQQQ zůstávají mírně pod svými nedávnými vrcholy. Makro: výnosová křivka je normálně skloněná (T10Y2Y +0,46 %), Fed rate 3,63 % – prostředí umírněné, bez výrazného recesního signálu.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.07,
+          "fill_price": 6596.71743,
+          "status": "submitted",
+          "reasoning": "AAPL dnes silně vystřelilo z krátkodobého dna (6 350–6 400 CZK) na 6 597 CZK s výrazně vyšším objemem (~50 M). Přerušuje sérii slabých dnů po poklesu z maxim. Momentum a objem podporují nákup s cílem zachytit pokračování odrazu. Velikost obchodu 461 CZK je pod limitem 5 % (cca 500 CZK)."
+        },
+        {
+          "symbol": "AMZN",
+          "side": "buy",
+          "qty": 0.09,
+          "fill_price": 5535.05464,
+          "status": "submitted",
+          "reasoning": "AMZN se po sérii poklesů (z 5 960 na ~5 400 CZK) dnes odráží zpět na 5 535 CZK s rostoucím objemem. Tvoří se potenciální krátkodobé dno. Vstup při odrazu s omezenou expozicí (498 CZK, pod 5% limitem) dává rozumný poměr rizika a výnosu."
+        },
+        {
+          "symbol": "MSFT",
+          "side": "buy",
+          "qty": 0.04,
+          "fill_price": 10083.818510000001,
+          "status": "submitted",
+          "reasoning": "MSFT po razantním poklesu z vrcholu 10 621 CZK (srpen) nyní konsoliduje kolem 10 084 CZK. Dnes mírně pozitivní den s rostoucím objemem – signál stabilizace. Valuačně atraktivnější než před dvěma týdny, nákup malé pozice při konsolidaci. Obchod 403 CZK je hluboko pod 5% limitem."
+        }
+      ],
+      "trade_count": 3,
+      "blocked_reasons": [],
+      "portfolio_value": 10003.814167800001,
+      "cash": 7715.012765900002,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "JNJ",
+          "qty": 0.08,
+          "avg_entry_price": 5662.67457,
+          "current_price": 5692.669610000001,
+          "market_value": 455.41356880000006,
+          "unrealized_pl": 2.3996032000000582,
+          "unrealized_plpc": 0.5296974005695176
+        },
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 23434.76952,
+          "current_price": 23505.49775,
+          "market_value": 470.10995499999996,
+          "unrealized_pl": 1.414564599999892,
+          "unrealized_plpc": 0.301808942219961
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.07,
+          "avg_entry_price": 6596.71743,
+          "current_price": 6596.71743,
+          "market_value": 461.7702201,
+          "unrealized_pl": 0.0,
+          "unrealized_plpc": 0.0
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.09,
+          "avg_entry_price": 5535.05464,
+          "current_price": 5535.05464,
+          "market_value": 498.15491760000003,
+          "unrealized_pl": 0.0,
+          "unrealized_plpc": 0.0
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 10083.818510000001,
+          "current_price": 10083.818510000001,
+          "market_value": 403.3527404000001,
+          "unrealized_pl": 0.0,
+          "unrealized_plpc": 0.0
+        }
+      ],
+      "spy_price": 23505.49775,
+      "benchmark_buy_hold_value": 10030.180894221996
+    },
+    {
+      "date": "2026-08-20",
+      "market_summary": "Trh dnes (20. 8.) vykazuje jasný sestupný tlak napříč většinou sledovaných titulů. CSPX, EQQQ, AAPL, MSFT, AMZN, GOOGL a JNJ všechny uzavřely níže po silném uptrendu z předchozích dnů. NVDA klesá třetí den v řadě ze zóny ~4700 na ~4484. JPM dnes propadl na 7269 po sérii slabších zavíracích cen. Výnosová křivka je normálně nakloněná (spread 10Y-2Y = 0,5 %), Fed rate 3,63 % – makro prostředí je stabilní, ale vyšší sazby (10Y na 4,69 %) nadále brzdí valuace růstových titulů. Portfolio drží malé ztráty ve všech pozicích, aktuální cash je 7715 CZK.",
+      "trades": [
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.05,
+          "fill_price": 7044.03359,
+          "status": "submitted",
+          "reasoning": "GOOGL je od vrcholu (~7904 začátkem srpna) dole o ~11 % a dnes uzavřel na 14denním minimu 7044. Valuačně jde o jeden z nejlevnějších big-techů v univerzu. Limit nákup mírně pod dnešním close nabízí mírné zlepšení vstupu pokud bude trh zítra slabý. Pozice ještě nemáme – malý vstup (352 CZK < 5 % limitu ~1157 CZK) diverzifikuje portfolio."
+        },
+        {
+          "symbol": "NVDA",
+          "side": "buy",
+          "qty": 0.08,
+          "fill_price": 4483.80745,
+          "status": "submitted",
+          "reasoning": "NVDA klesla z ~4730 na ~4484 za 3 dny (-5,3 %) bez zásadní zprávy – jde o technickou korekci v jinak silném uptrendu (začátek srpna ~4130). Limit těsně pod dnešním close. Malý vstup 0,08 ks (358 CZK) otevírá pozici v AI-chips lídru s rozumným risk/reward profilem."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "portfolio_value": 9956.1897714,
+      "cash": 7004.106490400001,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "JNJ",
+          "qty": 0.08,
+          "avg_entry_price": 5662.67457,
+          "current_price": 5528.40949,
+          "market_value": 442.2727592,
+          "unrealized_pl": -10.74120640000001,
+          "unrealized_plpc": -2.3710541430601806
+        },
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 23434.76952,
+          "current_price": 23316.784750000003,
+          "market_value": 466.33569500000004,
+          "unrealized_pl": -2.359695400000021,
+          "unrealized_plpc": -0.5034603387044534
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.07,
+          "avg_entry_price": 6596.71743,
+          "current_price": 6436.7501,
+          "market_value": 450.57250700000003,
+          "unrealized_pl": -11.197713099999987,
+          "unrealized_plpc": -2.4249534969091324
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.09,
+          "avg_entry_price": 5535.05464,
+          "current_price": 5378.29447,
+          "market_value": 484.0465023,
+          "unrealized_pl": -14.108415300000047,
+          "unrealized_plpc": -2.832134101570505
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 10083.818510000001,
+          "current_price": 9948.73855,
+          "market_value": 397.949542,
+          "unrealized_pl": -5.403198400000065,
+          "unrealized_plpc": -1.3395715111893747
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.05,
+          "avg_entry_price": 7044.03359,
+          "current_price": 7044.03359,
+          "market_value": 352.2016795,
+          "unrealized_pl": 0.0,
+          "unrealized_plpc": 0.0
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.08,
+          "avg_entry_price": 4483.80745,
+          "current_price": 4483.80745,
+          "market_value": 358.70459600000004,
+          "unrealized_pl": 0.0,
+          "unrealized_plpc": 0.0
+        }
+      ],
+      "spy_price": 23316.784750000003,
+      "benchmark_buy_hold_value": 9949.653966129556
+    }
+  ]
+}
