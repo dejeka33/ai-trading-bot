@@ -1,0 +1,119 @@
+name: Backtest (historická simulace)
+
+# Jen ruční spuštění - NIKDY podle rozvrhu. Tohle je jednorázová analytická
+# appka, co volá Claude jednou za KAŽDÝ simulovaný den (viz backtest.py) -
+# stojí to reálné peníze na Anthropic API účtu, proto žádný automatický cron.
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Od (YYYY-MM-DD). Prázdné = 30 dní zpět od konce (~měsíční test)."
+        required: false
+        type: string
+      end_date:
+        description: "Do (YYYY-MM-DD). Prázdné = včerejšek."
+        required: false
+        type: string
+      starting_cash:
+        description: "Počáteční kapitál v CZK. Prázdné = 10000 (stejně jako živý pilot na T212)."
+        required: false
+        type: string
+      disable_news:
+        description: "true = vypnout zprávy pro tenhle běh (appka poběží, jako by ALPHAVANTAGE_API_KEY nebyl nastavený) - pro srovnání appky se/bez zpráv na STEJNÉM období. Prázdné/false = normální chování."
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run backtest
+        env:
+          # Backtest od 2026-08 běží na stejné architektuře jako živý provoz
+          # (Trading212/EODHD, viz main.py) - žádné Alpaca secrets už nejsou
+          # potřeba. EODHD_API_KEY je volitelný (bez něj appka zkusí Stooq
+          # záložně, viz market_data.py), ale doporučený - jinak backtest
+          # snadno narazí na to, že Stooq bez vlastního apikey dnes nefunguje.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          EODHD_API_KEY: ${{ secrets.EODHD_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}   # volitelné
+          # POZOR - přidáno 21.8.2026 (viz news_data.py) - volitelné, appka bez
+          # tohohle klíče dál funguje stejně jako dřív (news=None).
+          ALPHAVANTAGE_API_KEY: ${{ secrets.ALPHAVANTAGE_API_KEY }}
+          BACKTEST_START_DATE: ${{ inputs.start_date }}
+          BACKTEST_END_DATE: ${{ inputs.end_date }}
+          BACKTEST_STARTING_CASH: ${{ inputs.starting_cash }}
+          # POZOR - přidáno 21.8.2026 (viz backtest.py) - umožňuje porovnat appku
+          # se zprávami / bez zpráv na stejném období, aniž by se muselo sahat na
+          # GitHub secret ALPHAVANTAGE_API_KEY (ten sdílí i denní živý provoz).
+          BACKTEST_DISABLE_NEWS: ${{ inputs.disable_news }}
+          # POZOR - přidáno 21.8.2026: Python defaultně bufferuje stdout, když
+          # neběží v interaktivním terminálu (přesně tenhle případ v GitHub
+          # Actions) - živý test ukázal, že se pak průběžné hlášky (kolikátý
+          # den appka zrovna počítá) v logu vůbec neobjevovaly, dokud se buffer
+          # nezaplnil nebo appka celá neskončila, takže nešlo za běhu sledovat
+          # postup. PYTHONUNBUFFERED appku donutí vypisovat print() rovnou.
+          PYTHONUNBUFFERED: "1"
+        run: python backtest.py
+
+      # POZOR - přidáno 21.8.2026 (živý test 6měsíčního backtestu): appka se
+      # tu předtím pokoušela pushnout výsledek, aniž by si nejdřív stáhla, co
+      # mezitím přibylo na "main" (třeba běžný denní běh appky, nebo jiná
+      # ruční změna) - běh dlouhého backtestu trvá desítky minut, takže je
+      # celkem pravděpodobné, že se mezitím main posune. GitHub push pak
+      # odmítl jako "non-fast-forward" a appka o hotový výsledek (denní log)
+      # nenávratně přišla, protože existoval jen na dočasném runneru. "git pull
+      # --rebase" před pushem tohle řeší - a "if: always()" navíc zajistí, že
+      # se appka o commit/push pokusí i v případě, že by "Run backtest" výš
+      # selhal nebo byl ručně zrušen (Cancel workflow) uprostřed běhu - appka
+      # si totiž průběžně ukládá výsledek po každém dni (viz backtest.py), tak
+      # ať se ta dosavadní práce aspoň zkusí zachránit, místo aby propadla.
+      - name: Commit výsledek zpět do repozitáře
+        if: always()
+        run: |
+          # POZOR - bug nalezený 19.8.2026 večer: "git diff --staged --quiet || git push"
+          # NIKDY nespustí push, protože po úspěšném commitu je staged diff zase prázdný
+          # (git diff --staged --quiet uspěje = vrátí 0), takže "||" push přeskočí. Appka
+          # tak backtest reálně proběhla a výsledek commitla do LOKÁLNÍHO checkoutu
+          # na runneru, ale nikdy ho nedostala zpátky na GitHub - soubor
+          # backtest/result_*.json v jobu i v job summary existoval, ale po skončení
+          # běhu (a smazání runneru) byl nenávratně pryč. Push musí být MIMO to "||",
+          # stejně jako v main.py (viz dřívější denní testy, které pushovaly správně).
+          git config user.name "trading-bot"
+          git config user.email "trading-bot@users.noreply.github.com"
+          git add backtest/
+          git diff --staged --quiet || git commit -m "Backtest $(date -u +%Y-%m-%d)"
+          git pull --rebase origin main
+          git push
+
+      # POZOR - přidáno 21.8.2026: záložní kopie NEZÁVISLÁ na gitu - kdyby výš
+      # přesto něco selhalo (třeba rebase narazí na konflikt), appka aspoň
+      # nahraje výsledek jako stažitelný artefakt přímo k tomuto běhu (záložka
+      # "Artifacts" na stránce běhu) - vydrží 90 dní, i bez commitu do repa.
+      # "if: always()" zajišťuje, že se appka o to pokusí i po chybě/zrušení
+      # předchozích kroků (soubor(y) v backtest/ tou dobou už na disku runneru
+      # existují díky průběžnému ukládání v backtest.py).
+      - name: Nahrát výsledek jako artefakt (záloha, i kdyby push selhal)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backtest-result
+          path: backtest/result_*.json
+          if-no-files-found: ignore
+          retention-days: 90
