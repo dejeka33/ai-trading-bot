@@ -461,6 +461,24 @@ def main():
     total_trades = sum(1 for e in log for t in e["trades"] if t["status"] == "submitted")
     model_used = os.environ.get("DECISION_MODEL", "claude-sonnet-4-6").strip()
 
+    # POZOR - přidáno 22.8.2026: strojově čitelná konfigurace běhu přímo v
+    # summary, ne jen jako věta v "assumptions" - kvůli incidentu z 22.8.2026,
+    # kdy appka omylem použila zastaralý výsledek 30denního lookback
+    # experimentu jako "baseline bez zpráv" (starý soubor měl stejný název
+    # jako čerstvý 14denní běh, oboje jen podle testovaného období, ne podle
+    # konfigurace - viz `oprava-vsechno-nebo-nic-limity.md` a
+    # `zpravy-pruzkum-api.md`). Tahle pole appce/uživateli/Claude dovolí
+    # kdykoliv ověřit PŘESNOU konfiguraci daného výsledku přímo z JSON, ne
+    # jen podle názvu souboru nebo paměti/historie chatu.
+    # GITHUB_SHA appka nemusí nikde explicitně předávat - GitHub Actions ho
+    # runneru dává automaticky do prostředí u každého kroku.
+    run_config = {
+        "news_enabled": not DISABLE_NEWS,
+        "lookback_days_bars": LOOKBACK_DAYS_BARS,
+        "model": model_used,
+        "git_commit": (os.environ.get("GITHUB_SHA") or "")[:8] or None,
+    }
+
     summary = {
         "starting_cash": STARTING_CASH,
         "currency": ACCOUNT_CURRENCY,
@@ -472,6 +490,7 @@ def main():
         "max_drawdown_pct": max_drawdown(portfolio_values) * 100,
         "total_filled_trades": total_trades,
         "days_simulated": len(trading_days),
+        "run_config": run_config,
         "assumptions": [
             "Fill se simuluje za zavírací cenu daného dne, převedenou historickým kurzem "
             "do měny účtu (žádný spread/slippage/zaokrouhlení brokera).",
@@ -502,7 +521,9 @@ def main():
                 f.write(f"- Srovnání ({summary['benchmark_label']}): {final_benchmark:,.2f} {ACCOUNT_CURRENCY} ({summary['benchmark_return_pct']:+.2f} %)\n")
             f.write(f"- Maximální propad appky: {summary['max_drawdown_pct']:.2f} %\n")
             f.write(f"- Počet provedených obchodů: {summary['total_filled_trades']}\n")
-            f.write(f"- Simulováno obchodních dní: {summary['days_simulated']}\n\n")
+            f.write(f"- Simulováno obchodních dní: {summary['days_simulated']}\n")
+            f.write(f"- Zprávy: {'zapnuté' if run_config['news_enabled'] else 'VYPNUTÉ'}, "
+                    f"lookback: {run_config['lookback_days_bars']} dní, model: {run_config['model']}\n\n")
             f.write("Plný denní log je v `" + result_path + "` (commitnutý zpět do repozitáře).\n")
 
 
