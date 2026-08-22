@@ -472,8 +472,18 @@ def main():
     # jen podle názvu souboru nebo paměti/historie chatu.
     # GITHUB_SHA appka nemusí nikde explicitně předávat - GitHub Actions ho
     # runneru dává automaticky do prostředí u každého kroku.
+    # POZOR - přidáno 22.8.2026: "news_enabled" výš říká jen, jestli appka
+    # zprávy VYPNULA (BACKTEST_DISABLE_NEWS), ne jestli se jí je reálně
+    # podařilo stáhnout - Alpha Vantage při vyčerpaném denním/minutovém
+    # limitu appku nespadne (viz news_data._fetch_feed_for_ticker), jen pro
+    # postižené tickery vrátí prázdný feed potichu (appka to jen vypíše do
+    # logu). Tohle pole dovolí kdykoliv zpětně ověřit, jestli se zprávy
+    # skutečně stáhly (news_enabled=true, ale news_articles_raw=0 by
+    # znamenalo, že appka limit nejspíš trefila a běžela prakticky bez
+    # zpráv, i když je "měla mít zapnuté").
     run_config = {
         "news_enabled": not DISABLE_NEWS,
+        "news_articles_raw": len(all_news),
         "lookback_days_bars": LOOKBACK_DAYS_BARS,
         "model": model_used,
         "git_commit": (os.environ.get("GITHUB_SHA") or "")[:8] or None,
