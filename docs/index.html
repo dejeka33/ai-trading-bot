@@ -3,307 +3,237 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0d0d0d">
-<title>AI Trading Bot — Dashboard</title>
+<meta name="theme-color" content="#0a0b12">
+<title>AI Trading Bot — Přehled</title>
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" href="./icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="./icon.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
   :root {
     color-scheme: dark;
-    --page:            #0d0d0d;
-    --surface-1:       #1a1a19;
-    --surface-2:       #212120;
-    --surface-3:       #292927;
-    --text-primary:    #ffffff;
-    --text-secondary:  #c3c2b7;
-    --text-muted:      #898781;
-    --gridline:        #2c2c2a;
-    --baseline:        #383835;
-    --border:          rgba(255,255,255,0.10);
-    --series-1:        #3987e5;
-    --series-1-wash:   rgba(57,135,229,0.10);
-    --good:            #2fbf4f;
-    --critical:        #e66767;
-    --warning:         #fab219;
-    /* kategorická paleta pro alokaci portfolia - pevné přiřazení podle nástroje,
-       stejné barvy jako kolečka na stránce Portfolio (viz positions.html) */
-    --cat-cash:  #726f68;
-    --cat-cspx:  #8ec4f7;
-    --cat-eqqq:  #b7a6f2;
-    --cat-aapl:  #f0b3b3;
-    --cat-msft:  #8fd6c4;
-    --cat-googl: #f2cf8e;
+    --page:        oklch(15% 0.025 265);
+    --surface-1:   oklch(19% 0.025 265);
+    --surface-2:   oklch(23% 0.028 265);
+    --surface-3:   oklch(27% 0.03 265);
+    --text-1:      oklch(97% 0.005 265);
+    --text-2:      oklch(75% 0.01 265);
+    --text-3:      oklch(58% 0.01 265);
+    --text-4:      oklch(48% 0.01 265);
+    --border:      oklch(100% 0 0 / 8%);
+    --border-2:    oklch(100% 0 0 / 14%);
+    --accent-1:    oklch(68% 0.16 258);
+    --accent-2:    oklch(68% 0.16 305);
+    --good:        oklch(72% 0.17 148);
+    --good-ink:    oklch(82% 0.13 148);
+    --critical:    oklch(70% 0.16 25);
+    --critical-ink:oklch(80% 0.14 25);
+    --warning:     oklch(78% 0.15 80);
+    --warning-ink: oklch(85% 0.13 80);
   }
   * { box-sizing: border-box; }
+  html, body { background: var(--page); }
   body {
-    margin: 0;
-    background: var(--page);
-    color: var(--text-primary);
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    margin: 0; color: var(--text-1);
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
-    padding-bottom: 48px;
+    padding-bottom: 108px;
+    position: relative; isolation: isolate;
   }
-  header { padding: 28px 20px 8px; max-width: 880px; margin: 0 auto; }
-  header h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
-  header p { margin: 0; color: var(--text-muted); font-size: 13px; }
-  main { max-width: 880px; margin: 0 auto; padding: 16px 20px 0; display: flex; flex-direction: column; gap: 16px; }
-  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
-  h2.card-title { font-size: 14px; font-weight: 600; margin: 0 0 2px; }
-  p.card-sub { font-size: 12px; color: var(--text-muted); margin: 0 0 12px; }
+  .num { font-family: 'Space Grotesk', system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+  a { color: var(--accent-1); text-decoration: none; }
+  a:hover { color: oklch(74% 0.16 258); }
 
-  /* --- Hero stat: klikatelný, detail (hotovost/kupní síla/investováno) v popupu --- */
-  .stat-block { display: flex; flex-direction: column; gap: 10px; }
-  .stat-tile.hero {
-    background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px;
-    cursor: pointer; text-align: left; width: 100%; font: inherit; color: inherit;
-    transition: background .15s ease, border-color .15s ease;
-  }
-  .stat-tile.hero:hover, .stat-tile.hero:focus-visible { background: var(--surface-2); border-color: rgba(255,255,255,0.18); }
-  .stat-tile .label-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-  .stat-tile .label { font-size: 12px; color: var(--text-muted); }
-  .stat-tile .tap-hint { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 3px; }
-  .stat-tile.hero .value { font-size: 40px; font-weight: 600; font-variant-numeric: proportional-nums; }
-  .stat-tile.hero .value.up { color: var(--good); }
-  .stat-tile.hero .value.down { color: var(--critical); }
-  .stat-tile.hero .value.flat { color: var(--text-primary); }
+  .blob-a { position: fixed; z-index: -1; width: 420px; height: 420px; left: 50%; top: -180px; transform: translateX(-70%);
+    border-radius: 50%; background: radial-gradient(circle, oklch(68% 0.16 258 / 22%), transparent 70%); filter: blur(50px); pointer-events: none; }
+  .blob-b { position: fixed; z-index: -1; width: 380px; height: 380px; left: 50%; top: 320px; transform: translateX(20%);
+    border-radius: 50%; background: radial-gradient(circle, oklch(68% 0.16 305 / 16%), transparent 70%); filter: blur(50px); pointer-events: none; }
 
-  /* --- Hotovost / Investováno - dvě dlaždice v řadě hned pod hero boxem --- */
-  .mini-stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .mini-stat-tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
-  .mini-stat-tile .label { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; }
-  .mini-stat-tile .value { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .delta-row { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
-  .delta-tag { font-size: 11px; color: var(--text-muted); min-width: 108px; }
-  .delta { font-size: 13px; font-weight: 500; }
-  .delta.up { color: var(--good); } .delta.down { color: var(--critical); } .delta.flat { color: var(--text-muted); }
+  main { max-width: 460px; margin: 0 auto; padding: 22px 18px 0; position: relative; }
 
-  /* --- Push notifikace --- */
-  .push-setup { margin-top: 10px; }
-  .push-btn { background: var(--series-1); color: #fff; border: none; border-radius: 8px; padding: 8px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer; }
-  .push-btn:active { opacity: 0.85; }
-  .push-note { font-size: 11.5px; color: var(--text-muted); margin: 0 0 6px; line-height: 1.5; }
-  .push-textarea { width: 100%; box-sizing: border-box; background: var(--surface-2); color: var(--text-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 8px; font-size: 10.5px; font-family: ui-monospace, monospace; margin-bottom: 8px; resize: vertical; }
+  .eyebrow-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .14em; color: var(--text-3); }
+  .demo-chip { display: flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px;
+    background: oklch(78% 0.15 80 / 14%); border: 1px solid oklch(78% 0.15 80 / 30%); }
+  .demo-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--warning); }
+  .demo-chip span { font-size: 10.5px; font-weight: 600; color: var(--warning-ink); letter-spacing: .02em; }
 
-  /* --- Graf --- */
-  .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 4px; }
-  .chart-head-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-  .range-select, .table-toggle {
-    background: var(--surface-2);
-    color: var(--text-primary);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 12.5px;
-    padding: 6px 8px;
-    font-family: inherit;
-    cursor: pointer;
-  }
-  .table-toggle { color: var(--text-secondary); background: transparent; }
+  .card { border-radius: 22px; background: var(--surface-1); border: 1px solid var(--border); padding: 18px 16px; margin-bottom: 14px; }
+  .card-title { font-size: 15px; font-weight: 600; margin: 0 0 2px; }
+  .card-sub { font-size: 11.5px; color: var(--text-3); margin: 0 0 14px; line-height: 1.5; }
+
+  /* hero */
+  .hero-btn { display: block; width: 100%; text-align: left; background: none; border: none; padding: 0; margin-bottom: 18px; cursor: pointer; font: inherit; color: inherit; }
+  .hero-label { font-size: 12.5px; color: var(--text-3); margin-bottom: 6px; }
+  .hero-value { font-size: 44px; font-weight: 700; line-height: 1.05; letter-spacing: -0.01em;
+    background: linear-gradient(135deg, oklch(99% 0.003 265), oklch(80% 0.02 265));
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .pill { display: flex; align-items: center; gap: 5px; padding: 6px 10px 6px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .pill.up { background: oklch(72% 0.17 148 / 14%); border: 1px solid oklch(72% 0.17 148 / 30%); color: var(--good-ink); }
+  .pill.down { background: oklch(70% 0.16 25 / 14%); border: 1px solid oklch(70% 0.16 25 / 30%); color: var(--critical-ink); }
+  .pill.flat { background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2); }
+  .pill .tag { font-size: 10.5px; font-weight: 400; color: var(--text-3); }
+
+  /* range pills */
+  .range-row { display: flex; gap: 7px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 2px; }
+  .range-row::-webkit-scrollbar { display: none; }
+  .range-pill { flex: none; padding: 7px 15px; border-radius: 999px; font-size: 12.5px; cursor: pointer; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-2); font-family: inherit; }
+  .range-pill.active { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); color: #fff; font-weight: 600; border-color: transparent; }
+
+  /* chart */
+  .chart-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .chart-legend { display: flex; gap: 14px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--text-2); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-1); box-shadow: 0 0 8px oklch(68% 0.16 258 / 70%); }
+  .legend-dash { width: 14px; height: 0; border-top: 2px dashed var(--text-4); }
+  .table-toggle { background: transparent; border: 1px solid var(--border); color: var(--text-2); border-radius: 9px; font-size: 12px; padding: 6px 10px; font-family: inherit; cursor: pointer; }
   .table-toggle:hover { background: var(--surface-2); }
-  .chart-legend { display: flex; gap: 16px; margin: 10px 0 12px; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); }
-  .legend-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--series-1); flex-shrink: 0; }
-  .legend-dash { width: 16px; height: 0; border-top: 2px dashed var(--text-muted); flex-shrink: 0; }
   svg.chart { width: 100%; height: auto; overflow: visible; }
-  .gridline { stroke: var(--gridline); stroke-width: 1; }
-  .baseline { stroke: var(--baseline); stroke-width: 1; }
-  .series-line { fill: none; stroke: var(--series-1); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .series-area { fill: var(--series-1-wash); }
-  .bench-line { fill: none; stroke: var(--text-muted); stroke-width: 2; stroke-dasharray: 5 4; stroke-linecap: round; stroke-linejoin: round; }
-  .end-dot { fill: var(--series-1); stroke: var(--surface-1); stroke-width: 2; }
-  .bench-end-dot { fill: var(--text-muted); stroke: var(--surface-1); stroke-width: 2; }
-  .axis-label { fill: var(--text-muted); font-size: 11px; font-family: system-ui, sans-serif; }
-  .end-label { fill: var(--text-primary); font-size: 12px; font-weight: 600; font-family: system-ui, sans-serif; }
-  .bench-end-label { fill: var(--text-muted); font-size: 11px; font-weight: 600; font-family: system-ui, sans-serif; }
-  .hover-dot { fill: var(--series-1); stroke: var(--surface-1); stroke-width: 2; opacity: 0; }
-  .bench-hover-dot { fill: var(--text-muted); stroke: var(--surface-1); stroke-width: 2; opacity: 0; }
-  .crosshair { stroke: var(--baseline); stroke-width: 1; opacity: 0; }
+  .gridline { stroke: oklch(100% 0 0 / 5%); stroke-width: 1; }
+  .baseline { stroke: oklch(100% 0 0 / 10%); stroke-width: 1; }
+  .axis-label { fill: var(--text-4); font-size: 10.5px; font-family: 'IBM Plex Sans', sans-serif; }
+  .end-label { fill: var(--text-1); font-size: 12px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+  .bench-end-label { fill: var(--text-3); font-size: 10.5px; font-weight: 600; font-family: 'Space Grotesk', sans-serif; }
   .chart-wrap { position: relative; }
-  .range-note { font-size: 11px; color: var(--warning); margin: 6px 0 0; }
-  .empty-state { color: var(--text-muted); font-size: 13px; padding: 24px 0; text-align: center; }
+  .range-note { font-size: 11px; color: var(--warning); margin: 8px 0 0; }
+  .empty-state { color: var(--text-3); font-size: 13px; padding: 24px 0; text-align: center; }
+  .tooltip { position: absolute; pointer-events: none; background: var(--surface-2); border: 1px solid var(--border-2);
+    border-radius: 10px; padding: 8px 10px; font-size: 12px; color: var(--text-1); opacity: 0;
+    transform: translate(-50%, -112%); white-space: nowrap; z-index: 5; box-shadow: 0 12px 30px -10px oklch(0% 0 0 / 60%); }
+  .tooltip .t-date { color: var(--text-3); margin-bottom: 2px; }
+  .tooltip .t-bench { color: var(--text-3); margin-top: 2px; }
+  table.data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  table.data-table th { text-align: left; color: var(--text-3); font-weight: 500; font-size: 10.5px; text-transform: uppercase; letter-spacing: .03em; padding: 0 8px 8px; }
+  table.data-table td { padding: 9px 8px; border-top: 1px solid var(--border); }
+  table.data-table td.num { text-align: right; white-space: nowrap; }
 
-  .tooltip {
-    position: absolute; pointer-events: none; background: var(--surface-2); border: 1px solid var(--border);
-    border-radius: 8px; padding: 8px 10px; font-size: 12px; color: var(--text-primary); opacity: 0;
-    transform: translate(-50%, -110%); white-space: nowrap; z-index: 5;
-  }
-  .tooltip .t-date { color: var(--text-muted); margin-bottom: 2px; }
-  .tooltip .t-bench { color: var(--text-muted); margin-top: 2px; }
+  /* stat grid */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .stat-tile { border-radius: 16px; background: var(--surface-2); border: 1px solid var(--border); padding: 12px 14px; }
+  .stat-tile .label { font-size: 10.5px; color: var(--text-3); margin-bottom: 6px; }
+  .stat-tile .value { font-size: 16px; font-weight: 700; }
+  .stat-tile .value.up { color: var(--good); } .stat-tile .value.down { color: var(--critical); } .stat-tile .value.flat { color: var(--text-1); }
+  .stat-tile .sub { font-size: 9.5px; color: var(--text-4); margin-top: 3px; }
+  .ring-tile { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; margin-top: 9px; }
+  .ring-value { fill: var(--text-1); font-size: 15px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
 
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; color: var(--text-muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .02em; padding: 0 10px 8px; }
-  td { padding: 10px; border-top: 1px solid var(--gridline); vertical-align: top; }
-  td.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+  /* donut */
+  .donut-row { display: flex; justify-content: center; margin-bottom: 16px; }
+  .donut-center-label { fill: var(--text-3); font-size: 10px; font-family: 'IBM Plex Sans', sans-serif; }
+  .donut-center-value { fill: var(--text-1); font-size: 15px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+  .legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .legend-chip { display: flex; align-items: center; gap: 7px; padding: 8px 10px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--border); min-width: 0; }
+  .legend-swatch { width: 9px; height: 9px; border-radius: 3px; flex: none; }
+  .legend-name { font-size: 11.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .legend-val { font-size: 10px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  /* --- Výkonnost --- */
-  .perf-callout {
-    display: flex; justify-content: space-between; align-items: center; gap: 10px;
-    background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
-    padding: 12px 14px; margin-bottom: 12px;
-  }
-  .perf-callout-label { font-size: 12.5px; color: var(--text-secondary); }
-  .perf-callout-value { font-size: 15px; font-weight: 600; white-space: nowrap; }
-  .perf-callout-value.up { color: var(--good); } .perf-callout-value.down { color: var(--critical); } .perf-callout-value.flat { color: var(--text-muted); }
-  .perf-callout-note { font-size: 11px; color: var(--text-muted); margin: -4px 0 12px; }
-  .perf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .perf-tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
-  .perf-tile .label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
-  .perf-tile .value { font-size: 16px; font-weight: 600; }
-  .perf-tile .value.up { color: var(--good); } .perf-tile .value.down { color: var(--critical); } .perf-tile .value.flat { color: var(--text-primary); }
-  .perf-sub { font-size: 10.5px; color: var(--text-muted); margin-top: 3px; }
+  /* timeline */
+  .timeline { position: relative; padding-left: 26px; }
+  .timeline-line { position: absolute; left: 9px; top: 4px; bottom: 4px; width: 2px; background: linear-gradient(180deg, var(--border-2), transparent); }
+  .t-row { position: relative; margin-bottom: 15px; cursor: pointer; background: none; border: none; padding: 0; width: 100%; text-align: left; font: inherit; color: inherit; }
+  .t-row:last-child { margin-bottom: 0; }
+  .t-node { position: absolute; left: -26px; top: 1px; width: 19px; height: 19px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .t-node.ok { background: oklch(72% 0.17 148 / 16%); border: 1.5px solid oklch(72% 0.17 148 / 50%); box-shadow: 0 0 12px oklch(72% 0.17 148 / 30%); }
+  .t-node.blocked { background: oklch(78% 0.15 80 / 16%); border: 1.5px solid oklch(78% 0.15 80 / 50%); box-shadow: 0 0 12px oklch(78% 0.15 80 / 30%); }
+  .t-node.none { background: var(--surface-3); border: 1.5px solid var(--border-2); }
+  .t-body { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .t-date { font-size: 13.5px; font-weight: 600; }
+  .t-status { font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+  .t-status.blocked { color: var(--warning-ink); }
+  .t-value { text-align: right; flex: none; }
+  .t-main { font-size: 13px; font-weight: 700; }
+  .t-delta { font-size: 11px; font-weight: 600; margin-top: 1px; }
+  .t-delta.up { color: var(--good); } .t-delta.down { color: var(--critical); } .t-delta.flat { color: var(--text-3); }
+  .log-limit-note { font-size: 11px; color: var(--text-4); margin: -4px 0 12px; }
+  .history-link { display: block; text-align: center; margin-top: 14px; padding: 11px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2); font-size: 12.5px; font-weight: 600; }
 
-  /* --- Rozložení portfolia (donut) --- */
-  .alloc-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-  .alloc-legend { width: 100%; display: flex; flex-direction: column; gap: 8px; }
-  .legend-row { display: flex; align-items: center; gap: 8px; font-size: 12.5px; }
-  .legend-swatch { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
-  .legend-label { flex-shrink: 0; min-width: 46px; font-weight: 500; }
-  .legend-value { margin-left: auto; color: var(--text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .legend-pct { color: var(--text-muted); }
-  .donut-center-label { fill: var(--text-muted); font-size: 10px; font-family: system-ui, sans-serif; }
-  .donut-center-value { fill: var(--text-primary); font-size: 13px; font-weight: 600; font-family: system-ui, sans-serif; }
+  /* push */
+  .push-note { font-size: 11px; color: var(--text-3); margin: 0 0 8px; line-height: 1.55; }
+  .push-btn { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; }
+  .push-textarea { width: 100%; background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border); border-radius: 8px; padding: 8px; font-size: 10px; font-family: ui-monospace, monospace; margin-bottom: 8px; resize: vertical; }
 
-  /* --- Denní log: klikatelné řádky (stejný jazyk jako karty Portfolia) --- */
-  .log-list { display: flex; flex-direction: column; gap: 8px; }
-  .log-row {
-    display: flex; align-items: center; gap: 12px;
-    background: var(--surface-2); border: 1px solid var(--border);
-    border-radius: 12px; padding: 12px 14px;
-    cursor: pointer; text-align: left; width: 100%;
-    font: inherit; color: inherit;
-    transition: background .15s ease, border-color .15s ease;
-  }
-  .log-row:hover, .log-row:focus-visible { background: var(--surface-3); border-color: rgba(255,255,255,0.18); }
-  .log-icon {
-    width: 40px; height: 40px; border-radius: 999px; flex: none;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px; font-weight: 700;
-  }
-  .log-icon.ok      { background: rgba(47,191,79,0.16);  color: var(--good); }
-  .log-icon.blocked { background: rgba(250,178,25,0.16); color: var(--warning); }
-  .log-icon.none    { background: rgba(255,255,255,0.06); color: var(--text-muted); }
-  .log-info { flex: 1; min-width: 0; }
-  .log-date { font-size: 14px; font-weight: 600; }
-  .log-status { font-size: 12px; color: var(--text-muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .log-value { text-align: right; flex: none; display: flex; align-items: center; gap: 8px; }
-  .log-value-nums { text-align: right; }
-  .log-main { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .log-change { font-size: 12.5px; font-weight: 600; margin-top: 2px; white-space: nowrap; }
-  .log-change.up { color: var(--good); }
-  .log-change.down { color: var(--critical); }
-  .log-change.flat { color: var(--text-muted); }
-  .log-chevron { color: var(--text-muted); font-size: 15px; flex: none; }
-  .log-limit-note { font-size: 11px; color: var(--text-muted); margin: 2px 0 12px; }
-  .history-link {
-    display: block; text-align: center; margin-top: 12px; padding: 11px;
-    border: 1px solid var(--border); border-radius: 10px; color: var(--text-secondary);
-    text-decoration: none; font-size: 13px; background: var(--surface-2);
-  }
-  .history-link:active { background: var(--surface-1); }
+  footer { max-width: 460px; margin: 22px auto 0; padding: 0 18px; color: var(--text-4); font-size: 10.5px; line-height: 1.6; position: relative; }
 
-  footer { max-width: 880px; margin: 24px auto 0; padding: 0 20px; color: var(--text-muted); font-size: 11px; }
+  /* bottom tab bar */
+  .tabbar-wrap { position: fixed; left: 0; right: 0; bottom: 18px; display: flex; justify-content: center; z-index: 30; pointer-events: none; }
+  .tabbar { pointer-events: auto; width: calc(100% - 32px); max-width: 428px; height: 64px; border-radius: 22px;
+    background: oklch(21% 0.03 265 / 92%); backdrop-filter: blur(14px); border: 1px solid var(--border-2);
+    display: flex; box-shadow: 0 16px 40px -12px oklch(0% 0 0 / 55%); }
+  .tab-link { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; position: relative; text-decoration: none; color: var(--text-4); }
+  .tab-link svg { stroke: var(--text-4); }
+  .tab-link span { font-size: 10px; font-weight: 500; }
+  .tab-link.active { color: var(--text-1); }
+  .tab-link.active svg { stroke: var(--text-1); }
+  .tab-link.active span { font-weight: 600; }
+  .tab-link.active .tab-indicator { position: absolute; top: 8px; width: 26px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); }
 
-  /* --- Navigace mezi stránkami --- */
-  .top-nav { display: flex; gap: 4px; max-width: 880px; margin: 0 auto; padding: 0 20px; border-bottom: 1px solid var(--border); overflow-x: auto; }
-  .nav-link { padding: 12px 14px; font-size: 13px; color: var(--text-muted); text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; }
-  .nav-link:hover { color: var(--text-secondary); }
-  .nav-link.active { color: var(--text-primary); border-bottom-color: var(--series-1); font-weight: 600; }
-
-  /* --- Vysouvací popup (bottom sheet) - sdílený pro detail účtu i denní log --- */
-  .sheet-backdrop {
-    position: fixed; inset: 0; background: rgba(0,0,0,.55);
-    opacity: 0; pointer-events: none; transition: opacity .22s ease; z-index: 40;
-  }
+  /* bottom sheet */
+  .sheet-backdrop { position: fixed; inset: 0; background: oklch(0% 0 0 / 55%); opacity: 0; pointer-events: none; transition: opacity .22s ease; z-index: 40; }
   .sheet-backdrop.open { opacity: 1; pointer-events: auto; }
-  .bottom-sheet {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 41;
-    max-width: 620px; margin: 0 auto;
-    background: var(--surface-1); border: 1px solid var(--border); border-bottom: none;
-    border-radius: 18px 18px 0 0; padding: 10px 20px calc(24px + env(safe-area-inset-bottom));
-    max-height: 80vh; overflow-y: auto;
-    transform: translateY(100%); transition: transform .3s cubic-bezier(.22,.68,0,1);
-    box-shadow: 0 -8px 30px rgba(0,0,0,.4);
-  }
+  .bottom-sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 41; max-width: 460px; margin: 0 auto;
+    background: var(--surface-1); border: 1px solid var(--border-2); border-bottom: none; border-radius: 24px 24px 0 0;
+    padding: 10px 20px calc(24px + env(safe-area-inset-bottom)); max-height: 80vh; overflow-y: auto;
+    transform: translateY(100%); transition: transform .3s cubic-bezier(.22,.68,0,1); box-shadow: 0 -20px 60px oklch(0% 0 0 / 55%); }
   .bottom-sheet.open { transform: translateY(0); }
-  .sheet-handle { width: 36px; height: 4px; border-radius: 999px; background: var(--border); margin: 2px auto 16px; }
+  .sheet-handle { width: 36px; height: 4px; border-radius: 999px; background: var(--border-2); margin: 2px auto 16px; }
   .sheet-header { display: flex; align-items: center; gap: 10px; }
-  .sheet-header .log-icon { width: 36px; height: 36px; font-size: 13px; }
   .sheet-title-wrap { flex: 1; min-width: 0; }
   .sheet-title { font-weight: 700; font-size: 15px; }
-  .sheet-sub { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
-  .sheet-close {
-    flex: none; width: 28px; height: 28px; border-radius: 999px;
-    background: var(--surface-2); border: 1px solid var(--border); color: var(--text-secondary);
-    font-size: 14px; line-height: 1; cursor: pointer;
-  }
+  .sheet-sub { font-size: 12px; color: var(--text-3); margin-top: 1px; }
+  .sheet-close { flex: none; width: 28px; height: 28px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2); font-size: 14px; cursor: pointer; }
   .sheet-meta { display: flex; gap: 18px; flex-wrap: wrap; margin: 16px 0; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .sheet-meta-item .sm-label { font-size: 10.5px; color: var(--text-muted); margin-bottom: 3px; }
-  .sheet-meta-item .sm-value { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .sheet-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; margin: 0 0 8px; }
-  .sheet-summary { font-size: 13.5px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 16px; }
-  .sheet-note { font-size: 11.5px; color: var(--text-muted); line-height: 1.55; margin: 4px 0 0; }
-  .sheet-note strong { color: var(--text-secondary); font-weight: 600; }
-  .sheet-trade { padding: 10px 12px; margin-bottom: 8px; background: var(--surface-2); border-radius: 10px; font-size: 12.5px; }
-  .sheet-trade .st-head { display: flex; align-items: center; gap: 8px; font-weight: 600; }
-  .sheet-trade .st-badge { font-size: 10.5px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--border); font-weight: 500; }
+  .sm-label { font-size: 10.5px; color: var(--text-3); margin-bottom: 3px; }
+  .sm-value { font-size: 13px; font-weight: 700; }
+  .sheet-label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: .04em; margin: 0 0 8px; }
+  .sheet-summary { font-size: 13.5px; line-height: 1.6; color: var(--text-2); margin: 0 0 16px; }
+  .sheet-note { font-size: 11.5px; color: var(--text-3); line-height: 1.55; margin: 4px 0 0; }
+  .sheet-trade { padding: 10px 12px; margin-bottom: 8px; background: var(--surface-2); border-radius: 12px; font-size: 12.5px; }
+  .sheet-trade .st-head { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+  .sheet-trade .st-badge { font-size: 10.5px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--border); font-weight: 600; }
   .sheet-trade .st-badge.buy { color: var(--good); }
-  .sheet-trade .st-reasoning { color: var(--text-secondary); display: block; margin-top: 5px; line-height: 1.5; }
-  .sheet-blocked { padding: 10px 12px; margin-bottom: 8px; background: rgba(250,178,25,0.08); border: 1px solid rgba(250,178,25,0.25); border-radius: 10px; font-size: 12.5px; color: var(--warning); }
+  .sheet-trade .st-reasoning { color: var(--text-2); display: block; margin-top: 5px; line-height: 1.5; }
+  .sheet-blocked { padding: 10px 12px; margin-bottom: 8px; background: oklch(78% 0.15 80 / 8%); border: 1px solid oklch(78% 0.15 80 / 25%); border-radius: 12px; font-size: 12.5px; color: var(--warning-ink); }
 </style>
 </head>
 <body>
-
-<nav class="top-nav">
-  <a href="index.html" class="nav-link active">Přehled</a>
-  <a href="positions.html" class="nav-link">Portfolio</a>
-  <a href="history.html" class="nav-link">Celá historie</a>
-</nav>
-
-<header>
-  <h1>AI Trading Bot</h1>
-  <p id="last-updated">Načítám data…</p>
-  <div class="push-setup" id="push-setup"></div>
-</header>
+<div class="blob-a"></div>
+<div class="blob-b"></div>
 
 <main>
-  <div class="stat-block" id="stat-block" style="display:none;">
-    <button type="button" class="stat-tile hero" id="hero-btn">
-      <div class="label-row">
-        <span class="label">Aktuální hodnota portfolia</span>
-        <span class="tap-hint">Detail ›</span>
-      </div>
-      <div class="value" id="hero-value"></div>
-      <div id="hero-deltas"></div>
-    </button>
-    <div class="mini-stat-row" id="mini-stat-row">
-      <div class="mini-stat-tile">
-        <div class="label">Hotovost</div>
-        <div class="value" id="mini-cash"></div>
-      </div>
-      <div class="mini-stat-tile">
-        <div class="label">Investováno</div>
-        <div class="value" id="mini-invested"></div>
-      </div>
-    </div>
+  <div class="eyebrow-row">
+    <div class="eyebrow">AI TRADING BOT</div>
+    <div class="demo-chip"><div class="dot"></div><span>PAPER · DEMO</span></div>
   </div>
 
-  <section class="card chart-card" id="chart-card" style="display:none;">
+  <div id="push-setup"></div>
+
+  <div id="stat-block" style="display:none;">
+    <button type="button" class="hero-btn" id="hero-btn">
+      <div class="hero-label" id="hero-label">Hodnota portfolia</div>
+      <div class="hero-value" id="hero-value"></div>
+      <div class="pill-row" id="hero-pills"></div>
+    </button>
+  </div>
+
+  <section class="card" id="chart-card" style="display:none;">
     <div class="chart-head">
-      <div><h2 class="card-title">Vývoj hodnoty portfolia</h2><p class="card-sub" id="chart-sub" style="margin:0;">&nbsp;</p></div>
-      <div class="chart-head-controls">
-        <select id="range-select" class="range-select">
-          <option value="daily">Denní</option>
-          <option value="weekly">Týdenní</option>
-          <option value="monthly">Měsíční</option>
-          <option value="yearly">Roční</option>
-          <option value="all">Celkový</option>
-        </select>
-        <button class="table-toggle" id="toggle-table-view" aria-pressed="false">Tabulka</button>
+      <div>
+        <h2 class="card-title">Vývoj portfolia</h2>
+        <p class="card-sub" id="chart-sub" style="margin:0;">&nbsp;</p>
       </div>
+      <button class="table-toggle" id="toggle-table-view" aria-pressed="false">Tabulka</button>
     </div>
-    <div class="chart-legend" id="chart-legend" style="display:none;">
+    <div class="chart-legend" id="chart-legend" style="display:none;margin-bottom:12px;">
       <span class="legend-item"><span class="legend-dot"></span>Portfolio (AI)</span>
-      <span class="legend-item"><span class="legend-dash"></span>Kdyby jen drž a čekej (CSPX)</span>
+      <span class="legend-item"><span class="legend-dash"></span>Drž a čekej (CSPX)</span>
+    </div>
+    <div class="range-row" id="range-row">
+      <div class="range-pill active" data-period="daily">Denní</div>
+      <div class="range-pill" data-period="weekly">Týdenní</div>
+      <div class="range-pill" data-period="monthly">Měsíční</div>
+      <div class="range-pill" data-period="yearly">Roční</div>
+      <div class="range-pill" data-period="all">Celkem</div>
     </div>
     <div class="chart-wrap" id="chart-wrap"></div>
     <p class="range-note" id="range-note"></p>
@@ -312,31 +242,43 @@
   <section class="card" id="perf-card" style="display:none;">
     <h2 class="card-title">Výkonnost</h2>
     <p class="card-sub">Realizované a nerealizované zisky, riziko a aktivita AI za celou historii.</p>
-    <div id="perf-callout-wrap"></div>
-    <div class="perf-grid" id="perf-grid"></div>
+    <div class="stat-grid" id="perf-grid"></div>
   </section>
 
   <section class="card" id="alloc-card" style="display:none;">
     <h2 class="card-title">Rozložení portfolia</h2>
-    <p class="card-sub">Aktuální alokace mezi hotovost a otevřené pozice.</p>
-    <div class="alloc-wrap">
-      <div id="donut-wrap"></div>
-      <div class="alloc-legend" id="donut-legend"></div>
-    </div>
+    <p class="card-sub">Hotovost a otevřené pozice.</p>
+    <div class="donut-row" id="donut-wrap"></div>
+    <div class="legend-grid" id="donut-legend"></div>
   </section>
 
   <section class="card" id="log-card" style="display:none;">
-    <h2 class="card-title">Denní log</h2>
+    <h2 class="card-title">Aktivita</h2>
     <p class="card-sub">Klepni na den pro zdůvodnění AI a přehled obchodů.</p>
     <p class="log-limit-note" id="log-limit-note"></p>
-    <div class="log-list" id="log-list"></div>
+    <div class="timeline" id="timeline">
+      <div class="timeline-line"></div>
+      <div id="log-list"></div>
+    </div>
     <a class="history-link" href="history.html">Zobrazit celou historii →</a>
   </section>
 </main>
 
-<footer>
-  Automaticky generováno GitHub Actions · data z Trading 212 (demo účet) · rozhodnutí Claude
-</footer>
+<footer>Automaticky generováno GitHub Actions · data z Trading 212 (demo účet) · rozhodnutí Claude</footer>
+
+<div class="tabbar-wrap">
+  <nav class="tabbar">
+    <a href="index.html" class="tab-link active"><div class="tab-indicator"></div>
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="12" width="4" height="8" rx="1"/><rect x="10" y="7" width="4" height="13" rx="1"/><rect x="16" y="3" width="4" height="17" rx="1"/></svg>
+      <span>Přehled</span></a>
+    <a href="positions.html" class="tab-link">
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg>
+      <span>Portfolio</span></a>
+    <a href="history.html" class="tab-link">
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+      <span>Historie</span></a>
+  </nav>
+</div>
 
 <div class="sheet-backdrop" id="sheet-backdrop"></div>
 <div class="bottom-sheet" id="bottom-sheet" role="dialog" aria-modal="true"></div>
@@ -368,7 +310,10 @@ function fmtDateForPeriod(d, period){
 function dirClass(v){ return v > 0.005 ? 'up' : (v < -0.005 ? 'down' : 'flat'); }
 function dirArrow(v){ return v > 0.005 ? '↑' : (v < -0.005 ? '↓' : '·'); }
 
-/* --- Sdílený bottom sheet (detail účtu i denní log) --- */
+/* kategorická paleta nástrojů - sdílená napříč appkou (Přehled/Portfolio) */
+const CAT_HUES = { CSPX:258, AAPL:25, MSFT:148, NVDA:80, JNJ:340, GOOGL:190, AMZN:305 };
+function catColor(sym, a){ const h = CAT_HUES[sym]; return h != null ? `oklch(70% 0.16 ${h} / ${a})` : `oklch(55% 0.01 265 / ${a})`; }
+
 const backdrop = document.getElementById('sheet-backdrop');
 const sheetEl = document.getElementById('bottom-sheet');
 function openSheetEl(){ backdrop.classList.add('open'); sheetEl.classList.add('open'); document.body.style.overflow = 'hidden'; }
@@ -376,20 +321,8 @@ function closeSheet(){ backdrop.classList.remove('open'); sheetEl.classList.remo
 backdrop.addEventListener('click', closeSheet);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
 
-// POZOR - přidáno 21.8.2026: appka umí rozeznat, když uživatel na T212 účet
-// ručně přidá/vybere hotovost mimo appku (viz main.py compute_cash_flow_delta,
-// pole "cash_flow_net" u každého dne) - bez tohohle by vklad vypadal jako
-// obchodní zisk appky. U dní PŘED zavedením téhle featury pole chybí, cf()
-// tam vrátí 0 (appka se chová přesně jako předtím).
 function cf(entry){ return entry.cash_flow_net || 0; }
 
-// TWR (time-weighted return) index - "jak by appka vydělávala, kdyby žádné
-// vklady/výběry nebyly" - eliminuje efekt toho, KDY přesně vklad přišel.
-// index[0] = 1 (100 %); index[i] = index[i-1] * (V[i] - vklad[i]) / V[i-1] -
-// vklad se tak do výkonu toho dne nezapočítá (bere se, že přišel na začátku
-// dne, ne jako by ho appka "vydělala"). Používá se pro "Od začátku" (%),
-// "Denní změna" (%) a "Max. propad", aby vklad/výběr žádnou z těch tří
-// hodnot nezkreslil.
 function twrIndexSeries(entries){
   const idx = [1];
   for (let i = 1; i < entries.length; i++) {
@@ -400,13 +333,6 @@ function twrIndexSeries(entries){
   return idx;
 }
 
-// Přepočte benchmark cenu (CSPX) na hodnotu "kdyby jsi od prvního bodu v pohledu
-// místo AI jen koupil a držel CSPX" - VČETNĚ stejných vkladů/výběrů ve stejnou
-// dobu (jinak by pozdější vklad appku vykreslil jako by "porazila CSPX" jen
-// díky tomu, že jsi přidal peníze, ne díky rozhodování AI - viz diskuze v chatu
-// 21.8.2026). Vrací null, pokud pro aktuální rozsah chybí byť jediný den se
-// zaznamenanou cenou (např. dny před zavedením trackování) - v tom případě se
-// benchmark zatím nezobrazuje, místo zavádějícího výpadku.
 function benchmarkSeries(entries){
   if (!entries.every(e => typeof e.spy_price === 'number')) return null;
   const shadow = [entries[0].portfolio_value];
@@ -417,6 +343,14 @@ function benchmarkSeries(entries){
   return shadow;
 }
 
+function pillHtml(dir, amount, pct, tag){
+  const arrow = dir === 'up' ? '<path d="M7 17L17 7M17 7H9M17 7V15"/>' : dir === 'down' ? '<path d="M7 7l10 10M17 7v10H7"/>' : '<path d="M5 12h14"/>';
+  return `<div class="pill ${dir}">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${arrow}</svg>
+    <span class="num">${amount} (${pct})</span><span class="tag">${tag}</span>
+  </div>`;
+}
+
 function renderStats(data){
   const entries = data.entries;
   const last = entries[entries.length-1];
@@ -424,10 +358,6 @@ function renderStats(data){
 
   const start = data.starting_value ?? last.portfolio_value;
   const netDeposits = last.net_deposits_cum || 0;
-  // Kč částka "od začátku" je bez vkladů/výběrů (kolik appka reálně vydělala/
-  // prodělala nad rámec toho, co jsi do ní sám vložil) - % je TWR (viz výše),
-  // takže obě čísla mají stejný smysl: "jak se dařilo AI", ne "kolik je teď
-  // na účtu víc, než na začátku".
   const delta = last.portfolio_value - start - netDeposits;
   const twrIdx = twrIndexSeries(entries);
   const deltaPct = (twrIdx[twrIdx.length - 1] - 1) * 100;
@@ -436,38 +366,17 @@ function renderStats(data){
   const dailyDelta = prev ? (last.portfolio_value - todayFlow) - prev.portfolio_value : null;
   const dailyPct = (prev && prev.portfolio_value) ? (dailyDelta/prev.portfolio_value)*100 : null;
 
-  const heroValueEl = document.getElementById('hero-value');
-  heroValueEl.textContent = fmtMoney(last.portfolio_value);
-  // Barva čísla podle toho, jestli je appka celkově v plusu/mínusu vůči
-  // počáteční hodnotě (stejné srovnání jako řádek "Od začátku" pod ním) -
-  // ne vůči aktuální hotovosti, ta je prakticky vždy nižší, jakmile appka drží
-  // jakoukoliv pozici, takže by jako signál zisku/ztráty nic neříkala.
-  heroValueEl.className = 'value ' + dirClass(delta);
+  document.getElementById('hero-value').textContent = fmtMoney(last.portfolio_value);
+  document.getElementById('hero-label').textContent = 'Hodnota portfolia · od ' + fmtDate(entries[0].date);
 
-  const invested = (last.positions || []).reduce((s,p) => s + p.market_value, 0);
-  document.getElementById('mini-cash').textContent = fmtMoney(last.cash);
-  document.getElementById('mini-invested').textContent = fmtMoney(invested);
-
-  document.getElementById('hero-deltas').innerHTML = `
-    <div class="delta-row">
-      <span class="delta-tag">Od začátku</span>
-      <span class="delta ${dirClass(delta)}">${dirArrow(delta)} ${fmtMoney(Math.abs(delta))} (${delta>=0?'+':''}${deltaPct.toFixed(2)} %)</span>
-    </div>
-    ${dailyDelta !== null ? `
-    <div class="delta-row">
-      <span class="delta-tag">Denní změna</span>
-      <span class="delta ${dirClass(dailyDelta)}">${dirArrow(dailyDelta)} ${fmtMoney(Math.abs(dailyDelta))} (${dailyPct>=0?'+':''}${dailyPct.toFixed(2)} %) oproti včerejšku</span>
-    </div>` : ''}
-    ${todayFlow !== 0 ? `
-    <div class="delta-row">
-      <span class="delta-tag">${todayFlow > 0 ? 'Vklad dnes' : 'Výběr dnes'}</span>
-      <span class="delta flat">${todayFlow > 0 ? '+' : ''}${fmtMoney(todayFlow)} mimo appku (nepočítá se do výkonu)</span>
-    </div>` : ''}
-  `;
-
-  document.getElementById('last-updated').textContent =
-    'Poslední aktualizace: ' + fmtDate(last.date) + ' · ' + entries.length + ' ' +
-    (entries.length === 1 ? 'den v historii' : 'dní v historii');
+  let pills = pillHtml(dirClass(delta), (delta>=0?'+':'-') + fmtMoney(Math.abs(delta)), (delta>=0?'+':'')+deltaPct.toFixed(2)+' %', 'od začátku');
+  if (dailyDelta !== null) {
+    pills += pillHtml(dirClass(dailyDelta), (dailyDelta>=0?'+':'-') + fmtMoney(Math.abs(dailyDelta)), (dailyPct>=0?'+':'')+dailyPct.toFixed(2)+' %', 'dnes');
+  }
+  if (todayFlow !== 0) {
+    pills += pillHtml('flat', (todayFlow>0?'+':'-')+fmtMoney(Math.abs(todayFlow)), todayFlow>0?'vklad':'výběr', 'mimo appku');
+  }
+  document.getElementById('hero-pills').innerHTML = pills;
 
   document.getElementById('stat-block').style.display = '';
   document.getElementById('hero-btn').addEventListener('click', () => openAccountSheet(last));
@@ -485,9 +394,9 @@ function openAccountSheet(last){
       <button type="button" class="sheet-close" id="sheet-close" aria-label="Zavřít">✕</button>
     </div>
     <div class="sheet-meta">
-      <div class="sheet-meta-item"><div class="sm-label">Hotovost</div><div class="sm-value">${fmtMoney(last.cash)}</div></div>
-      <div class="sheet-meta-item"><div class="sm-label">Kupní síla</div><div class="sm-value">${fmtMoney(last.buying_power)}</div></div>
-      <div class="sheet-meta-item"><div class="sm-label">Investováno</div><div class="sm-value">${fmtMoney(invested)}</div></div>
+      <div><div class="sm-label">Hotovost</div><div class="sm-value">${fmtMoney(last.cash)}</div></div>
+      <div><div class="sm-label">Kupní síla</div><div class="sm-value">${fmtMoney(last.buying_power)}</div></div>
+      <div><div class="sm-label">Investováno</div><div class="sm-value">${fmtMoney(invested)}</div></div>
     </div>
     <p class="sheet-note">ⓘ Toto je DEMO/paper účet u Trading 212 s fiktivními penězi — žádný skutečný výběr
       zatím není možný, dokud appka neběží na ostrém účtu (což zatím záměrně není zapnuté).</p>`;
@@ -508,10 +417,10 @@ function aggregateEntries(entries, period){
       return monday.toISOString().slice(0,10);
     }
     : period === 'monthly' ? d => d.slice(0,7)
-    : d => d.slice(0,4); // yearly
+    : d => d.slice(0,4);
 
   const groups = new Map();
-  entries.forEach(e => { groups.set(keyFn(e.date), e); }); // poslední den v dané skupině "vyhraje"
+  entries.forEach(e => { groups.set(keyFn(e.date), e); });
   let result = Array.from(groups.values());
   if (period === 'weekly') result = result.slice(-26);
   if (period === 'monthly') result = result.slice(-24);
@@ -520,30 +429,27 @@ function aggregateEntries(entries, period){
   return { data: result, fellBack: false };
 }
 
-let currentEntries = [];
 let currentPeriod = 'daily';
 let tableViewOn = false;
 
 function renderChart(data, period){
   currentPeriod = period;
   const wrap = document.getElementById('chart-wrap');
-  const toggleBtn = document.getElementById('toggle-table-view');
+  const rangeRow = document.getElementById('range-row');
+  rangeRow.querySelectorAll('.range-pill').forEach(p => p.classList.toggle('active', p.dataset.period === period));
 
   if (data.entries.length < 2) {
     document.getElementById('chart-sub').textContent = 'Historie se teprve začíná budovat.';
     document.getElementById('chart-legend').style.display = 'none';
     document.getElementById('range-note').textContent = '';
     wrap.innerHTML = `<div class="empty-state">Zatím je k dispozici jen jeden den dat — graf se objeví, jakmile přibude druhý den historie.</div>`;
-    toggleBtn.style.display = 'none';
     return;
   }
-  toggleBtn.style.display = '';
 
   const { data: entries, fellBack } = aggregateEntries(data.entries, period);
-  currentEntries = entries;
   const bench = benchmarkSeries(entries);
   const hasBench = bench !== null;
-  document.getElementById('chart-legend').style.display = hasBench ? '' : 'none';
+  document.getElementById('chart-legend').style.display = hasBench ? 'flex' : 'none';
 
   document.getElementById('chart-sub').textContent =
     fmtDateForPeriod(entries[0].date, period) + ' – ' + fmtDateForPeriod(entries[entries.length-1].date, period);
@@ -553,10 +459,8 @@ function renderChart(data, period){
 
   if (tableViewOn) { renderTable(entries, hasBench, bench); return; }
 
-  const W=800,H=260,padL=56,padR=16,padT=16,padB=28, plotW=W-padL-padR, plotH=H-padT-padB;
-  const values = hasBench
-    ? entries.map((e,i)=>e.portfolio_value).concat(bench)
-    : entries.map(e=>e.portfolio_value);
+  const W=420,H=190,padL=52,padR=8,padT=14,padB=22, plotW=W-padL-padR, plotH=H-padT-padB;
+  const values = hasBench ? entries.map(e=>e.portfolio_value).concat(bench) : entries.map(e=>e.portfolio_value);
   let min=Math.min(...values), max=Math.max(...values);
   if(min===max){min-=1;max+=1;}
   const pad=(max-min)*0.12; min-=pad; max+=pad;
@@ -573,7 +477,7 @@ function renderChart(data, period){
   const lastX=x(entries.length-1), lastY=y(entries[entries.length-1].portfolio_value);
   let xLabels='';
   [0, entries.length-1].forEach(i=>{
-    xLabels += `<text class="axis-label" x="${x(i).toFixed(1)}" y="${H-6}" text-anchor="${i===0?'start':'end'}">${fmtDateForPeriod(entries[i].date, period)}</text>`;
+    xLabels += `<text class="axis-label" x="${x(i).toFixed(1)}" y="${H-4}" text-anchor="${i===0?'start':'end'}">${fmtDateForPeriod(entries[i].date, period)}</text>`;
   });
 
   let benchSvg = '', benchHoverDots = '';
@@ -581,30 +485,38 @@ function renderChart(data, period){
     const benchPts = entries.map((e,i)=>`${x(i).toFixed(1)},${y(bench[i]).toFixed(1)}`).join(' L ');
     const benchLastY = y(bench[bench.length-1]);
     benchSvg = `
-      <path class="bench-line" d="M ${benchPts}" />
-      <circle class="bench-end-dot" r="3.5" cx="${lastX.toFixed(1)}" cy="${benchLastY.toFixed(1)}" />
-      <text class="bench-end-label" x="${(lastX-8).toFixed(1)}" y="${(benchLastY+16).toFixed(1)}" text-anchor="end">${fmtMoneyCompact(bench[bench.length-1])}</text>`;
+      <path fill="none" stroke="oklch(52% 0.01 265)" stroke-width="1.75" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round" d="M ${benchPts}" />
+      <circle r="3.2" cx="${lastX.toFixed(1)}" cy="${benchLastY.toFixed(1)}" fill="oklch(52% 0.01 265)" stroke="var(--surface-1)" stroke-width="2" />
+      <text class="bench-end-label" x="${(lastX-8).toFixed(1)}" y="${(benchLastY+15).toFixed(1)}" text-anchor="end">${fmtMoneyCompact(bench[bench.length-1])}</text>`;
     entries.forEach((e,i)=>{
-      benchHoverDots += `<circle class="bench-hover-dot" data-i="${i}" r="5" cx="${x(i).toFixed(1)}" cy="${y(bench[i]).toFixed(1)}" />`;
+      benchHoverDots += `<circle class="bench-hd" data-i="${i}" r="5" cx="${x(i).toFixed(1)}" cy="${y(bench[i]).toFixed(1)}" fill="oklch(52% 0.01 265)" stroke="var(--surface-1)" stroke-width="2" opacity="0" />`;
     });
   }
 
   let hoverDots = '';
   entries.forEach((e,i)=>{
-    hoverDots += `<circle class="hover-dot" data-i="${i}" r="6" cx="${x(i).toFixed(1)}" cy="${y(e.portfolio_value).toFixed(1)}" />`;
+    hoverDots += `<circle class="hd" data-i="${i}" r="6" cx="${x(i).toFixed(1)}" cy="${y(e.portfolio_value).toFixed(1)}" fill="var(--accent-1)" stroke="var(--surface-1)" stroke-width="2" opacity="0" />`;
   });
 
   wrap.innerHTML = `
     <svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" id="chart-svg">
+      <defs>
+        <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="oklch(68% 0.16 258)" stop-opacity="0.36" />
+          <stop offset="100%" stop-color="oklch(68% 0.16 258)" stop-opacity="0" />
+        </linearGradient>
+      </defs>
       ${gridSvg}
       <line class="baseline" x1="${padL}" x2="${W-padR}" y1="${padT+plotH}" y2="${padT+plotH}" />
-      <path class="series-area" d="${areaPts}" />
+      <path fill="url(#areaGrad)" d="${areaPts}" />
       ${benchSvg}
-      <path class="series-line" d="M ${linePts}" />
-      <circle class="end-dot" r="4.5" cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" />
-      <text class="end-label" x="${(lastX-8).toFixed(1)}" y="${(lastY-12).toFixed(1)}" text-anchor="end">${fmtMoney(entries[entries.length-1].portfolio_value)}</text>
+      <path fill="none" stroke="var(--accent-1)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.28" style="filter:blur(4px);" d="M ${linePts}" />
+      <path fill="none" stroke="oklch(74% 0.15 258)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M ${linePts}" />
+      <circle r="8" cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" fill="var(--accent-1)" opacity="0.30" style="filter:blur(3px);" />
+      <circle r="4" cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" fill="oklch(78% 0.13 258)" stroke="var(--surface-1)" stroke-width="2" />
+      <text class="end-label" x="${(lastX-8).toFixed(1)}" y="${(lastY-11).toFixed(1)}" text-anchor="end">${fmtMoney(entries[entries.length-1].portfolio_value)}</text>
       ${labelSvg}${xLabels}
-      <line class="crosshair" id="crosshair" y1="${padT}" y2="${padT+plotH}" />
+      <line stroke="oklch(100% 0 0 / 14%)" stroke-width="1" id="crosshair" y1="${padT}" y2="${padT+plotH}" opacity="0" />
       ${hoverDots}${benchHoverDots}
       <rect id="hover-capture" x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="transparent" />
     </svg>
@@ -615,24 +527,18 @@ function renderChart(data, period){
   const capture = document.getElementById('hover-capture');
   const tooltip = document.getElementById('tooltip');
   const crosshair = document.getElementById('crosshair');
-  const dots = [...svg.querySelectorAll('.hover-dot')];
-  const bDots = [...svg.querySelectorAll('.bench-hover-dot')];
+  const dots = [...svg.querySelectorAll('.hd')];
+  const bDots = [...svg.querySelectorAll('.bench-hd')];
 
   capture.addEventListener('mousemove', (ev) => {
     const rect = svg.getBoundingClientRect();
     const relX = ((ev.clientX - rect.left) / rect.width) * W;
     let closest = 0, closestDist = Infinity;
-    entries.forEach((e, i) => {
-      const d = Math.abs(x(i) - relX);
-      if (d < closestDist) { closestDist = d; closest = i; }
-    });
-    dots.forEach(d => d.style.opacity = 0);
-    dots[closest].style.opacity = 1;
-    if (bDots.length) { bDots.forEach(d => d.style.opacity = 0); bDots[closest].style.opacity = 1; }
-    crosshair.style.opacity = 1;
-    crosshair.setAttribute('x1', x(closest).toFixed(1));
-    crosshair.setAttribute('x2', x(closest).toFixed(1));
-
+    entries.forEach((e, i) => { const d = Math.abs(x(i) - relX); if (d < closestDist) { closestDist = d; closest = i; } });
+    dots.forEach(d => d.setAttribute('opacity', 0)); dots[closest].setAttribute('opacity', 1);
+    if (bDots.length) { bDots.forEach(d => d.setAttribute('opacity', 0)); bDots[closest].setAttribute('opacity', 1); }
+    crosshair.setAttribute('opacity', 1);
+    crosshair.setAttribute('x1', x(closest).toFixed(1)); crosshair.setAttribute('x2', x(closest).toFixed(1));
     const e = entries[closest];
     tooltip.style.opacity = 1;
     tooltip.style.left = ((x(closest) / W) * 100) + '%';
@@ -642,22 +548,16 @@ function renderChart(data, period){
     document.getElementById('tt-bench').textContent = hasBench ? 'CSPX: ' + fmtMoney(bench[closest]) : '';
   });
   capture.addEventListener('mouseleave', () => {
-    dots.forEach(d => d.style.opacity = 0);
-    bDots.forEach(d => d.style.opacity = 0);
-    crosshair.style.opacity = 0;
-    tooltip.style.opacity = 0;
+    dots.forEach(d => d.setAttribute('opacity', 0)); bDots.forEach(d => d.setAttribute('opacity', 0));
+    crosshair.setAttribute('opacity', 0); tooltip.style.opacity = 0;
   });
 }
 
 function renderTable(entries, hasBench, bench){
   const wrap = document.getElementById('chart-wrap');
   const rows = entries.map((e,i) => `
-    <tr>
-      <td>${fmtDateForPeriod(e.date, currentPeriod)}</td>
-      <td class="num">${fmtMoney(e.portfolio_value)}</td>
-      ${hasBench ? `<td class="num">${fmtMoney(bench[i])}</td>` : ''}
-    </tr>`).join('');
-  wrap.innerHTML = `<table><thead><tr><th>Datum</th><th style="text-align:right;">Portfolio</th>${hasBench ? '<th style="text-align:right;">CSPX</th>' : ''}</tr></thead><tbody>${rows}</tbody></table>`;
+    <tr><td>${fmtDateForPeriod(e.date, currentPeriod)}</td><td class="num">${fmtMoney(e.portfolio_value)}</td>${hasBench ? `<td class="num">${fmtMoney(bench[i])}</td>` : ''}</tr>`).join('');
+  wrap.innerHTML = `<table class="data-table"><thead><tr><th>Datum</th><th style="text-align:right;">Portfolio</th>${hasBench ? '<th style="text-align:right;">CSPX</th>' : ''}</tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 document.getElementById('toggle-table-view').addEventListener('click', (ev) => {
@@ -666,10 +566,12 @@ document.getElementById('toggle-table-view').addEventListener('click', (ev) => {
   ev.target.textContent = tableViewOn ? 'Graf' : 'Tabulka';
   renderChart({ entries: window.__ALL_ENTRIES__ }, currentPeriod);
 });
+document.getElementById('range-row').addEventListener('click', (ev) => {
+  const pill = ev.target.closest('.range-pill');
+  if (!pill) return;
+  renderChart({ entries: window.__ALL_ENTRIES__ }, pill.dataset.period);
+});
 
-// Propad se počítá na TWR indexu (viz twrIndexSeries výše), ne na syrové
-// hodnotě portfolia - jinak by vklad hned po propadu vypadal jako "zotavení"
-// a výběr by mohl vypadat jako propad, který se ve skutečnosti nestal.
 function computeMaxDrawdown(entries){
   const idx = twrIndexSeries(entries);
   let peak = -Infinity, peakDate = entries[0].date;
@@ -683,6 +585,21 @@ function computeMaxDrawdown(entries){
   return { maxDD, peakDate: maxDDPeakDate, troughDate: maxDDTroughDate };
 }
 
+function ringSvg(pct, sub){
+  const size=68, sw=9, R=(size-sw)/2, C=size/2, circ=2*Math.PI*R;
+  const clamped = Math.max(0, Math.min(100, pct));
+  const dash = Math.max(clamped/100*circ, 0.001);
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="flex:none;">
+    <defs><linearGradient id="ringGradTraded" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="oklch(68% 0.16 258)" /><stop offset="100%" stop-color="oklch(68% 0.16 305)" />
+    </linearGradient></defs>
+    <circle cx="${C}" cy="${C}" r="${R}" fill="none" stroke="var(--surface-3)" stroke-width="${sw}" />
+    <circle cx="${C}" cy="${C}" r="${R}" fill="none" stroke="url(#ringGradTraded)" stroke-width="${sw}" stroke-linecap="round"
+      stroke-dasharray="${dash.toFixed(2)} ${(circ-dash).toFixed(2)}" transform="rotate(-90 ${C} ${C})" />
+    <text x="${C}" y="${C+5}" text-anchor="middle" class="num ring-value">${clamped.toFixed(0)}%</text>
+  </svg>`;
+}
+
 function renderPerformance(data){
   const entries = data.entries;
   const last = entries[entries.length-1];
@@ -691,48 +608,31 @@ function renderPerformance(data){
   const dd = computeMaxDrawdown(entries);
   const traded = entries.filter(e => e.trade_count > 0).length;
   const tradedPct = (traded/entries.length)*100;
-
   const bench = benchmarkSeries(entries);
-  let calloutHtml = '', calloutNote = '';
+
+  let vsBenchTile = '';
   if (bench) {
     const benchLast = bench[bench.length-1];
     const diff = last.portfolio_value - benchLast;
     const pct = (diff/benchLast)*100;
-    calloutHtml = `
-      <div class="perf-callout">
-        <span class="perf-callout-label">Portfolio vs. kdyby jen drž a čekej (CSPX)</span>
-        <span class="perf-callout-value ${dirClass(diff)}">${dirArrow(diff)} ${fmtMoney(Math.abs(diff))} (${diff>=0?'+':''}${pct.toFixed(2)} %)</span>
-      </div>`;
-    calloutNote = entries[0].date !== data.entries[0].date
-      ? `<p class="perf-callout-note">Srovnání od ${fmtDate(entries[0].date)} (odkdy je k dispozici cena CSPX).</p>` : '';
+    const note = entries[0].date !== data.entries[0].date ? `<div class="sub">od ${fmtDate(entries[0].date)}</div>` : `<div class="sub">${(diff>=0?'+':'')+fmtMoney(diff)} nad CSPX</div>`;
+    vsBenchTile = `<div class="stat-tile"><div class="label">vs. drž a čekej</div><div class="value ${dirClass(diff)}">${diff>=0?'+':''}${pct.toFixed(2)} %</div>${note}</div>`;
   }
-  document.getElementById('perf-callout-wrap').innerHTML = calloutHtml + calloutNote;
+
+  const extraTile = (last.net_deposits_cum || 0) !== 0
+    ? `<div class="stat-tile"><div class="label">Vklady/výběry mimo appku</div><div class="value flat">${last.net_deposits_cum >= 0 ? '+' : ''}${fmtMoney(last.net_deposits_cum)}</div><div class="sub">nepočítá se do výkonu appky</div></div>`
+    : '';
 
   document.getElementById('perf-grid').innerHTML = `
-    <div class="perf-tile">
-      <div class="label">Realizovaný zisk/ztráta</div>
-      <div class="value ${typeof realized === 'number' ? dirClass(realized) : 'flat'}">${typeof realized === 'number' ? (realized>=0?'+':'')+fmtMoney(realized) : 'zatím nesledováno'}</div>
+    <div class="stat-tile"><div class="label">Realizovaný zisk/ztráta</div><div class="value ${typeof realized === 'number' ? dirClass(realized) : 'flat'}">${typeof realized === 'number' ? (realized>=0?'+':'')+fmtMoney(realized) : 'zatím nesledováno'}</div></div>
+    <div class="stat-tile"><div class="label">Nerealizovaný</div><div class="value ${dirClass(unrealized)}">${unrealized>=0?'+':''}${fmtMoney(unrealized)}</div></div>
+    <div class="stat-tile"><div class="label">Max. propad</div><div class="value down">${(dd.maxDD*100).toFixed(2)} %</div><div class="sub">${fmtDate(dd.peakDate)} → ${fmtDate(dd.troughDate)}</div></div>
+    ${vsBenchTile}
+    ${extraTile}
+    <div class="stat-tile ring-tile">
+      ${ringSvg(tradedPct, '')}
+      <div><div class="label">Obchodováno</div><div class="value flat">${tradedPct.toFixed(0)} %</div><div class="sub">${traded} z ${entries.length} dní AI aktivně nakupovala nebo prodávala</div></div>
     </div>
-    <div class="perf-tile">
-      <div class="label">Nerealizovaný (otevřené pozice)</div>
-      <div class="value ${dirClass(unrealized)}">${unrealized>=0?'+':''}${fmtMoney(unrealized)}</div>
-    </div>
-    <div class="perf-tile">
-      <div class="label">Max. propad</div>
-      <div class="value down">${(dd.maxDD*100).toFixed(2)} %</div>
-      <div class="perf-sub">${fmtDate(dd.peakDate)} → ${fmtDate(dd.troughDate)}</div>
-    </div>
-    <div class="perf-tile">
-      <div class="label">Obchodováno</div>
-      <div class="value flat">${tradedPct.toFixed(0)} %</div>
-      <div class="perf-sub">${traded} z ${entries.length} dní</div>
-    </div>
-    ${(last.net_deposits_cum || 0) !== 0 ? `
-    <div class="perf-tile">
-      <div class="label">Vklady/výběry mimo appku</div>
-      <div class="value flat">${last.net_deposits_cum >= 0 ? '+' : ''}${fmtMoney(last.net_deposits_cum)}</div>
-      <div class="perf-sub">nepočítá se do výkonu appky (viz "Od začátku")</div>
-    </div>` : ''}
   `;
   document.getElementById('perf-card').style.display = '';
 }
@@ -742,27 +642,17 @@ function renderAllocation(data){
   const bySymbol = {};
   (last.positions||[]).forEach(p => { bySymbol[p.symbol] = (bySymbol[p.symbol]||0) + p.market_value; });
 
-  const palette = [
-    {key:'cash',  label:'Hotovost', color:'var(--cat-cash)'},
-    {key:'CSPX',  label:'CSPX',     color:'var(--cat-cspx)'},
-    {key:'EQQQ',  label:'EQQQ',     color:'var(--cat-eqqq)'},
-    {key:'AAPL',  label:'AAPL',     color:'var(--cat-aapl)'},
-    {key:'MSFT',  label:'MSFT',     color:'var(--cat-msft)'},
-    {key:'GOOGL', label:'GOOGL',    color:'var(--cat-googl)'},
-  ];
-  const knownKeys = new Set(palette.map(p=>p.key));
-  // symbol mimo pevnou paletu (kdyby appka v budoucnu rozšířila nabídku) dostane
-  // neutrální odstín textu, ať se neplete s hlavní kategorickou sadou
-  Object.keys(bySymbol).forEach(sym => {
-    if (!knownKeys.has(sym)) palette.push({key:sym, label:sym, color:'var(--text-muted)'});
-  });
+  const order = ['cash', ...Object.keys(CAT_HUES).filter(s => bySymbol[s] != null)];
+  Object.keys(bySymbol).forEach(sym => { if (!order.includes(sym)) order.push(sym); });
+  const labels = { cash: 'Hotovost' };
 
-  const segments = palette
-    .map(p => ({ ...p, value: p.key === 'cash' ? last.cash : (bySymbol[p.key] || 0) }))
-    .filter(s => s.value > 0.5);
+  const segments = order
+    .map(key => ({ key, label: labels[key] || key, color: catColor(key, '100%'), value: key === 'cash' ? last.cash : (bySymbol[key] || 0) }))
+    .filter(s => s.value > 0.5)
+    .sort((a,b) => b.value - a.value);
 
   const total = segments.reduce((s,x)=>s+x.value, 0) || 1;
-  const R = 62, CX = 90, CY = 90, SW = 26, GAP = 2.5;
+  const R = 66, CX = 90, CY = 90, SW = 24, GAP = 3;
   const circumference = 2 * Math.PI * R;
   let offset = 0;
   const arcs = segments.map(s => {
@@ -771,23 +661,23 @@ function renderAllocation(data){
     const dashLen = Math.max(len - GAP, 0.001);
     const circle = `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${s.color}" stroke-width="${SW}" ` +
       `stroke-dasharray="${dashLen.toFixed(2)} ${(circumference-dashLen).toFixed(2)}" ` +
-      `stroke-dashoffset="${(-offset).toFixed(2)}" transform="rotate(-90 ${CX} ${CY})" />`;
+      `stroke-dashoffset="${(-offset).toFixed(2)}" transform="rotate(-90 ${CX} ${CY})" ` +
+      `style="filter:drop-shadow(0 0 6px ${s.color.replace('100%','55%')})" />`;
     offset += len;
     return circle;
   }).join('');
 
   document.getElementById('donut-wrap').innerHTML = `
-    <svg viewBox="0 0 180 180" width="180" height="180" style="display:block;">
+    <svg viewBox="0 0 180 180" width="176" height="176" style="display:block;">
       ${arcs}
       <text x="${CX}" y="${CY-6}" text-anchor="middle" class="donut-center-label">Portfolio</text>
-      <text x="${CX}" y="${CY+13}" text-anchor="middle" class="donut-center-value">${fmtMoneyCompact(total)}</text>
+      <text x="${CX}" y="${CY+15}" text-anchor="middle" class="num donut-center-value">${fmtMoneyCompact(total)}</text>
     </svg>`;
 
   document.getElementById('donut-legend').innerHTML = segments.map(s => `
-    <div class="legend-row">
+    <div class="legend-chip">
       <span class="legend-swatch" style="background:${s.color}"></span>
-      <span class="legend-label">${s.label}</span>
-      <span class="legend-value">${fmtMoney(s.value)} <span class="legend-pct">(${((s.value/total)*100).toFixed(1)} %)</span></span>
+      <div style="min-width:0;"><div class="legend-name">${s.label}</div><div class="num legend-val">${fmtMoneyCompact(s.value)} · ${((s.value/total)*100).toFixed(1)} %</div></div>
     </div>`).join('');
 
   document.getElementById('alloc-card').style.display = '';
@@ -798,7 +688,11 @@ function statusOf(entry){
   if (entry.trade_count > 0) return 'ok';
   return 'none';
 }
-const ICONS = { ok: '✓', blocked: '⚠', none: '–' };
+function nodeIcon(status){
+  if (status === 'ok') return '<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="oklch(80% 0.15 148)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l6 6L20 6"/></svg>';
+  if (status === 'blocked') return '<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="oklch(85% 0.13 80)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L2 20h20L12 4z"/><path d="M12 10v4M12 17h.01"/></svg>';
+  return '<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="var(--text-4)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>';
+}
 function statusText(entry){
   const s = statusOf(entry);
   if (s === 'blocked') return 'Blokováno mantinely';
@@ -815,32 +709,25 @@ function renderLog(data){
   const rows = [...shown].reverse();
 
   document.getElementById('log-limit-note').textContent = entries.length > LOG_LIMIT
-    ? `Zobrazeno posledních ${LOG_LIMIT} z ${entries.length} dní.`
-    : '';
+    ? `Zobrazeno posledních ${LOG_LIMIT} z ${entries.length} dní.` : '';
 
   list.innerHTML = rows.map((e) => {
     const idx = entries.indexOf(e);
     const prev = idx > 0 ? entries[idx-1].portfolio_value : e.portfolio_value;
     const chg = e.portfolio_value - prev;
     const chgPct = prev ? (chg/prev)*100 : 0;
+    const st = statusOf(e);
     return `
-      <button type="button" class="log-row" data-idx="${idx}">
-        <div class="log-icon ${statusOf(e)}">${ICONS[statusOf(e)]}</div>
-        <div class="log-info">
-          <div class="log-date">${fmtDate(e.date)}</div>
-          <div class="log-status">${statusText(e)}</div>
-        </div>
-        <div class="log-value">
-          <div class="log-value-nums">
-            <div class="log-main">${fmtMoney(e.portfolio_value)}</div>
-            <div class="log-change ${dirClass(chg)}">${dirArrow(chg)} ${chgPct>=0?'+':''}${chgPct.toFixed(2)} %</div>
-          </div>
-          <span class="log-chevron">›</span>
+      <button type="button" class="t-row" data-idx="${idx}">
+        <div class="t-node ${st}">${nodeIcon(st)}</div>
+        <div class="t-body">
+          <div><div class="t-date">${fmtDate(e.date)}</div><div class="t-status ${st}">${statusText(e)}</div></div>
+          <div class="t-value"><div class="num t-main">${fmtMoney(e.portfolio_value)}</div><div class="num t-delta ${dirClass(chg)}">${dirArrow(chg)} ${chgPct>=0?'+':''}${chgPct.toFixed(2)} %</div></div>
         </div>
       </button>`;
   }).join('');
 
-  list.querySelectorAll('.log-row').forEach(row => {
+  list.querySelectorAll('.t-row').forEach(row => {
     row.addEventListener('click', () => openDaySheet(entries[+row.dataset.idx]));
   });
 
@@ -850,33 +737,28 @@ function renderLog(data){
 function openDaySheet(e){
   let tradesHtml;
   if (e.blocked_reasons && e.blocked_reasons.length) {
-    tradesHtml = '<div class="sheet-label">Proč se neobchodovalo</div>' +
-      e.blocked_reasons.map(r => `<div class="sheet-blocked">⚠ ${r}</div>`).join('');
+    tradesHtml = '<div class="sheet-label">Proč se neobchodovalo</div>' + e.blocked_reasons.map(r => `<div class="sheet-blocked">⚠ ${r}</div>`).join('');
   } else if (e.trades && e.trades.length) {
-    tradesHtml = '<div class="sheet-label">Obchody</div>' +
-      e.trades.map(t => `
+    tradesHtml = '<div class="sheet-label">Obchody</div>' + e.trades.map(t => `
         <div class="sheet-trade">
-          <div class="st-head">${t.symbol || '?'}<span class="st-badge ${t.status==='submitted'?'buy':''}">${t.side==='buy'?'nákup':'prodej'}</span><span style="color:var(--text-muted);font-weight:400;">${t.qty ?? '?'} ks</span></div>
+          <div class="st-head">${t.symbol || '?'}<span class="st-badge ${t.status==='submitted'?'buy':''}">${t.side==='buy'?'nákup':'prodej'}</span><span style="color:var(--text-3);font-weight:400;">${t.qty ?? '?'} ks</span></div>
           ${t.status !== 'submitted' ? `<span style="color:var(--critical);display:block;margin-top:4px;">⚠ chyba: ${t.error||''}</span>` : ''}
           ${t.reasoning ? `<span class="st-reasoning">${t.reasoning}</span>` : ''}
         </div>`).join('');
   } else {
-    tradesHtml = '<div class="sheet-label">Obchody</div><p class="sheet-summary" style="color:var(--text-muted);">Žádný obchod tento den.</p>';
+    tradesHtml = '<div class="sheet-label">Obchody</div><p class="sheet-summary" style="color:var(--text-3);">Žádný obchod tento den.</p>';
   }
-
+  const st = statusOf(e);
   sheetEl.innerHTML = `
     <div class="sheet-handle"></div>
     <div class="sheet-header">
-      <div class="log-icon ${statusOf(e)}">${ICONS[statusOf(e)]}</div>
-      <div class="sheet-title-wrap">
-        <div class="sheet-title">${fmtDateFull(e.date)}</div>
-        <div class="sheet-sub">${statusText(e)}</div>
-      </div>
+      <div class="t-node ${st}" style="position:static;width:36px;height:36px;">${nodeIcon(st)}</div>
+      <div class="sheet-title-wrap"><div class="sheet-title">${fmtDateFull(e.date)}</div><div class="sheet-sub">${statusText(e)}</div></div>
       <button type="button" class="sheet-close" id="sheet-close" aria-label="Zavřít">✕</button>
     </div>
     <div class="sheet-meta">
-      <div class="sheet-meta-item"><div class="sm-label">Hodnota portfolia</div><div class="sm-value">${fmtMoney(e.portfolio_value)}</div></div>
-      <div class="sheet-meta-item"><div class="sm-label">Obchodů</div><div class="sm-value">${e.trade_count}</div></div>
+      <div><div class="sm-label">Hodnota portfolia</div><div class="sm-value">${fmtMoney(e.portfolio_value)}</div></div>
+      <div><div class="sm-label">Obchodů</div><div class="sm-value">${e.trade_count}</div></div>
     </div>
     <div class="sheet-label">Shrnutí od AI</div>
     <p class="sheet-summary">${e.market_summary || '(bez shrnutí)'}</p>
@@ -888,7 +770,8 @@ function openDaySheet(e){
 
 loadData().then(data => {
   if (!data.entries || !data.entries.length) {
-    document.getElementById('last-updated').textContent = 'Zatím žádná data — počkej na první denní běh.';
+    document.getElementById('eyebrow-row') || null;
+    document.querySelector('.hero-label').textContent = 'Zatím žádná data — počkej na první denní běh.';
     return;
   }
   CURRENCY = data.entries[data.entries.length-1].currency || 'CZK';
@@ -899,52 +782,32 @@ loadData().then(data => {
   if (data.entries.length >= 2) renderPerformance(data);
   renderAllocation(data);
   renderLog(data);
-
-  document.getElementById('range-select').addEventListener('change', (e) => {
-    renderChart({ entries: window.__ALL_ENTRIES__ }, e.target.value);
-  });
 }).catch(err => {
-  document.getElementById('last-updated').textContent = 'Chyba při načítání dat: ' + err.message;
+  console.error(err);
 });
 
-// --- Push notifikace (volitelné) ---
-// VAPID veřejný klíč - není citlivý, je určený k tomu, aby ho viděl kdokoli
-// (prohlížeč ho potřebuje k ověření, že push posílá vlastník téhle appky).
+/* --- Push notifikace (volitelné) --- */
 const VAPID_PUBLIC_KEY = 'BLOITJaHMlAhocthVjeZBzEdIevKvsFv2zSDqARpm5ZoJOvydU4cvl2RGnuYA13tI8cEasqVn3VBlji-2lOzzug';
-
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
   const rawData = atob(base64);
   return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
 }
-
 async function setupPush() {
   const box = document.getElementById('push-setup');
   if (!box) return;
-  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-    box.innerHTML = '<p class="push-note">Tento prohlížeč push notifikace nepodporuje.</p>';
-    return;
-  }
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) { return; }
   try {
     const reg = await navigator.serviceWorker.register('./sw.js');
     let sub = await reg.pushManager.getSubscription();
-    if (sub) {
-      box.innerHTML = '<p class="push-note">Push notifikace jsou na tomhle zařízení zapnuté.</p>';
-      return;
-    }
+    if (sub) { return; }
     box.innerHTML = '<button id="push-enable-btn" class="push-btn">Zapnout push notifikace</button>';
     document.getElementById('push-enable-btn').addEventListener('click', async () => {
       try {
         const permission = await Notification.requestPermission();
-        if (permission !== 'granted') {
-          box.innerHTML = '<p class="push-note">Notifikace nebyly povoleny v prohlížeči.</p>';
-          return;
-        }
-        sub = await reg.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
-        });
+        if (permission !== 'granted') { box.innerHTML = '<p class="push-note">Notifikace nebyly povoleny v prohlížeči.</p>'; return; }
+        sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY) });
         const json = JSON.stringify(sub.toJSON(), null, 2);
         box.innerHTML =
           '<p class="push-note">Hotovo — zkopíruj tento text a vlož ho jako GitHub Secret PUSH_SUBSCRIPTION_JSON (Settings → Secrets and variables → Actions), je to jednorázové:</p>' +
@@ -954,16 +817,11 @@ async function setupPush() {
           navigator.clipboard.writeText(json);
           document.getElementById('push-copy-btn').textContent = 'Zkopírováno!';
         });
-      } catch (e) {
-        box.innerHTML = '<p class="push-note">Nastavení se nepodařilo: ' + e.message + '</p>';
-      }
+      } catch (e) { box.innerHTML = '<p class="push-note">Nastavení se nepodařilo: ' + e.message + '</p>'; }
     });
-  } catch (e) {
-    box.innerHTML = '<p class="push-note">Service worker se nepodařilo zaregistrovat: ' + e.message + '</p>';
-  }
+  } catch (e) { /* service worker not available, silently skip */ }
 }
 setupPush();
 </script>
-
 </body>
 </html>
