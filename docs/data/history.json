@@ -312,7 +312,106 @@
       "cash_flow_net": 0.0,
       "cash_flow_items": [],
       "net_deposits_cum": 0.0
+    },
+    {
+      "date": "2026-08-24",
+      "portfolio_value": 10020.12,
+      "cash": 3058.52,
+      "buying_power": 3058.52,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "AMZN",
+          "qty": 0.09,
+          "avg_entry_price": 5372.12,
+          "current_price": 5424.8081,
+          "market_value": 488.232729,
+          "unrealized_pl": 4.81,
+          "unrealized_plpc": 0.9948482990782865
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 9964.2495,
+          "current_price": 10070.86542,
+          "market_value": 402.8346168,
+          "unrealized_pl": 4.44,
+          "unrealized_plpc": 1.113982543291394
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.07,
+          "avg_entry_price": 6538.0471428866595,
+          "current_price": 6468.65234,
+          "market_value": 452.8056638,
+          "unrealized_pl": -4.83,
+          "unrealized_plpc": -1.0553610044716704
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2,
+          "avg_entry_price": 4514.647,
+          "current_price": 4333.8544999999995,
+          "market_value": 866.7709,
+          "unrealized_pl": -35.75,
+          "unrealized_plpc": -3.9593350266366336
+        },
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 19987.3245,
+          "current_price": 19914.0799,
+          "market_value": 398.28159800000003,
+          "unrealized_pl": -1.43,
+          "unrealized_plpc": -0.35772671825085944
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7300.57333326446,
+          "current_price": 7368.89568,
+          "market_value": 442.13374079999994,
+          "unrealized_pl": 4.24,
+          "unrealized_plpc": 0.9679605072204376
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.4,
+          "avg_entry_price": 5537.416,
+          "current_price": 5589.8974800000005,
+          "market_value": 2235.9589920000003,
+          "unrealized_pl": 21.94,
+          "unrealized_plpc": 0.9905342130697783
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.24,
+          "avg_entry_price": 7077.5959167355395,
+          "current_price": 7229.6338,
+          "market_value": 1735.1121119999998,
+          "unrealized_pl": 37.39,
+          "unrealized_plpc": 2.2011947065003366
+        }
+      ],
+      "market_summary": "Trh je smíšený – tech akcie (NVDA, AMZN, MSFT, GOOGL) jsou pod tlakem a pod svými 10denními maximy, zatímco defensivní JNJ a JPM také oslabily po krátkém vzestupu. AAPL se odrazil od lokálního dna a zprávy jsou bullish (silné výsledky Q3). NVDA klesá na ~4 436 CZK, stále pod naší průměrnou vstupní cenou, ale sentiment zůstává bullish (earnings report se blíží, spekulace o $6T tržní cap). GOOGL vykazuje stabilní základnu kolem 7 100–7 200 CZK s bullish fundamenty (earnings beat). Cash je 3 058 CZK, max obchod ~502 CZK (5 % z 10 025 CZK portfolia).",
+      "trades": [
+        {
+          "symbol": "NVDA",
+          "side": "buy",
+          "qty": 0.02933925826563982,
+          "status": "failed",
+          "error": "Trading 212 API chyba 400 na POST /equity/orders/market: {\"type\":\"/api-errors/quantity-precision-mismatch\",\"title\":\"Error while placing the order\",\"status\":400,\"detail\":\"invalid quantity precision 4\",\"traceId\":\"0a62a0dd988f40e407e020f7d276d71c\"}",
+          "reasoning": "NVDA je -3.9 % od naší průměrné ceny a aktuálně na lokálním dnu (~4 436). Bullish zprávy: prognóza $6T tržní cap do konce roku, AI cenové hike nad 15 % signalizují silnou poptávku. Earnings se blíží – průměrování dolů v malé míře dává smysl. Limit na 4 440 CZK pro mírně lepší vstup než aktuální cena."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "spy_price": 23326.433129999998,
+      "realized_pl_cum": 0.0,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-08-23T14:27:55.564361+00:00"
+  "last_cash_flow_check": "2026-08-24T14:46:56.375238+00:00"
 }
