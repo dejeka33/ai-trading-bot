@@ -411,7 +411,140 @@
       "cash_flow_net": 0.0,
       "cash_flow_items": [],
       "net_deposits_cum": 0.0
+    },
+    {
+      "date": "2026-08-25",
+      "portfolio_value": 10015.55,
+      "cash": 2199.43,
+      "buying_power": 2199.43,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "AMZN",
+          "qty": 0.09,
+          "avg_entry_price": 5372.9,
+          "current_price": 5392.11845,
+          "market_value": 485.2906605,
+          "unrealized_pl": 1.54,
+          "unrealized_plpc": 0.31847067898362363
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 9965.696249999999,
+          "current_price": 10107.6648,
+          "market_value": 404.306592,
+          "unrealized_pl": 5.63,
+          "unrealized_plpc": 1.4123448725421468
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 7890.58583326445,
+          "current_price": 7888.037149999999,
+          "market_value": 473.2822289999999,
+          "unrealized_pl": -0.16,
+          "unrealized_plpc": -0.03379554728908421
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.07,
+          "avg_entry_price": 6538.996428600949,
+          "current_price": 6398.9172499999995,
+          "market_value": 447.9242075,
+          "unrealized_pl": -10.02,
+          "unrealized_plpc": -2.189064617267015
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2281,
+          "avg_entry_price": 4498.10280579065,
+          "current_price": 4376.22705,
+          "market_value": 998.217390105,
+          "unrealized_pl": -27.93,
+          "unrealized_plpc": -2.722176454633384
+        },
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 19985.9055,
+          "current_price": 19930.97595,
+          "market_value": 398.619519,
+          "unrealized_pl": -1.34,
+          "unrealized_plpc": -0.3352362493658343
+        },
+        {
+          "symbol": "BA",
+          "qty": 0.06,
+          "avg_entry_price": 4370.6475,
+          "current_price": 4369.8209,
+          "market_value": 262.18925399999995,
+          "unrealized_pl": -0.1,
+          "unrealized_plpc": -0.03813317515692278
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7301.63333326445,
+          "current_price": 7311.07035,
+          "market_value": 438.664221,
+          "unrealized_pl": 0.47,
+          "unrealized_plpc": 0.10728193235404726
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.4,
+          "avg_entry_price": 5538.219999999999,
+          "current_price": 5632.0391,
+          "market_value": 2252.8156400000003,
+          "unrealized_pl": 37.24,
+          "unrealized_plpc": 1.6810455344858095
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.24,
+          "avg_entry_price": 7078.623541735549,
+          "current_price": 7169.72175,
+          "market_value": 1720.7332199999998,
+          "unrealized_pl": 21.83,
+          "unrealized_plpc": 1.2849720400730904
+        }
+      ],
+      "market_summary": "Trh vykazuje smíšené signály – technologický sektor (NVDA, CSPX, EQQQ) pokračuje v poklesu posledních 10 dní, zatímco defensivní sektory (JNJ, KO) a vybrané akcie (V, DIS, GOOGL) dnes posilovaly. Výnosová křivka je mírně pozitivní (T10Y2Y +0.46%), Fed drží sazby na 3.63%, 10Y výnos na 4.74% – prostředí nadále tlačí na valuace růstových akcií. Portfolio je v mírné ztrátě zejména kvůli NVDA (-3.15%) a AAPL (-2.19%). Hotovost 3 058 CZK dává prostor pro selektivní nákupy.",
+      "trades": [
+        {
+          "symbol": "NVDA",
+          "side": "buy",
+          "qty": 0.028109175089442596,
+          "status": "submitted",
+          "order_id": "53900722520",
+          "reasoning": "NVDA dnes uzavřela na 4308 po výprodeji z 4650+ – ztráta ~7% za 10 dní přibližuje cenu ke stop-loss zóně (avg entry 4515, stop -8% = ~4154). Zprávy jsou silně bullish (9000 Vera Rubin objednávek z Indie, Perplexity deal). Přidáváme malý doplňkový nákup za zvýhodněnou cenu s limitem 4310 – DCA přístup, qty×cena = 129 CZK (v mantinelech)."
+        },
+        {
+          "symbol": "V",
+          "side": "buy",
+          "qty": 0.06,
+          "status": "submitted",
+          "order_id": "53900722522",
+          "reasoning": "V dnes +3.06% na 7902, zaznamenala 52-týdenní maximum. Silný uptrend celých 10 dní (7427→7902, +6.4%). Nová pozice – instrument zatím nedržíme. CEO prodej mimo 10b5-1 plán je mírným rizikem, ale cenový trend a momentum jsou přesvědčivé. Limit 7910, qty×cena ~475 CZK (pod 5% max trade limitem)."
+        },
+        {
+          "symbol": "BA",
+          "side": "buy",
+          "qty": 0.06,
+          "status": "submitted",
+          "order_id": "53900722525",
+          "reasoning": "BA poklesla z 4869 na 4349 (-10.7% za 10 dní) – výrazný pokles, ale dnes mírné zpomalení výprodeje. Katalyzátor: $131B federální kontrakt na F-15 (24.8.). Kontraklyklický nákup na technické podpoře, limit 4355 blízko dnešního close. Pozici dosud nedržíme, qty×cena ~261 CZK."
+        }
+      ],
+      "trade_count": 3,
+      "blocked_reasons": [],
+      "spy_price": 23247.59401,
+      "realized_pl_cum": 0.0,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-08-24T14:46:56.375238+00:00"
+  "last_cash_flow_check": "2026-08-25T14:53:28.631225+00:00"
 }
