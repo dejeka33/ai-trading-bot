@@ -368,12 +368,13 @@ function openPositionSheet(p, buyDate){
     </div>
     <div class="sheet-meta">
       <div><div class="sm-label">Množství</div><div class="sm-value">${fmtQty(p.qty)} ks</div></div>
-      <div><div class="sm-label">Průměrná cena</div><div class="sm-value">${fmtMoney(p.avg_entry_price)}</div></div>
-      <div><div class="sm-label">Aktuální cena</div><div class="sm-value">${fmtMoney(p.current_price)}</div></div>
+      <div><div class="sm-label">Nákupní cena (celkem)</div><div class="sm-value">${fmtMoney(p.qty * p.avg_entry_price)}</div></div>
+      <div><div class="sm-label">Aktuální hodnota (celkem)</div><div class="sm-value">${fmtMoney(p.market_value)}</div></div>
     </div>
     <div class="sheet-meta" style="border-top:none;">
-      <div><div class="sm-label">Tržní hodnota</div><div class="sm-value">${fmtMoney(p.market_value)}</div></div>
-      <div><div class="sm-label">Nerealizovaný zisk/ztráta</div><div class="sm-value" style="color:${dirClass(p.unrealized_pl)==='up'?'var(--good)':dirClass(p.unrealized_pl)==='down'?'var(--critical)':'var(--text-1)'};">${p.unrealized_pl>=0?'+':''}${fmtMoney(p.unrealized_pl)} (${p.unrealized_plpc>=0?'+':''}${p.unrealized_plpc.toFixed(2)} %)</div></div>
+      <div><div class="sm-label">Průměrná cena</div><div class="sm-value">${fmtMoney(p.avg_entry_price)}</div></div>
+      <div><div class="sm-label">Aktuální cena</div><div class="sm-value">${fmtMoney(p.current_price)}</div></div>
+      <div><div class="sm-label">Zisk/ztráta</div><div class="sm-value" style="color:${dirClass(p.unrealized_pl)==='up'?'var(--good)':dirClass(p.unrealized_pl)==='down'?'var(--critical)':'var(--text-1)'};">${p.unrealized_pl>=0?'+':''}${fmtMoney(p.unrealized_pl)} (${p.unrealized_plpc>=0?'+':''}${p.unrealized_plpc.toFixed(2)} %)</div></div>
     </div>`;
   document.getElementById('sheet-close').addEventListener('click', closeSheet);
   openSheetEl();
