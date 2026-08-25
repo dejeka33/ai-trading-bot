@@ -51,7 +51,7 @@
 
   main { max-width: 460px; margin: 0 auto; padding: 22px 18px 0; position: relative; }
 
-  .eyebrow-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .eyebrow-row { display: flex; align-items: center; justify-content: flex-end; margin-bottom: 6px; }
   .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .14em; color: var(--text-3); }
   .demo-chip { display: flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px;
     background: oklch(78% 0.15 80 / 14%); border: 1px solid oklch(78% 0.15 80 / 30%); }
@@ -64,7 +64,15 @@
 
   /* hero */
   .hero-btn { display: block; width: 100%; text-align: left; background: none; border: none; padding: 0; margin-bottom: 18px; cursor: pointer; font: inherit; color: inherit; }
-  .hero-label { font-size: 12.5px; color: var(--text-3); margin-bottom: 6px; }
+  /* POZOR - přidáno 25.8.2026: odstraněno logo "AI TRADING BOT" (viz markup
+     .eyebrow-row níže) a popisek "Hodnota portfolia od..." (.hero-label display:none) -
+     hodnota portfolia se štítky se díky zúženému .eyebrow-row margin-bottom (20px->6px)
+     a odstranění .hero-label posouvá nahoru o cca 30px. Schválně NENÍ použitý záporný
+     margin/negative offset na #stat-block - ten by se srazil s tlačítkem "Zapnout push
+     notifikace" (#push-setup), které se zobrazuje jen dokud appka na daném zařízení/
+     prohlížeči nemá aktivní push subscription (viz setupPush() níže) - tenhle přístup
+     (zúžení pevných mezer ve flow) funguje správně, ať se to tlačítko zobrazí, nebo ne. */
+  .hero-label { display: none; }
   .hero-value { font-size: 44px; font-weight: 700; line-height: 1.05; letter-spacing: -0.01em;
     background: linear-gradient(135deg, oklch(99% 0.003 265), oklch(80% 0.02 265));
     -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -150,7 +158,7 @@
 
   /* push */
   .push-note { font-size: 11px; color: var(--text-3); margin: 0 0 8px; line-height: 1.55; }
-  .push-btn { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; }
+  .push-btn { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; margin-bottom: 14px; }
   .push-textarea { width: 100%; background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border); border-radius: 8px; padding: 8px; font-size: 10px; font-family: ui-monospace, monospace; margin-bottom: 8px; resize: vertical; }
 
   footer { max-width: 460px; margin: 22px auto 0; padding: 0 18px; color: var(--text-4); font-size: 10.5px; line-height: 1.6; position: relative; }
@@ -202,7 +210,6 @@
 
 <main>
   <div class="eyebrow-row">
-    <div class="eyebrow">AI TRADING BOT</div>
     <div class="demo-chip"><div class="dot"></div><span>PAPER · DEMO</span></div>
   </div>
 
