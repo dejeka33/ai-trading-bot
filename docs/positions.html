@@ -195,7 +195,17 @@ function fmtQty(q){ return q.toLocaleString('cs-CZ',{maximumFractionDigits:4}); 
 function dirClass(v){ return v > 0.005 ? 'up' : (v < -0.005 ? 'down' : 'flat'); }
 function dirArrow(v){ return v > 0.005 ? '↗' : (v < -0.005 ? '↘' : '·'); }
 
-const CAT_HUES = { CSPX:258, AAPL:25, MSFT:148, NVDA:80, JNJ:340, GOOGL:190, AMZN:305 };
+// Přidáno 24.8.2026 - hue přiřazení rozšířené pro nových 11 titulů (viz
+// instruments.py). Na rozdíl od donutu v index.html tady tyhle barvy slouží
+// jen jako ZÁLOŽNÍ odznak (viz avatarHtml níže) pro případ, že se logo firmy
+// nepodaří načíst - primární identitu teď nese logo, ne barva, takže při 18
+// odstínech necílíme na dokonalé odlišení (dataviz skill by pro tolik kategorií
+// doporučil skládat do "Ostatní" - zde to ale řešit nemusíme, protože barva už
+// není jediný nosič identity a vždy je vedle ní i text/ticker).
+const CAT_HUES = {
+  CSPX:258, AAPL:25, MSFT:148, NVDA:80, JNJ:340, GOOGL:190, AMZN:305,
+  TSLA:10, V:55, WMT:95, KO:125, XOM:165, UNH:205, DIS:235, BA:275, MCD:295, COST:315, VZ:355,
+};
 function catColor(sym, a){ const h = CAT_HUES[sym]; return h != null ? `oklch(70% 0.16 ${h} / ${a})` : `oklch(55% 0.01 265 / ${a})`; }
 function catInk(sym){ const h = CAT_HUES[sym]; return h != null ? `oklch(15% 0.02 ${h})` : `oklch(15% 0.01 265)`; }
 
@@ -209,8 +219,67 @@ const INSTRUMENT_NAMES = {
   JPM: 'JPMorgan Chase',
   JNJ: 'Johnson & Johnson',
   NVDA: 'Nvidia',
+  TSLA: 'Tesla',
+  V: 'Visa',
+  WMT: 'Walmart',
+  KO: 'Coca-Cola',
+  XOM: 'ExxonMobil',
+  UNH: 'UnitedHealth Group',
+  DIS: 'Walt Disney',
+  BA: 'Boeing',
+  MCD: "McDonald's",
+  COST: 'Costco Wholesale',
+  VZ: 'Verizon Communications',
 };
 function initials(sym){ return sym.length <= 3 ? sym : sym.slice(0,2); }
+
+// Přidáno 24.8.2026 - reálná loga firem místo textových zkratek (viz diskuze v
+// chatu). Clearbit Logo API (nejběžnější "zdarma bez klíče" volba) byla v
+// prosinci 2025 zrušená - appka proto používá favicon.im jako primární zdroj,
+// s Google s2/favicons jako záložním, a pokud selžou OBA, spadne zpátky na
+// barevný odznak s iniciálami (viz __logoFallback níže) - appka tedy nikdy
+// nezůstane bez vizuální identity nástroje, i kdyby oba externí zdroje vypadly.
+const TICKER_DOMAINS = {
+  CSPX: 'ishares.com', EQQQ: 'invesco.com',
+  AAPL: 'apple.com', MSFT: 'microsoft.com', GOOGL: 'google.com', AMZN: 'amazon.com',
+  JPM: 'jpmorganchase.com', JNJ: 'jnj.com', NVDA: 'nvidia.com',
+  TSLA: 'tesla.com', V: 'visa.com', WMT: 'walmart.com', KO: 'coca-cola.com',
+  XOM: 'exxonmobil.com', UNH: 'unitedhealthgroup.com', DIS: 'disney.com',
+  BA: 'boeing.com', MCD: 'mcdonalds.com', COST: 'costco.com', VZ: 'verizon.com',
+};
+
+function avatarHtml(symbol, size){
+  const domain = TICKER_DOMAINS[symbol];
+  const bg = catColor(symbol, '100%');
+  const ink = catInk(symbol);
+  const glow = catColor(symbol, '40%');
+  const radius = Math.round(size * 0.32);
+  if (!domain) {
+    return `<div class="avatar" style="width:${size}px;height:${size}px;border-radius:${radius}px;background:${bg};box-shadow:0 0 0 1px oklch(100% 0 0 / 8%), 0 0 18px ${glow};">
+      <span style="color:${ink};font-size:${Math.round(size*0.27)}px;">${initials(symbol)}</span>
+    </div>`;
+  }
+  const imgSize = Math.round(size * 0.62);
+  return `<div class="avatar" data-fallback-bg="${bg}" data-fallback-ink="${ink}"
+      style="width:${size}px;height:${size}px;border-radius:${radius}px;background:oklch(97% 0.004 265);box-shadow:0 0 0 1px oklch(100% 0 0 / 10%), 0 0 16px ${glow};overflow:hidden;">
+    <img src="https://a.favicon.im/${domain}?larger=true" alt="${symbol}" width="${imgSize}" height="${imgSize}"
+      style="width:${imgSize}px;height:${imgSize}px;object-fit:contain;border-radius:6px;"
+      onerror="window.__logoFallback(this, '${symbol}', '${domain}')">
+  </div>`;
+}
+
+window.__logoFallback = function(img, symbol, domain){
+  if (!img.dataset.triedFallback) {
+    img.dataset.triedFallback = '1';
+    img.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+    return;
+  }
+  const wrap = img.closest('.avatar');
+  if (!wrap) return;
+  const size = wrap.offsetWidth || 44;
+  wrap.style.background = wrap.dataset.fallbackBg;
+  wrap.innerHTML = `<span style="color:${wrap.dataset.fallbackInk};font-size:${Math.round(size*0.27)}px;font-weight:700;">${initials(symbol)}</span>`;
+};
 
 const backdrop = document.getElementById('sheet-backdrop');
 const sheetEl = document.getElementById('bottom-sheet');
@@ -265,9 +334,7 @@ function renderOpenPositions(data){
     const pct = p.unrealized_plpc || 0;
     return `
       <button type="button" class="pos-card" data-symbol="${p.symbol}">
-        <div class="avatar" style="background:${catColor(p.symbol, '100%')};box-shadow:0 0 0 1px oklch(100% 0 0 / 8%), 0 0 18px ${catColor(p.symbol,'45%')};">
-          <span style="color:${catInk(p.symbol)};">${initials(p.symbol)}</span>
-        </div>
+        ${avatarHtml(p.symbol, 44)}
         <div style="flex:1;min-width:0;">
           <div class="pos-name">${name}</div>
           <div class="pos-meta">${p.symbol} · ${fmtQty(p.qty)} ks · nakoupeno ${buyDate ? fmtDate(buyDate) : '?'}</div>
@@ -292,9 +359,7 @@ function openPositionSheet(p, buyDate){
   sheetEl.innerHTML = `
     <div class="sheet-handle"></div>
     <div class="sheet-header">
-      <div class="avatar" style="width:36px;height:36px;border-radius:12px;background:${catColor(p.symbol,'100%')};">
-        <span style="color:${catInk(p.symbol)};font-size:11px;">${initials(p.symbol)}</span>
-      </div>
+      ${avatarHtml(p.symbol, 36)}
       <div class="sheet-title-wrap">
         <div class="sheet-title">${name}</div>
         <div class="sheet-sub">${p.symbol} · nakoupeno ${buyDate ? fmtDateFull(buyDate) : 'neznámo (chybí záznam v historii)'}</div>
@@ -339,9 +404,7 @@ function renderClosedTrades(data){
     return `
       <div class="closed-card" data-trade='${JSON.stringify(t).replace(/'/g, "&#39;")}'>
         <div class="closed-head">
-          <div class="avatar" style="background:${catColor(t.symbol,'100%')};">
-            <span style="color:${catInk(t.symbol)};">${initials(t.symbol)}</span>
-          </div>
+          ${avatarHtml(t.symbol, 34)}
           <div style="min-width:0;flex:1;">
             <div class="closed-title">${name} <span style="color:var(--text-3);font-weight:400;">· ${fmtQty(t.qty)} ks</span></div>
             <div class="closed-date">${fmtDate(t.date)}${t.sell_price ? ' · ' + fmtMoney(t.sell_price) : ''}</div>
@@ -367,9 +430,7 @@ function openClosedSheet(t){
   sheetEl.innerHTML = `
     <div class="sheet-handle"></div>
     <div class="sheet-header">
-      <div class="avatar" style="width:36px;height:36px;border-radius:12px;background:${catColor(t.symbol,'100%')};">
-        <span style="color:${catInk(t.symbol)};font-size:11px;">${initials(t.symbol)}</span>
-      </div>
+      ${avatarHtml(t.symbol, 36)}
       <div class="sheet-title-wrap">
         <div class="sheet-title">${name} · prodej</div>
         <div class="sheet-sub">${fmtDateFull(t.date)}</div>

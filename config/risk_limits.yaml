@@ -41,6 +41,20 @@ allowed_instruments:
     - JPM      # finanční sektor
     - JNJ      # zdravotnictví/farmacie
     - NVDA     # polovodiče - POZOR, silně korelované s AAPL/MSFT/GOOGL, nepřidává sektorovou diverzitu
+    # Přidáno 24.8.2026 - rozšíření z 9 na 20 titulů, vědomé rozhodnutí uživatele
+    # (ne AI - viz poznámka níže), cíleně do sektorů appka dosud nepokrývala.
+    # POZOR: přesně na hranici EODHD free tarifu (20 dotazů/den) - viz instruments.py.
+    - TSLA     # elektromobily
+    - V        # platební sítě
+    - WMT      # maloobchod
+    - KO       # spotřební zboží/nápoje
+    - XOM      # energetika
+    - UNH      # zdravotní pojištění
+    - DIS      # média/zábava
+    - BA       # letecký/obranný průmysl
+    - MCD      # restaurace
+    - COST     # velkoobchod
+    - VZ       # telekomunikace
   crypto: []
   # Bot smí obchodovat POUZE nástroje z tohoto seznamu.
   # Rozšíření seznamu = vědomé rozhodnutí uživatele, ne AI.

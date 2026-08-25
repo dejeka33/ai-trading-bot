@@ -310,8 +310,13 @@ function fmtDateForPeriod(d, period){
 function dirClass(v){ return v > 0.005 ? 'up' : (v < -0.005 ? 'down' : 'flat'); }
 function dirArrow(v){ return v > 0.005 ? '↑' : (v < -0.005 ? '↓' : '·'); }
 
-/* kategorická paleta nástrojů - sdílená napříč appkou (Přehled/Portfolio) */
-const CAT_HUES = { CSPX:258, AAPL:25, MSFT:148, NVDA:80, JNJ:340, GOOGL:190, AMZN:305 };
+/* kategorická paleta nástrojů - sdílená napříč appkou (Přehled/Portfolio).
+   Rozšířeno 24.8.2026 o 11 nových titulů (viz instruments.py) - stejné odstíny
+   jako v positions.html, ať má stejný symbol na obou stránkách stejnou barvu. */
+const CAT_HUES = {
+  CSPX:258, AAPL:25, MSFT:148, NVDA:80, JNJ:340, GOOGL:190, AMZN:305,
+  TSLA:10, V:55, WMT:95, KO:125, XOM:165, UNH:205, DIS:235, BA:275, MCD:295, COST:315, VZ:355,
+};
 function catColor(sym, a){ const h = CAT_HUES[sym]; return h != null ? `oklch(70% 0.16 ${h} / ${a})` : `oklch(55% 0.01 265 / ${a})`; }
 
 const backdrop = document.getElementById('sheet-backdrop');
@@ -646,10 +651,25 @@ function renderAllocation(data){
   Object.keys(bySymbol).forEach(sym => { if (!order.includes(sym)) order.push(sym); });
   const labels = { cash: 'Hotovost' };
 
-  const segments = order
+  let segments = order
     .map(key => ({ key, label: labels[key] || key, color: catColor(key, '100%'), value: key === 'cash' ? last.cash : (bySymbol[key] || 0) }))
     .filter(s => s.value > 0.5)
     .sort((a,b) => b.value - a.value);
+
+  // Přidáno 24.8.2026 spolu s rozšířením univerza appky na 20 titulů - donut
+  // (a barevná paleta) je čitelný jen do zhruba 8 segmentů najednou (viz
+  // dataviz skill - "9. kategorie nikdy nedostává vlastní odstín, skládá se do
+  // Ostatní"). Appka v praxi drží mnohem míň pozic najednou (limit na
+  // koncentraci v pozici to přirozeně omezuje), ale kdyby náhodou přesáhla 8,
+  // nejmenší se sloučí do jednoho neutrálního segmentu místo natěsnání dalších,
+  // hůř odlišitelných barev.
+  const MAX_SEGMENTS = 8;
+  if (segments.length > MAX_SEGMENTS) {
+    const kept = segments.slice(0, MAX_SEGMENTS - 1);
+    const restValue = segments.slice(MAX_SEGMENTS - 1).reduce((s,x)=>s+x.value, 0);
+    kept.push({ key: '__other__', label: 'Ostatní', color: catColor('__other__', '100%'), value: restValue });
+    segments = kept;
+  }
 
   const total = segments.reduce((s,x)=>s+x.value, 0) || 1;
   const R = 66, CX = 90, CY = 90, SW = 24, GAP = 3;

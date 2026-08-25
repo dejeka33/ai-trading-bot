@@ -110,4 +110,94 @@ INSTRUMENTS = {
         "price_divisor": 1,
         "currency": "USD",
     },
+
+    # Přidáno 24.8.2026 - rozšíření univerza z 9 na 20 titulů na žádost uživatele,
+    # cíleně do sektorů, které appka dosud vůbec nepokrývala (energetika, letecký
+    # průmysl, telekomunikace, maloobchod, platby...), ať nejde jen o další tech
+    # tituly korelované s AAPL/MSFT/GOOGL/NVDA. ISIN ověřeny přes více nezávislých
+    # zdrojů (justETF, Fidelity, Vídeňská burza, ISIN.org) - viz diskuze v chatu.
+    # POZOR - EODHD free tarif má strop 20 dotazů/den; appka teď má přesně 20
+    # nástrojů = 20 EODHD volání/den živě, BEZ jakékoli rezervy. Při dalším
+    # rozšiřování univerza už by appka narazila na limit a musela by řešit
+    # placený tarif (viz broker-pruzkum.md) nebo dávkové stahování.
+    "TSLA": {  # Tesla - elektromobily/energetika
+        "isin": "US88160R1014",
+        "stooq": "tsla.us",
+        "eodhd": "TSLA.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
+    "V": {  # Visa - platební sítě (jiný typ finančního byznysu než JPM banking)
+        "isin": "US92826C8394",
+        "stooq": "v.us",
+        "eodhd": "V.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
+    "WMT": {  # Walmart - maloobchod
+        "isin": "US9311421039",
+        "stooq": "wmt.us",
+        "eodhd": "WMT.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
+    "KO": {  # Coca-Cola - spotřební zboží/nápoje
+        "isin": "US1912161007",
+        "stooq": "ko.us",
+        "eodhd": "KO.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
+    "XOM": {  # ExxonMobil - energetika. POZOR: firma se v červenci 2026
+              # přejmenovala/přesídlila (na "ExxonMobil Holdings Corporation") a
+              # dostala NOVÝ ISIN - tohle je aktuální hodnota (ověřeno přes SEC
+              # 8-K a Bloomberg), ticker XOM i burza (NYSE) zůstaly stejné.
+        "isin": "US30233Q1085",
+        "stooq": "xom.us",
+        "eodhd": "XOM.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
+    "UNH": {  # UnitedHealth Group - zdravotní pojištění (jiný typ zdravotnictví než JNJ farmacie)
+        "isin": "US91324P1021",
+        "stooq": "unh.us",
+        "eodhd": "UNH.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
+    "DIS": {  # Walt Disney - média/zábava
+        "isin": "US2546871060",
+        "stooq": "dis.us",
+        "eodhd": "DIS.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
+    "BA": {  # Boeing - letecký/obranný průmysl
+        "isin": "US0970231058",
+        "stooq": "ba.us",
+        "eodhd": "BA.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
+    "MCD": {  # McDonald's - restaurace/spotřebitelský sektor
+        "isin": "US5801351017",
+        "stooq": "mcd.us",
+        "eodhd": "MCD.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
+    "COST": {  # Costco Wholesale - velkoobchod/členský maloobchod
+        "isin": "US22160K1051",
+        "stooq": "cost.us",
+        "eodhd": "COST.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
+    "VZ": {  # Verizon Communications - telekomunikace
+        "isin": "US92343V1044",
+        "stooq": "vz.us",
+        "eodhd": "VZ.US",
+        "price_divisor": 1,
+        "currency": "USD",
+    },
 }

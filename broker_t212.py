@@ -336,7 +336,22 @@ def execute_trades(trades, instruments_map):
                 raise RuntimeError(f"Symbol {symbol} není v instruments.py namapovaný na ISIN.")
             ticker = resolve_ticker_by_isin(info["isin"], preferred_currency=info.get("currency"))
 
-            signed_qty = float(qty) if side == "buy" else -float(qty)
+            # POZOR - přidáno 24.8.2026 po živém selhání NVDA nákupu (HTTP 400
+            # "api-errors/quantity-precision-mismatch", "invalid quantity precision 4"):
+            # clip_oversized_trades/clip_concentrated_trades v risk_rules.py počítají
+            # qty * faktor bez zaokrouhlení (např. 0.02933925826563982) - Trading 212
+            # fractional-share objednávky ale přijímá jen s omezenou přesností (max 4
+            # desetinná místa). Appka o obchod kvůli tomu úplně přišla, i když měla
+            # jasnou vůli. Zaokrouhlení na 4 desetinná místa TĚSNĚ PŘED odesláním sem
+            # (ne dřív, u zdroje čísla) chytí problém bez ohledu na to, který výpočet
+            # nepřesné číslo vyprodukoval.
+            rounded_qty = round(float(qty), 4)
+            if rounded_qty == 0:
+                raise RuntimeError(
+                    f"Množství {qty} se po zaokrouhlení na 4 desetinná místa (T212 limit "
+                    f"přesnosti) rovná 0 - obchod by neměl smysl, neodesílám."
+                )
+            signed_qty = rounded_qty if side == "buy" else -rounded_qty
             order = _request("POST", "/equity/orders/market", body={
                 "ticker": ticker,
                 "quantity": signed_qty,
