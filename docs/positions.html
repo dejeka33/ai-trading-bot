@@ -111,7 +111,7 @@
   .tab-link.active { color: var(--text-1); }
   .tab-link.active svg { stroke: var(--text-1); }
   .tab-link.active span { font-weight: 600; }
-  .tab-link.active .tab-indicator { position: absolute; top: 8px; width: 26px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); }
+  .tab-link.active .tab-indicator { position: absolute; left: 26px; right: 26px; bottom: 0; height: 1px; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); }
 
   .sheet-backdrop { position: fixed; inset: 0; background: oklch(0% 0 0 / 55%); opacity: 0; pointer-events: none; transition: opacity .22s ease; z-index: 40; }
   .sheet-backdrop.open { opacity: 1; pointer-events: auto; }
@@ -356,6 +356,7 @@ function renderOpenPositions(data){
 
 function openPositionSheet(p, buyDate){
   const name = INSTRUMENT_NAMES[p.symbol] || p.symbol;
+  const costBasis = p.qty * p.avg_entry_price;
   sheetEl.innerHTML = `
     <div class="sheet-handle"></div>
     <div class="sheet-header">
@@ -368,8 +369,8 @@ function openPositionSheet(p, buyDate){
     </div>
     <div class="sheet-meta">
       <div><div class="sm-label">Množství</div><div class="sm-value">${fmtQty(p.qty)} ks</div></div>
-      <div><div class="sm-label">Nákupní cena (celkem)</div><div class="sm-value">${fmtMoney(p.qty * p.avg_entry_price)}</div></div>
-      <div><div class="sm-label">Aktuální hodnota (celkem)</div><div class="sm-value">${fmtMoney(p.market_value)}</div></div>
+      <div><div class="sm-label">Nákupní cena (celkem)</div><div class="sm-value">${fmtMoney(costBasis)}</div></div>
+      <div><div class="sm-label">Aktuální hodnota (celkem)</div><div class="sm-value" style="color:${dirClass(p.market_value - costBasis)==='up'?'var(--good)':dirClass(p.market_value - costBasis)==='down'?'var(--critical)':'var(--text-1)'};">${dirArrow(p.market_value - costBasis)} ${fmtMoney(p.market_value)}</div></div>
     </div>
     <div class="sheet-meta" style="border-top:none;">
       <div><div class="sm-label">Průměrná cena</div><div class="sm-value">${fmtMoney(p.avg_entry_price)}</div></div>

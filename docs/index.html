@@ -94,8 +94,8 @@
   .chart-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
   .chart-legend { display: flex; gap: 14px; margin: 14px 0 12px; }
   .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--text-2); }
-  .legend-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-1); box-shadow: 0 0 8px oklch(68% 0.16 258 / 70%); }
-  .legend-dash { width: 14px; height: 0; border-top: 2px dashed var(--text-4); }
+  .legend-dot-green { width: 8px; height: 8px; border-radius: 50%; background: oklch(72% 0.22 145); box-shadow: 0 0 8px oklch(72% 0.22 145 / 70%); }
+  .legend-dot-blue { width: 8px; height: 8px; border-radius: 50%; background: oklch(68% 0.2 230); box-shadow: 0 0 8px oklch(68% 0.2 230 / 70%); }
   .table-toggle { background: transparent; border: 1px solid var(--border); color: var(--text-2); border-radius: 9px; font-size: 12px; padding: 6px 10px; font-family: inherit; cursor: pointer; }
   .table-toggle:hover { background: var(--surface-2); }
   svg.chart { width: 100%; height: auto; overflow: visible; }
@@ -175,7 +175,7 @@
   .tab-link.active { color: var(--text-1); }
   .tab-link.active svg { stroke: var(--text-1); }
   .tab-link.active span { font-weight: 600; }
-  .tab-link.active .tab-indicator { position: absolute; top: 8px; width: 26px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); }
+  .tab-link.active .tab-indicator { position: absolute; left: 26px; right: 26px; bottom: 0; height: 1px; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); }
 
   /* bottom sheet */
   .sheet-backdrop { position: fixed; inset: 0; background: oklch(0% 0 0 / 55%); opacity: 0; pointer-events: none; transition: opacity .22s ease; z-index: 40; }
@@ -234,8 +234,8 @@
     </div>
     <div class="chart-wrap" id="chart-wrap"></div>
     <div class="chart-legend" id="chart-legend" style="display:none;">
-      <span class="legend-item"><span class="legend-dot"></span>Portfolio (AI)</span>
-      <span class="legend-item"><span class="legend-dash"></span>Drž a čekej (CSPX)</span>
+      <span class="legend-item"><span class="legend-dot-green"></span>Portfolio (AI)</span>
+      <span class="legend-item"><span class="legend-dot-blue"></span>Drž a čekej (CSPX)</span>
     </div>
     <div class="range-row" id="range-row">
       <div class="range-pill active" data-period="daily">Denní</div>
@@ -493,40 +493,46 @@ function renderChart(data, period){
   const areaPts = `M ${x(0).toFixed(1)},${y(entries[0].portfolio_value).toFixed(1)} L ${linePts} L ${x(entries.length-1).toFixed(1)},${(padT+plotH).toFixed(1)} L ${x(0).toFixed(1)},${(padT+plotH).toFixed(1)} Z`;
   const lastX=x(entries.length-1), lastY=y(entries[entries.length-1].portfolio_value);
 
+  /* POZOR 25.8.2026 - obě křivky mají teď STEJNÝ styl vykreslení (plná čára
+     + rozostřená záře + tečka na konci s popiskem): Portfolio AI neonová
+     zelená, Drž a čekej (CSPX) neonová modrá. Dřív měl benchmark tenkou
+     přerušovanou šedou čáru bez záře. */
   let benchSvg = '', benchHoverDots = '';
   if (hasBench) {
     const benchPts = entries.map((e,i)=>`${x(i).toFixed(1)},${y(bench[i]).toFixed(1)}`).join(' L ');
     const benchLastY = y(bench[bench.length-1]);
     benchSvg = `
-      <path fill="none" stroke="oklch(52% 0.01 265)" stroke-width="1.75" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round" d="M ${benchPts}" />
-      <circle r="3.2" cx="${lastX.toFixed(1)}" cy="${benchLastY.toFixed(1)}" fill="oklch(52% 0.01 265)" stroke="var(--surface-1)" stroke-width="2" />
+      <path fill="none" stroke="oklch(66% 0.2 230)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.28" style="filter:blur(4px);" d="M ${benchPts}" />
+      <path fill="none" stroke="oklch(70% 0.19 228)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M ${benchPts}" />
+      <circle r="8" cx="${lastX.toFixed(1)}" cy="${benchLastY.toFixed(1)}" fill="oklch(66% 0.2 230)" opacity="0.30" style="filter:blur(3px);" />
+      <circle r="4" cx="${lastX.toFixed(1)}" cy="${benchLastY.toFixed(1)}" fill="oklch(80% 0.17 228)" stroke="var(--surface-1)" stroke-width="2" />
       <text class="bench-end-label" x="${(lastX-8).toFixed(1)}" y="${(benchLastY+15).toFixed(1)}" text-anchor="end">${fmtMoneyCompact(bench[bench.length-1])}</text>`;
     entries.forEach((e,i)=>{
-      benchHoverDots += `<circle class="bench-hd" data-i="${i}" r="5" cx="${x(i).toFixed(1)}" cy="${y(bench[i]).toFixed(1)}" fill="oklch(52% 0.01 265)" stroke="var(--surface-1)" stroke-width="2" opacity="0" />`;
+      benchHoverDots += `<circle class="bench-hd" data-i="${i}" r="5" cx="${x(i).toFixed(1)}" cy="${y(bench[i]).toFixed(1)}" fill="oklch(70% 0.19 228)" stroke="var(--surface-1)" stroke-width="2" opacity="0" />`;
     });
   }
 
   let hoverDots = '';
   entries.forEach((e,i)=>{
-    hoverDots += `<circle class="hd" data-i="${i}" r="6" cx="${x(i).toFixed(1)}" cy="${y(e.portfolio_value).toFixed(1)}" fill="var(--accent-1)" stroke="var(--surface-1)" stroke-width="2" opacity="0" />`;
+    hoverDots += `<circle class="hd" data-i="${i}" r="6" cx="${x(i).toFixed(1)}" cy="${y(e.portfolio_value).toFixed(1)}" fill="oklch(72% 0.22 145)" stroke="var(--surface-1)" stroke-width="2" opacity="0" />`;
   });
 
   wrap.innerHTML = `
     <svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" id="chart-svg">
       <defs>
         <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="oklch(68% 0.16 258)" stop-opacity="0.36" />
-          <stop offset="100%" stop-color="oklch(68% 0.16 258)" stop-opacity="0" />
+          <stop offset="0%" stop-color="oklch(72% 0.22 145)" stop-opacity="0.36" />
+          <stop offset="100%" stop-color="oklch(72% 0.22 145)" stop-opacity="0" />
         </linearGradient>
       </defs>
       ${gridSvg}
       <line class="baseline" x1="${padL}" x2="${W-padR}" y1="${padT+plotH}" y2="${padT+plotH}" />
       <path fill="url(#areaGrad)" d="${areaPts}" />
       ${benchSvg}
-      <path fill="none" stroke="var(--accent-1)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.28" style="filter:blur(4px);" d="M ${linePts}" />
-      <path fill="none" stroke="oklch(74% 0.15 258)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M ${linePts}" />
-      <circle r="8" cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" fill="var(--accent-1)" opacity="0.30" style="filter:blur(3px);" />
-      <circle r="4" cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" fill="oklch(78% 0.13 258)" stroke="var(--surface-1)" stroke-width="2" />
+      <path fill="none" stroke="oklch(70% 0.22 145)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.28" style="filter:blur(4px);" d="M ${linePts}" />
+      <path fill="none" stroke="oklch(74% 0.2 145)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M ${linePts}" />
+      <circle r="8" cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" fill="oklch(70% 0.22 145)" opacity="0.30" style="filter:blur(3px);" />
+      <circle r="4" cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" fill="oklch(85% 0.2 142)" stroke="var(--surface-1)" stroke-width="2" />
       <text class="end-label" x="${(lastX-8).toFixed(1)}" y="${(lastY-11).toFixed(1)}" text-anchor="end">${fmtMoney(entries[entries.length-1].portfolio_value)}</text>
       <line stroke="oklch(100% 0 0 / 14%)" stroke-width="1" id="crosshair" y1="${padT}" y2="${padT+plotH}" opacity="0" />
       ${hoverDots}${benchHoverDots}
