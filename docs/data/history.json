@@ -544,7 +544,149 @@
       "cash_flow_net": 0.0,
       "cash_flow_items": [],
       "net_deposits_cum": 0.0
+    },
+    {
+      "date": "2026-08-26",
+      "portfolio_value": 10003.48,
+      "cash": 1707.9,
+      "buying_power": 1707.9,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "AMZN",
+          "qty": 0.09,
+          "avg_entry_price": 5365.88,
+          "current_price": 5367.32466,
+          "market_value": 483.0592194,
+          "unrealized_pl": 0.66,
+          "unrealized_plpc": 0.1366659957608693
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 9952.675500000001,
+          "current_price": 10211.06326,
+          "market_value": 408.44253040000007,
+          "unrealized_pl": 10.9,
+          "unrealized_plpc": 2.7379572457677335
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 7880.276333264541,
+          "current_price": 7883.0968600000015,
+          "market_value": 472.9858116000001,
+          "unrealized_pl": 0.87,
+          "unrealized_plpc": 0.18400369970266164
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.07,
+          "avg_entry_price": 6530.45285717234,
+          "current_price": 6449.99414,
+          "market_value": 451.4995898,
+          "unrealized_pl": -5.19,
+          "unrealized_plpc": -1.1353402093918596
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2281,
+          "avg_entry_price": 4492.2257781711805,
+          "current_price": 4361.428540000001,
+          "market_value": 994.8418499740002,
+          "unrealized_pl": -28.53,
+          "unrealized_plpc": -2.7842928408517964
+        },
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 19958.235,
+          "current_price": 19980.4577,
+          "market_value": 399.609154,
+          "unrealized_pl": -0.18,
+          "unrealized_plpc": -0.045094167896109046
+        },
+        {
+          "symbol": "BA",
+          "qty": 0.06,
+          "avg_entry_price": 4364.937000000001,
+          "current_price": 4344.09262,
+          "market_value": 260.6455572,
+          "unrealized_pl": -0.91,
+          "unrealized_plpc": -0.34746587789621397
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.47,
+          "avg_entry_price": 1042.4385532354,
+          "current_price": 1042.0126200000002,
+          "market_value": 489.7459314000001,
+          "unrealized_pl": -0.22,
+          "unrealized_plpc": -0.04490289666764439
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7292.093333264541,
+          "current_price": 7356.002340000001,
+          "market_value": 441.36014040000003,
+          "unrealized_pl": 4.4,
+          "unrealized_plpc": 1.0056554405139972
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.4,
+          "avg_entry_price": 5530.984,
+          "current_price": 5600.7404400000005,
+          "market_value": 2240.2961760000003,
+          "unrealized_pl": 30.98,
+          "unrealized_plpc": 1.4002933293605622
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.24,
+          "avg_entry_price": 7069.37491673546,
+          "current_price": 7071.817080000001,
+          "market_value": 1697.2360992000001,
+          "unrealized_pl": 3.1,
+          "unrealized_plpc": 0.1827129954034381
+        }
+      ],
+      "market_summary": "Trh je ve smíšeném módu – technologické akcie (NVDA, AAPL, MSFT) korigovaly za posledních 10 dní, zatímco defensivní tituly (JNJ, V, KO, VZ) si vedou dobře nebo rostou. NVDA před výsledky vykazuje zvýšenou volatilitu a výrazný pokles (-7 % za 10D). V má silný technický trend a dosáhla 52W maxima. KO je v 10denním uptrendu s bullish zprávami. Makro kontext: výnosová křivka mírně normalizovaná (T10Y2Y +0.47), Fed sazba 3.63 % – prostředí mírně podpůrné pro akcie, ale 10Y výnos 4.7 % zůstává relativně restrictivní.",
+      "trades": [
+        {
+          "symbol": "KO",
+          "side": "buy",
+          "qty": 0.2630560010184076,
+          "status": "failed",
+          "error": "Trading 212 API chyba 400 na POST /equity/orders/market: {\"type\":\"/api-errors/quantity-precision-mismatch\",\"title\":\"Error while placing the order\",\"status\":400,\"detail\":\"invalid quantity precision 3\",\"traceId\":\"5c25208508de78827252af191e057613\"}",
+          "reasoning": "KO je v čistém 10denním uptrendu (+5.7 % z minima 12.8.), bullish zprávy (PSG partnerství, FIFA úspěch), defensivní charakter v prostředí vysokých výnosů. Limit mírně pod aktuální cenou 1891.27. Qty 0.5 × 1891 = ~946 CZK, pod limitem 5 % portfolia (~500 CZK) – OPRAVA: 500 CZK limit → qty 0.26 tak, aby 0.26 × 1891 = ~492 CZK."
+        },
+        {
+          "symbol": "VZ",
+          "side": "buy",
+          "qty": 0.47,
+          "status": "submitted",
+          "order_id": "53950212324",
+          "reasoning": "VZ je v silném krátkodobém uptrendu (od 12.8. +7 %), právě získal #1 v JD Power žebříčku zákaznické spokojenosti, dividend titul vhodný při 4.7% výnosu dluhopisů jako alternativa. Limit ~1037 CZK, qty 0.47 × 1037 = ~487 CZK – vejde se do 5% limitu."
+        },
+        {
+          "symbol": "NVDA",
+          "side": "buy",
+          "qty": 0.0003826466400081926,
+          "status": "failed",
+          "error": "Trading 212 API chyba 400 na POST /equity/orders/market: {\"type\":\"/api-errors/min-quantity-exceeded\",\"title\":\"Error while placing the order\",\"status\":400,\"detail\":\"must trade at least 0.00573056\",\"traceId\":\"7b61213b776400ca9204e9c658c59a92\"}",
+          "reasoning": "NVDA korigovala -7 % za 10 dní a dnes se odráží (+2.2 % na 4397). Před výsledky (earnings) je sentiment somewhat-bullish, historicky NVDA překonává odhady. Dokupuji malé qty do stávající pozice se ztrátou. Limit 4360 dává mírný discount pod aktuální cenou. 0.11 × 4360 = ~480 CZK."
+        }
+      ],
+      "trade_count": 3,
+      "blocked_reasons": [],
+      "spy_price": 23254.5084,
+      "realized_pl_cum": 0.0,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-08-25T14:53:28.631225+00:00"
+  "last_cash_flow_check": "2026-08-26T14:52:21.903155+00:00"
 }
