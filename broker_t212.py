@@ -30,6 +30,7 @@ GET /equity/metadata/instruments. Výsledek se cachuje v paměti běhu (endpoint
 má rate limit 1 dotaz/50s, appka ho proto volá nejvýš jednou za spuštění).
 """
 import os
+import re
 import json
 import time
 import base64
@@ -129,6 +130,23 @@ def _auth_header_value():
     return f"Basic {token}"
 
 
+class T212OrderError(RuntimeError):
+    """
+    POZOR - přidáno 26.8.2026: stejná chyba jako obyčejný RuntimeError (kód,
+    který o ni nestojí, ji odchytí úplně stejně), ale navíc nese rozparsované
+    tělo chybové odpovědi (status/type/detail), pokud šlo o JSON - viz
+    execute_trades()/_submit_order_with_retry() níže, které na "detail" (např.
+    "invalid quantity precision 3" nebo "must trade at least 0.00573056")
+    reagují dynamicky místo toho, aby si přesnost/minimum pro každý nástroj
+    předem hádaly.
+    """
+    def __init__(self, message, status=None, error_type=None, detail=None):
+        super().__init__(message)
+        self.status = status
+        self.error_type = error_type
+        self.detail = detail
+
+
 def _request(method, path, body=None):
     url = f"{_base_url()}{path}"
     data = json.dumps(body).encode("utf-8") if body is not None else None
@@ -153,9 +171,16 @@ def _request(method, path, body=None):
         # DOČASNÝ diagnostický log - i hlavičky odpovědi, pro případ, že tělo je
         # prázdné (např. blokace na úrovni WAF/proxy, ne appky samotné).
         print(f"[T212] {method} {path} -> HTTP {e.code}, hlavičky: {dict(e.headers)!r}")
-        raise RuntimeError(
-            f"Trading 212 API chyba {e.code} na {method} {path}: {error_body}"
-        ) from e
+        message = f"Trading 212 API chyba {e.code} na {method} {path}: {error_body}"
+        error_type = None
+        detail = None
+        try:
+            parsed_body = json.loads(error_body)
+            error_type = parsed_body.get("type")
+            detail = parsed_body.get("detail")
+        except (json.JSONDecodeError, TypeError, AttributeError):
+            pass  # tělo nebylo JSON (např. WAF blokace) - message výše pořád obsahuje syrový text
+        raise T212OrderError(message, status=e.code, error_type=error_type, detail=detail) from e
 
 
 def get_account_snapshot(instruments_map):
@@ -313,7 +338,7 @@ def get_settled_account_snapshot(instruments_map, trade_results, max_attempts=15
     return snapshot
 
 
-def execute_trades(trades, instruments_map):
+def execute_trades(trades, instruments_map, prices=None, account=None, limits=None):
     """
     Provede seznam obchodů přes Trading 212 equity orders API (market order).
     Stejné rozhraní jako dřívější Alpaca execute.execute_trades() (jen navíc
@@ -324,7 +349,23 @@ def execute_trades(trades, instruments_map):
     Trading 212 quantity konvence: kladné číslo = nákup, záporné = prodej
     (na rozdíl od Alpaca, kde se strana určuje samostatným polem "side" a qty
     je vždy kladné) - proto se tady znaménko počítá z t["side"].
+
+    POZOR - přepracováno 26.8.2026 po dvou živých selháních ve stejný den (KO:
+    "invalid quantity precision 3", NVDA: "must trade at least 0.00573056").
+    Dřívější fix (24.8.2026) zaokrouhloval natvrdo na 4 desetinná místa - u
+    NVDA to tehdy pomohlo, ale přesnost se ukázala být PER-INSTRUMENT (KO
+    chce jen 3 místa), takže napevno zvolené číslo nikdy nebude univerzální.
+    Appka teď na obě chyby reaguje DYNAMICKY - Trading 212 v "detail" poli
+    chybové odpovědi vždy přesně řekne, co chce (požadovanou přesnost, nebo
+    minimální obchodovatelné množství), appka si to přečte a objednávku
+    jednou zkusí znovu opravenou - funguje to pro libovolný nástroj, ne jen
+    pro KO/NVDA, aniž by appka musela předem znát přesnost/minimum každého
+    tickeru. `prices`/`account`/`limits` jsou volitelné (viz
+    _safe_bump_to_minimum níže) - bez nich appka min-quantity chybu při buy
+    obchodu radši přeskočí, než aby riskovala tiché obejití koncentračního
+    limitu.
     """
+    prices = prices or {}
     results = []
     for t in trades:
         symbol = t.get("symbol")
@@ -336,32 +377,24 @@ def execute_trades(trades, instruments_map):
                 raise RuntimeError(f"Symbol {symbol} není v instruments.py namapovaný na ISIN.")
             ticker = resolve_ticker_by_isin(info["isin"], preferred_currency=info.get("currency"))
 
-            # POZOR - přidáno 24.8.2026 po živém selhání NVDA nákupu (HTTP 400
-            # "api-errors/quantity-precision-mismatch", "invalid quantity precision 4"):
-            # clip_oversized_trades/clip_concentrated_trades v risk_rules.py počítají
-            # qty * faktor bez zaokrouhlení (např. 0.02933925826563982) - Trading 212
-            # fractional-share objednávky ale přijímá jen s omezenou přesností (max 4
-            # desetinná místa). Appka o obchod kvůli tomu úplně přišla, i když měla
-            # jasnou vůli. Zaokrouhlení na 4 desetinná místa TĚSNĚ PŘED odesláním sem
-            # (ne dřív, u zdroje čísla) chytí problém bez ohledu na to, který výpočet
-            # nepřesné číslo vyprodukoval.
-            rounded_qty = round(float(qty), 4)
+            # Zaokrouhlení na 6 desetinných míst tady ořezává jen plovoucí
+            # desetinný šum (např. 0.02933925826563982 z clip_concentrated_trades)
+            # - SKUTEČNOU T212 přesnost appka nezná předem, zjistí ji až z
+            # chybové odpovědi níže (_submit_order_with_retry).
+            rounded_qty = round(float(qty), 6)
             if rounded_qty == 0:
                 raise RuntimeError(
-                    f"Množství {qty} se po zaokrouhlení na 4 desetinná místa (T212 limit "
-                    f"přesnosti) rovná 0 - obchod by neměl smysl, neodesílám."
+                    f"Množství {qty} je po zaokrouhlení nulové - obchod by neměl smysl, neodesílám."
                 )
-            signed_qty = rounded_qty if side == "buy" else -rounded_qty
-            order = _request("POST", "/equity/orders/market", body={
-                "ticker": ticker,
-                "quantity": signed_qty,
-            })
+            order_id, submitted_qty = _submit_order_with_retry(
+                ticker, rounded_qty, side, symbol, prices, account, limits
+            )
             results.append({
                 "symbol": symbol,
                 "side": side,
-                "qty": qty,
+                "qty": submitted_qty,
                 "status": "submitted",
-                "order_id": str(order.get("id", "")),
+                "order_id": order_id,
                 "reasoning": t.get("reasoning", ""),
             })
         except Exception as e:
@@ -374,6 +407,74 @@ def execute_trades(trades, instruments_map):
                 "reasoning": t.get("reasoning", ""),
             })
     return results
+
+
+def _submit_order_with_retry(ticker, qty, side, symbol, prices, account, limits):
+    """Pošle market objednávku; na dvě konkrétní, dobře popsané T212 chyby
+    (precision mismatch, min-quantity) reaguje jedním opraveným pokusem podle
+    toho, co appce řekla samotná chybová odpověď. Jakákoliv jiná chyba (jiný
+    "type", nebo chyba i po opravě) propadne beze změny výš do except v
+    execute_trades - appka nikdy neopakuje naslepo do nekonečna."""
+    signed_qty = qty if side == "buy" else -qty
+    try:
+        order = _request("POST", "/equity/orders/market", body={"ticker": ticker, "quantity": signed_qty})
+        return str(order.get("id", "")), qty
+    except T212OrderError as e:
+        if e.error_type == "/api-errors/quantity-precision-mismatch" and e.detail:
+            m = re.search(r"precision (\d+)", e.detail)
+            if m:
+                precision = int(m.group(1))
+                fixed_qty = round(qty, precision)
+                if fixed_qty == 0:
+                    raise RuntimeError(
+                        f"{symbol}: po zaokrouhlení na T212 požadovanou přesnost ({precision} "
+                        f"des. míst) vychází množství 0 - obchod nemá smysl, neodesílám."
+                    ) from e
+                print(f"[T212] {symbol}: API vyžaduje přesnost {precision} des. míst, "
+                      f"opravuji {qty} -> {fixed_qty} a zkouším znovu.")
+                signed_fixed = fixed_qty if side == "buy" else -fixed_qty
+                order = _request("POST", "/equity/orders/market", body={"ticker": ticker, "quantity": signed_fixed})
+                return str(order.get("id", "")), fixed_qty
+
+        if e.error_type == "/api-errors/min-quantity-exceeded" and e.detail:
+            m = re.search(r"at least ([\d.]+)", e.detail)
+            if m:
+                min_qty = float(m.group(1))
+                bumped_qty = _safe_bump_to_minimum(symbol, min_qty, side, prices, account, limits)
+                if bumped_qty is None:
+                    raise RuntimeError(
+                        f"{symbol}: T212 vyžaduje minimálně {min_qty} ks, ale navýšení na tohle "
+                        f"množství by porušilo max_position_size_pct limit - obchod přeskočen, "
+                        f"appka záměrně neobchází koncentrační mantinel."
+                    ) from e
+                print(f"[T212] {symbol}: API vyžaduje minimum {min_qty} ks, navyšuji a zkouším znovu.")
+                signed_bumped = bumped_qty if side == "buy" else -bumped_qty
+                order = _request("POST", "/equity/orders/market", body={"ticker": ticker, "quantity": signed_bumped})
+                return str(order.get("id", "")), bumped_qty
+
+        raise
+
+
+def _safe_bump_to_minimum(symbol, min_qty, side, prices, account, limits):
+    """Vrátí bezpečné množství pro dosažení T212 minima, nebo None, pokud by
+    to (jen u 'buy') porušilo max_position_size_pct. Prodej vždy snižuje
+    riziko (stejná konvence jako u clip funkcí v risk_rules.py), takže se
+    kontroluje jen navyšování existující pozice nákupem. Bez `prices`/
+    `account`/`limits` (nepovinné parametry execute_trades) appka kontrolu
+    neumí provést a radši min_qty rovnou vrátí - to je stejné chování jako
+    před tímhle fixem, jen omezené na tenhle jeden konkrétní případ."""
+    if side == "sell" or not (prices and account and limits):
+        return min_qty
+    price = prices.get(symbol)
+    portfolio_value = account.get("portfolio_value")
+    if not price or not portfolio_value:
+        return min_qty
+    existing_qty = next((p["qty"] for p in account.get("positions", []) if p["symbol"] == symbol), 0)
+    new_position_value = (existing_qty + min_qty) * price
+    max_pct = (limits.get("position_limits") or {}).get("max_position_size_pct")
+    if max_pct is not None and new_position_value > portfolio_value * (max_pct / 100):
+        return None
+    return min_qty
 
 
 def get_cash_flows(after_datetime=None, max_pages=5, page_limit=50):

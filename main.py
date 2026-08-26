@@ -166,7 +166,9 @@ def main():
 
     trade_results = []
     if ok and decision.get("trades"):
-        trade_results = broker_t212.execute_trades(decision["trades"], INSTRUMENTS)
+        trade_results = broker_t212.execute_trades(
+            decision["trades"], INSTRUMENTS, prices=prices, account=account_before, limits=limits
+        )
     elif not ok:
         print("Rozhodnutí porušilo mantinely, obchody se neprovedou:", reasons)
 

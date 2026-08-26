@@ -77,6 +77,8 @@
     margin-top: 30px;
     background: linear-gradient(135deg, oklch(99% 0.003 265), oklch(80% 0.02 265));
     -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero-cash { font-size: 12.5px; color: var(--text-3); margin-top: 4px; }
+  .hero-cash b { color: var(--text-2); font-weight: 600; }
   .pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; margin-bottom: 30px; }
   .pill { display: flex; align-items: center; gap: 5px; padding: 6px 10px 6px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
   .pill.up { background: oklch(72% 0.17 148 / 14%); border: 1px solid oklch(72% 0.17 148 / 30%); color: var(--good-ink); }
@@ -220,6 +222,7 @@
     <button type="button" class="hero-btn" id="hero-btn">
       <div class="hero-label" id="hero-label">Hodnota portfolia</div>
       <div class="hero-value" id="hero-value"></div>
+      <div class="hero-cash" id="hero-cash"></div>
       <div class="pill-row" id="hero-pills"></div>
     </button>
   </div>
@@ -381,6 +384,7 @@ function renderStats(data){
 
   document.getElementById('hero-value').textContent = fmtMoney(last.portfolio_value);
   document.getElementById('hero-label').textContent = 'Hodnota portfolia · od ' + fmtDate(entries[0].date);
+  document.getElementById('hero-cash').innerHTML = 'Hotovost: <b>' + fmtMoney(last.cash) + '</b>';
 
   let pills = pillHtml(dirClass(delta), (delta>=0?'+':'-') + fmtMoney(Math.abs(delta)), (delta>=0?'+':'')+deltaPct.toFixed(2)+' %', 'od začátku');
   if (dailyDelta !== null) {
@@ -684,7 +688,19 @@ function renderAllocation(data){
     segments = kept;
   }
 
-  const total = segments.reduce((s,x)=>s+x.value, 0) || 1;
+  // POZOR - přidáno 26.8.2026: segmenty (hotovost + tržní hodnota pozic) si
+  // appka počítá sama z /equity/positions (vlastní přepočet ceny + kurzu), což
+  // se drobně liší od last.portfolio_value = totalValue, které appce vrátí
+  // přímo Trading 212 z /equity/account/summary (stejné číslo jako ve velkém
+  // čísle v záhlaví) - dvě nezávislá volání API v mírně jiný okamžik. Na
+  // žádost uživatele má donut ukazovat STEJNOU částku jako záhlaví: segmenty
+  // se poměrově přeškálují tak, aby jejich součet vyšel přesně na
+  // last.portfolio_value - relativní poměr mezi segmenty (a tedy i úhly
+  // výsečí v grafu) zůstává stejný, mění se jen zobrazené Kč hodnoty.
+  const rawTotal = segments.reduce((s,x)=>s+x.value, 0) || 1;
+  const total = last.portfolio_value || rawTotal;
+  const scale = rawTotal > 0 ? total / rawTotal : 1;
+  segments = segments.map(s => ({ ...s, value: s.value * scale }));
   const R = 66, CX = 90, CY = 90, SW = 24, GAP = 3;
   const circumference = 2 * Math.PI * R;
   let offset = 0;
