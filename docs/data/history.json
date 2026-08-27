@@ -686,7 +686,176 @@
       "cash_flow_net": 0.0,
       "cash_flow_items": [],
       "net_deposits_cum": 0.0
+    },
+    {
+      "date": "2026-08-27",
+      "portfolio_value": 10029.25,
+      "cash": 377.55,
+      "buying_power": 377.55,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "TSLA",
+          "qty": 0.06,
+          "avg_entry_price": 7313.88216659757,
+          "current_price": 7315.67868,
+          "market_value": 438.9407208,
+          "unrealized_pl": 0.04,
+          "unrealized_plpc": 0.009115086235752155
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 9996.56025,
+          "current_price": 10340.03978,
+          "market_value": 413.6015912,
+          "unrealized_pl": 14.96,
+          "unrealized_plpc": 3.7412869091645797
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1862.29336,
+          "current_price": 1862.0860699999998,
+          "market_value": 465.52151749999996,
+          "unrealized_pl": -0.17,
+          "unrealized_plpc": -0.03651411826974457
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.07,
+          "avg_entry_price": 6559.24785717247,
+          "current_price": 6523.20901,
+          "market_value": 456.6246307,
+          "unrealized_pl": -1.27,
+          "unrealized_plpc": -0.2765996580388118
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2281,
+          "avg_entry_price": 4512.033537925689,
+          "current_price": 4688.277929999999,
+          "market_value": 1069.3961958329999,
+          "unrealized_pl": 43.29,
+          "unrealized_plpc": 4.206200604284432
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.47,
+          "avg_entry_price": 1047.0350213206998,
+          "current_price": 1032.51149,
+          "market_value": 485.2804003,
+          "unrealized_pl": -5.99,
+          "unrealized_plpc": -1.2172162909114594
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7324.24666659757,
+          "current_price": 7355.89294,
+          "market_value": 441.35357639999995,
+          "unrealized_pl": 3.21,
+          "unrealized_plpc": 0.7304505491873756
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.24,
+          "avg_entry_price": 7100.546208402429,
+          "current_price": 7060.50469,
+          "market_value": 1694.5211255999998,
+          "unrealized_pl": -4.16,
+          "unrealized_plpc": -0.24411267562517852
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.09,
+          "avg_entry_price": 5389.54,
+          "current_price": 5314.708309999999,
+          "market_value": 478.3237478999999,
+          "unrealized_pl": -5.37,
+          "unrealized_plpc": -1.1070827318596146
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 7915.02316659757,
+          "current_price": 7896.50526,
+          "market_value": 473.7903156,
+          "unrealized_pl": 0.4,
+          "unrealized_plpc": 0.08422801205182659
+        },
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 19975.263,
+          "current_price": 20118.285320000003,
+          "market_value": 402.3657064000001,
+          "unrealized_pl": 2.64,
+          "unrealized_plpc": 0.6608173319169816
+        },
+        {
+          "symbol": "BA",
+          "qty": 0.06,
+          "avg_entry_price": 4384.1835,
+          "current_price": 4354.74832,
+          "market_value": 261.2848992,
+          "unrealized_pl": -0.97,
+          "unrealized_plpc": -0.3687497721449539
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.4,
+          "avg_entry_price": 5555.371999999999,
+          "current_price": 5531.326359999999,
+          "market_value": 2212.5305439999997,
+          "unrealized_pl": -2.75,
+          "unrealized_plpc": -0.12375408883509513
+        },
+        {
+          "symbol": "DIS",
+          "qty": 0.19,
+          "avg_entry_price": 2236.54999995636,
+          "current_price": 2236.03723,
+          "market_value": 424.8470737,
+          "unrealized_pl": -0.22,
+          "unrealized_plpc": -0.0517714666278285
+        }
+      ],
+      "market_summary": "Trh je pod tlakem – CSPX i EQQQ za posledních 10 dní klesají (CSPX z ~23 608 na ~23 280, EQQQ z ~15 329 na ~14 773). Tech je smíšený: MSFT si vedl dobře a znovu roste (dnes ~10 289), AAPL se odráží z lokálního dna (dnes ~6 497), ale NVDA je výrazně pod tlak (z ~4 670 na ~4 346, -7 % za 10 dní) navzdory nadcházejícím earnings. Portfolio má celkem zdravou diverzifikaci, hotovost 1 707 CZK. Makroprostředí: Fed sazba 3,63 %, 10Y výnos 4,64 %, výnosová křivka pozitivní (+0,47 %) – bez signálu recese. Výběr příležitostí: NVDA před výsledky s bulish zprávami, DIS v silném uptrendu, TSLA rally, VZ pozitivní trend a bullish zprávy.",
+      "trades": [
+        {
+          "symbol": "TSLA",
+          "side": "buy",
+          "qty": 0.06,
+          "status": "submitted",
+          "order_id": "54000558864",
+          "reasoning": "TSLA v silném uptrendu – z ~6 983 (18.8.) na ~7 522 (21.8.), dnes pullback na ~7 168. Bullish zpráva o Cybercab produkci v Gigafactory Texas. Pullback po rally je příležitost k nákupu; limit 7 200 blízko dnešního close. Hodnota ~432 CZK, pod 5 % limitem (~502 CZK). Dosud nemáme pozici v TSLA – diverzifikace portfolia."
+        },
+        {
+          "symbol": "DIS",
+          "side": "buy",
+          "qty": 0.19,
+          "status": "submitted",
+          "order_id": "54000558869",
+          "reasoning": "DIS v silném uptrendu posledních 10 dní (z ~2 145 na ~2 273, +5,9 %). Bullish zprávy (Q3 earnings beat, nová investice Councilmark). Dnešní pullback z ~2 306 na ~2 272 je mírná korekce v uptrendu. Limit 2 280 blízko dnešní close. Hodnota ~433 CZK pod limitem. Nemáme pozici – přidává expozici na spotřební/mediální segment."
+        },
+        {
+          "symbol": "KO",
+          "side": "buy",
+          "qty": 0.25,
+          "status": "submitted",
+          "order_id": "54000558874",
+          "reasoning": "KO v silném uptrendu (z ~1 803 na peak ~1 907 dne 24.8.), dnes korekce na ~1 867. Dvě bullish zprávy o PSG partnerství a FIFA flywheel dat. Defenzivní akcie s dividendou – vhodná v prostředí vyšších sazeb (10Y 4,64 %). Limit 1 875 nad dnešním close pro zajištění plnění. Hodnota ~469 CZK pod 5% limitem. Nemáme pozici."
+        }
+      ],
+      "trade_count": 3,
+      "blocked_reasons": [],
+      "spy_price": 23280.26106,
+      "realized_pl_cum": 0.0,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-08-26T14:52:21.903155+00:00"
+  "last_cash_flow_check": "2026-08-27T15:33:05.026859+00:00"
 }
