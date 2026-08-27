@@ -102,10 +102,10 @@
   footer { max-width: 460px; margin: 22px auto 0; padding: 0 18px; color: var(--text-4); font-size: 10.5px; line-height: 1.6; }
 
   .tabbar-wrap { position: fixed; left: 0; right: 0; bottom: 18px; display: flex; justify-content: center; z-index: 30; pointer-events: none; }
-  .tabbar { pointer-events: auto; width: calc(100% - 32px); max-width: 428px; height: 64px; border-radius: 22px;
+  .tabbar { pointer-events: auto; width: auto; height: 64px; border-radius: 22px; padding: 0 4px;
     background: oklch(21% 0.03 265 / 92%); backdrop-filter: blur(14px); border: 1px solid var(--border-2);
     display: flex; box-shadow: 0 16px 40px -12px oklch(0% 0 0 / 55%); }
-  .tab-link { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; position: relative; text-decoration: none; color: var(--text-4); }
+  .tab-link { flex: 0 0 auto; width: 84px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; position: relative; text-decoration: none; color: var(--text-4); }
   .tab-link svg { stroke: var(--text-4); }
   .tab-link span { font-size: 10px; font-weight: 500; }
   .tab-link.active { color: var(--text-1); }
