@@ -855,7 +855,160 @@
       "cash_flow_net": 0.0,
       "cash_flow_items": [],
       "net_deposits_cum": 0.0
+    },
+    {
+      "date": "2026-08-31",
+      "portfolio_value": 10077.31,
+      "cash": 377.55,
+      "buying_power": 377.55,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "TSLA",
+          "qty": 0.06,
+          "avg_entry_price": 7317.7633332642,
+          "current_price": 7190.1431999999995,
+          "market_value": 431.40859199999994,
+          "unrealized_pl": -5.96,
+          "unrealized_plpc": -1.35742751998819
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 10001.865,
+          "current_price": 10576.7778,
+          "market_value": 423.071112,
+          "unrealized_pl": 25.92,
+          "unrealized_plpc": 6.4787917053469535
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1863.2816,
+          "current_price": 1859.341,
+          "market_value": 464.83525,
+          "unrealized_pl": 0.8,
+          "unrealized_plpc": 0.17174000966896255
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.07,
+          "avg_entry_price": 6562.728571458199,
+          "current_price": 6626.844799999999,
+          "market_value": 463.87913599999996,
+          "unrealized_pl": 7.62,
+          "unrealized_plpc": 1.6587177371706452
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2281,
+          "avg_entry_price": 4514.4278825114,
+          "current_price": 4540.6082,
+          "market_value": 1035.7127304199998,
+          "unrealized_pl": 13.31,
+          "unrealized_plpc": 1.2925580315816316
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.47,
+          "avg_entry_price": 1047.590638342,
+          "current_price": 1034.5112,
+          "market_value": 486.22026399999993,
+          "unrealized_pl": -3.32,
+          "unrealized_plpc": -0.6742929469486115
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7328.1333332642,
+          "current_price": 7373.277399999999,
+          "market_value": 442.3966439999999,
+          "unrealized_pl": 5.82,
+          "unrealized_plpc": 1.3236658721763856
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.24,
+          "avg_entry_price": 7104.3141667357995,
+          "current_price": 7149.0779999999995,
+          "market_value": 1715.7787199999998,
+          "unrealized_pl": 23.16,
+          "unrealized_plpc": 1.3583295689798949
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.09,
+          "avg_entry_price": 5392.4,
+          "current_price": 5501.0776,
+          "market_value": 495.09698399999996,
+          "unrealized_pl": 13.14,
+          "unrealized_plpc": 2.707514279356131
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 7919.2233332642,
+          "current_price": 7861.2896,
+          "market_value": 471.677376,
+          "unrealized_pl": -0.04,
+          "unrealized_plpc": -0.008418333952855897
+        },
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 19987.3245,
+          "current_price": 20152.12485,
+          "market_value": 403.042497,
+          "unrealized_pl": 2.86,
+          "unrealized_plpc": 0.7154534365017189
+        },
+        {
+          "symbol": "BA",
+          "qty": 0.06,
+          "avg_entry_price": 4386.509999999999,
+          "current_price": 4349.8002,
+          "market_value": 260.98801199999997,
+          "unrealized_pl": -0.34,
+          "unrealized_plpc": -0.12918394501931302
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.4,
+          "avg_entry_price": 5558.32,
+          "current_price": 5536.335599999999,
+          "market_value": 2214.53424,
+          "unrealized_pl": 7.1,
+          "unrealized_plpc": 0.31934109587069476
+        },
+        {
+          "symbol": "DIS",
+          "qty": 0.19,
+          "avg_entry_price": 2237.7368420616,
+          "current_price": 2237.2237999999998,
+          "market_value": 425.07252199999994,
+          "unrealized_pl": 1.51,
+          "unrealized_plpc": 0.3551520568312589
+        }
+      ],
+      "market_summary": "Trh v posledních 10 dnech vykazuje smíšené signály: tech akcie (MSFT, AAPL, GOOGL, AMZN) zakončily týden silně s výraznými pohyby nahoru v posledních dvou sezeních, zatímco NVDA zažila prudký výkyv – silný růst 27.8. (+8.7 %) a okamžitý pullback 28.8. (-4,6 %). TSLA klesá od vrcholu 21.8. Defenzivní tituly (KO, JNJ) jsou pod tlakem. Makroprostředí: výnosová křivka pozitivní (T10Y2Y +0,39 %), Fed sazba 3,63 % – bez invertování, tedy bez přímého recessního signálu. Hotovost 377,55 CZK, max. jeden obchod = 5 % z ~10 071 CZK ≈ 503 CZK.",
+      "trades": [
+        {
+          "symbol": "MSFT",
+          "side": "buy",
+          "qty": 0.04,
+          "status": "failed",
+          "error": "Trading 212 API chyba 400 na POST /equity/orders/market: {\"type\":\"/api-errors/insufficient-free-for-stocks-buy\",\"title\":\"Error while placing the order\",\"status\":400,\"detail\":\"Insufficient funds\",\"traceId\":\"67cd3b7f43ab74acae48d3d384867760\"}",
+          "reasoning": "MSFT v jasném uptrendu posledních 6 sezení (+6,9 % za týden), bullish zprávy o AI/security (BigGo Finance), pozice zatím jen 0,04 ks s +6,5 % ziskem. Doléváme dalších 0,04 ks při limitu ~10 600 CZK. Limit nastavíme mírně nad aktuální cenou kvůli silnému momentu. Váha pozice po dokoupení: ~848 CZK = ~8,4 % portfolia – stále pod max. 10 %. Negativní zprávy (Seeking Alpha downgrade, K-12 data) sledujeme, ale cenová akce je přesvědčivější."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "spy_price": 23575.46477,
+      "realized_pl_cum": 0.0,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-08-27T15:33:05.026859+00:00"
+  "last_cash_flow_check": "2026-08-31T10:38:16.202484+00:00"
 }
