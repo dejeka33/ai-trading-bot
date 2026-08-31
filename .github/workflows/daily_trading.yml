@@ -1,26 +1,12 @@
 name: Daily AI Trading Run
 
 on:
-  schedule:
-    # POZOR - zmena 19.8.2026 vecer: puvodne appka bezela v 21:30 UTC, tedy PO
-    # zavreni obou burz (LSE zavira 15:30 UTC, NYSE 20:00 UTC) - to byl skutecny
-    # duvod, proc se pozice po nakupu nikdy nestihly vyplnit do dashboardu/reportu
-    # (viz broker_t212.get_settled_account_snapshot) - objednavka cekala na dalsi
-    # otevreni trhu, ne na par vterin zpozdeni.
-    #
-    # Novy rozvrh cili na 16:00 ceskeho casu - uprostred prekryvu, kdy jsou
-    # OBE burzy otevrene zaroven (LSE 9:00-17:30, NYSE 15:30-22:00 ceskeho casu).
-    # GitHub Actions cron neumi primo "16:00 ceskeho casu" (jen UTC), a UTC posun
-    # ceskeho casu se 2x rocne meni (CEST/letni = UTC+2, CET/zimni = UTC+1) - proto
-    # jsou tu DVA cron zaznamy (14:00 a 15:00 UTC) a job si sam pomoci
-    # TZ=Europe/Prague overi, ktery z nich prave odpovida 16:00 mistniho casu
-    # (viz krok "Zkontrolovat, jestli je ted 16:00 ceskeho casu" nize) - ten druhy
-    # se ten den preskoci. Europe/Prague tzdata resi presna data prechodu CET/CEST
-    # sama, appka je nemusi znat rucne.
-    - cron: "0 14 * * *"   # 16:00 CEST (letni cas, UTC+2, cca konec brezna - konec rijna)
-    - cron: "0 15 * * *"   # 16:00 CET (zimni cas, UTC+1, cca konec rijna - konec brezna)
-  workflow_dispatch: {}   # umožní i ruční spuštění tlačítkem v GitHub UI (bez časové kontroly, běží vždy)
-
+  # Vlastní GitHub cron vypnut 31.8.2026 - appku teď spouští cron-job.org
+  # přes GitHub API (viz historie chatu), GitHubův scheduler byl nespolehlivý.
+  # schedule:
+  #   - cron: "0 14 * * *"   # 16:00 CEST
+  #   - cron: "0 15 * * *"   # 16:00 CET
+  workflow_dispatch: {}
 permissions:
   contents: write   # potřeba pro commit reportu zpět do repozitáře
 
