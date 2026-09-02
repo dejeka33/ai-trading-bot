@@ -17,7 +17,8 @@ def load_history():
 
 def update_history(date_str, account_current, decision, trade_results, validation_reasons,
                     spy_price=None, realized_pl_delta=0.0,
-                    cash_flow_net=0.0, cash_flow_items=None, cash_flow_check=None):
+                    cash_flow_net=0.0, cash_flow_items=None, cash_flow_check=None,
+                    dividend_net=0.0, dividend_items=None, dividend_check=None):
     """
     `realized_pl_delta`: kolik appka dnes realizovala prodejem (viz
     main.compute_realized_pl_delta) - kumulativní součet (realized_pl_cum) si
@@ -31,6 +32,13 @@ def update_history(date_str, account_current, decision, trade_results, validatio
     jsou syrové položky z T212 API (pro detail/audit), cash_flow_check je nové
     "poslední zkontrolované" razítko, které se uloží na kořenovou úroveň
     (mimo jednotlivé dny) - viz load_history().
+
+    `dividend_net`, `dividend_items`, `dividend_check`: POZOR - přidáno
+    2.9.2026 stejným principem jako cash_flow_* výše, ale opačný účel - viz
+    main.compute_dividend_delta a broker_t212.get_dividends. Dividenda se na
+    rozdíl od vkladu NEODEČÍTÁ z výkonu appky (je to skutečný investiční
+    výnos), appka si jen dnešní součet ukládá pro zobrazení (samostatná
+    kartička na dashboardu) a pro kumulativní součet dividends_cum.
     """
     data = load_history()
 
@@ -46,9 +54,11 @@ def update_history(date_str, account_current, decision, trade_results, validatio
     prev_entry = entries_before_today[-1] if entries_before_today else None
     prev_realized_pl_cum = prev_entry.get("realized_pl_cum", 0.0) if prev_entry else 0.0
     prev_net_deposits_cum = prev_entry.get("net_deposits_cum", 0.0) if prev_entry else 0.0
+    prev_dividends_cum = prev_entry.get("dividends_cum", 0.0) if prev_entry else 0.0
 
     realized_pl_cum = prev_realized_pl_cum + (realized_pl_delta or 0.0)
     net_deposits_cum = prev_net_deposits_cum + (cash_flow_net or 0.0)
+    dividends_cum = prev_dividends_cum + (dividend_net or 0.0)
 
     entry = {
         "date": date_str,
@@ -75,6 +85,11 @@ def update_history(date_str, account_current, decision, trade_results, validatio
         "cash_flow_net": cash_flow_net or 0.0,
         "cash_flow_items": cash_flow_items or [],
         "net_deposits_cum": net_deposits_cum,
+        # Dividendy (viz POZOR výše) - u dní před 2.9.2026 tahle pole chybí/jsou 0,
+        # dashboard to bere jako "žádná dividenda ten den".
+        "dividend_net": dividend_net or 0.0,
+        "dividend_items": dividend_items or [],
+        "dividends_cum": dividends_cum,
     }
 
     # Pokud dnešní datum už v historii je (např. ruční re-run stejný den), přepiš ho
@@ -84,6 +99,8 @@ def update_history(date_str, account_current, decision, trade_results, validatio
 
     if cash_flow_check is not None:
         data["last_cash_flow_check"] = cash_flow_check
+    if dividend_check is not None:
+        data["last_dividend_check"] = dividend_check
 
     os.makedirs(os.path.dirname(HISTORY_PATH), exist_ok=True)
     with open(HISTORY_PATH, "w", encoding="utf-8") as f:

@@ -127,7 +127,15 @@
   .stat-tile .value.up { color: var(--good); } .stat-tile .value.down { color: var(--critical); } .stat-tile .value.flat { color: var(--text-1); }
   .stat-tile .sub { font-size: 9.5px; color: var(--text-4); margin-top: 3px; }
   .ring-tile { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; margin-top: 9px; }
+  .full-tile { grid-column: 1 / -1; }
   .ring-value { fill: var(--text-1); font-size: 15px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+
+  /* daňový přehled - POZOR přidáno 2.9.2026 (viz tax_ledger.py) */
+  .limit-bar-wrap { grid-column: 1 / -1; }
+  .limit-bar { height: 8px; border-radius: 999px; background: var(--surface-3); overflow: hidden; margin-top: 8px; }
+  .limit-bar-fill { height: 100%; border-radius: 999px; transition: width .3s ease; }
+  .limit-bar-label { font-size: 10.5px; color: var(--text-4); margin-top: 6px; }
+  .tax-note { font-size: 10.5px; color: var(--text-4); line-height: 1.55; margin: 10px 0 0; }
 
   /* donut */
   .donut-row { display: flex; justify-content: center; margin-bottom: 16px; }
@@ -256,6 +264,12 @@
     <div class="stat-grid" id="perf-grid"></div>
   </section>
 
+  <section class="card" id="tax-card" style="display:none;">
+    <h2 class="card-title">Daňový přehled</h2>
+    <p class="card-sub">Jen evidence pro tebe/účetního (přibližná, appka daně sama nepočítá ani nepodává) - detaily jednotlivých nákupů uvidíš u konkrétní akcie v Portfoliu.</p>
+    <div class="stat-grid" id="tax-grid"></div>
+  </section>
+
   <section class="card" id="alloc-card" style="display:none;">
     <h2 class="card-title">Rozložení portfolia</h2>
     <p class="card-sub">Hotovost a otevřené pozice.</p>
@@ -299,6 +313,21 @@ async function loadData() {
   const res = await fetch('./data/history.json?_=' + Date.now());
   if (!res.ok) throw new Error('Nepodařilo se načíst data.');
   return res.json();
+}
+
+// POZOR - přidáno 2.9.2026 (viz tax_ledger.py) - samostatný soubor od
+// history.json, appka ho proto načítá zvlášť. Soubor se vytvoří appkou až
+// při prvním běhu PO nasazení téhle featury, do té doby může appka vrátit
+// 404 - appka to bere jako "zatím žádná data", ne jako chybu (karta se prostě
+// nezobrazí, zbytek dashboardu funguje dál).
+async function loadTaxData() {
+  try {
+    const res = await fetch('./data/tax_ledger.json?_=' + Date.now());
+    if (!res.ok) return null;
+    return res.json();
+  } catch (e) {
+    return null;
+  }
 }
 
 let CURRENCY = 'CZK';
@@ -392,6 +421,13 @@ function renderStats(data){
   }
   if (todayFlow !== 0) {
     pills += pillHtml('flat', (todayFlow>0?'+':'-')+fmtMoney(Math.abs(todayFlow)), todayFlow>0?'vklad':'výběr', 'mimo appku');
+  }
+  // POZOR - přidáno 2.9.2026 (viz main.compute_dividend_delta) - na rozdíl od
+  // vkladu/výběru výše je dividenda SKUTEČNÝ výnos appky, proto 'up' (zelený
+  // pilulka styl), ne 'flat', a nepočítá se do cf()/TWR výluky.
+  const todayDividend = last.dividend_net || 0;
+  if (todayDividend !== 0) {
+    pills += pillHtml('up', '+' + fmtMoney(todayDividend), 'dividenda', 'dnes');
   }
   document.getElementById('hero-pills').innerHTML = pills;
 
@@ -645,11 +681,20 @@ function renderPerformance(data){
     ? `<div class="stat-tile"><div class="label">Vklady/výběry mimo appku</div><div class="value flat">${last.net_deposits_cum >= 0 ? '+' : ''}${fmtMoney(last.net_deposits_cum)}</div><div class="sub">nepočítá se do výkonu appky</div></div>`
     : '';
 
+  // POZOR - přidáno 2.9.2026 (viz main.compute_dividend_delta/history.py
+  // dividends_cum) - na rozdíl od extraTile výše se dividenda UŽ počítá do
+  // výkonu appky (je součástí hotovosti/portfolio_value), tahle kartička je
+  // jen pro viditelnost, ne pro odečtení něčeho z jiného čísla.
+  const dividendTile = (last.dividends_cum || 0) !== 0
+    ? `<div class="stat-tile full-tile"><div class="label">Dividendy (celkem)</div><div class="value up">+${fmtMoney(last.dividends_cum)}</div><div class="sub">už zahrnuto ve výkonu appky</div></div>`
+    : '';
+
   document.getElementById('perf-grid').innerHTML = `
     <div class="stat-tile"><div class="label">Realizovaný zisk/ztráta</div><div class="value ${typeof realized === 'number' ? dirClass(realized) : 'flat'}">${typeof realized === 'number' ? (realized>=0?'+':'')+fmtMoney(realized) : 'zatím nesledováno'}</div></div>
     <div class="stat-tile"><div class="label">Nerealizovaný</div><div class="value ${dirClass(unrealized)}">${unrealized>=0?'+':''}${fmtMoney(unrealized)}</div></div>
     <div class="stat-tile"><div class="label">Max. propad</div><div class="value down">${(dd.maxDD*100).toFixed(2)} %</div><div class="sub">${fmtDate(dd.peakDate)} → ${fmtDate(dd.troughDate)}</div></div>
     ${vsBenchTile}
+    ${dividendTile}
     ${extraTile}
     <div class="stat-tile ring-tile">
       ${ringSvg(tradedPct, '')}
@@ -657,6 +702,41 @@ function renderPerformance(data){
     </div>
   `;
   document.getElementById('perf-card').style.display = '';
+}
+
+// POZOR - přidáno 2.9.2026 (viz tax_ledger.py) - appka bere rok podle data
+// POSLEDNÍHO záznamu v history.json (ne "aktuální rok v prohlížeči"), ať
+// karta ukazuje konzistentní rok i když si dashboard někdo otevře na
+// přelomu roku dřív, než appka ten den poprvé proběhne.
+const ANNUAL_LIMIT_CZK = 100000;
+function renderTax(historyData, taxData){
+  if (!taxData) return;
+  const entries = historyData.entries;
+  const year = entries[entries.length - 1].date.slice(0, 4);
+  const annual = (taxData.annual && taxData.annual[year]) || { gross_sale_proceeds: 0, dividends_total: 0 };
+  const proceeds = annual.gross_sale_proceeds || 0;
+  const dividends = annual.dividends_total || 0;
+
+  // Limit appka zobrazuje jen orientačně v Kč - appka bere hrubý příjem tak,
+  // jak ho appka počítá (viz tax_ledger.py, cena appkou použitá při
+  // rozhodování) - u účtu v jiné měně než CZK by appka číslo měla ještě
+  // převést kurzem, což appka zatím nedělá (appka na tenhle pilot používá
+  // účet v CZK - viz broker_t212.get_account_snapshot).
+  const pct = Math.min(100, (proceeds / ANNUAL_LIMIT_CZK) * 100);
+  const barColor = proceeds >= ANNUAL_LIMIT_CZK ? 'var(--critical)' : (pct >= 70 ? 'var(--warning)' : 'var(--good)');
+  const overLimit = proceeds >= ANNUAL_LIMIT_CZK;
+
+  document.getElementById('tax-grid').innerHTML = `
+    <div class="stat-tile full-tile limit-bar-wrap">
+      <div class="label">Hrubý příjem z prodejů akcií (${year})</div>
+      <div class="value ${overLimit ? 'down' : 'flat'}">${fmtMoney(proceeds)}</div>
+      <div class="limit-bar"><div class="limit-bar-fill" style="width:${pct}%;background:${barColor};"></div></div>
+      <div class="limit-bar-label">${overLimit ? 'přes' : 'z'} limitu 100 000 Kč/rok pro osvobození od daně (§4 ZDP) - týká se jen prodejů, ne dividend</div>
+    </div>
+    <div class="stat-tile full-tile"><div class="label">Dividendy (${year}, hrubě)</div><div class="value up">${fmtMoney(dividends)}</div><div class="sub">dividendy se zdaňují vždy, bez limitu</div></div>
+    <p class="tax-note full-tile">Appka ceny nákupu/prodeje bere z tržních dat, ne z přesné fill ceny brokera - orientační přehled, ne podklad k přiznání. Pro to si vždycky ověř skutečné údaje přímo v Trading 212, případně s účetním/daňovým poradcem.</p>
+  `;
+  document.getElementById('tax-card').style.display = '';
 }
 
 function renderAllocation(data){
@@ -817,7 +897,7 @@ function openDaySheet(e){
   openSheetEl();
 }
 
-loadData().then(data => {
+Promise.all([loadData(), loadTaxData()]).then(([data, taxData]) => {
   if (!data.entries || !data.entries.length) {
     document.getElementById('eyebrow-row') || null;
     document.querySelector('.hero-label').textContent = 'Zatím žádná data — počkej na první denní běh.';
@@ -829,6 +909,7 @@ loadData().then(data => {
   document.getElementById('chart-card').style.display = '';
   renderChart(data, 'daily');
   if (data.entries.length >= 2) renderPerformance(data);
+  renderTax(data, taxData);
   renderAllocation(data);
   renderLog(data);
 }).catch(err => {

@@ -184,6 +184,60 @@ async function loadData() {
   return res.json();
 }
 
+// POZOR - přidáno 2.9.2026 (viz tax_ledger.py) - samostatný soubor od
+// history.json; do vytvoření appkou po prvním běhu appka vrátí 404, appka to
+// bere jako "zatím žádná evidence", ne jako chybu (appka lot/daňové bloky v
+// popup okně prostě vynechá).
+async function loadTaxData() {
+  try {
+    const res = await fetch('./data/tax_ledger.json?_=' + Date.now());
+    if (!res.ok) return null;
+    return res.json();
+  } catch (e) {
+    return null;
+  }
+}
+let TAX_DATA = null;
+
+function timeTestThreshold(dateStr){
+  const d = new Date(dateStr + 'T00:00:00Z');
+  d.setUTCFullYear(d.getUTCFullYear() + 3);
+  return d;
+}
+
+// Appka časový test zobrazovaný u OTEVŘENÝCH dávek (viz openPositionSheet/
+// lotsHtml) - jen orientační odhad, appka bere aktuální okamžik v prohlížeči,
+// ne appkou uložené UTC datum posledního běhu. Vrací i "done" (true/false/null),
+// aby lotsHtml mohla box zabarvit stejně jako pos-pct u pozic v Portfoliu.
+function lotTestState(lot){
+  if (!lot.date) return { done: null, label: 'neznámé datum nákupu' };
+  const threshold = timeTestThreshold(lot.date);
+  const now = new Date();
+  if (now >= threshold) return { done: true, label: 'časový test splněn (3 roky)' };
+  const daysLeft = Math.ceil((threshold - now) / 86400000);
+  return { done: false, label: `časový test za ${daysLeft} ${daysLeft === 1 ? 'den' : (daysLeft >= 2 && daysLeft <= 4 ? 'dny' : 'dní')}` };
+}
+
+function realizedEntriesForTrade(taxData, t){
+  if (!taxData) return [];
+  return (taxData.realized || []).filter(r => r.symbol === t.symbol && r.sell_date === t.date);
+}
+
+// Appka u UZAVŘENÉHO (prodaného) obchodu shrne, jestli appka vyhodnotila
+// 3letý časový test jako splněný - viz tax_ledger.record_sell (appka páruje
+// FIFO, jeden prodej může appkou být rozdělený mezi víc dávek s různým
+// výsledkem, proto "částečně").
+function taxTestSummary(entries){
+  if (!entries.length) return null;
+  const met = entries.filter(e => e.time_test_met === true).length;
+  const unmet = entries.filter(e => e.time_test_met === false).length;
+  const unknown = entries.filter(e => e.time_test_met === null).length;
+  if (met > 0 && unmet === 0 && unknown === 0) return { label: 'ano (drženo 3+ roky)', cls: 'up' };
+  if (unmet > 0 && met === 0 && unknown === 0) return { label: 'ne (drženo méně než 3 roky)', cls: 'down' };
+  if (met === 0 && unmet === 0) return { label: 'nejisté (appka nezná přesné datum nákupu)', cls: 'flat' };
+  return { label: 'částečně splněno (obchod appka spárovala s víc dávkami)', cls: 'flat' };
+}
+
 let CURRENCY = 'CZK';
 function fmtMoney(v){
   if (CURRENCY === 'CZK') return v.toLocaleString('cs-CZ',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' Kč';
@@ -297,6 +351,18 @@ function lastBuyDateForSymbol(entries, symbol){
   return null;
 }
 
+// POZOR - přidáno 2.9.2026 (viz main.compute_dividend_delta v appce) - sečte
+// dividendy pro JEDEN symbol napříč CELOU historií (ne jen posledním dnem) -
+// dividend_items u každého dne jsou už znormalizované appkou na
+// {symbol, amount, date, raw}, takže appka tady jen filtruje a sčítá.
+function dividendsForSymbol(entries, symbol){
+  let sum = 0;
+  entries.forEach(e => (e.dividend_items || []).forEach(d => {
+    if (d.symbol === symbol) sum += d.amount || 0;
+  }));
+  return sum;
+}
+
 function flattenTrades(entries){
   const out = [];
   entries.forEach(e => { (e.trades || []).forEach(t => out.push({ ...t, date: e.date })); });
@@ -349,12 +415,12 @@ function renderOpenPositions(data){
   document.querySelectorAll('.pos-card').forEach(card => {
     card.addEventListener('click', () => {
       const p = positions.find(x => x.symbol === card.dataset.symbol);
-      openPositionSheet(p, lastBuyDateForSymbol(entries, p.symbol));
+      openPositionSheet(p, lastBuyDateForSymbol(entries, p.symbol), dividendsForSymbol(entries, p.symbol));
     });
   });
 }
 
-function openPositionSheet(p, buyDate){
+function openPositionSheet(p, buyDate, dividendTotal){
   const name = INSTRUMENT_NAMES[p.symbol] || p.symbol;
   const costBasis = p.qty * p.avg_entry_price;
   sheetEl.innerHTML = `
@@ -376,9 +442,55 @@ function openPositionSheet(p, buyDate){
       <div><div class="sm-label">Průměrná cena</div><div class="sm-value">${fmtMoney(p.avg_entry_price)}</div></div>
       <div><div class="sm-label">Aktuální cena</div><div class="sm-value">${fmtMoney(p.current_price)}</div></div>
       <div><div class="sm-label">Zisk/ztráta</div><div class="sm-value" style="color:${dirClass(p.unrealized_pl)==='up'?'var(--good)':dirClass(p.unrealized_pl)==='down'?'var(--critical)':'var(--text-1)'};">${p.unrealized_pl>=0?'+':''}${fmtMoney(p.unrealized_pl)} (${p.unrealized_plpc>=0?'+':''}${p.unrealized_plpc.toFixed(2)} %)</div></div>
-    </div>`;
+      ${dividendTotal ? `<div><div class="sm-label">Dividendy od téhle akcie</div><div class="sm-value" style="color:var(--good);">+${fmtMoney(dividendTotal)}</div></div>` : ''}
+    </div>
+    ${lotsHtml(p.symbol)}`;
   document.getElementById('sheet-close').addEventListener('click', closeSheet);
   openSheetEl();
+}
+
+// POZOR - přidáno 2.9.2026, přestylováno 2.9.2026 večer (na žádost v chatu) -
+// appka tady ukáže jednotlivé otevřené nákupní dávky (FIFO) pro daný symbol,
+// ať appka vidí, kdy jaká "porce" akcie splní 3letý časový test - ne jen
+// jedno souhrnné datum posledního nákupu (to appka ukazuje výš, viz buyDate).
+// Appka záměrně KAŽDOU dávku kreslí jako vlastní box ve STEJNÉM grafickém
+// stylu jako karta pozice v sekci Portfolio (třídy .pos-card/.pos-name/
+// .pos-meta/.pos-val/.pos-mv/.pos-pct z renderOpenPositions výše, appka je
+// jen znovupoužívá) - místo loga appka do avatara vloží pořadové číslo dávky
+// (barva podle stejné palety jako u pozice, viz catColor). "odhadnuto" značí
+// dávku, kterou appka nasadila zpětně (appka neznala skutečné datum nákupu -
+// viz tax_ledger.seed_initial_lots), tam appka časový test bere jen orientačně.
+function lotsHtml(symbol){
+  const lots = TAX_DATA && TAX_DATA.open_lots ? (TAX_DATA.open_lots[symbol] || []) : [];
+  if (!lots.length) return '';
+  const bg = catColor(symbol, '100%');
+  const ink = catInk(symbol);
+  let anyEstimated = false;
+  const rows = lots.map((lot, i) => {
+    const state = lotTestState(lot);
+    const pctClass = state.done === true ? 'up' : 'flat';
+    const total = lot.qty * lot.price;
+    if (lot.estimated) anyEstimated = true;
+    return `
+      <div class="pos-card" style="cursor:default;">
+        <div class="avatar" style="background:${bg};box-shadow:0 0 0 1px oklch(100% 0 0 / 8%);">
+          <span style="color:${ink};">${i + 1}</span>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div class="pos-name">${fmtDate(lot.date)}${lot.estimated ? '*' : ''}</div>
+          <div class="pos-meta">${fmtQty(lot.qty)} ks · ${fmtMoney(lot.price)} / ks</div>
+        </div>
+        <div class="pos-val">
+          <div class="pos-mv">${fmtMoney(total)}</div>
+          <div class="pos-pct ${pctClass}">${state.label}</div>
+        </div>
+      </div>`;
+  }).join('');
+  const note = anyEstimated
+    ? '<p class="sheet-note">* odhadnuto - appka neznala přesné datum nákupu, dávka je "nasazená" k datu, kdy appka tuhle evidenci začala vést.</p>'
+    : '';
+  return `<div class="sheet-label" style="margin-top:16px;">Nákupní dávky (FIFO, daňová evidence)</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">${rows}</div>${note}`;
 }
 
 function renderClosedTrades(data){
@@ -426,6 +538,14 @@ function renderClosedTrades(data){
   });
 }
 
+// POZOR - přidáno 2.9.2026 (viz tax_ledger.py/taxTestSummary výše) - appka u
+// prodeje zobrazí, jestli vyhodnotila 3letý časový test jako splněný.
+function taxTestHtml(t){
+  const summary = taxTestSummary(realizedEntriesForTrade(TAX_DATA, t));
+  if (!summary) return '';
+  return `<div><div class="sm-label">Osvobozeno od daně (3+ roky)?</div><div class="sm-value" style="color:${summary.cls==='up'?'var(--good)':summary.cls==='down'?'var(--critical)':'var(--text-1)'};">${summary.label}</div></div>`;
+}
+
 function openClosedSheet(t){
   const name = INSTRUMENT_NAMES[t.symbol] || t.symbol;
   const hasPl = typeof t.realized_pl === 'number';
@@ -443,6 +563,7 @@ function openClosedSheet(t){
       <div><div class="sm-label">Množství</div><div class="sm-value">${fmtQty(t.qty)} ks</div></div>
       ${t.sell_price ? `<div><div class="sm-label">Cena prodeje</div><div class="sm-value">${fmtMoney(t.sell_price)}</div></div>` : ''}
       ${hasPl ? `<div><div class="sm-label">Realizovaný zisk/ztráta</div><div class="sm-value">${t.realized_pl>=0?'+':''}${fmtMoney(t.realized_pl)}</div></div>` : ''}
+      ${taxTestHtml(t)}
     </div>
     <div class="sheet-label">Zdůvodnění AI</div>
     <p class="sheet-summary">${t.reasoning || '(bez záznamu)'}</p>`;
@@ -450,7 +571,8 @@ function openClosedSheet(t){
   openSheetEl();
 }
 
-loadData().then(data => {
+Promise.all([loadData(), loadTaxData()]).then(([data, taxData]) => {
+  TAX_DATA = taxData;
   if (!data.entries || !data.entries.length) {
     document.getElementById('pf-sub').textContent = 'Zatím žádná data.';
     return;

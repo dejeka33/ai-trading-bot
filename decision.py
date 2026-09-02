@@ -43,7 +43,28 @@ DECISION_TOOL = {
 }
 
 
-def build_prompt(account_snapshot, bars, risk_limits, news=None, macro=None):
+def build_prompt(account_snapshot, bars, risk_limits, news=None, macro=None, dividends=None):
+    dividend_section = ""
+    if dividends:
+        # POZOR - přidáno 2.9.2026 (viz main.compute_dividend_delta,
+        # broker_t212.get_dividends) - appka AI informuje o vyplacených
+        # dividendách od posledního běhu, ať mylně nepovažuje nárůst hotovosti
+        # za starý/zapomenutý obchod. Je to jen INFORMACE, ne signál k obchodu -
+        # appka to AI výslovně říká níže, ať si z toho nevymýšlí souvislosti
+        # (např. "dividenda přišla, tak akcie musí být silná, dokoupím").
+        # Jen symbol/částka/datum (bez "raw" - syrová T212 pole appka posílá jen
+        # do historie pro audit, viz main.compute_dividend_delta, ne do promptu
+        # zbytečně nafukovat).
+        dividend_summary = [
+            {"symbol": d.get("symbol") or "(nerozpoznaný nástroj)", "amount": d.get("amount"), "date": d.get("date")}
+            for d in dividends
+        ]
+        dividend_section = f"""
+DIVIDENDY VYPLACENÉ OD POSLEDNÍHO BĚHU (jen informace o pohybu hotovosti, NENÍ to
+obchodní signál - dividenda sama o sobě neznamená nic o budoucím vývoji ceny):
+{json.dumps(dividend_summary, indent=2, ensure_ascii=False)}
+"""
+
     news_section = ""
     if news:
         news_section = f"""
@@ -97,7 +118,7 @@ TRŽNÍ DATA (posledních {bars_days} obchodních dní, denní svíčky; ceny js
 PŘEVEDENÉ do měny účtu - viz "currency" ve stavu účtu výše - žádný další
 přepočet měny není potřeba, počítej s nimi přímo):
 {json.dumps(bars, indent=2, ensure_ascii=False)}
-{news_section}{macro_section}
+{news_section}{macro_section}{dividend_section}
 RIZIKOVÉ MANTINELY (ZÁVAZNÉ - nesmíš je porušit):
 {json.dumps(risk_limits, indent=2, ensure_ascii=False)}
 
@@ -109,11 +130,11 @@ v poli reasoning u každého obchodu - bude se ukazovat v denním reportu uživa
 """.strip()
 
 
-def get_decision(account_snapshot, bars, risk_limits, news=None, macro=None, model=None):
+def get_decision(account_snapshot, bars, risk_limits, news=None, macro=None, dividends=None, model=None):
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"].strip())
     model = model or os.environ.get("DECISION_MODEL", "claude-sonnet-4-6").strip()
 
-    prompt = build_prompt(account_snapshot, bars, risk_limits, news=news, macro=macro)
+    prompt = build_prompt(account_snapshot, bars, risk_limits, news=news, macro=macro, dividends=dividends)
 
     response = client.messages.create(
         model=model,

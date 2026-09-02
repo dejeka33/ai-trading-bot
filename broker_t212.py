@@ -518,3 +518,96 @@ def get_cash_flows(after_datetime=None, max_pages=5, page_limit=50):
         # našroubovat jako query parametr, než aby stránkování úplně selhalo.
         path = next_path if next_path.startswith("/") else f"/equity/history/transactions?cursor={next_path}"
     return flows
+
+
+def _dividend_amount(item):
+    """
+    POZOR - přidáno 2.9.2026: appka NENAŠLA v dokumentaci přesný název pole
+    s částkou dividendy (docs.trading212.com/api/historical-items zmiňuje jen
+    endpoint a "DividendSchema", ne jeho pole - viz diskuze v chatu). Zkouší
+    proto postupně nejpravděpodobnější varianty názvů a jako poslední možnost
+    dopočítá částku z ceny na akcii * počet kusů. První živý běh (print
+    diagnostika v _request výše ukáže SKUTEČNÉ tělo odpovědi) je potřeba
+    zkontrolovat, jestli appka trefila správné pole - pokud ne, dashboard bude
+    ukazovat 0 Kč místo skutečné částky, ne špatné číslo (bezpečnější selhání).
+    """
+    for key in ("amount", "amountInEuro", "grossAmount", "netAmount", "amountPaid"):
+        val = item.get(key)
+        if val is not None:
+            return float(val)
+    per_share = item.get("grossAmountPerShare") or item.get("amountPerShare") or item.get("pricePerShare")
+    qty = item.get("quantity")
+    if per_share is not None and qty is not None:
+        return float(per_share) * float(qty)
+    return 0.0
+
+
+def _dividend_date(item):
+    return item.get("paidOn") or item.get("dateTime") or item.get("date") or item.get("paidOn") or ""
+
+
+def resolve_dividend_symbol(item, instruments_map):
+    """
+    POZOR - přidáno 2.9.2026 (viz karta "dividendy podle akcie" v popup okně
+    na docs/positions.html) - zpětně namapuje T212 identifikátor nástroje
+    z dividendové položky na náš interní symbol (KO/JNJ/...), STEJNÝM
+    principem jako get_account_snapshot výše u pozic (přednostně ISIN -
+    jednoznačný -, ticker jen jako záložní cesta - viz POZOR tamtéž o tom,
+    proč appka dřív hledala pole jen na špatné úrovni objektu).
+
+    Vrací None, pokud se nepodařilo namapovat na žádný ze sledovaných symbolů
+    (např. appka mezitím pozici prodala a přestala ji sledovat, nebo appka
+    netrefila správné pole - viz POZOR u get_dividends) - takovou položku
+    dashboard u "dividendy podle akcie" přeskočí, ale do celkového součtu
+    (dividends_cum) se přesto počítá (viz main.compute_dividend_delta).
+    """
+    instrument = item.get("instrument") or {}
+    isin = (item.get("isin") or instrument.get("isin") or item.get("ISIN") or instrument.get("ISIN") or "").upper()
+    if isin:
+        symbol = _isin_to_symbol_map(instruments_map).get(isin)
+        if symbol:
+            return symbol
+    raw_ticker = (item.get("ticker") or instrument.get("ticker")
+                  or item.get("instrumentCode") or item.get("symbol"))
+    if raw_ticker:
+        symbol = _ticker_to_our_symbol(raw_ticker, instruments_map)
+        # _ticker_to_our_symbol vrací syrový ticker zpátky, když nenajde shodu
+        # (viz POZOR tamtéž) - to by appka omylem uložila jako "symbol", i když
+        # nejde o nic z instruments_map.
+        return symbol if symbol in instruments_map else None
+    return None
+
+
+def get_dividends(after_datetime=None, max_pages=5, page_limit=50):
+    """
+    POZOR - přidáno 2.9.2026 kvůli tomu, aby appka věděla o vyplacených
+    dividendách z držených pozic (viz diskuze v chatu) - dřív appka dividendy
+    vůbec nesledovala. Používá T212 API endpoint GET /equity/history/dividends
+    (SAMOSTATNÝ endpoint, jiný než /equity/history/transactions použitý výš u
+    get_cash_flows - podle dokumentace na docs.trading212.com/api/historical-items,
+    rate limit 6 volání/minutu, appka volá jen jednou za běh takže to appce nevadí).
+
+    Přesná pole odpovědi appka nemá potvrzená z dokumentace (jen "items" +
+    "nextPagePath" obálku, ne obsah DividendSchema) - _dividend_amount/
+    _dividend_date výše zkouší několik pravděpodobných variant. PRVNÍ ŽIVÝ BĚH
+    je potřeba zkontrolovat (print diagnostika v _request), jestli appka
+    skutečně parsuje částku/datum správně, a podle toho pole doladit.
+
+    Vrací syrový seznam položek (dict) - amount se z nich počítá až v main.py
+    přes _dividend_amount, tady se jen filtruje podle data.
+    """
+    dividends = []
+    path = f"/equity/history/dividends?limit={page_limit}"
+    for _ in range(max_pages):
+        data = _request("GET", path)
+        items = data.get("items", [])
+        for it in items:
+            dt = _dividend_date(it)
+            if after_datetime and dt and dt <= after_datetime:
+                continue
+            dividends.append(it)
+        next_path = data.get("nextPagePath")
+        if not next_path or not items:
+            break
+        path = next_path if next_path.startswith("/") else f"/equity/history/dividends?cursor={next_path}"
+    return dividends

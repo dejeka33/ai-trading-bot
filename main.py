@@ -30,6 +30,7 @@ from report import build_report
 from history import load_history, update_history
 from fred_data import get_macro_context
 from webpush_notify import send_web_push, build_short_summary
+import tax_ledger
 
 
 def annotate_realized_pl(account_before, trade_results):
@@ -120,6 +121,60 @@ def compute_cash_flow_delta(prev_history):
     return net, flows, now_iso
 
 
+def compute_dividend_delta(prev_history, instruments_map):
+    """
+    POZOR - přidáno 2.9.2026: appka umí zjistit vyplacené dividendy z T212 účtu
+    (viz broker_t212.get_dividends, endpoint /equity/history/dividends - jiný
+    než ten u compute_cash_flow_delta výše). Na rozdíl od vkladu/výběru se
+    dividenda NEODEČÍTÁ z výkonu appky (je to skutečný investiční výnos, ne
+    externí kapitál) - appka ji jen dopočítá pro zobrazení na dashboardu
+    (samostatný řádek/kartička, dividendy podle akcie v popup okně) a pro
+    kontext do promptu pro AI (viz decision.build_prompt), aby AI vědělo, že
+    část dnešní hotovosti nepřišla z obchodu.
+
+    Stejný "od prvního běhu dál" princip jako u compute_cash_flow_delta - starší
+    dividendy před zavedením téhle featury appka zpětně nedohledává (jsou už
+    zahrnuté v historické hodnotě portfolia).
+
+    Vrací (net, items, new_check) - net je součet dnešních dividend (vždy >= 0),
+    items jsou ZNORMALIZOVANÉ položky {"symbol", "amount", "date", "raw"} - viz
+    broker_t212.resolve_dividend_symbol/_dividend_amount/_dividend_date
+    (normalizace tady na jednom místě, aby dashboard (per-akcie součet v
+    popup okně) i report/AI prompt pracovaly se stejným, spolehlivým tvarem
+    místo aby si každý spotřebitel dat musel syrová pole T212 API luštit
+    sám). "raw" obsahuje původní položku beze změny (audit, kdyby appka
+    trefila špatné pole - viz POZOR u get_dividends), new_check je nové
+    razítko pro "last_dividend_check".
+    """
+    last_check = prev_history.get("last_dividend_check")
+    now_iso = datetime.now(timezone.utc).isoformat()
+
+    if last_check is None:
+        return 0.0, [], now_iso
+
+    try:
+        raw_items = broker_t212.get_dividends(after_datetime=last_check)
+    except Exception as e:
+        # Stejný princip jako u compute_cash_flow_delta - appka radši dividendu
+        # dnes přehlédne, než aby kvůli chybě API spadl celý běh; checkpoint se
+        # neposune, takže to zkusí dohnat příští den.
+        print(f"POZOR: nepodařilo se zjistit dividendy z T212 API ({e}) - "
+              f"appka pokračuje bez téhle informace.")
+        return 0.0, [], last_check
+
+    items = [
+        {
+            "symbol": broker_t212.resolve_dividend_symbol(it, instruments_map),
+            "amount": broker_t212._dividend_amount(it),
+            "date": broker_t212._dividend_date(it),
+            "raw": it,
+        }
+        for it in raw_items
+    ]
+    net = sum(it["amount"] for it in items)
+    return net, items, now_iso
+
+
 def main():
     limits = load_risk_limits()
     stocks, crypto = allowed_symbols(limits)  # crypto bude vždy [] v této verzi
@@ -149,7 +204,14 @@ def main():
     # nastavený, macro bude None a appka pokračuje úplně stejně jako dřív.
     macro = get_macro_context()
 
-    decision = get_decision(account_before, bars, limits, news=news, macro=macro)
+    # POZOR - přidáno 2.9.2026: dividendy se appka dozví PŘED voláním AI (ne až
+    # při ukládání historie jako cash_flow_net níže), aby o nich AI mohla vědět
+    # při rozhodování (viz decision.build_prompt, dividend_section) - jinak by
+    # nevysvětlitelný nárůst hotovosti mohla mylně považovat za starý obchod.
+    prev_history_for_prompt = load_history()
+    dividend_net, dividend_items, dividend_check = compute_dividend_delta(prev_history_for_prompt, INSTRUMENTS)
+
+    decision = get_decision(account_before, bars, limits, news=news, macro=macro, dividends=dividend_items)
 
     # Aktuální ceny z nezávislého zdroje (tržní data, ne to, co si spočítala AI) -
     # slouží k přepočtu qty * cena při validaci, viz risk_rules.validate_decision.
@@ -183,6 +245,7 @@ def main():
         date_str, account_before,
         account_after if trade_results else None,
         decision, trade_results, reasons if not ok else [],
+        dividend_net=dividend_net,
     )
 
     os.makedirs("reports", exist_ok=True)
@@ -203,13 +266,45 @@ def main():
     annotate_realized_pl(account_before, trade_results)
     realized_pl_delta = compute_realized_pl_delta(trade_results)
 
-    prev_history = load_history()
-    cash_flow_net, cash_flow_items, cash_flow_check = compute_cash_flow_delta(prev_history)
+    # POZOR - dividend_net/dividend_items/dividend_check appka spočítala už
+    # výš (před voláním AI, viz komentář u compute_dividend_delta) - tady se jen
+    # znovu použijí, appka to nepočítá podruhé (mezitím se stav nezměnil,
+    # broker_t212.get_dividends se volá jen jednou za běh).
+    cash_flow_net, cash_flow_items, cash_flow_check = compute_cash_flow_delta(prev_history_for_prompt)
+
+    # POZOR - přidáno 2.9.2026: evidence pro daňové účely (viz tax_ledger.py -
+    # kapitálové zisky/ztráty, hrubý příjem z prodejů kvůli limitu 100 000 Kč,
+    # dividendy podle roku). Úmyslně ODDĚLENÝ soubor od history.json (jiná
+    # povaha dat - průběžně mutovaný "stav dávek", ne append-only log dní) a
+    # úmyslně se NIKAM neposílá do decision.py/AI (viz POZOR v tax_ledger.py -
+    # appka nechce, aby si AI kvůli dani upravovalo obchodní rozhodnutí).
+    # Ceny pro dávky appka bere ze stejného zdroje jako risk_rules.validate_decision
+    # (`prices`, tržní cena) - PŘIBLIŽNÉ, ne přesná fill cena z T212, stejný
+    # princip jako main.annotate_realized_pl výše.
+    tax_data = tax_ledger.load_ledger()
+    tax_ledger.seed_initial_lots(tax_data, account_before.get("positions", []), date_str)
+    for t in trade_results:
+        if t.get("status") != "submitted":
+            continue
+        trade_price = prices.get(t.get("symbol"))
+        if trade_price is None:
+            print(f"POZOR: appka nemá tržní cenu pro {t.get('symbol')} - obchod se "
+                  f"do daňové evidence (tax_ledger.py) nezapíše, aby appka radši "
+                  f"nezaevidovala špatnou cenu.")
+            continue
+        if t.get("side") == "buy":
+            tax_ledger.record_buy(tax_data, t["symbol"], date_str, t.get("qty"), trade_price)
+        elif t.get("side") == "sell":
+            tax_ledger.record_sell(tax_data, t["symbol"], date_str, t.get("qty"), trade_price)
+    for d in dividend_items:
+        tax_ledger.record_dividend_for_tax(tax_data, d.get("date") or date_str, d.get("amount"))
+    tax_ledger.save_ledger(tax_data)
 
     update_history(
         date_str, account_after, decision, trade_results, reasons if not ok else [],
         spy_price=spy_price, realized_pl_delta=realized_pl_delta,
         cash_flow_net=cash_flow_net, cash_flow_items=cash_flow_items, cash_flow_check=cash_flow_check,
+        dividend_net=dividend_net, dividend_items=dividend_items, dividend_check=dividend_check,
     )
 
     print(report_md)

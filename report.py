@@ -2,7 +2,8 @@
 from datetime import datetime, timezone
 
 
-def build_report(date_str, account_before, account_after, decision, trade_results, validation_reasons):
+def build_report(date_str, account_before, account_after, decision, trade_results, validation_reasons,
+                  dividend_net=0.0):
     lines = [f"# Denní report - {date_str}", ""]
 
     lines.append("## Shrnutí od AI")
@@ -18,6 +19,10 @@ def build_report(date_str, account_before, account_after, decision, trade_result
     lines.append(f"- Hodnota portfolia: {account_before['portfolio_value']:.2f} {currency}")
     if account_after:
         lines.append(f"- Hodnota portfolia po obchodech: {account_after['portfolio_value']:.2f} {currency}")
+    # POZOR - přidáno 2.9.2026 (viz main.compute_dividend_delta) - řádek se
+    # zobrazí jen v den, kdy appka nějakou dividendu skutečně zaznamenala.
+    if dividend_net:
+        lines.append(f"- Dividendy dnes: +{dividend_net:.2f} {currency}")
     lines.append("")
 
     if account_before["positions"]:
