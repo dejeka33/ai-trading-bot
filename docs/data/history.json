@@ -87,7 +87,104 @@
       "cash_flow_net": 0.0,
       "cash_flow_items": [],
       "net_deposits_cum": 0.0
+    },
+    {
+      "date": "2026-09-02",
+      "portfolio_value": 9991.84,
+      "cash": 7091.99,
+      "buying_power": 7091.99,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20002.12,
+          "current_price": 20031.41888,
+          "market_value": 400.6283776,
+          "unrealized_pl": 0.46,
+          "unrealized_plpc": 0.11498781129200306
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 10514.905499999999,
+          "current_price": 10403.74942,
+          "market_value": 416.1499768,
+          "unrealized_pl": -4.42,
+          "unrealized_plpc": -1.0508891401829528
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.06,
+          "avg_entry_price": 7497.46366659702,
+          "current_price": 7335.04764,
+          "market_value": 440.10285839999995,
+          "unrealized_pl": -9.59,
+          "unrealized_plpc": -2.1318320493559546
+        },
+        {
+          "symbol": "UNH",
+          "qty": 0.05,
+          "avg_entry_price": 8345.0636,
+          "current_price": 8341.72056,
+          "market_value": 417.086028,
+          "unrealized_pl": -0.24,
+          "unrealized_plpc": -0.05751903436661645
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.06,
+          "avg_entry_price": 6766.17366659702,
+          "current_price": 6762.343099999999,
+          "market_value": 405.74058599999995,
+          "unrealized_pl": -0.3,
+          "unrealized_plpc": -0.07389700954150501
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.19,
+          "avg_entry_price": 4587.88252634878,
+          "current_price": 4641.6021,
+          "market_value": 881.904399,
+          "unrealized_pl": 10.14,
+          "unrealized_plpc": 1.1632473313370626
+        }
+      ],
+      "market_summary": "Trh dnes (1. 9. 2026) vykazuje smíšené signály – broad index CSPX mírně oslabil pod 23 300 CZK, EQQQ taktéž pod tlakem (~14 862 CZK). Makro prostředí: Fed sazba 3,63 %, 10Y výnos 4,75 %, výnosová křivka mírně pozitivní (+0,4 %), což nenaznačuje recesi, ale drahé financování tlačí na valuace. Portfolio: NVDA v zisku (+1,86 %), MSFT a TSLA v malé ztrátě. Nejvýraznější příležitosti dnes – AAPL s bullish zprávami a silným technickým pohybem (breakout výše na objem 52 M, +2,6 % za den), UNH s fundamentálně bullish zprávou o snížení prior-auth požadavků a konsolidací po Q2 beatu, NVDA s pokračujícím bullish sentiment AI story (ale mírný denní pullback – doplňující akumulace).",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.06,
+          "status": "submitted",
+          "order_id": "54350009574",
+          "reasoning": "AAPL dnes +2,6 % na nadprůměrném objemu (52 M akcií), prorazil výše ze konsolidace. Bullish zprávy: blížící se 'huge launch' příští týden, Gene Munster o právním sporu s OpenAI. Cena 6 793 CZK – 0,06 ks = ~408 CZK, pod limitem 5 % portfolia (~500 CZK). Silný momentumový vstup před produktovým eventem."
+        },
+        {
+          "symbol": "UNH",
+          "side": "buy",
+          "qty": 0.05,
+          "status": "submitted",
+          "order_id": "54350009579",
+          "reasoning": "UNH má silný fundamentální katalyzátor: UnitedHealthcare od 1. října ruší prior-auth požadavky pro řadu stavů – toto odstraňuje regulatorní riziko a je pozitivní pro vztahy s pojištěnci. Q2 beat + navýšení guidance. Cena ~8 280 CZK – 0,05 ks = ~414 CZK. Cena dnes technicky drží support ~8 185 CZK a odráží se, pozice dává smysl."
+        },
+        {
+          "symbol": "NVDA",
+          "side": "buy",
+          "qty": 0.09,
+          "status": "submitted",
+          "order_id": "54350009581",
+          "reasoning": "NVDA dnes mírně oslabila (~4 543 CZK), ale bullish AI sentiment přetrvává – CrowdStrike AI lab, Equinix inference partnerství, spekulace o $1T revenue. Po masivním vzestupném dnu 27.8 (přes 298 M objem) je pullback příležitostí k dokoupení. 0,09 ks × 4 543 = ~409 CZK, pod 5% limitem. Stávající pozice (0,1 ks, +1,86 %) potvrzuje správnost směru."
+        }
+      ],
+      "trade_count": 3,
+      "blocked_reasons": [],
+      "spy_price": 23240.77312,
+      "realized_pl_cum": 0.0,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-01T14:05:54.309109+00:00"
+  "last_cash_flow_check": "2026-09-02T14:06:01.788769+00:00"
 }
