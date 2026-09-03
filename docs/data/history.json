@@ -184,7 +184,109 @@
       "cash_flow_net": 0.0,
       "cash_flow_items": [],
       "net_deposits_cum": 0.0
+    },
+    {
+      "date": "2026-09-03",
+      "portfolio_value": 10050.7,
+      "cash": 6513.0,
+      "buying_power": 6513.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 19983.66,
+          "current_price": 20103.2805,
+          "market_value": 402.06561000000005,
+          "unrealized_pl": 2.2,
+          "unrealized_plpc": 0.5504497174191315
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 10494.27225,
+          "current_price": 10656.925650000001,
+          "market_value": 426.27702600000003,
+          "unrealized_pl": 5.86,
+          "unrealized_plpc": 1.3959996130270016
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.06,
+          "avg_entry_price": 7482.751499930491,
+          "current_price": 7769.827800000001,
+          "market_value": 466.18966800000004,
+          "unrealized_pl": 16.63,
+          "unrealized_plpc": 3.70407418540147
+        },
+        {
+          "symbol": "UNH",
+          "qty": 0.05,
+          "avg_entry_price": 8328.6882,
+          "current_price": 8305.54137,
+          "market_value": 415.27706850000004,
+          "unrealized_pl": -1.88,
+          "unrealized_plpc": -0.4514516463709134
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.08,
+          "avg_entry_price": 5742.394875000001,
+          "current_price": 5740.41384,
+          "market_value": 459.2331072,
+          "unrealized_pl": -0.33,
+          "unrealized_plpc": -0.07183414045520511
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.06,
+          "avg_entry_price": 6752.896499930491,
+          "current_price": 6804.95949,
+          "market_value": 408.2975694,
+          "unrealized_pl": 2.42,
+          "unrealized_plpc": 0.5972745670505759
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2105,
+          "avg_entry_price": 4595.58513072603,
+          "current_price": 4745.725740000001,
+          "market_value": 998.9752682700001,
+          "unrealized_pl": 30.19,
+          "unrealized_plpc": 3.120830611852598
+        }
+      ],
+      "market_summary": "Trh se nachází v mírně smíšeném prostředí – CSPX a EQQQ oscilují v posledních 10 dnech bez jasného trendu, technologické tituly vykazují různorodý vývoj. NVDA silně táhne nahoru (dnes +3,2 % při zavírání, $4 679 po $4 534 předchozí den), podpořená bullish zprávami o akvizici Hugging Face a globální expanzi AI infrastruktury. JNJ prudce vzrostl (+1,7 % dnes na $5 738), zatímco MSFT a TSLA mírně klesají po nedávném rally. Makro prostředí je neutrální – výnosová křivka T10Y2Y je kladná (+0,4 %), Fed rate 3,63 % podporuje rizikové aktivum. Portfolio je celkově v mírném zisku, nejvíce táhne NVDA (+3,8 % unrealized P/L).",
+      "trades": [
+        {
+          "symbol": "NVDA",
+          "side": "buy",
+          "qty": 0.0205,
+          "status": "submitted",
+          "order_id": "54400015767",
+          "reasoning": "NVDA dnes silně vzrostla (+3,2 % na $4 679) na velmi vysokém objemu (157M vs průměr ~130M), podpořena bullish katalyzátory: akvizice Hugging Face za $12,9B a Huangova prezentace na G20 o AI infrastruktuře. Trendový impuls je čerstvý, pozice je aktuálně nejvýnosnější v portfoliu (+3,8%). Dokupování v momentu síly s jasným news katalyzátorem. Výsledná pozice 0,29 ks (cca 4,2 % NAV) – stále pod limitem 10 % pozice."
+        },
+        {
+          "symbol": "JNJ",
+          "side": "buy",
+          "qty": 0.08,
+          "status": "submitted",
+          "order_id": "54400015770",
+          "reasoning": "JNJ dnes výrazně vzrostl (+1,7 % na $5 738) s intraday high $5 861 – nejsilnější den za 10 obchodních dní. Zprávy jsou smíšené (talc verdict riziko vs. posun k record high), ale cenové momentum dnes jasně bullish. JNJ není v portfoliu, poskytuje diverzifikaci do healthcare / defensive sektoru. Cena 0,08 × $5 738 = cca $459, pod limitem 5 % NAV ($502). Defensivní charakter JNJ vhodný pro vyvážení tech-heavy portfolia."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "spy_price": 23292.222299999998,
+      "realized_pl_cum": 0.0,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-02T14:06:01.788769+00:00"
+  "last_cash_flow_check": "2026-09-03T14:05:41.449661+00:00",
+  "last_dividend_check": "2026-09-03T14:05:16.475163+00:00"
 }

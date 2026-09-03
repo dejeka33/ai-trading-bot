@@ -1,0 +1,68 @@
+{
+  "open_lots": {
+    "CSPX": [
+      {
+        "date": "2026-09-03",
+        "qty": 0.02,
+        "price": 19983.66,
+        "estimated": true
+      }
+    ],
+    "MSFT": [
+      {
+        "date": "2026-09-03",
+        "qty": 0.04,
+        "price": 10494.27225,
+        "estimated": true
+      }
+    ],
+    "TSLA": [
+      {
+        "date": "2026-09-03",
+        "qty": 0.06,
+        "price": 7482.751499930491,
+        "estimated": true
+      }
+    ],
+    "UNH": [
+      {
+        "date": "2026-09-03",
+        "qty": 0.05,
+        "price": 8328.6882,
+        "estimated": true
+      }
+    ],
+    "AAPL": [
+      {
+        "date": "2026-09-03",
+        "qty": 0.06,
+        "price": 6752.896499930491,
+        "estimated": true
+      }
+    ],
+    "NVDA": [
+      {
+        "date": "2026-09-03",
+        "qty": 0.19,
+        "price": 4578.879789506611,
+        "estimated": true
+      },
+      {
+        "date": "2026-09-03",
+        "qty": 0.0205,
+        "price": 4679.62173,
+        "estimated": false
+      }
+    ],
+    "JNJ": [
+      {
+        "date": "2026-09-03",
+        "qty": 0.08,
+        "price": 5738.95413,
+        "estimated": false
+      }
+    ]
+  },
+  "realized": [],
+  "annual": {}
+}
