@@ -38,6 +38,12 @@
         "qty": 0.06,
         "price": 6752.896499930491,
         "estimated": true
+      },
+      {
+        "date": "2026-09-04",
+        "qty": 0.07,
+        "price": 6831.034729999999,
+        "estimated": false
       }
     ],
     "NVDA": [
@@ -59,6 +65,22 @@
         "date": "2026-09-03",
         "qty": 0.08,
         "price": 5738.95413,
+        "estimated": false
+      }
+    ],
+    "JPM": [
+      {
+        "date": "2026-09-04",
+        "qty": 0.06,
+        "price": 7535.5547799999995,
+        "estimated": false
+      }
+    ],
+    "AMZN": [
+      {
+        "date": "2026-09-04",
+        "qty": 0.09,
+        "price": 5388.485699999999,
         "estimated": false
       }
     ]

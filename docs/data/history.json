@@ -285,8 +285,135 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-04",
+      "portfolio_value": 10053.23,
+      "cash": 5128.22,
+      "buying_power": 5128.22,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 19993.6,
+          "current_price": 20226.4832,
+          "market_value": 404.52966399999997,
+          "unrealized_pl": 4.09,
+          "unrealized_plpc": 1.022827304737516
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 10474.142249999999,
+          "current_price": 10487.670699999999,
+          "market_value": 419.506828,
+          "unrealized_pl": 0.2,
+          "unrealized_plpc": 0.04773660583042015
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.06,
+          "avg_entry_price": 7468.39816659729,
+          "current_price": 7426.078399999999,
+          "market_value": 445.56470399999995,
+          "unrealized_pl": -2.79,
+          "unrealized_plpc": -0.6226234724331264
+        },
+        {
+          "symbol": "UNH",
+          "qty": 0.05,
+          "avg_entry_price": 8312.7122,
+          "current_price": 8337.27154,
+          "market_value": 416.863577,
+          "unrealized_pl": 0.8,
+          "unrealized_plpc": 0.19247628950753282
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.08,
+          "avg_entry_price": 5731.379875,
+          "current_price": 5737.72784,
+          "market_value": 459.01822719999996,
+          "unrealized_pl": 0.65,
+          "unrealized_plpc": 0.14176341783661656
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.13,
+          "avg_entry_price": 6729.003000048029,
+          "current_price": 6720.72583,
+          "market_value": 873.6943579000001,
+          "unrealized_pl": -1.68,
+          "unrealized_plpc": -0.1920503962174587
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7471.866999999999,
+          "current_price": 7472.69952,
+          "market_value": 448.36197119999997,
+          "unrealized_pl": -0.16,
+          "unrealized_plpc": -0.03568942898296593
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2105,
+          "avg_entry_price": 4586.76992882563,
+          "current_price": 4875.23712,
+          "market_value": 1026.23741376,
+          "unrealized_pl": 60.1,
+          "unrealized_plpc": 6.224656855836783
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.09,
+          "avg_entry_price": 5379.004222129719,
+          "current_price": 5374.33286,
+          "market_value": 483.6899574,
+          "unrealized_pl": -0.64,
+          "unrealized_plpc": -0.13220125542670788
+        }
+      ],
+      "market_summary": "Trh dnes (3. 9. 2026) vykazuje celkově pozitivní náladu – CSPX zakončil na 10denním maximu, NVDA pokračuje v silném trendu a přidává k již +6,2% zisku v portfoliu. TSLA dnes výrazně posílila (+5,4% na svíčce), zatímco AAPL se z posledního poklesu odráží zpět. Makroprostředí: 10Y výnos 4,79 % zůstává zvýšený, výnosová křivka je mírně pozitivní (T10Y2Y +0,43 %), což naznačuje ustupující recessní riziko. Portfolio je v mírném plusu, největší přispěvatel je NVDA. Příležitosti vidím v AAPL (odraz od dna, bullish zprávy, momentum), JPM (silný trend, bullish sentiment, finance prosperují v prostředí vyšších sazeb) a AMZN (AI příběh, záchyt ceny po korekci).",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.07,
+          "status": "submitted",
+          "order_id": "54400624292",
+          "reasoning": "AAPL se odrazil od lokálního minima (6438 CZK, 21.8.) a za posledních 5 dní výrazně posílil na 6831 CZK (+6,1%). Dnešní svíčka potvrzuje pokračující momentum s higher-high (6885). Bullish zprávy z 3.9. podpořeny fundamentálním příběhem. Průměrná vstupní cena je 6740, aktuální cena je nad ní – dobudování pozice na trendu. Limit 6840 mírně pod close, aby se zachytil případný intraday dip. Qty 0,07 × 6840 = 478,8 CZK < 5% z 10 058 = 502 CZK."
+        },
+        {
+          "symbol": "JPM",
+          "side": "buy",
+          "qty": 0.06,
+          "status": "submitted",
+          "order_id": "54400624295",
+          "reasoning": "JPM je v silném vzestupném trendu – za 10 dní ze 7317 na 7535 CZK (+2,9%), dnešní svíčka zakončila na lokálním maximu. Bullish institucionální sentiment (Massachusetts Financial, Smith Group kupují). Vyšší 10Y výnosy (4,79 %) historicky prospívají bankovním maržím. Nová pozice, JPM dosud v portfoliu není. Limit 7530 těsně pod close 7535. Qty 0,06 × 7530 = 451,8 CZK < 502 CZK limitu."
+        },
+        {
+          "symbol": "AMZN",
+          "side": "buy",
+          "qty": 0.09,
+          "status": "submitted",
+          "order_id": "54400624297",
+          "reasoning": "AMZN se po korekci (min 5243, 1.9.) stabilizoval a dnes vzrostl na 5388 CZK. ARK Invest publikoval bullish AI tezi ($1T potenciál), PFG Investments navýšila pozici. Cena vytváří wyżší low po předchozí korekci. Limit 5395 mírně nad close – odráží ochotu zaplatit férovou cenu při potvrzeném odrazu. Qty 0,09 × 5395 = 485,6 CZK < 502 CZK limitu. Nová pozice."
+        }
+      ],
+      "trade_count": 3,
+      "blocked_reasons": [],
+      "spy_price": 23524.5824,
+      "realized_pl_cum": 0.0,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-03T14:05:41.449661+00:00",
-  "last_dividend_check": "2026-09-03T14:05:16.475163+00:00"
+  "last_cash_flow_check": "2026-09-04T14:06:18.845604+00:00",
+  "last_dividend_check": "2026-09-04T14:05:39.969616+00:00"
 }
