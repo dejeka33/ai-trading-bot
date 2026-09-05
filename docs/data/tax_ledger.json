@@ -19,7 +19,7 @@
     "TSLA": [
       {
         "date": "2026-09-03",
-        "qty": 0.06,
+        "qty": 0.03,
         "price": 7482.751499930491,
         "estimated": true
       }
@@ -43,6 +43,12 @@
         "date": "2026-09-04",
         "qty": 0.07,
         "price": 6831.034729999999,
+        "estimated": false
+      },
+      {
+        "date": "2026-09-05",
+        "qty": 0.0195,
+        "price": 6659.53561,
         "estimated": false
       }
     ],
@@ -83,8 +89,35 @@
         "price": 5388.485699999999,
         "estimated": false
       }
+    ],
+    "GOOGL": [
+      {
+        "date": "2026-09-05",
+        "qty": 0.06,
+        "price": 7044.367979999999,
+        "estimated": false
+      }
     ]
   },
-  "realized": [],
-  "annual": {}
+  "realized": [
+    {
+      "symbol": "TSLA",
+      "buy_date": "2026-09-03",
+      "sell_date": "2026-09-05",
+      "qty": 0.03,
+      "buy_price": 7482.751499930491,
+      "sell_price": 7369.4670399999995,
+      "cost_basis": 224.48254499791474,
+      "proceeds": 221.0840112,
+      "gain": -3.3985337979147516,
+      "time_test_met": false,
+      "estimated_buy_date": true
+    }
+  ],
+  "annual": {
+    "2026": {
+      "gross_sale_proceeds": 221.0840112,
+      "dividends_total": 0.0
+    }
+  }
 }

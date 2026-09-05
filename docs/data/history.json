@@ -412,8 +412,138 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-05",
+      "portfolio_value": 10008.56,
+      "cash": 4548.25,
+      "buying_power": 4548.25,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 19993.6,
+          "current_price": 20142.847999999998,
+          "market_value": 402.85695999999996,
+          "unrealized_pl": 2.12,
+          "unrealized_plpc": 0.5301696542893727
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 10474.142249999999,
+          "current_price": 10398.38293,
+          "market_value": 415.9353172,
+          "unrealized_pl": -3.93,
+          "unrealized_plpc": -0.9380243045677559
+        },
+        {
+          "symbol": "UNH",
+          "qty": 0.05,
+          "avg_entry_price": 8312.7122,
+          "current_price": 8259.63905,
+          "market_value": 412.98195250000003,
+          "unrealized_pl": -3.64,
+          "unrealized_plpc": -0.8757671172592743
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.08,
+          "avg_entry_price": 5731.379875,
+          "current_price": 5796.628629999999,
+          "market_value": 463.73029039999994,
+          "unrealized_pl": 4.75,
+          "unrealized_plpc": 1.035963438036813
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.06,
+          "avg_entry_price": 7468.39816659729,
+          "current_price": 7344.699569999999,
+          "market_value": 440.6819741999999,
+          "unrealized_pl": -8.27,
+          "unrealized_plpc": -1.8455541638071524
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.13,
+          "avg_entry_price": 6729.003000048029,
+          "current_price": 6660.36813,
+          "market_value": 865.8478569,
+          "unrealized_pl": -10.69,
+          "unrealized_plpc": -1.2220349616456152
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7471.866999999999,
+          "current_price": 7465.41497,
+          "market_value": 447.9248982,
+          "unrealized_pl": -1.2,
+          "unrealized_plpc": -0.26767071737224446
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2105,
+          "avg_entry_price": 4586.76992882563,
+          "current_price": 4776.5835,
+          "market_value": 1005.4708267499999,
+          "unrealized_pl": 37.97,
+          "unrealized_plpc": 3.932615986957116
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.09,
+          "avg_entry_price": 5379.004222129719,
+          "current_price": 5374.9572499999995,
+          "market_value": 483.74615249999994,
+          "unrealized_pl": -1.23,
+          "unrealized_plpc": -0.25407428777320423
+        }
+      ],
+      "market_summary": "Trh dnes (4. 9. 2026) je smíšený. Technologie slabší – AAPL, MSFT, TSLA, AMZN korigovaly po předchozím růstu. NVDA naopak výrazně posiluje (+3.9% na portfóliu) na fúzi s Hugging Face za $12.9B, která je bullish signálem pro celý AI sektor. JNJ a UNH udržují konzistentní pozici. Výnosová křivka je normální (T10Y2Y +0.41 %), Fed sazba 3.63 % – prostředí poměrně příznivé pro akcie. Hotovost 5 128 CZK = ~51 % portfolio hodnoty, což dává prostor pro selektivní nákupy. TSLA dostala regulatorní ránu (NHTSA probe Cybercab), MCD na 2letých minimech. NVDA akvizice Hugging Face a Apple iPhone event jsou dnes nejsilnější katalyzátory.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.0195,
+          "status": "submitted",
+          "order_id": "54500759117",
+          "reasoning": "Apple iPhone event se blíží (bullish zprávy 5.9. a 3.9.), cena dnes korigovala z vrcholu 6 885 na 6 660 (-3.3%), což je technický pullback v jinak rostoucím trendu od 24.8. Nakupujeme při korekci s limitem 6 700 CZK. Průměrná vstupní cena 6 729 CZK, takže buy pod průměrem = snižujeme průměrnou cenu. Hodnota 335 CZK v mantinelech."
+        },
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.06,
+          "status": "submitted",
+          "order_id": "54500759119",
+          "reasoning": "GOOGL dnes korigoval na 7 044, přičemž bullish zprávy jsou silné: zvýšení dividendy o 4.8% a Gemini cenová strategie. Technicky cena testuje podporu po rally 3.9. (7 128). Nemáme pozici v GOOGL, toto je nová diverzifikující pozice v segmentu, kde NVDA a AAPL již máme. Limit 7 060 těsně nad dnešním low 7 016. Hodnota 424 CZK v mantinelech."
+        },
+        {
+          "symbol": "TSLA",
+          "side": "sell",
+          "qty": 0.03,
+          "status": "submitted",
+          "order_id": "54500759121",
+          "reasoning": "TSLA má dnes silný bearish den: propad z vrcholu 7 993 (3.9.) na 7 369 (-6%), NHTSA zahajuje vyšetřování Cybercab, sentiment bearish. Pozice je v -1.85% ztrátě. Prodáváme polovinu pozice (0.03 ze 0.06 ks) pro snížení rizika; plná pozice zůstává nad stop-loss hranicí 8%, ale trendový zlom odůvodňuje částečný výstup.",
+          "realized_pl": -3.7109578979187243,
+          "realized_pl_pct": -1.6562935429787036,
+          "sell_price": 7344.699569999999
+        }
+      ],
+      "trade_count": 3,
+      "blocked_reasons": [],
+      "spy_price": 23402.0864,
+      "realized_pl_cum": -3.7109578979187243,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-04T14:06:18.845604+00:00",
-  "last_dividend_check": "2026-09-04T14:05:39.969616+00:00"
+  "last_cash_flow_check": "2026-09-05T14:08:01.636462+00:00",
+  "last_dividend_check": "2026-09-05T14:04:58.066588+00:00"
 }
