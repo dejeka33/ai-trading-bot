@@ -43,7 +43,29 @@ DECISION_TOOL = {
 }
 
 
-def build_prompt(account_snapshot, bars, risk_limits, news=None, macro=None, dividends=None):
+def build_prompt(account_snapshot, bars, risk_limits, news=None, macro=None, dividends=None, run_date=None):
+    # POZOR - přidáno 6.9.2026 (viz diskuze v chatu - appka v market_summary
+    # opakovaně psala "trh dnes (X.Y.)" s datem O JEDEN DEN STARŠÍM, než kdy
+    # appka doopravdy běžela - vypadalo to jako chyba/zpoždění appky, ale
+    # appka žádné datum dřív do promptu vůbec neposílala, takže si "dnešek"
+    # domýšlela jen z data poslední svíčky v tržních datech (viz TRŽNÍ DATA
+    # níže). Appka běží kolem 16:00 českého času - to je jen ~30 minut po
+    # otevření amerického trhu (NYSE otevírá 15:30 SEČ/SELČ) - takže appčin
+    # zdroj dat (EODHD, denní/EOD svíčky, viz market_data.py) v tu chvíli ještě
+    # NEMÁ hotovou dnešní svíčku (ta se uzavře až večer) - appka tedy poslední
+    # KOMPLETNÍ svíčku dostane z VČEREJŠKA, ale AI si ji domyslela jako
+    # "dnešní" cenu. Appka teď posílá skutečné dnešní datum výslovně (run_date,
+    # z main.py) a appka AI požádá, aby ho nepletla s datem poslední svíčky.
+    date_section = ""
+    if run_date:
+        date_section = f"""
+DNEŠNÍ SKUTEČNÉ DATUM: {run_date}. Appka běží kolem 16:00 českého času, tedy
+brzy po otevření amerického trhu - poslední KOMPLETNÍ obchodní svíčka v
+tržních datech níže proto může být z VČEREJŠKA (dnešní den ještě neskončil),
+ne z dnešního dne. V market_summary popisuj situaci vzhledem ke skutečnému
+dnešnímu datu výše, ne podle data poslední svíčky - neplet si je.
+"""
+
     dividend_section = ""
     if dividends:
         # POZOR - přidáno 2.9.2026 (viz main.compute_dividend_delta,
@@ -111,6 +133,7 @@ necelý počet kusů, aby ses do limitu vešel/a, místo abys obchod kvůli tomu
 Počítej qty tak, aby qty * aktuální cena (z tržních dat níže) vyšlo pod limitem na obchod,
 ne nad ním.
 
+{date_section}
 AKTUÁLNÍ STAV ÚČTU:
 {json.dumps(account_snapshot, indent=2, ensure_ascii=False)}
 
@@ -130,11 +153,13 @@ v poli reasoning u každého obchodu - bude se ukazovat v denním reportu uživa
 """.strip()
 
 
-def get_decision(account_snapshot, bars, risk_limits, news=None, macro=None, dividends=None, model=None):
+def get_decision(account_snapshot, bars, risk_limits, news=None, macro=None, dividends=None, run_date=None, model=None):
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"].strip())
     model = model or os.environ.get("DECISION_MODEL", "claude-sonnet-4-6").strip()
 
-    prompt = build_prompt(account_snapshot, bars, risk_limits, news=news, macro=macro, dividends=dividends)
+    prompt = build_prompt(
+        account_snapshot, bars, risk_limits, news=news, macro=macro, dividends=dividends, run_date=run_date,
+    )
 
     response = client.messages.create(
         model=model,

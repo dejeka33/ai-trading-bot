@@ -176,6 +176,32 @@ def compute_dividend_delta(prev_history, instruments_map):
 
 
 def main():
+    # POZOR - přidáno 6.9.2026 (viz diskuze v chatu - appka omylem obchodovala
+    # o víkendu 5.-6.9.2026, kdy jsou burzy zavřené). Appka dřív žádnou kontrolu
+    # dne v týdnu neměla - ani ve staré GitHub Actions "schedule:" cronu ("0 14
+    # * * *" - hvězdička u dne v týdnu = VŠECHNY dny), ani po migraci na
+    # cron-job.org (appka se teď spouští přes workflow_dispatch, kterému appčin
+    # vlastní check_time krok v .github/workflows/daily_trading.yml
+    # kontrolu hodiny schválně přeskakuje - byl napsaný, když workflow_dispatch
+    # sloužil jen k občasnému RUČNÍMU testu, ne jako appkou jediný způsob
+    # ostrého spouštění). Appka teď kontrolu dne v týdnu dělá tady, na úrovni
+    # main.py - funguje to bez ohledu na to, čím je appka spuštěná (cron-job.org,
+    # ruční workflow_dispatch, budoucí jiný scheduler). Appka o víkendu skončí
+    # HNED, než začne volat jakékoliv API (T212/Anthropic/Alpha Vantage/FRED) -
+    # ať appka zbytečně netočí kvóty ani nevytváří obchody na neaktuálních datech
+    # (burzy zavřené = appčina tržní data by beztak byla stejná jako v pátek).
+    # Americké svátky (appka na ně burzy taky zavírá, např. Den díkůvzdání)
+    # appka tímhle NEřeší - jen víkendy - to je vědomé zjednodušení, appka to
+    # může appka doplnit později, kdyby se ukázalo, že appka i o svátcích
+    # obchoduje.
+    now_utc = datetime.now(timezone.utc)
+    date_str = now_utc.strftime("%Y-%m-%d")
+    if now_utc.weekday() >= 5:  # 5 = sobota, 6 = neděle
+        print(f"Dnes ({date_str}, {now_utc.strftime('%A')}) jsou burzy zavřené (víkend) - "
+              f"appka běh přeskočí bez volání jakéhokoliv API. Žádná akce není potřeba, "
+              f"příští běh appka provede normálně další obchodní den.")
+        return
+
     limits = load_risk_limits()
     stocks, crypto = allowed_symbols(limits)  # crypto bude vždy [] v této verzi
 
@@ -211,7 +237,9 @@ def main():
     prev_history_for_prompt = load_history()
     dividend_net, dividend_items, dividend_check = compute_dividend_delta(prev_history_for_prompt, INSTRUMENTS)
 
-    decision = get_decision(account_before, bars, limits, news=news, macro=macro, dividends=dividend_items)
+    decision = get_decision(
+        account_before, bars, limits, news=news, macro=macro, dividends=dividend_items, run_date=date_str,
+    )
 
     # Aktuální ceny z nezávislého zdroje (tržní data, ne to, co si spočítala AI) -
     # slouží k přepočtu qty * cena při validaci, viz risk_rules.validate_decision.
@@ -240,7 +268,11 @@ def main():
     # se dnešní nákupy reálně nepropíšou do pozic - viz POZOR v broker_t212.py.
     account_after = broker_t212.get_settled_account_snapshot(INSTRUMENTS, trade_results)
 
-    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    # POZOR - date_str appka teď počítá už na začátku main() (viz kontrola
+    # víkendu výše) a tady se jen znovu použije - dřív se počítalo až tady,
+    # znovu voláním datetime.now(), což pro tenhle účel (report/historie)
+    # nevadilo, ale appka teď stejnou hodnotu potřebuje mít k dispozici i
+    # dřív, pro decision.get_decision (viz run_date níže).
     report_md = build_report(
         date_str, account_before,
         account_after if trade_results else None,
