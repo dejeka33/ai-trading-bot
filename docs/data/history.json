@@ -542,8 +542,143 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-06",
+      "portfolio_value": 10008.56,
+      "cash": 3546.97,
+      "buying_power": 3546.97,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 19993.6,
+          "current_price": 20142.847999999998,
+          "market_value": 402.85695999999996,
+          "unrealized_pl": 2.12,
+          "unrealized_plpc": 0.5301696542893727
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 10474.142249999999,
+          "current_price": 10398.38293,
+          "market_value": 415.9353172,
+          "unrealized_pl": -3.93,
+          "unrealized_plpc": -0.9380243045677559
+        },
+        {
+          "symbol": "UNH",
+          "qty": 0.05,
+          "avg_entry_price": 8312.7122,
+          "current_price": 8259.63905,
+          "market_value": 412.98195250000003,
+          "unrealized_pl": -3.64,
+          "unrealized_plpc": -0.8757671172592743
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.08,
+          "avg_entry_price": 5731.379875,
+          "current_price": 5796.628629999999,
+          "market_value": 463.73029039999994,
+          "unrealized_pl": 4.75,
+          "unrealized_plpc": 1.035963438036813
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.06,
+          "avg_entry_price": 7468.39816659729,
+          "current_price": 7344.699569999999,
+          "market_value": 440.6819741999999,
+          "unrealized_pl": -8.27,
+          "unrealized_plpc": -1.8455541638071524
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.13,
+          "avg_entry_price": 6729.003000048029,
+          "current_price": 6660.36813,
+          "market_value": 865.8478569,
+          "unrealized_pl": -10.69,
+          "unrealized_plpc": -1.2220349616456152
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7471.866999999999,
+          "current_price": 7465.41497,
+          "market_value": 447.9248982,
+          "unrealized_pl": -1.2,
+          "unrealized_plpc": -0.26767071737224446
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2105,
+          "avg_entry_price": 4586.76992882563,
+          "current_price": 4776.5835,
+          "market_value": 1005.4708267499999,
+          "unrealized_pl": 37.97,
+          "unrealized_plpc": 3.932615986957116
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.09,
+          "avg_entry_price": 5379.004222129719,
+          "current_price": 5374.9572499999995,
+          "market_value": 483.74615249999994,
+          "unrealized_pl": -1.23,
+          "unrealized_plpc": -0.25407428777320423
+        }
+      ],
+      "market_summary": "Trh je dnes (4. 9. 2026) smíšený – NVDA pokračuje v silném uptrendu (+10% za 10 dní, aktuálně 4 794 CZK), AAPL se po výrazném rally od 6 450 na 6 831 vrátil zpět na 6 660 před událostí iPhone 18 (9. 9.), TSLA prudce klesla po regulatorním šetření Cybercabu. Portfolio je celkově v mírné ztrátě kromě NVDA (+38 CZK) a JNJ (+4.75 CZK). Makro: 10Y výnos 4.77 %, výnosová křivka mírně normální (+0.41), Fed sazba 3.63 % – prostředí ne ideální, ale akcie s růstovými katalyzátory mají stále prostor.",
+      "trades": [
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.0152,
+          "status": "submitted",
+          "order_id": "54500765562",
+          "reasoning": "AAPL se vrátil z rally high ~6 831 na 6 660 – pullback před iPhone 18 eventem 9. 9. (bullish sentiment v médiích, foldable iPhone). Vstup na limitu 6 650 zachytí další pokles a nabídne asymetrii do eventu. qty 0.07 × 6 650 = 465.5 CZK, pod limitem 5 % portfolia (~500 CZK). Stávající pozice 0.13 ks + 0.07 = 0.20 ks × 6 660 = 1 332 CZK (cca 13 % portfolia) – POZOR: limit max_position_size_pct je 10 %, ale market_value je počítána z celkového portfolio_value 10 009 CZK, takže 10 % = 1 001 CZK. Stávající pozice je 866 CZK (8.6 %), přidáme 465 CZK → celkem ~1 331 CZK (13.3 %). Přizpůsbuji qty na 0.02 ks aby nepřekročilo 10% limit: 0.13 + 0.02 = 0.15 × 6 660 = 999 CZK ≈ 9.98 % – těsně pod limitem. Bullish katalyzátor + technický pullback."
+        },
+        {
+          "symbol": "AAPL",
+          "side": "buy",
+          "qty": 0.0043,
+          "status": "submitted",
+          "order_id": "54500765564",
+          "reasoning": "Doplnění pozice AAPL před iPhone 18 eventem (9. 9.). Pullback z 6 831 na 6 660 je technicky atraktivní vstup. Po přidání 0.02 ks bude celková pozice 0.15 ks × 6 660 = 999 CZK, tj. ~9.98 % portfolia – těsně pod max_position_size_pct 10 %. Silný bullish sentiment ve zprávách (iPhone 18, foldable)."
+        },
+        {
+          "symbol": "GOOGL",
+          "side": "buy",
+          "qty": 0.06,
+          "status": "submitted",
+          "order_id": "54500765566",
+          "reasoning": "GOOGL klesl z 7 318 na 7 044 za 10 dní (-3.7 %), ale fundamenty jsou solidní: dividenda zvýšena o 4.8 %, Gemini AI rozvoj, Alphabet je profitabilní. Pullback na ~7 044 nabízí vstup s RSI pravděpodobně přeprodaný krátkodobě. Sentiment smíšený ale spíše pozitivní. 0.06 × 7 040 = 422 CZK (4.2 % portfolia, pod 5% limitem na jeden obchod). Nová pozice."
+        },
+        {
+          "symbol": "WMT",
+          "side": "buy",
+          "qty": 0.18,
+          "status": "submitted",
+          "order_id": "54500765568",
+          "reasoning": "WMT je v uptrendu: z 2 136 na 2 257 (+5.7 % za 10 dní) a po dnešním pullbacku na 2 230 nabízí technicky čistý vstup při retracementu. Defenzivní povaha WMT je v prostředí vyšších sazeb (10Y 4.77 %) atraktivní – spotřebitelský staples s pricing power. Sentiment neutrální až mírně bullish. 0.18 × 2 225 = 400.5 CZK (4.0 % portfolia, pod 5% limitem). Nová pozice."
+        }
+      ],
+      "trade_count": 4,
+      "blocked_reasons": [],
+      "spy_price": 23402.0864,
+      "realized_pl_cum": -3.7109578979187243,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-05T14:08:01.636462+00:00",
-  "last_dividend_check": "2026-09-05T14:04:58.066588+00:00"
+  "last_cash_flow_check": "2026-09-06T14:08:00.768079+00:00",
+  "last_dividend_check": "2026-09-06T14:04:55.530050+00:00"
 }

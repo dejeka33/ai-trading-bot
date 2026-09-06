@@ -50,6 +50,18 @@
         "qty": 0.0195,
         "price": 6659.53561,
         "estimated": false
+      },
+      {
+        "date": "2026-09-06",
+        "qty": 0.0152,
+        "price": 6659.53561,
+        "estimated": false
+      },
+      {
+        "date": "2026-09-06",
+        "qty": 0.0043,
+        "price": 6659.53561,
+        "estimated": false
       }
     ],
     "NVDA": [
@@ -95,6 +107,20 @@
         "date": "2026-09-05",
         "qty": 0.06,
         "price": 7044.367979999999,
+        "estimated": false
+      },
+      {
+        "date": "2026-09-06",
+        "qty": 0.06,
+        "price": 7044.367979999999,
+        "estimated": false
+      }
+    ],
+    "WMT": [
+      {
+        "date": "2026-09-06",
+        "qty": 0.18,
+        "price": 2229.9048199999997,
         "estimated": false
       }
     ]
