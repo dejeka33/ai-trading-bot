@@ -62,6 +62,12 @@
         "qty": 0.0043,
         "price": 6659.53561,
         "estimated": false
+      },
+      {
+        "date": "2026-09-07",
+        "qty": 0.0195,
+        "price": 6661.7754,
+        "estimated": false
       }
     ],
     "NVDA": [
@@ -121,6 +127,14 @@
         "date": "2026-09-06",
         "qty": 0.18,
         "price": 2229.9048199999997,
+        "estimated": false
+      }
+    ],
+    "COST": [
+      {
+        "date": "2026-09-07",
+        "qty": 0.025,
+        "price": 19065.7068,
         "estimated": false
       }
     ]
