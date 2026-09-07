@@ -359,4 +359,24 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        # POZOR - přidáno 7.9.2026 (viz diskuze v chatu - appka dřív při pádu
+        # UPROSTŘED běhu neposlala žádné upozornění, protože send_web_push se
+        # volala až na konci main() po úspěšném doběhnutí - uživatel se tak
+        # nemusel vůbec dozvědět, že appka ten den vůbec neproběhla, např. při
+        # vypršelém ANTHROPIC_API_KEY). Appka teď v tomhle except bloku pošle
+        # SAMOSTATNOU push notifikaci o selhání - send_web_push si sama tiše
+        # poradí, když appka nemá VAPID_PRIVATE_KEY/PUSH_SUBSCRIPTION_JSON
+        # nastavené (viz webpush_notify.py), takže appka se tady nemusí bát,
+        # že by odeslání notifikace samo shodilo tenhle except blok. Appka
+        # chybu VŽDY znovu vyhodí (raise) - GitHub Actions běh tak zůstane
+        # označený jako neúspěšný (červený) a GitHub podle svého nastavení
+        # navíc sám pošle e-mail vlastníkovi repozitáře - appčina push
+        # notifikace je jen RYCHLEJŠÍ/viditelnější druhý kanál, ne náhrada.
+        send_web_push(
+            "⚠️ AI Trading Bot - dnešní běh SELHAL",
+            f"Appka spadla s chybou: {e}. Zkontroluj GitHub Actions log a platnost API klíčů.",
+        )
+        raise

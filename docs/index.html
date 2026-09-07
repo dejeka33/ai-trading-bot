@@ -58,6 +58,16 @@
   .demo-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--warning); }
   .demo-chip span { font-size: 10.5px; font-weight: 600; color: var(--warning-ink); letter-spacing: .02em; }
 
+  /* POZOR - přidáno 7.9.2026 (viz main.py - push notifikace při selhání běhu) -
+     appka na dashboardu navíc ukáže banner, kdyby appka vynechala víc pracovních
+     dní v kuse (např. push notifikace appce z nějakého důvodu nedorazila) - viz
+     renderStaleBanner níže. */
+  .stale-banner { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 14px;
+    background: oklch(70% 0.16 25 / 12%); border: 1px solid oklch(70% 0.16 25 / 32%); margin-bottom: 14px; }
+  .stale-banner svg { flex: none; stroke: var(--critical-ink); margin-top: 1px; }
+  .stale-banner p { margin: 0; font-size: 12px; color: var(--critical-ink); line-height: 1.5; }
+  .stale-banner b { font-weight: 700; }
+
   .card { border-radius: 22px; background: var(--surface-1); border: 1px solid var(--border); padding: 18px 16px; margin-bottom: 14px; }
   .card-title { font-size: 15px; font-weight: 600; margin: 0 0 2px; }
   .card-sub { font-size: 11.5px; color: var(--text-3); margin: 0 0 14px; line-height: 1.5; }
@@ -220,6 +230,11 @@
 <div class="blob-b"></div>
 
 <main>
+  <div id="stale-banner" class="stale-banner" style="display:none;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/></svg>
+    <p id="stale-banner-text"></p>
+  </div>
+
   <div class="eyebrow-row">
     <div class="demo-chip"><div class="dot"></div><span>PAPER · DEMO</span></div>
   </div>
@@ -349,6 +364,43 @@ function fmtDateForPeriod(d, period){
 }
 function dirClass(v){ return v > 0.005 ? 'up' : (v < -0.005 ? 'down' : 'flat'); }
 function dirArrow(v){ return v > 0.005 ? '↑' : (v < -0.005 ? '↓' : '·'); }
+
+// POZOR - přidáno 7.9.2026 (viz main.py - push notifikace při selhání běhu,
+// stejná diskuze v chatu) - appka tady spočítá, kolik PRACOVNÍCH dní (appka
+// od 6.9.2026 o víkendech neběží - viz main.main, kontrola dne v týdnu) appka
+// vynechala od posledního záznamu v historii do dneška. Appka se schválně
+// dívá na UTC datum (stejně appka ukládá "date" appku - viz main.py date_str),
+// ne na lokální čas prohlížeče, ať appce sedí se stejným kalendářem jako appka
+// sama. Appka appce dává 1 pracovní den "grace" navíc (práh 2, ne 1), ať appka
+// neplaší uživatele hned ráno, než appčin dnešní běh (appka běží ~16:00) vůbec
+// stihne proběhnout.
+function missedBusinessDays(lastDateStr){
+  const last = new Date(lastDateStr + 'T00:00:00Z');
+  const now = new Date();
+  const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  let d = new Date(last.getTime());
+  let count = 0;
+  while (d.getTime() < todayUTC.getTime()) {
+    d.setUTCDate(d.getUTCDate() + 1);
+    const day = d.getUTCDay();
+    if (day !== 0 && day !== 6 && d.getTime() < todayUTC.getTime()) count++;
+  }
+  return count;
+}
+
+function renderStaleBanner(data){
+  const last = data.entries[data.entries.length - 1];
+  const missed = missedBusinessDays(last.date);
+  const banner = document.getElementById('stale-banner');
+  if (missed < 2) {
+    banner.style.display = 'none';
+    return;
+  }
+  const denWord = missed === 1 ? 'pracovní den' : (missed >= 2 && missed <= 4 ? 'pracovní dny' : 'pracovních dní');
+  document.getElementById('stale-banner-text').innerHTML =
+    `Appka naposledy proběhla <b>${fmtDateFull(last.date)}</b> - vypadá to, že vynechala aspoň ${missed} ${denWord} v kuse (víkendy appka počítá jako normální, ty nevadí). Zkontroluj GitHub Actions log a platnost API klíčů.`;
+  banner.style.display = '';
+}
 
 /* kategorická paleta nástrojů - sdílená napříč appkou (Přehled/Portfolio).
    Rozšířeno 24.8.2026 o 11 nových titulů (viz instruments.py) - stejné odstíny
@@ -905,6 +957,7 @@ Promise.all([loadData(), loadTaxData()]).then(([data, taxData]) => {
   }
   CURRENCY = data.entries[data.entries.length-1].currency || 'CZK';
   window.__ALL_ENTRIES__ = data.entries;
+  renderStaleBanner(data);
   renderStats(data);
   document.getElementById('chart-card').style.display = '';
   renderChart(data, 'daily');
