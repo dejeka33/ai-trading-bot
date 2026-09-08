@@ -796,8 +796,174 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-08",
+      "portfolio_value": 9954.63,
+      "cash": 2483.37,
+      "buying_power": 2483.37,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20028.39,
+          "current_price": 20101.7334,
+          "market_value": 402.034668,
+          "unrealized_pl": 1.36,
+          "unrealized_plpc": 0.3395180541221736
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 10480.18125,
+          "current_price": 10256.3125,
+          "market_value": 410.2525,
+          "unrealized_pl": -9.7,
+          "unrealized_plpc": -2.313891279313514
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.03,
+          "avg_entry_price": 7476.175,
+          "current_price": 7533.651999999999,
+          "market_value": 226.00955999999996,
+          "unrealized_pl": 1.48,
+          "unrealized_plpc": 0.6598739774461316
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.025,
+          "avg_entry_price": 19050.71,
+          "current_price": 18984.07,
+          "market_value": 474.60175000000004,
+          "unrealized_pl": -1.96,
+          "unrealized_plpc": -0.41153321844697655
+        },
+        {
+          "symbol": "UNH",
+          "qty": 0.05,
+          "avg_entry_price": 8317.505,
+          "current_price": 8181.726,
+          "market_value": 409.0863,
+          "unrealized_pl": -7.62,
+          "unrealized_plpc": -1.8322802330747023
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.08,
+          "avg_entry_price": 5734.684375,
+          "current_price": 5625.87375,
+          "market_value": 450.06989999999996,
+          "unrealized_pl": -9.0,
+          "unrealized_plpc": -1.9617470229126606
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.12,
+          "avg_entry_price": 6986.787499999999,
+          "current_price": 6952.217999999999,
+          "market_value": 834.2661599999998,
+          "unrealized_pl": -4.64,
+          "unrealized_plpc": -0.5534255430935415
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.45,
+          "avg_entry_price": 1049.1172222685,
+          "current_price": 1048.53875,
+          "market_value": 471.84243749999996,
+          "unrealized_pl": -0.29,
+          "unrealized_plpc": -0.06142730581154373
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7476.175,
+          "current_price": 7411.40925,
+          "market_value": 444.684555,
+          "unrealized_pl": -4.54,
+          "unrealized_plpc": -1.012104005947783
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 6693.8289124104995,
+          "current_price": 6595.90225,
+          "market_value": 1243.327574125,
+          "unrealized_pl": -20.25,
+          "unrealized_plpc": -1.604867066496811
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.1705,
+          "avg_entry_price": 4588.828445782,
+          "current_price": 4757.263,
+          "market_value": 811.1133415,
+          "unrealized_pl": 27.28,
+          "unrealized_plpc": 3.4867287345873703
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.18,
+          "avg_entry_price": 2227.118055463,
+          "current_price": 2208.49125,
+          "market_value": 397.52842499999997,
+          "unrealized_pl": -3.63,
+          "unrealized_plpc": -0.9055050592041551
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.18,
+          "avg_entry_price": 5350.868055462999,
+          "current_price": 5319.538,
+          "market_value": 957.5168399999999,
+          "unrealized_pl": -6.48,
+          "unrealized_plpc": -0.6727880341442095
+        }
+      ],
+      "market_summary": "Dnes 8. září 2026, americký trh právě otevřel. Poslední kompletní svíčky jsou ze 4. září (čtvrtek). CSPX a EQQQ zůstávají v rozsahu bez výrazného trendu – mírná korekce po srpnovém vrcholu. Z portfolia vyčnívá NVDA s +4% ziskem a nejsilnějším momentum ze všech pozic; AAPL naopak koriguje (-1.5%) navzdory bullish zprávám o foldable iPhone. VZ má dnes velmi silné zprávy (multimiliardový deal s Corningem, bullish sentiment, blízko 52W high). JNJ se technicky zotavuje po propadu v srpnu, s bullish zprávami o neuropsychiatrických datech. COST a AMZN mají institucionální nákupy a mírně bullish sentiment. Makro: výnosová křivka mírně pozitivní (T10Y2Y +0.41%), Fed sazba 3.63% – relativně podpůrné prostředí pro akcie.",
+      "trades": [
+        {
+          "symbol": "VZ",
+          "side": "buy",
+          "qty": 0.45,
+          "status": "submitted",
+          "order_id": "54700320501",
+          "reasoning": "Dnes velmi silné zprávy: multimiliardový deal s Corningem pro broadband/AI infrastrukturu + bullish analýza 'Stock Is Near a 52-Week High'. Cena konsoliduje kolem 1044-1047 po mírném pullbacku ze 4.9. Vstup s limit příkazem těsně pod poslední close (1044.17 CZK). 0.45 ks × 1044 = ~470 CZK, dobře pod 5% limitem (~498 CZK)."
+        },
+        {
+          "symbol": "AMZN",
+          "side": "buy",
+          "qty": 0.09,
+          "status": "submitted",
+          "order_id": "54700320503",
+          "reasoning": "Tři bullish zprávy dnes o institucionálních nákupech. Cena se stabilizovala kolem 5383 po delší korekci z 5548. Výrazný support zóna 5310-5340. Přidáváme k stávající pozici (9 ks → 18 ks, stále v rámci limitů). Limit pod aktuální cenou pro lepší vstup."
+        },
+        {
+          "symbol": "NVDA",
+          "side": "sell",
+          "qty": 0.04,
+          "status": "submitted",
+          "order_id": "54700320509",
+          "reasoning": "NVDA je naší nejziskovější pozicí (+4%, +38 CZK). Po prudkém výskoku 27.8 a stabilizaci kolem 4780-4800 vybíráme malou část zisku (0.04 ks ze 0.2105). Realizace části profitu při high, portfolio rebalance – stále držíme 0.1705 ks pro další potenciální růst.",
+          "realized_pl": 7.638570424169993,
+          "realized_pl_pct": 4.160972190363056,
+          "sell_price": 4780.37875
+        }
+      ],
+      "trade_count": 3,
+      "blocked_reasons": [],
+      "spy_price": 23420.80434,
+      "realized_pl_cum": 3.9276125262512687,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-07T14:08:17.358559+00:00",
-  "last_dividend_check": "2026-09-07T14:05:22.813069+00:00"
+  "last_cash_flow_check": "2026-09-08T14:05:41.492465+00:00",
+  "last_dividend_check": "2026-09-08T14:05:16.645964+00:00"
 }
