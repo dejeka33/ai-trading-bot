@@ -22,7 +22,7 @@ import market_data
 import broker_t212
 from risk_rules import (
     load_risk_limits, allowed_symbols, validate_decision,
-    clip_oversized_trades, clip_concentrated_trades,
+    clip_oversized_trades, clip_concentrated_trades, stop_loss_trades,
 )
 from decision import get_decision
 from news_data import get_recent_news
@@ -239,6 +239,36 @@ def main():
         )
         return
 
+    # POZOR - přidáno 9.9.2026 (viz diskuze v chatu - risk_limits.yaml má
+    # "stop_loss_pct" roky nastavený, appka ho ale nikdy nikde nevynucovala,
+    # jen ho poslala AI jako text v promptu). Appka teď stop-loss vynutí jako
+    # TVRDÉ pravidlo, nezávislé na tom, jestli si toho AI všimne - proběhne
+    # HNED, PŘED voláním AI, ať appka nečeká na rozhodnutí AI a AI dostane k
+    # rozhodování už stav účtu PO téhle automatické pojistce (viz
+    # risk_rules.stop_loss_trades). Používá se stejná execute_trades funkce
+    # jako pro obchody navržené AI - výsledky appka přidá do trade_results
+    # (viz níže), ať se objeví v reportu/historii/daňové evidenci úplně stejně
+    # jako jakýkoliv jiný obchod.
+    forced_trades = stop_loss_trades(account_before, limits)
+    stop_loss_results = []
+    if forced_trades:
+        forced_symbols = ", ".join(f"{t['symbol']} ({t['qty']})" for t in forced_trades)
+        print(f"Appka spouští automatický stop-loss pro: {forced_symbols}.")
+        stop_loss_results = broker_t212.execute_trades(
+            forced_trades, INSTRUMENTS,
+            prices={t["symbol"]: t["estimated_value"] / t["qty"] for t in forced_trades if t["qty"]},
+            account=account_before, limits=limits,
+        )
+        send_web_push(
+            "🛑 AI Trading Bot - automatický stop-loss",
+            f"Appka automaticky prodala: {forced_symbols} - pozice klesla pod limit "
+            f"{limits.get('risk_controls', {}).get('stop_loss_pct')} %.",
+        )
+        # Appka si po prodeji znovu stáhne stav účtu, ať AI i zbytek dnešního
+        # běhu (clip_oversized_trades/clip_concentrated_trades/validate_decision
+        # níže) pracují s už "vyčištěným" portfoliem, ne se stavem PŘED stop-lossem.
+        account_before = broker_t212.get_account_snapshot(INSTRUMENTS)
+
     # account_currency: appka ceny nástrojů převádí do měny účtu (viz fx.py) -
     # bez tohohle by risk_rules.py porovnávala cenu v GBP/USD přímo proti
     # mantinelu v CZK (viz POZOR o měnách v instruments.py).
@@ -286,6 +316,12 @@ def main():
         )
     elif not ok:
         print("Rozhodnutí porušilo mantinely, obchody se neprovedou:", reasons)
+
+    # Automatické stop-loss prodeje (viz výše) appka přidá do trade_results,
+    # ať se objeví v reportu/historii/daňové evidenci stejně jako obchody
+    # navržené AI - jsou to STEJNĚ platné, skutečně provedené obchody, jen
+    # rozhodnuté appkou samotnou, ne AI.
+    trade_results = stop_loss_results + trade_results
 
     # Vždy zjistíme aktuální stav účtu (i beze dnů bez obchodu se mohla změnit
     # hodnota otevřených pozic vlivem pohybu trhu) - používá se pro report i dashboard.

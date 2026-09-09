@@ -13,6 +13,55 @@ def allowed_symbols(limits):
     return stocks, crypto
 
 
+def stop_loss_trades(account_snapshot, limits):
+    """
+    POZOR - přidáno 9.9.2026 (viz diskuze v chatu - appka měla v risk_limits.yaml
+    "stop_loss_pct" (8 %) roky nastavené, appka ho ale NIKDY nikde nevynucovala -
+    appka ho jen poslala AI jako text v promptu (RIZIKOVÉ MANTINELY v
+    decision.build_prompt) a bylo čistě na AI, jestli si toho všimne a rozhodne
+    se prodat. Appka teď stop-loss vynucuje jako TVRDÉ pravidlo, nezávislé na
+    rozhodnutí AI - volá se v main.py HNED po načtení stavu účtu, PŘED voláním
+    AI, aby appka prodala ztrátovou pozici automaticky bez čekání na to, jestli
+    si toho AI všimne (a AI pak dostane k rozhodování už "vyčištěný" stav účtu).
+
+    Vrací seznam obchodů (stejný tvar jako decision["trades"] od AI - main.py je
+    posílá do broker_t212.execute_trades stejným způsobem) - jeden PRODEJ CELÉ
+    pozice pro každou drženou pozici, která klesla o >= stop_loss_pct od
+    průměrné nákupní ceny. Pozice s "price_reliable" == False (viz POZOR
+    9.9.2026 v broker_t212.py - FX kurz se nepodařilo přepočítat) appka VŽDY
+    vynechá - nemá smysl automaticky prodávat na základě nespolehlivé ceny (v
+    praxi appka do tohoto stavu ani nemá dojít, protože main.py při
+    fx_unreliable_symbols celý běh přeskočí ještě dřív, ale kontrola je tu pro
+    jistotu, kdyby se to v budoucnu změnilo).
+    """
+    stop_loss_pct = limits.get("risk_controls", {}).get("stop_loss_pct")
+    if not stop_loss_pct:
+        return []
+
+    trades = []
+    for p in account_snapshot.get("positions", []):
+        if p.get("price_reliable") is False:
+            continue
+        qty = p.get("qty") or 0
+        plpc = p.get("unrealized_plpc")
+        if qty <= 0 or plpc is None:
+            continue
+        if plpc <= -stop_loss_pct:
+            trades.append({
+                "symbol": p["symbol"],
+                "side": "sell",
+                "qty": qty,
+                "order_type": "market",
+                "estimated_value": qty * p.get("current_price", 0.0),
+                "reasoning": (
+                    f"Automatický stop-loss: pozice klesla o {abs(plpc):.2f} % "
+                    f"(limit je {stop_loss_pct} %) - appka ji prodala automaticky, "
+                    f"bez čekání na rozhodnutí AI."
+                ),
+            })
+    return trades
+
+
 def clip_oversized_trades(decision, limits, account_snapshot, prices=None):
     """
     POZOR - přidáno 21.8.2026 po rozboru 108denního backtestu (2026-03-01 ->

@@ -42,19 +42,29 @@ def build_report(date_str, account_before, account_after, decision, trade_result
             )
         lines.append("")
 
+    # POZOR - přidáno 9.9.2026 (viz stop_loss_trades v risk_rules.py): appka
+    # sem teď může dostat trade_results, i když AI návrh mantinely porušil
+    # (validation_reasons neprázdné) - automatický stop-loss se provádí NEZÁVISLE
+    # na rozhodnutí AI, takže obojí se může stát ve STEJNÝ den (appka např.
+    # automaticky prodá ztrátovou pozici, zatímco AI návrh na jiný obchod ten
+    # den mantinely porušil a neprovedl se). Dřív se tyhle dvě větve vzájemně
+    # vylučovaly (if/elif) - tabulka provedených obchodů by se stop-lossem
+    # vůbec nezobrazila, kdyby AI zrovna ten den mantinely porušila.
     lines.append("## Rozhodnutí a provedené obchody")
-    if validation_reasons:
-        lines.append("**Obchody NEBYLY provedeny - porušily rizikové mantinely:**")
-        for r in validation_reasons:
-            lines.append(f"- {r}")
-    elif not trade_results:
-        lines.append("Dnes AI nenavrhla žádný obchod.")
-    else:
+    if trade_results:
         lines.append("| Symbol | Strana | Množství | Stav | Důvod |")
         lines.append("|---|---|---|---|---|")
         for r in trade_results:
             status = "✅ provedeno" if r["status"] == "submitted" else f"❌ chyba: {r.get('error')}"
             lines.append(f"| {r['symbol']} | {r['side']} | {r['qty']} | {status} | {r.get('reasoning','')} |")
+    if validation_reasons:
+        if trade_results:
+            lines.append("")
+        lines.append("**Návrh AI na další obchody NEBYL provedený - porušil rizikové mantinely:**")
+        for r in validation_reasons:
+            lines.append(f"- {r}")
+    if not trade_results and not validation_reasons:
+        lines.append("Dnes AI nenavrhla žádný obchod.")
     lines.append("")
 
     lines.append(f"_Vygenerováno automaticky {datetime.now(timezone.utc).isoformat()} UTC._")
