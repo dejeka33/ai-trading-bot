@@ -33,9 +33,11 @@ _rate_cache = {}
 def get_fx_rate(base_currency, quote_currency):
     """
     Vrátí kolik jednotek `quote_currency` dostaneš za 1 `base_currency`
-    (např. get_fx_rate("USD", "CZK") -> ~23.5). Vrací None při chybě - appka
-    pak cenu radši ponechá nepřevedenou a nahlásí to do logu, než aby spadla
-    nebo tiše počítala se špatným číslem.
+    (např. get_fx_rate("USD", "CZK") -> ~23.5). Vrací None při chybě - volající
+    kód (market_data.py) pak radši daný nástroj pro tenhle běh úplně vynechá
+    a nahlásí to do logu, než aby spadl nebo počítal s nepřevedenou/špatnou
+    cenou (viz POZOR 9.9.2026 v market_data.py - dřívější "ponechat
+    nepřevedenou" přístup se ukázal jako nebezpečný, ne bezpečný).
     """
     base_currency = (base_currency or "").upper()
     quote_currency = (quote_currency or "").upper()

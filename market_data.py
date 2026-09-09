@@ -176,6 +176,7 @@ def get_recent_bars(symbol_map, lookback_days=14, account_currency=None):
         # Používá "aktuální" kurz (fx.get_fx_rate) - pro živý provoz správně,
         # pro historickou simulaci s kurzem PLATNÝM K DANÉMU DNI viz backtest.py.
         instrument_currency = sources.get("currency")
+        fx_ok = True
         if bars and account_currency and instrument_currency and instrument_currency.upper() != account_currency.upper():
             rate = fx.get_fx_rate(instrument_currency, account_currency)
             if rate is not None:
@@ -185,14 +186,31 @@ def get_recent_bars(symbol_map, lookback_days=14, account_currency=None):
                     b["l"] *= rate
                     b["c"] *= rate
             else:
+                # POZOR - přidáno 9.9.2026: appka dřív v tomhle případě nechala ceny
+                # NEPŘEVEDENÉ (v cizí měně) a jen to vypsala do logu - to se ale ukázalo
+                # jako STEJNÁ třída chyby, co appku poprvé nachytala 19.8.2026 (viz
+                # fx.py) - nepřevedené číslo v GBP/USD appka dál tiše používala všude,
+                # kde se počítalo s cenou v CZK (prompt pro AI v decision.py, risk_rules
+                # limit kontrola), jen s jiným spouštěčem (výpadek FX API, ne chybějící
+                # kód pro převod). Živě se to stalo 9.9.2026 - Frankfurter API toho dne
+                # selhalo, appka si sama myslela a i do reportu napsala, že CSPX stojí
+                # ~829 Kč/kus (což je nepřevedená cena v GBP), místo skutečných ~23 400 Kč.
+                # Appka naštěstí CSPX ten den neobchodovala, ale kdyby ano, risk_rules by
+                # limit počítal se stejným špatným číslem - mohlo by to pustit obchod
+                # řádově nad skutečný mantinel. OPRAVA: appka teď při selhání FX převodu
+                # radši nástroj pro tenhle běh úplně VYNECHÁ (stejně jako když chybí data
+                # ze zdroje - zbytek appky s tímhle případem už dnes počítá), místo aby
+                # počítala se špatnou cenou. O jeden titul méně k obchodování na jeden
+                # den je mnohem bezpečnější než tichá chyba v měně.
                 print(f"{symbol}: kurz {instrument_currency}->{account_currency} se nepodařilo "
-                      f"získat - ceny zůstávají v {instrument_currency}, risk-limit kontrola pro "
-                      f"tenhle symbol dnes může být nespolehlivá.")
+                      f"získat - appka radši nástroj pro dnešní běh úplně vynechá, než aby "
+                      f"počítala se špatnou (nepřevedenou) cenou.")
+                fx_ok = False
 
-        if bars:
+        if bars and fx_ok:
             result[symbol] = bars
         else:
-            print(f"{symbol}: žádná data z žádného zdroje.")
+            print(f"{symbol}: žádná spolehlivá data z žádného zdroje.")
 
     return result
 
