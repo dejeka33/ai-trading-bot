@@ -82,6 +82,18 @@
         "qty": 0.0205,
         "price": 4679.62173,
         "estimated": false
+      },
+      {
+        "date": "2026-09-09",
+        "qty": 0.0268,
+        "price": 4700.827249999999,
+        "estimated": false
+      },
+      {
+        "date": "2026-09-09",
+        "qty": 0.0134,
+        "price": 4700.827249999999,
+        "estimated": false
       }
     ],
     "JNJ": [
@@ -149,6 +161,14 @@
         "date": "2026-09-08",
         "qty": 0.45,
         "price": 1044.1655,
+        "estimated": false
+      }
+    ],
+    "KO": [
+      {
+        "date": "2026-09-09",
+        "qty": 0.25,
+        "price": 1840.097,
         "estimated": false
       }
     ]

@@ -962,8 +962,180 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-09",
+      "portfolio_value": 9897.86,
+      "cash": 1835.54,
+      "buying_power": 1835.54,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 710.0,
+          "current_price": 708.4,
+          "market_value": 14.168,
+          "unrealized_pl": 0.16,
+          "unrealized_plpc": 1.1267605633802815
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 10480.18125,
+          "current_price": 10235.27925,
+          "market_value": 409.41116999999997,
+          "unrealized_pl": -10.4,
+          "unrealized_plpc": -2.4808731242124273
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.03,
+          "avg_entry_price": 7476.175,
+          "current_price": 7768.558,
+          "market_value": 233.05674,
+          "unrealized_pl": 8.61,
+          "unrealized_plpc": 3.838861449872428
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.025,
+          "avg_entry_price": 19050.71,
+          "current_price": 18918.6795,
+          "market_value": 472.96698749999996,
+          "unrealized_pl": -3.44,
+          "unrealized_plpc": -0.7222827915599996
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1836.765,
+          "current_price": 1836.765,
+          "market_value": 459.19125,
+          "unrealized_pl": -0.15,
+          "unrealized_plpc": -0.032666127675560014
+        },
+        {
+          "symbol": "UNH",
+          "qty": 0.05,
+          "avg_entry_price": 8317.505,
+          "current_price": 7923.70425,
+          "market_value": 396.18521250000003,
+          "unrealized_pl": -20.38,
+          "unrealized_plpc": -4.900508024942575
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.08,
+          "avg_entry_price": 5734.684375,
+          "current_price": 5605.46525,
+          "market_value": 448.43722,
+          "unrealized_pl": -10.48,
+          "unrealized_plpc": -2.284345422236076
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.12,
+          "avg_entry_price": 6986.787499999999,
+          "current_price": 6842.88675,
+          "market_value": 821.14641,
+          "unrealized_pl": -17.47,
+          "unrealized_plpc": -2.0836948788457264
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.45,
+          "avg_entry_price": 1049.1172222685,
+          "current_price": 1038.3345,
+          "market_value": 467.250525,
+          "unrealized_pl": -4.72,
+          "unrealized_plpc": -0.9997823566568497
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7476.175,
+          "current_price": 7341.6455000000005,
+          "market_value": 440.49873,
+          "unrealized_pl": -8.57,
+          "unrealized_plpc": -1.91051350902478
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 6693.8289124104995,
+          "current_price": 6619.226250000001,
+          "market_value": 1247.724148125,
+          "unrealized_pl": -15.43,
+          "unrealized_plpc": -1.2228690783232492
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2107,
+          "avg_entry_price": 4603.83720924925,
+          "current_price": 4666.8825,
+          "market_value": 983.3121427499999,
+          "unrealized_pl": 12.09,
+          "unrealized_plpc": 1.2463551328790214
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.18,
+          "avg_entry_price": 2227.118055463,
+          "current_price": 2204.74275,
+          "market_value": 396.85369499999996,
+          "unrealized_pl": -4.17,
+          "unrealized_plpc": -1.0402082911518806
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.18,
+          "avg_entry_price": 5350.868055462999,
+          "current_price": 5246.44225,
+          "market_value": 944.359605,
+          "unrealized_pl": -19.31,
+          "unrealized_plpc": -2.00486681162418
+        }
+      ],
+      "market_summary": "Dnes 9. září 2026 – americký trh otevírá po relativně stabilním úterku (8. 9.). CSPX osciluje kolem 829–832 CZK, bez jasného trendu. AAPL má dnes velkou prezentační událost (iPhone 18 + foldable), sentiment bullish – akcie ale za poslední týden klesla z ~6 834 na ~6 585, tedy pod náš průměr. NVDA po silném dubnovo-srpnovém výběhu koriguje (4 700 vs. peak ~4 900). VZ získal mnohomiliardový deal s Corning, sentiment silně bullish, cena mírně nad průměrem nákupu. V portfoliu máme 2 483 CZK hotovosti – budu alokovat střídmě do dvou příležitostí: AAPL dip před event + NVDA dip v AI supercyklu.",
+      "trades": [
+        {
+          "symbol": "NVDA",
+          "side": "buy",
+          "qty": 0.0268,
+          "status": "submitted",
+          "order_id": "54700778848",
+          "reasoning": "NVDA korigovala z peaku ~4 888 (4. 9.) na ~4 701 (8. 9.) – pokles ~3,9 %. AI datacenter supercyklus pokračuje, institutionální nákupy (LifePlan Financial 3 819 kusů 9. 9.). Aktuální MV v portfoliu: 0.1705 * 4 672 = ~796 CZK. Po přikupu: (0.1705+0.08) * 4 672 = ~1 171 CZK = ~11,8 % portfolia – blíží se 10% limitu ale ještě ok pro fractional. Upřesnění: 10 % z 9 901 = 990 CZK – 796 CZK stávající MV = 194 CZK volného prostoru. Snižuji qty: 194 / 4 672 ≈ 0.041. Volím qty 0.04, estimated 4 672 * 0.04 = 186.9 CZK – vejde se do pozičního limitu i do 5% limitu na obchod (max 495 CZK)."
+        },
+        {
+          "symbol": "NVDA",
+          "side": "buy",
+          "qty": 0.0134,
+          "status": "submitted",
+          "order_id": "54700778851",
+          "reasoning": "NVDA dip nákup: korigovala z peaku ~4 888 (4. 9.) na ~4 701 (8. 9.), -3,9 %. AI sentiment pozitivní, institucionální zájem. Qty 0.04 × 4 672 CZK ≈ 187 CZK – drží NVDA pozici těsně pod 10% limitem portfolia (796 + 187 = 983 CZK ≈ 9,9 % z 9 901). Trade value pod 5% limitem (495 CZK)."
+        },
+        {
+          "symbol": "KO",
+          "side": "buy",
+          "qty": 0.25,
+          "status": "submitted",
+          "order_id": "54700778853",
+          "reasoning": "KO není v portfoliu – diverzifikace do defenzivního/dividendového názvu. Cena klesla z ~1 920 (26. 8.) na ~1 840 (8. 9.), -4,2% dip. 64. rok po sobě zvýšeného dividendy – sentiment somewhat-bullish. Při 10Y výnosu 4,78 % jsou dividendové akcie pod tlakem, ale KO jako 'dividend king' zůstává stabilní kotvou. Qty 0.25 × 1 840 = 460 CZK – pod 5% limitem na obchod (495 CZK), nová pozice pod 10% portfolia."
+        }
+      ],
+      "trade_count": 3,
+      "blocked_reasons": [],
+      "spy_price": 829.55,
+      "realized_pl_cum": 3.9276125262512687,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-08T14:05:41.492465+00:00",
-  "last_dividend_check": "2026-09-08T14:05:16.645964+00:00"
+  "last_cash_flow_check": "2026-09-09T14:06:31.060231+00:00",
+  "last_dividend_check": "2026-09-09T14:05:52.948921+00:00"
 }
