@@ -214,6 +214,31 @@ def main():
               f"(nemají ISIN/datové tickery) - appka je bude ignorovat.")
 
     account_before = broker_t212.get_account_snapshot(INSTRUMENTS)
+
+    # POZOR - přidáno 9.9.2026 (viz diskuze v chatu o FX chybě 9.9.2026): pokud
+    # appka nedokázala spolehlivě přepočítat cenu NĚJAKÉ existující pozice do
+    # měny účtu (broker_t212.py, fx_unreliable_symbols), NELZE bezpečně
+    # zkontrolovat koncentrační limit (max_position_size_pct) - podhodnocená
+    # pozice by appku mohla nechat dokupovat nad skutečný limit. Appka proto
+    # dnešní obchodování raději úplně přeskočí (bez volání AI, žádné tržní
+    # ani rizikové zbytečné náklady) - stejný princip jako u víkendové pojistky
+    # výše, jen jiný spouštěč. Appka to zkusí znovu při příštím běhu (kurz
+    # bývá jen krátký výpadek, ne trvalý problém).
+    unreliable = account_before.get("fx_unreliable_symbols") or []
+    if unreliable:
+        symbols_str = ", ".join(unreliable)
+        print(f"Appka dnes ({date_str}) nemá spolehlivý kurz pro přepočet pozic: {symbols_str} - "
+              f"bez důvěryhodné ceny nelze bezpečně zkontrolovat limit na koncentraci pozice, "
+              f"appka dnešní obchodování raději úplně přeskočí (žádné volání AI, žádné obchody). "
+              f"Zkusí to znovu při příštím běhu.")
+        send_web_push(
+            "⚠️ AI Trading Bot - dnešní běh přeskočen",
+            f"Appka nedokázala spolehlivě přepočítat cenu ({symbols_str}) do CZK - "
+            f"obchodování dnes raději vynechala, aby neriskovala špatný odhad limitů. "
+            f"Zkusí to znovu zítra.",
+        )
+        return
+
     # account_currency: appka ceny nástrojů převádí do měny účtu (viz fx.py) -
     # bez tohohle by risk_rules.py porovnávala cenu v GBP/USD přímo proti
     # mantinelu v CZK (viz POZOR o měnách v instruments.py).

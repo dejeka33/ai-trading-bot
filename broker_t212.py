@@ -220,6 +220,15 @@ def get_account_snapshot(instruments_map):
     # v odpovědi) - ticker jen jako záložní cesta, kdyby v budoucí verzi API ISIN
     # chyběl.
     parsed_positions = []
+    # POZOR - přidáno 9.9.2026 (viz diskuze v chatu o FX chybě 9.9.2026, stejná
+    # třída chyby jako u market_data.py/backtest.py, ale tady o hodnotu
+    # EXISTUJÍCÍCH pozic, ne jen tržních dat pro rozhodování) - appka si tenhle
+    # seznam vede, aby main.py věděl, jestli je bezpečné dnes vůbec obchodovat.
+    # NA ROZDÍL od market_data.py appka tady pozici NEMŮŽE prostě vynechat -
+    # to by appku nechalo myslet si, že v ní má 0 Kč, což je STEJNĚ nebezpečné
+    # podhodnocení (koncentrační limit by pak taky prošel nesprávně) - musí se
+    # to řešit výš, na úrovni main.py (přeskočit celý dnešní běh, viz tam).
+    fx_unreliable_symbols = []
     for p in positions:
         instrument = p.get("instrument") or {}
         isin = (instrument.get("isin") or instrument.get("ISIN") or p.get("isin") or p.get("ISIN") or "").upper()
@@ -247,6 +256,7 @@ def get_account_snapshot(instruments_map):
         # GBX->GBP, pak fx.get_fx_rate do měny účtu), aby pozice v reportu/
         # dashboardu byly ve stejných jednotkách jako všude jinde v appce.
         instr_info = instruments_map.get(symbol) if symbol else None
+        price_reliable = True
         if instr_info:
             divisor = instr_info.get("price_divisor", 1) or 1
             native_currency = instr_info.get("currency", account_currency)
@@ -257,9 +267,19 @@ def get_account_snapshot(instruments_map):
                 avg_price *= fx_rate
                 current_price *= fx_rate
             else:
+                # POZOR - přidáno 9.9.2026: appka dřív tady pozici nechala v
+                # nepřevedené měně a jen to vypsala do logu - živě se to stalo
+                # 9.9.2026 a mohlo appku nechat myslet si, že v CSPX/EQQQ má
+                # ~28x méně peněz, než skutečně má, což by risk_rules.py
+                # koncentrační limit (max_position_size_pct) obešlo. Appka
+                # tuhle pozici teď označí jako nespolehlivou - main.py se
+                # podle "fx_unreliable_symbols" rozhodne dnešní obchodování
+                # raději úplně přeskočit, než počítat s podhodnocenou pozicí.
                 print(f"POZOR: kurz {native_currency}->{account_currency} se nepodařilo stáhnout, "
-                      f"pozice {symbol} zůstává v původní měně {native_currency} - hodnoty v reportu "
-                      f"proto můžou být zkreslené.")
+                      f"pozice {symbol} zůstává v původní měně {native_currency} - appka tenhle "
+                      f"běh kvůli tomu obchodování raději přeskočí (viz main.py).")
+                price_reliable = False
+                fx_unreliable_symbols.append(symbol)
 
         market_value = qty * current_price
         wallet_impact = p.get("walletImpact") or {}
@@ -275,6 +295,7 @@ def get_account_snapshot(instruments_map):
             "market_value": market_value,
             "unrealized_pl": unrealized_pl,
             "unrealized_plpc": (unrealized_pl / (avg_price * qty) * 100) if avg_price and qty else 0.0,
+            "price_reliable": price_reliable,
         })
 
     return {
@@ -283,6 +304,10 @@ def get_account_snapshot(instruments_map):
         "currency": account_currency,  # pro zobrazení v reportu/notifikaci
         "buying_power": float(cash),
         "positions": parsed_positions,
+        # POZOR - přidáno 9.9.2026 - viz komentáře výše u fx_unreliable_symbols.
+        # main.py tohle pole zkontroluje hned po načtení snapshotu a pokud není
+        # prázdné, dnešní obchodování raději úplně přeskočí.
+        "fx_unreliable_symbols": fx_unreliable_symbols,
     }
 
 

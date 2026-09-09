@@ -161,11 +161,24 @@ def fx_rate_as_of(fx_series, day_str):
     return fx_series[0][1]
 
 
-def apply_fx_to_bars(bars, fx_series):
+def apply_fx_to_bars(bars, fx_series, symbol=None):
     """Vrátí NOVÝ seznam barů s cenami převedenými přes historický kurz PLATNÝ
-    K DATU KAŽDÉHO BARU zvlášť (ne jeden kurz pro celou historii)."""
+    K DATU KAŽDÉHO BARU zvlášť (ne jeden kurz pro celou historii).
+
+    POZOR - přidáno 9.9.2026: appka dřív při `fx_series` == [] (celé stažení
+    historických kurzů selhalo, viz fetch_fx_series) vrátila `bars` NEPŘEVEDENÉ
+    - stejná třída chyby, co se živě projevila v main.py/market_data.py (viz
+    POZOR 9.9.2026 tam) - backtest by pak tiše počítal s cenou v GBP/USD, jako
+    by byla v CZK. `fx_series` je [] JEN při skutečném selhání (stejná měna
+    appka řeší dřív, v fetch_fx_series, a vrací dummy kurz 1.0, ne []) - je
+    tedy bezpečné tady rovnou vrátit [], stejně jako appka dělá pro symbol bez
+    žádných dat vůbec (viz fetch_all_bars výše, all_bars.get(symbol, []) dál
+    v kódu s tím už počítá)."""
     if not fx_series:
-        return bars
+        print(f"FX historie: žádná data pro převod{f' ({symbol})' if symbol else ''} - "
+              f"appka radši tenhle nástroj pro backtest úplně vynechá, než aby počítala "
+              f"se špatnou (nepřevedenou) cenou.")
+        return []
     converted = []
     for b in bars:
         rate = fx_rate_as_of(fx_series, b["t"][:10])
@@ -349,7 +362,7 @@ def main():
     for symbol, bars in raw_bars.items():
         cur = active_instruments[symbol].get("currency")
         if cur and cur.upper() != ACCOUNT_CURRENCY:
-            all_bars[symbol] = apply_fx_to_bars(bars, fx_series_by_currency.get(cur, []))
+            all_bars[symbol] = apply_fx_to_bars(bars, fx_series_by_currency.get(cur, []), symbol=symbol)
         else:
             all_bars[symbol] = bars
 
