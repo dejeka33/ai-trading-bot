@@ -973,11 +973,11 @@
         {
           "symbol": "CSPX",
           "qty": 0.02,
-          "avg_entry_price": 710.0,
-          "current_price": 708.4,
-          "market_value": 14.168,
+          "avg_entry_price": 20007.09,
+          "current_price": 19962.0036,
+          "market_value": 399.2401,
           "unrealized_pl": 0.16,
-          "unrealized_plpc": 1.1267605633802815
+          "unrealized_plpc": 0.039985825025028635
         },
         {
           "symbol": "MSFT",
@@ -1126,7 +1126,7 @@
       ],
       "trade_count": 3,
       "blocked_reasons": [],
-      "spy_price": 829.55,
+      "spy_price": 23375.8894,
       "realized_pl_cum": 3.9276125262512687,
       "cash_flow_net": 0.0,
       "cash_flow_items": [],
