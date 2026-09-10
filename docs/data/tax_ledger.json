@@ -102,6 +102,12 @@
         "qty": 0.08,
         "price": 5738.95413,
         "estimated": false
+      },
+      {
+        "date": "2026-09-10",
+        "qty": 0.07,
+        "price": 5557.66772,
+        "estimated": false
       }
     ],
     "JPM": [
@@ -169,6 +175,14 @@
         "date": "2026-09-09",
         "qty": 0.25,
         "price": 1840.097,
+        "estimated": false
+      }
+    ],
+    "XOM": [
+      {
+        "date": "2026-09-10",
+        "qty": 0.13,
+        "price": 3417.46207,
         "estimated": false
       }
     ]

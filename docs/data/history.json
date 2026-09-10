@@ -1134,8 +1134,196 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-10",
+      "portfolio_value": 9905.72,
+      "cash": 977.0,
+      "buying_power": 977.0,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20041.88,
+          "current_price": 19873.9234,
+          "market_value": 397.478468,
+          "unrealized_pl": -1.94,
+          "unrealized_plpc": -0.48398653220156995,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.04,
+          "avg_entry_price": 10472.12925,
+          "current_price": 10179.13853,
+          "market_value": 407.1655412,
+          "unrealized_pl": -11.3,
+          "unrealized_plpc": -2.6976366816710176,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.13,
+          "avg_entry_price": 3427.08223072121,
+          "current_price": 3426.2018500000004,
+          "market_value": 445.4062405000001,
+          "unrealized_pl": -0.3,
+          "unrealized_plpc": -0.06733694006538812,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.03,
+          "avg_entry_price": 7470.4310000000005,
+          "current_price": 7653.1340199999995,
+          "market_value": 229.59402059999996,
+          "unrealized_pl": 5.9,
+          "unrealized_plpc": 2.6326013407615525,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.025,
+          "avg_entry_price": 19036.0732,
+          "current_price": 18782.411490000002,
+          "market_value": 469.5602872500001,
+          "unrealized_pl": -5.29,
+          "unrealized_plpc": -1.1115737882327539,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1835.3538,
+          "current_price": 1845.55021,
+          "market_value": 461.3875525,
+          "unrealized_pl": 3.57,
+          "unrealized_plpc": 0.7780516214366952,
+          "price_reliable": true
+        },
+        {
+          "symbol": "UNH",
+          "qty": 0.05,
+          "avg_entry_price": 8311.1146,
+          "current_price": 8234.745570000001,
+          "market_value": 411.73727850000006,
+          "unrealized_pl": -3.47,
+          "unrealized_plpc": -0.8350263874354469,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.08,
+          "avg_entry_price": 5730.278375,
+          "current_price": 5560.37289,
+          "market_value": 444.8298312,
+          "unrealized_pl": -12.62,
+          "unrealized_plpc": -2.7529203587775086,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.12,
+          "avg_entry_price": 6981.4195,
+          "current_price": 6835.132230000001,
+          "market_value": 820.2158676000001,
+          "unrealized_pl": -15.69,
+          "unrealized_plpc": -1.872828298027357,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.45,
+          "avg_entry_price": 1048.3111778240202,
+          "current_price": 1049.60596,
+          "market_value": 472.32268200000004,
+          "unrealized_pl": 1.91,
+          "unrealized_plpc": 0.4048840205304916,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7470.4310000000005,
+          "current_price": 7316.02822,
+          "market_value": 438.9616932,
+          "unrealized_pl": -8.65,
+          "unrealized_plpc": -1.9298306438633415,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 6688.68599463866,
+          "current_price": 6650.7644900000005,
+          "market_value": 1253.669106365,
+          "unrealized_pl": -5.34,
+          "unrealized_plpc": -0.42353479427126106,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2107,
+          "avg_entry_price": 4600.30004740781,
+          "current_price": 4535.94582,
+          "market_value": 955.723784274,
+          "unrealized_pl": -12.32,
+          "unrealized_plpc": -1.2710423275605691,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.18,
+          "avg_entry_price": 2225.40694435196,
+          "current_price": 2212.82906,
+          "market_value": 398.30923079999997,
+          "unrealized_pl": -1.4,
+          "unrealized_plpc": -0.3494991240823449,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.18,
+          "avg_entry_price": 5346.75694435196,
+          "current_price": 5234.50395,
+          "market_value": 942.2107110000001,
+          "unrealized_pl": -18.34,
+          "unrealized_plpc": -1.9056203592070724,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnešní datum je 10. září 2026. Trh včera (9.9.) dál oslaboval – CSPX klesl na ~23 244, NVDA na ~4 654, GOOGL na ~6 880, AMZN na ~5 252. Makroprostředí je smíšené: Fed sazby 3,63 %, 10Y výnos 4,8 % a T10Y2Y spread +0,4 % (normální křivka). Tech sektor čelí negativním zprávám (MSFT právní rizika, AAPL snížení price targetu BofA, GOOGL právní tlaky). Pozitivní sentimentem se vyznačují KO (CEO s bullish výhledem), JNJ (CE mark, nový produkt), XOM (National Pension Service navyšuje pozici) a JPM (bullish komentáře analytiků). TSLA v portfoliu mírně v plusu a včera držela nad 7 600. Portfolio je celkově mírně v ztrátě (-~84 CZK unrealized P/L celkem), hotovost 1 835 CZK. Identifikuji příležitosti: přikoupení XOM (pozitivní sentiment, cenový uptick 9.9.) a JNJ (CE mark, Cramer buy dip, technicky blízko supportu), případně KO (bullish zprávy, ale pozice již existuje).",
+      "trades": [
+        {
+          "symbol": "XOM",
+          "side": "buy",
+          "qty": 0.13,
+          "status": "submitted",
+          "order_id": "54750487187",
+          "reasoning": "XOM včera uzavřel na 3 417 CZK po solidním uptrendu od 3 260 (28.8.) – +4,8 % za 2 týdny. National Pension Service navyšuje pozici (dnes), XOM není v portfoliu, přidáme ho jako diverzifikaci do energetiky. 10Y výnosy 4,8 % nahrávají hodnotovým akciím s dividendou. Qty 0,13 × 3 417 = 444 CZK, pod limitem 5 % portfolia (~496 CZK)."
+        },
+        {
+          "symbol": "JNJ",
+          "side": "buy",
+          "qty": 0.07,
+          "status": "submitted",
+          "order_id": "54750487189",
+          "reasoning": "JNJ včera uzavřel na 5 558 CZK – blízko 10denního minima (support ~5 530-5 550). Dnes dorazily bullish zprávy: CE mark pro nový kontaktní čočkový produkt Acuvue Oasys MAX. Portfolio JNJ je pod vodou -2,36 %, přikoupení sníží průměrnou nákupní cenu (avg entry ~5 730 → cca 5 695 po přikoupení). Celková pozice po přikoupení: 0,15 × 5 558 = ~834 CZK, pod limitem 10 % portfolia (~991 CZK)."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "spy_price": 23244.3466,
+      "realized_pl_cum": 3.9276125262512687,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-09T14:06:31.060231+00:00",
-  "last_dividend_check": "2026-09-09T14:05:52.948921+00:00"
+  "last_cash_flow_check": "2026-09-10T14:05:59.624635+00:00",
+  "last_dividend_check": "2026-09-10T14:05:34.292222+00:00"
 }
