@@ -1322,8 +1322,214 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-11",
+      "portfolio_value": 10024.53,
+      "cash": 116.51,
+      "buying_power": 116.51,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20075.25,
+          "current_price": 20120.77275,
+          "market_value": 402.415455,
+          "unrealized_pl": 1.56,
+          "unrealized_plpc": 0.3885381253035454,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.08,
+          "avg_entry_price": 10471.233,
+          "current_price": 10408.01836,
+          "market_value": 832.6414688,
+          "unrealized_pl": -4.71,
+          "unrealized_plpc": -0.5622547029561848,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.13,
+          "avg_entry_price": 3447.33938456708,
+          "current_price": 3496.6906,
+          "market_value": 454.569778,
+          "unrealized_pl": 6.25,
+          "unrealized_plpc": 1.3946095151568787,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.03,
+          "avg_entry_price": 7514.588,
+          "current_price": 7691.04476,
+          "market_value": 230.7313428,
+          "unrealized_pl": 5.7,
+          "unrealized_plpc": 2.5284153968254817,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.025,
+          "avg_entry_price": 19148.593599999997,
+          "current_price": 18880.87332,
+          "market_value": 472.021833,
+          "unrealized_pl": -5.56,
+          "unrealized_plpc": -1.1614430001793972,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1846.2024,
+          "current_price": 1840.55076,
+          "market_value": 460.13769,
+          "unrealized_pl": -0.36,
+          "unrealized_plpc": -0.07799794865395039,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 7730.88533326356,
+          "current_price": 7726.0012,
+          "market_value": 463.560072,
+          "unrealized_pl": -0.41,
+          "unrealized_plpc": -0.08839004898871874,
+          "price_reliable": true
+        },
+        {
+          "symbol": "UNH",
+          "qty": 0.05,
+          "avg_entry_price": 8360.2408,
+          "current_price": 8074.1003599999995,
+          "market_value": 403.705018,
+          "unrealized_pl": -13.87,
+          "unrealized_plpc": -3.318086244597165,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.12,
+          "avg_entry_price": 7022.686,
+          "current_price": 7088.203159999999,
+          "market_value": 850.5843791999998,
+          "unrealized_pl": 9.83,
+          "unrealized_plpc": 1.166457772235106,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.15,
+          "avg_entry_price": 5689.3176,
+          "current_price": 5615.636959999999,
+          "market_value": 842.3455439999998,
+          "unrealized_pl": -10.08,
+          "unrealized_plpc": -1.1811609884461363,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.45,
+          "avg_entry_price": 1054.50764449096,
+          "current_price": 1058.53124,
+          "market_value": 476.339058,
+          "unrealized_pl": 3.17,
+          "unrealized_plpc": 0.6680316146826031,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7514.588,
+          "current_price": 7498.26104,
+          "market_value": 449.8956624,
+          "unrealized_pl": -0.3,
+          "unrealized_plpc": -0.06653724728488108,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 6728.222175009679,
+          "current_price": 6960.099319999999,
+          "market_value": 1311.97872182,
+          "unrealized_pl": 45.53,
+          "unrealized_plpc": 3.5899299288242377,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2107,
+          "avg_entry_price": 4627.49197906388,
+          "current_price": 4631.62364,
+          "market_value": 975.883100948,
+          "unrealized_pl": 2.23,
+          "unrealized_plpc": 0.22871500240219558,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.18,
+          "avg_entry_price": 2238.56111101808,
+          "current_price": 2219.21064,
+          "market_value": 399.45791519999995,
+          "unrealized_pl": -2.57,
+          "unrealized_plpc": -0.6378104983376736,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.18,
+          "avg_entry_price": 5378.361111018079,
+          "current_price": 5362.778399999999,
+          "market_value": 965.3001119999998,
+          "unrealized_pl": -0.79,
+          "unrealized_plpc": -0.08160271871477423,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 11. září 2026, americký trh otevřen. Broad market (CSPX) je pod tlakem – za posledních 5 dní klesl z ~23 620 na ~23 202 CZK (-1,8 %), technologické akcie (NVDA, MSFT, AMZN, GOOGL) rovněž oslabovaly. Výnosová křivka je normální (10Y 4,83 %, spread 0,39 %), Fed sazba 3,63 % – prostředí je relativně neutrální, bez výraznějšího stresu. AAPL se po propadu odrazil včera silně nahoru (+3,6 % na 6 836 CZK), MSFT má silný bullish sentiment (data center expanze), JNJ dostává pozitivní zprávy (CE mark, nová vedoucí), JPM má bullish tok institucí, COST klesá ale analytici cílí výrazně výše. Portfolio celkově v mírném zisku (+38 CZK nerealizovaně), cash 995 CZK. Navrhuju 3 obchody v rámci mantinelů: přikoupení MSFT (bullish fundament + odraz od dna), malá pozice V (průběžný pokles zastavil, mírně bullish zprávy, nová expozice), a navýšení JNJ (bullish katalyzátory, tažení dolů od průměru je příležitost).",
+      "trades": [
+        {
+          "symbol": "MSFT",
+          "side": "buy",
+          "qty": 0.04,
+          "status": "submitted",
+          "order_id": "54800442794",
+          "reasoning": "MSFT má silný bullish sentiment – plánuje 38 GW datových center do 2032 a byl uznán lídrem v Gartner MQ pro Container Management. Cena klesla z 10 750 na ~10 307 CZK za posledních 10 dní (-4 %), tvoří dno a včera bylo lehké oživení. Průměrná nákupní cena v portfoliu je 10 534, přikoupením při nižší ceně průměrujeme dolů. Limit 10 350 dává mírný prostor pod aktuální cenou."
+        },
+        {
+          "symbol": "V",
+          "side": "buy",
+          "qty": 0.06,
+          "status": "submitted",
+          "order_id": "54800442797",
+          "reasoning": "V (Visa) není aktuálně v portfoliu – jde o novou pozici. Cena klesla z ~7 988 na ~7 686 CZK za 10 dní (-3,8 %), ale pokles se zpomaluje a poslední 3 svíčky jsou v úzkém pásmu 7 650–7 720. Mírně bullish zprávy (nová partnerství). Silný defensivní business, dividendová stabilita, vhodné diverzifikační doplnění. Limit 7 700 dává malý prostor."
+        },
+        {
+          "symbol": "JNJ",
+          "side": "buy",
+          "qty": 0.027544189233026897,
+          "status": "failed",
+          "error": "Trading 212 API chyba 400 na POST /equity/orders/market: {\"type\":\"/api-errors/insufficient-free-for-stocks-buy\",\"title\":\"Error while placing the order\",\"status\":400,\"detail\":\"Insufficient funds\",\"traceId\":\"628d0f7286225ed7ca7a149809080ff4\"}",
+          "reasoning": "JNJ má bullish katalyzátory dnes: CE mark pro novou kontaktní čočku Acuvue Oasys MAX 2-Week a jmenování nové vedoucí divize Vision. Cena klesla z 5 828 (3.9.) na 5 575 CZK (-4,3 %), ale sentiment se obrací. Aktuální pozice je na -0,86 %, přikoupení při nižší ceně zprůměruje vstupní cenu dolů. Limit 5 590 je těsně nad posledním zavíráním – dává reálnou šanci na plnění."
+        }
+      ],
+      "trade_count": 3,
+      "blocked_reasons": [],
+      "spy_price": 23201.61675,
+      "realized_pl_cum": 3.9276125262512687,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-10T14:05:59.624635+00:00",
-  "last_dividend_check": "2026-09-10T14:05:34.292222+00:00"
+  "last_cash_flow_check": "2026-09-11T14:06:14.090854+00:00",
+  "last_dividend_check": "2026-09-11T14:05:31.933055+00:00"
 }

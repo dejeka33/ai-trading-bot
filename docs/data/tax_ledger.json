@@ -14,6 +14,12 @@
         "qty": 0.04,
         "price": 10494.27225,
         "estimated": true
+      },
+      {
+        "date": "2026-09-11",
+        "qty": 0.04,
+        "price": 10307.754079999999,
+        "estimated": false
       }
     ],
     "TSLA": [
@@ -183,6 +189,14 @@
         "date": "2026-09-10",
         "qty": 0.13,
         "price": 3417.46207,
+        "estimated": false
+      }
+    ],
+    "V": [
+      {
+        "date": "2026-09-11",
+        "qty": 0.06,
+        "price": 7686.439719999999,
         "estimated": false
       }
     ]
