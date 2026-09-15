@@ -1718,8 +1718,198 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-15",
+      "portfolio_value": 10043.65,
+      "cash": 5.95,
+      "buying_power": 5.95,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20153.350000000002,
+          "current_price": 20159.027000000002,
+          "market_value": 403.18054000000006,
+          "unrealized_pl": 1.7,
+          "unrealized_plpc": 0.421766108364118,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.09,
+          "avg_entry_price": 10530.67822217544,
+          "current_price": 10529.36832,
+          "market_value": 947.6431488,
+          "unrealized_pl": 7.03,
+          "unrealized_plpc": 0.7417481520480342,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.13,
+          "avg_entry_price": 3467.10246148988,
+          "current_price": 3530.4203999999995,
+          "market_value": 458.95465199999995,
+          "unrealized_pl": 11.77,
+          "unrealized_plpc": 2.611358116585785,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.03,
+          "avg_entry_price": 7557.668,
+          "current_price": 7565.24672,
+          "market_value": 226.9574016,
+          "unrealized_pl": 2.5,
+          "unrealized_plpc": 1.1026328932857774,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.025,
+          "avg_entry_price": 19258.369599999998,
+          "current_price": 19127.215640000002,
+          "market_value": 478.1803910000001,
+          "unrealized_pl": 1.77,
+          "unrealized_plpc": 0.3676323669683856,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1856.7864,
+          "current_price": 1857.20744,
+          "market_value": 464.30186,
+          "unrealized_pl": 4.95,
+          "unrealized_plpc": 1.0663585213678861,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 7775.20533326316,
+          "current_price": 7882.079320000001,
+          "market_value": 472.92475920000004,
+          "unrealized_pl": 10.1,
+          "unrealized_plpc": 2.1650017731774276,
+          "price_reliable": true
+        },
+        {
+          "symbol": "UNH",
+          "qty": 0.05,
+          "avg_entry_price": 8408.1688,
+          "current_price": 7965.024200000001,
+          "market_value": 398.25121000000007,
+          "unrealized_pl": -18.32,
+          "unrealized_plpc": -4.3576670344677195,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.12,
+          "avg_entry_price": 7062.946,
+          "current_price": 7267.360919999999,
+          "market_value": 872.0833103999998,
+          "unrealized_pl": 33.44,
+          "unrealized_plpc": 3.9454735554634945,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.15,
+          "avg_entry_price": 5721.9336,
+          "current_price": 5506.36112,
+          "market_value": 825.9541679999999,
+          "unrealized_pl": -24.37,
+          "unrealized_plpc": -2.8393665153099064,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.45,
+          "avg_entry_price": 1060.55297782456,
+          "current_price": 1080.59916,
+          "market_value": 486.269622,
+          "unrealized_pl": 14.28,
+          "unrealized_plpc": 2.992149755538451,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7557.668,
+          "current_price": 7379.3575599999995,
+          "market_value": 442.7614535999999,
+          "unrealized_pl": -6.31,
+          "unrealized_plpc": -1.391522711326651,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 6766.794058298479,
+          "current_price": 6946.738960000001,
+          "market_value": 1309.4602939600002,
+          "unrealized_pl": 46.27,
+          "unrealized_plpc": 3.627481328183863,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2107,
+          "avg_entry_price": 4654.02069287468,
+          "current_price": 4484.9180799999995,
+          "market_value": 944.9722394559999,
+          "unrealized_pl": -26.25,
+          "unrealized_plpc": -2.676926593788313,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.18,
+          "avg_entry_price": 2251.39444435088,
+          "current_price": 2287.51032,
+          "market_value": 411.75185759999994,
+          "unrealized_pl": 10.71,
+          "unrealized_plpc": 2.6428065570338117,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.18,
+          "avg_entry_price": 5409.194444350879,
+          "current_price": 5272.05236,
+          "market_value": 948.9694248,
+          "unrealized_pl": -14.72,
+          "unrealized_plpc": -1.5118291386840945,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 15. září 2026 americký trh teprve začíná obchodovat. Dle včerejších dat (14. 9.) dominovaly pozitivní pohyby u GOOGL (+3,8 % za poslední dva dny), MSFT (silný výkon, BofA cenový cíl upgradován), WMT a V. Naopak NVDA se v úterý propadla silněji (~-3 % za den), JNJ nadále klesá a UNH zůstává pod tlakem. Makro: 10Y výnos na 4,96 %, Fed funds 3,63 %, výnosová křivka jen mírně kladná (0,32 %) – prostředí vyšších sazeb mírně zatěžuje growth akcie, ale nebrání selektivním nákupům. Portfolio se drží dobře, hotovost 116,51 CZK umožňuje maximálně 1–2 menší dokupy.",
+      "trades": [
+        {
+          "symbol": "MSFT",
+          "side": "buy",
+          "qty": 0.01,
+          "status": "submitted",
+          "order_id": "55001042161",
+          "reasoning": "MSFT včera silně rostl (+1,9 % za den na 10 639 CZK), podpořen upgradem BofA cenového cíle a několika bullish zprávami. Trend posledního týdne obrátil od minima 10. 9. Dokup 0.01 kusu vejde do limitu 5 % (max ~502 CZK) a nezvyšuje pozici nad 10 % portfolia. Stávající P&L +0,88 % potvrzuje správný směr."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "spy_price": 23329.34765,
+      "realized_pl_cum": 3.9276125262512687,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-14T14:05:40.237086+00:00",
-  "last_dividend_check": "2026-09-14T14:05:18.917295+00:00"
+  "last_cash_flow_check": "2026-09-15T14:05:51.413370+00:00",
+  "last_dividend_check": "2026-09-15T14:05:36.300762+00:00"
 }
