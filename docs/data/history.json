@@ -1908,8 +1908,209 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-16",
+      "portfolio_value": 10075.2,
+      "cash": 11.04,
+      "buying_power": 11.04,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20133.47,
+          "current_price": 20175.72193,
+          "market_value": 403.5144386,
+          "unrealized_pl": 2.71,
+          "unrealized_plpc": 0.6730086765967316,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.09,
+          "avg_entry_price": 10541.683111064282,
+          "current_price": 10404.023060000001,
+          "market_value": 936.3620754000001,
+          "unrealized_pl": -3.01,
+          "unrealized_plpc": -0.3172590571361608,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.13,
+          "avg_entry_price": 3470.7256922590605,
+          "current_price": 3495.5443800000003,
+          "market_value": 454.42076940000004,
+          "unrealized_pl": 7.83,
+          "unrealized_plpc": 1.735394109799718,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.03,
+          "avg_entry_price": 7565.566000000001,
+          "current_price": 7607.292520000001,
+          "market_value": 228.21877560000001,
+          "unrealized_pl": 4.07,
+          "unrealized_plpc": 1.7932123871058248,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.025,
+          "avg_entry_price": 19278.4952,
+          "current_price": 18889.46916,
+          "market_value": 472.236729,
+          "unrealized_pl": -3.55,
+          "unrealized_plpc": -0.7365720121143063,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1858.7268000000001,
+          "current_price": 1857.0408800000002,
+          "market_value": 464.26022000000006,
+          "unrealized_pl": 5.52,
+          "unrealized_plpc": 1.1879099176920458,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 7783.330666596421,
+          "current_price": 7888.20894,
+          "market_value": 473.2925364,
+          "unrealized_pl": 11.1,
+          "unrealized_plpc": 2.376874476038403,
+          "price_reliable": true
+        },
+        {
+          "symbol": "UNH",
+          "qty": 0.05,
+          "avg_entry_price": 8416.9556,
+          "current_price": 8005.169640000001,
+          "market_value": 400.2584820000001,
+          "unrealized_pl": -15.79,
+          "unrealized_plpc": -3.7519504082925184,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.12,
+          "avg_entry_price": 7070.327,
+          "current_price": 7297.715460000001,
+          "market_value": 875.7258552000001,
+          "unrealized_pl": 38.24,
+          "unrealized_plpc": 4.507099412327983,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.15,
+          "avg_entry_price": 5727.913200000001,
+          "current_price": 5623.1754200000005,
+          "market_value": 843.476313,
+          "unrealized_pl": -5.74,
+          "unrealized_plpc": -0.668073438449917,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.45,
+          "avg_entry_price": 1061.6612889357202,
+          "current_price": 1076.8814000000002,
+          "market_value": 484.5966300000001,
+          "unrealized_pl": 13.25,
+          "unrealized_plpc": 2.773431107576835,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7565.566000000001,
+          "current_price": 7408.14322,
+          "market_value": 444.48859319999997,
+          "unrealized_pl": -4.0,
+          "unrealized_plpc": -0.8811854482092506,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 6773.8655702347605,
+          "current_price": 7035.34416,
+          "market_value": 1326.16237416,
+          "unrealized_pl": 64.72,
+          "unrealized_plpc": 5.0686298909592,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2107,
+          "avg_entry_price": 4658.8842904066605,
+          "current_price": 4531.75296,
+          "market_value": 954.840348672,
+          "unrealized_pl": -15.12,
+          "unrealized_plpc": -1.5403000561735114,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.18,
+          "avg_entry_price": 2253.74722212856,
+          "current_price": 2268.6161,
+          "market_value": 408.35089800000003,
+          "unrealized_pl": 7.85,
+          "unrealized_plpc": 1.935048912447352,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.18,
+          "avg_entry_price": 5414.84722212856,
+          "current_price": 5226.773480000001,
+          "market_value": 940.8192264,
+          "unrealized_pl": -21.62,
+          "unrealized_plpc": -2.2181809787773807,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 16. září 2026 – americký trh právě otevřel. Poslední kompletní data jsou za včerejšek (15. 9.). Širší trh (CSPX) je v mírném downtrendu posledních 2 týdnů, index klesá z ~23 690 na ~23 200. Technologické akcie smíšené – AAPL koriguje z maxim, GOOGL naopak po výraznějším výprodeji odrazil. NVDA v slabém trendu (-5 % za 10 dní). Makro: 10Y výnos 4,97 %, spread 10Y-2Y kladný 0,33 % – výnosová křivka se normalizuje, recesní signál slábne, ale vyšší sazby tlačí na valuace. Cash je pouze 11,04 CZK, takže možnosti nákupu jsou minimální. Obchodovat lze prakticky jen přesun do nových pozic prodejem exitů – ale mantinely (žádný short, max 5 obchodů) omezují prostor. Vzhledem k minimálnímu cash (11 CZK) a maximálnímu limitu 5 % portfolia (~504 CZK) na jeden obchod nelze nakupovat bez předchozího prodeje. Navrhuji jeden prodej nejslabší pozice (UNH, -3,9 % nerealizovaná ztráta, slabý cenový trend) a nákup BA (Boeing), který má silné zprávy o vojenských kontraktech a cenový odraz.",
+      "trades": [
+        {
+          "symbol": "UNH",
+          "side": "sell",
+          "qty": 0.05,
+          "status": "submitted",
+          "order_id": "55100201024",
+          "reasoning": "UNH je naše nejslabší pozice (-3,9 % nerealizovaná ztráta). Cenový trend klesá: z ~8 450 na ~7 922 za posledních 10 dní, žádný odraz. Zprávy smíšené (Somewhat-Bearish ohledně No Surprises Act). Stop-loss mantinel 8 % se blíží. Prodej uvolní cash pro lepší příležitost.",
+          "realized_pl": -21.11614799999993,
+          "realized_pl_pct": -5.017526289434135,
+          "sell_price": 7994.632640000001
+        },
+        {
+          "symbol": "BA",
+          "side": "buy",
+          "qty": 0.09,
+          "status": "failed",
+          "error": "Trading 212 API chyba 400 na POST /equity/orders/market: {\"type\":\"/api-errors/insufficient-free-for-stocks-buy\",\"title\":\"Error while placing the order\",\"status\":400,\"detail\":\"Insufficient funds\",\"traceId\":\"7a24361f9a26e434cebc1020c0fef35c\"}",
+          "reasoning": "Boeing má silný katalyzátor: Air Force zvýšil strop kontraktu na 19,1 mld. USD a Navy udělila první produkční kontrakt MQ-25A Stingray. Cena se stabilizuje kolem 4 419–4 435 po korekci. Limit nákup těsně pod aktuální cenou. Qty 0,09 × 4 430 = 398,7 CZK, pod limitem 5 % portfolia (~504 CZK). Není v portfoliu – nová diverzifikace do defenzivního průmyslu."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "spy_price": 23200.27955,
+      "realized_pl_cum": -17.18853547374866,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-15T14:05:51.413370+00:00",
-  "last_dividend_check": "2026-09-15T14:05:36.300762+00:00"
+  "last_cash_flow_check": "2026-09-16T14:06:08.262358+00:00",
+  "last_dividend_check": "2026-09-16T14:05:44.238702+00:00"
 }

@@ -36,14 +36,7 @@
         "estimated": true
       }
     ],
-    "UNH": [
-      {
-        "date": "2026-09-03",
-        "qty": 0.05,
-        "price": 8328.6882,
-        "estimated": true
-      }
-    ],
+    "UNH": [],
     "AAPL": [
       {
         "date": "2026-09-03",
@@ -233,11 +226,24 @@
       "gain": 8.734688419735562,
       "time_test_met": false,
       "estimated_buy_date": true
+    },
+    {
+      "symbol": "UNH",
+      "buy_date": "2026-09-03",
+      "sell_date": "2026-09-16",
+      "qty": 0.05,
+      "buy_price": 8328.6882,
+      "sell_price": 7922.348820000001,
+      "cost_basis": 416.43441000000007,
+      "proceeds": 396.1174410000001,
+      "gain": -20.316968999999972,
+      "time_test_met": false,
+      "estimated_buy_date": true
     }
   ],
   "annual": {
     "2026": {
-      "gross_sale_proceeds": 412.9738912,
+      "gross_sale_proceeds": 809.0913322000001,
       "dividends_total": 0.0
     }
   }
