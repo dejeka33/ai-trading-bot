@@ -135,6 +135,12 @@
         "qty": 0.09,
         "price": 5383.4707499999995,
         "estimated": false
+      },
+      {
+        "date": "2026-09-17",
+        "qty": 0.01,
+        "price": 5207.465120000001,
+        "estimated": false
       }
     ],
     "GOOGL": [

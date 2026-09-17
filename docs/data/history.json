@@ -2109,8 +2109,188 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-17",
+      "portfolio_value": 10084.73,
+      "cash": 355.43,
+      "buying_power": 355.43,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20107.91,
+          "current_price": 20240.735490000003,
+          "market_value": 404.81470980000006,
+          "unrealized_pl": 3.97,
+          "unrealized_plpc": 0.987173704278565,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.09,
+          "avg_entry_price": 10590.70488884184,
+          "current_price": 10531.79968,
+          "market_value": 947.8619712,
+          "unrealized_pl": 6.24,
+          "unrealized_plpc": 0.6546621217477374,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.13,
+          "avg_entry_price": 3486.86553841268,
+          "current_price": 3428.8053999999997,
+          "market_value": 445.74470199999996,
+          "unrealized_pl": -1.92,
+          "unrealized_plpc": -0.42356754530758706,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.03,
+          "avg_entry_price": 7600.7480000000005,
+          "current_price": 7852.27136,
+          "market_value": 235.56814079999998,
+          "unrealized_pl": 10.86,
+          "unrealized_plpc": 4.762689145857749,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.025,
+          "avg_entry_price": 19368.1456,
+          "current_price": 18838.8456,
+          "market_value": 470.97114000000005,
+          "unrealized_pl": -5.94,
+          "unrealized_plpc": -1.226756577046798,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1867.3704,
+          "current_price": 1859.9602,
+          "market_value": 464.99005,
+          "unrealized_pl": 5.14,
+          "unrealized_plpc": 1.101013489343089,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 7819.525333262761,
+          "current_price": 7820.9367999999995,
+          "market_value": 469.25620799999996,
+          "unrealized_pl": 5.93,
+          "unrealized_plpc": 1.2639300868163352,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.12,
+          "avg_entry_price": 7103.206,
+          "current_price": 7320.007280000001,
+          "market_value": 878.4008736000001,
+          "unrealized_pl": 38.82,
+          "unrealized_plpc": 4.554281545544364,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.15,
+          "avg_entry_price": 5754.5496,
+          "current_price": 5699.078960000001,
+          "market_value": 854.8618440000001,
+          "unrealized_pl": 3.62,
+          "unrealized_plpc": 0.41937831821509247,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.45,
+          "avg_entry_price": 1066.5983111581602,
+          "current_price": 1041.2389600000001,
+          "market_value": 468.5575320000001,
+          "unrealized_pl": -3.92,
+          "unrealized_plpc": -0.8167190047068608,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7600.7480000000005,
+          "current_price": 7312.38536,
+          "market_value": 438.7431216,
+          "unrealized_pl": -10.8,
+          "unrealized_plpc": -2.368187973078439,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 6805.36594158728,
+          "current_price": 7031.43292,
+          "market_value": 1325.4251054200001,
+          "unrealized_pl": 60.82,
+          "unrealized_plpc": 4.741148715048289,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2107,
+          "avg_entry_price": 4680.54940668548,
+          "current_price": 4637.09144,
+          "market_value": 977.035166408,
+          "unrealized_pl": 4.76,
+          "unrealized_plpc": 0.4826647507230111,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.18,
+          "avg_entry_price": 2264.22777768368,
+          "current_price": 2268.15636,
+          "market_value": 408.26814479999996,
+          "unrealized_pl": 6.8,
+          "unrealized_plpc": 1.6684618990243416,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.18,
+          "avg_entry_price": 5440.02777768368,
+          "current_price": 5293.21172,
+          "market_value": 952.7781096,
+          "unrealized_pl": -11.92,
+          "unrealized_plpc": -1.2173140455988463,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 17. září 2026, americký trh se právě otevřel. Poslední kompletní data jsou z 16. září. Broad market (CSPX) je v mírném sestupném trendu posledních 2 týdnů (~-1,7 % od 3. září), EQQQ se drží stabilněji a včera výrazněji poskočilo zpět (+0,9 %). Portfolio je celkově v zisku, nejsilněji táhnou AAPL (+4,55 %), GOOGL (+4,29 %) a TSLA (+4,12 %). Negativní pozice jsou AMZN (-1,31 %), JPM (-1,70 %) a COST (-1,18 %). Hotovost 410,95 CZK umožňuje jeden menší nákup. Makro: Fed sazba 3,63 %, výnosová křivka mírně pozitivní (T10Y2Y = +0,27 %), bez signálu recese.",
+      "trades": [
+        {
+          "symbol": "AMZN",
+          "side": "buy",
+          "qty": 0.01,
+          "status": "submitted",
+          "order_id": "55150117250",
+          "reasoning": "AMZN je v portfoliu v -1,31% ztrátě, ale cena se po 2-týdenním poklesu (z ~5 480 na ~5 207) blíží lokálnímu dnu. Zprávy za poslední dny ukazují opakované institucionální nákupy (MJP Associates, Shepherd Financial, Strathmore Capital) – klasický akumulační signál. Limit na úrovni včerejšího close (5 207 CZK) snižuje riziko. Pozice po dokoupení zůstane pod 15% portfolia (v mantinelu). Hodnota obchodu ~365 CZK je pod limitem 5 % portfolia (~504 CZK)."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "spy_price": 23259.47088,
+      "realized_pl_cum": -17.18853547374866,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-16T14:06:08.262358+00:00",
-  "last_dividend_check": "2026-09-16T14:05:44.238702+00:00"
+  "last_cash_flow_check": "2026-09-17T14:06:05.409171+00:00",
+  "last_dividend_check": "2026-09-17T14:05:48.168958+00:00"
 }
