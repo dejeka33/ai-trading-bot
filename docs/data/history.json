@@ -2289,8 +2289,188 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-18",
+      "portfolio_value": 10154.74,
+      "cash": 357.98,
+      "buying_power": 357.98,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20122.11,
+          "current_price": 20322.764280000003,
+          "market_value": 406.4552856000001,
+          "unrealized_pl": 5.75,
+          "unrealized_plpc": 1.428776604441582,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.09,
+          "avg_entry_price": 10623.71955550836,
+          "current_price": 10474.15684,
+          "market_value": 942.6741155999999,
+          "unrealized_pl": 2.57,
+          "unrealized_plpc": 0.26879056253654215,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.13,
+          "avg_entry_price": 3497.73523072022,
+          "current_price": 3453.08642,
+          "market_value": 448.9012346,
+          "unrealized_pl": 1.96,
+          "unrealized_plpc": 0.4310481520872173,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.03,
+          "avg_entry_price": 7624.442,
+          "current_price": 7733.18056,
+          "market_value": 231.9954168,
+          "unrealized_pl": 7.67,
+          "unrealized_plpc": 3.353250856477978,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.025,
+          "avg_entry_price": 19428.522399999998,
+          "current_price": 19034.13274,
+          "market_value": 475.85331850000006,
+          "unrealized_pl": -0.3,
+          "unrealized_plpc": -0.061764861747798175,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1873.1916,
+          "current_price": 1869.7935200000002,
+          "market_value": 467.44838000000004,
+          "unrealized_pl": 8.35,
+          "unrealized_plpc": 1.7830530523412553,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 7843.90133326254,
+          "current_price": 7829.81346,
+          "market_value": 469.7888076,
+          "unrealized_pl": 7.22,
+          "unrealized_plpc": 1.5341005479384668,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.12,
+          "avg_entry_price": 7125.349,
+          "current_price": 7529.295759999999,
+          "market_value": 903.5154911999998,
+          "unrealized_pl": 65.35,
+          "unrealized_plpc": 7.642900485763341,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.15,
+          "avg_entry_price": 5772.4884,
+          "current_price": 5684.77546,
+          "market_value": 852.716319,
+          "unrealized_pl": 2.84,
+          "unrealized_plpc": 0.32799257480246014,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.45,
+          "avg_entry_price": 1069.92324449164,
+          "current_price": 1013.47736,
+          "market_value": 456.064812,
+          "unrealized_pl": -15.67,
+          "unrealized_plpc": -3.2546467610176606,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7624.442,
+          "current_price": 7363.214599999999,
+          "market_value": 441.7928759999999,
+          "unrealized_pl": -7.04,
+          "unrealized_plpc": -1.538910432177638,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 6826.580477396119,
+          "current_price": 7122.1633,
+          "market_value": 1342.52778205,
+          "unrealized_pl": 80.05,
+          "unrealized_plpc": 6.220807568582932,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2107,
+          "avg_entry_price": 4695.14019928142,
+          "current_price": 4657.70578,
+          "market_value": 981.378607846,
+          "unrealized_pl": 10.67,
+          "unrealized_plpc": 1.0785774067532945,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.18,
+          "avg_entry_price": 2271.28611101672,
+          "current_price": 2285.63356,
+          "market_value": 411.4140408,
+          "unrealized_pl": 10.6,
+          "unrealized_plpc": 2.592755206103375,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.19,
+          "avg_entry_price": 5449.22368424406,
+          "current_price": 5360.25882,
+          "market_value": 1018.4491758,
+          "unrealized_pl": 2.41,
+          "unrealized_plpc": 0.2327709644768491,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 18. září 2026, americký trh otevřel před chvílí. Poslední kompletní svíčky jsou ze včerejška (17.9.). Broad market (CSPX) je v mírném downtrendu od počátku září – z ~23 550 na ~23 328, ale včera mírně posílil. EQQQ naopak včera výrazně vyskočil (+2,2 % na 15 267) po sérii poklesů – technologický sektor se zdá odrážet. Hotovost 357,98 CZK, max. na jeden obchod cca 507 CZK (5 % z 10 155 CZK). Úrokové sazby zůstávají elevated (10Y 5,01 %, Fed funds 3,63 %), výnosová křivka mírně normální (+0,27 %). Největší příležitosti: AAPL s bullish katalyzátorem (launch iPhone 18), GOOGL v silném uptrendu s bullish sentime, BA výrazně kleslo (−7 % za dva dny) ale přišly bullish zprávy (FAA exemption, Lufthansa objednávka). COST a AMZN pod drobnohledem – mírný downtrend ale bullish fundamenty. VZ a XOM nesou negativní zprávy.",
+      "trades": [
+        {
+          "symbol": "BA",
+          "side": "buy",
+          "qty": 0.11,
+          "status": "failed",
+          "error": "Trading 212 API chyba 400 na POST /equity/orders/market: {\"type\":\"/api-errors/insufficient-free-for-stocks-buy\",\"title\":\"Error while placing the order\",\"status\":400,\"detail\":\"Insufficient funds\",\"traceId\":\"bac89be0873f8ea2df268af9793b3864\"}",
+          "reasoning": "BA propadlo v posledních dvou dnech o ~7 % (z 4 454 na 4 184) na zvýšeném objemu, ale dnes přišly silné bullish zprávy: FAA udělila výjimku pro 35 letounů 777F a Lufthansa objednala 20 Boeing 737 MAX 10. Kontrariánská příležitost – nakupujeme do propadu s limit příkazem těsně nad dnem (4 184). Risk/reward vypadá příznivě. 0,11 × 4 200 ≈ 462 CZK."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "spy_price": 23327.76051,
+      "realized_pl_cum": -17.18853547374866,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-17T14:06:05.409171+00:00",
-  "last_dividend_check": "2026-09-17T14:05:48.168958+00:00"
+  "last_cash_flow_check": "2026-09-18T14:05:43.226478+00:00",
+  "last_dividend_check": "2026-09-18T14:05:20.676888+00:00"
 }
