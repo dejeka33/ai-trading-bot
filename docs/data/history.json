@@ -2836,8 +2836,188 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-23",
+      "portfolio_value": 10254.16,
+      "cash": 21.43,
+      "buying_power": 21.43,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20141.99,
+          "current_price": 20762.987409999998,
+          "market_value": 415.2597482,
+          "unrealized_pl": 13.74,
+          "unrealized_plpc": 3.4107851309627297,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.0967,
+          "avg_entry_price": 10684.0,
+          "current_price": 10678.23064,
+          "market_value": 1032.584902888,
+          "unrealized_pl": 23.56,
+          "unrealized_plpc": 2.2804204801117525,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.13,
+          "avg_entry_price": 3519.1452307199197,
+          "current_price": 3447.7267999999995,
+          "market_value": 448.2044839999999,
+          "unrealized_pl": 2.01,
+          "unrealized_plpc": 0.4393549412672422,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.03,
+          "avg_entry_price": 7671.111999999999,
+          "current_price": 8244.415439999999,
+          "market_value": 247.33246319999995,
+          "unrealized_pl": 23.42,
+          "unrealized_plpc": 10.176707974888997,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.025,
+          "avg_entry_price": 19547.446399999997,
+          "current_price": 19110.68448,
+          "market_value": 477.767112,
+          "unrealized_pl": 2.41,
+          "unrealized_plpc": 0.4931590450607401,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1884.6576,
+          "current_price": 1886.3670399999999,
+          "market_value": 471.59175999999997,
+          "unrealized_pl": 13.28,
+          "unrealized_plpc": 2.8185491093979085,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 7891.9146665954395,
+          "current_price": 7728.37824,
+          "market_value": 463.7026944,
+          "unrealized_pl": 1.91,
+          "unrealized_plpc": 0.40336641585946326,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.12,
+          "avg_entry_price": 7168.964,
+          "current_price": 7322.17256,
+          "market_value": 878.6607071999999,
+          "unrealized_pl": 41.96,
+          "unrealized_plpc": 4.877506243114998,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.1754,
+          "avg_entry_price": 5811.023945217279,
+          "current_price": 5777.05248,
+          "market_value": 1013.295004992,
+          "unrealized_pl": 18.13,
+          "unrealized_plpc": 1.7787526087872652,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.45,
+          "avg_entry_price": 1076.47235560304,
+          "current_price": 987.6289599999999,
+          "market_value": 444.43303199999997,
+          "unrealized_pl": -26.56,
+          "unrealized_plpc": -5.482929674413977,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 6868.366684292319,
+          "current_price": 7217.0419999999995,
+          "market_value": 1360.412417,
+          "unrealized_pl": 100.22,
+          "unrealized_plpc": 7.74086638019876,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7671.111999999999,
+          "current_price": 7243.32464,
+          "market_value": 434.59947839999995,
+          "unrealized_pl": -13.51,
+          "unrealized_plpc": -2.9352545845591447,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2107,
+          "avg_entry_price": 4723.8796392431195,
+          "current_price": 4871.04928,
+          "market_value": 1026.330083296,
+          "unrealized_pl": 57.36,
+          "unrealized_plpc": 5.762962365269784,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.23,
+          "avg_entry_price": 2302.1697390282397,
+          "current_price": 2360.73664,
+          "market_value": 542.9694272,
+          "unrealized_pl": 24.77,
+          "unrealized_plpc": 4.67800659300526,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.19,
+          "avg_entry_price": 5482.578947402159,
+          "current_price": 5336.23064,
+          "market_value": 1013.8838215999999,
+          "unrealized_pl": -0.46,
+          "unrealized_plpc": -0.044159010837885475,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 23. 9. 2026, brzy po otevření amerického trhu. Poslední kompletní svíčky jsou z 22. 9. Broad market (CSPX, EQQQ) je v silném uptrendu – EQQQ za 10 dní +5,7 %, CSPX +1,6 %. Tech akcie (AAPL, NVDA, AMZN) zůstávají nad 10denním průměrem. VZ pokračuje v oslabení (-5,4 % unrealizovaná ztráta, cena padá z ~1 100 na ~990 CZK) a JPM má bearish sentiment po -3 % sessioni včera. Hotovost je 139,94 CZK, max. jeden obchod = 5 % portfolia ≈ 513 CZK. Nakoupím WMT (silný trend + bullish zprávy) a přidám NVDA (silný momentum + bullish AI sentiment). VZ sleduji, ale neprodávám – stop-loss ještě není zasažen (ztráta -5,4 % vs. limit -8 %).",
+      "trades": [
+        {
+          "symbol": "WMT",
+          "side": "buy",
+          "qty": 0.05,
+          "status": "submitted",
+          "order_id": "55400398922",
+          "reasoning": "WMT uzavřel 22. 9. na 2353 CZK – nové 10denní maximum, silný uptrend (+4 % za 10 dní). Bullish zprávy: otevření nového DFW neighbourhood marketu a +2 % sezení 22. 9. Hodnocení consumer staples se daří v prostředí sazeb Fedu na 3,88 %. Qty 0.05 × ~2359 CZK ≈ 118 CZK, vejde se do limitu 5 % portfolia (~513 CZK)."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "spy_price": 23746.27145,
+      "realized_pl_cum": -17.18853547374866,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-22T14:05:51.270963+00:00",
-  "last_dividend_check": "2026-09-22T14:05:30.718452+00:00"
+  "last_cash_flow_check": "2026-09-23T14:06:00.076016+00:00",
+  "last_dividend_check": "2026-09-23T14:05:40.000547+00:00"
 }
