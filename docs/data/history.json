@@ -3187,8 +3187,199 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-25",
+      "portfolio_value": 10211.12,
+      "cash": 14.22,
+      "buying_power": 14.22,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20088.03,
+          "current_price": 20613.99687,
+          "market_value": 412.2799374,
+          "unrealized_pl": 11.51,
+          "unrealized_plpc": 2.864890185846994,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.0967,
+          "avg_entry_price": 10675.0,
+          "current_price": 10881.668000000001,
+          "market_value": 1052.2572956000001,
+          "unrealized_pl": 42.25,
+          "unrealized_plpc": 4.092911513190558,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.13,
+          "avg_entry_price": 3516.1807691815,
+          "current_price": 3440.1255,
+          "market_value": 447.216315,
+          "unrealized_pl": 0.58,
+          "unrealized_plpc": 0.12688592408680463,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.055,
+          "avg_entry_price": 7786.9272727855005,
+          "current_price": 7931.311500000001,
+          "market_value": 436.22213250000004,
+          "unrealized_pl": 13.73,
+          "unrealized_plpc": 3.20583915697809,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.025,
+          "avg_entry_price": 19530.98,
+          "current_price": 19598.873000000003,
+          "market_value": 489.9718250000001,
+          "unrealized_pl": 14.16,
+          "unrealized_plpc": 2.9000080897118323,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1883.0700000000002,
+          "current_price": 1877.946,
+          "market_value": 469.4865,
+          "unrealized_pl": 10.71,
+          "unrealized_plpc": 2.2750083640013385,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 7885.266666595501,
+          "current_price": 7773.962,
+          "market_value": 466.43772,
+          "unrealized_pl": 4.19,
+          "unrealized_plpc": 0.8856179034397094,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.12,
+          "avg_entry_price": 7162.925,
+          "current_price": 7303.6215,
+          "market_value": 876.43458,
+          "unrealized_pl": 38.87,
+          "unrealized_plpc": 4.522128413555448,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.1754,
+          "avg_entry_price": 5806.128848296,
+          "current_price": 5755.533,
+          "market_value": 1009.5204882,
+          "unrealized_pl": 13.36,
+          "unrealized_plpc": 1.3118681847531177,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.25,
+          "avg_entry_price": 1075.1860000000001,
+          "current_price": 1006.6525,
+          "market_value": 251.663125,
+          "unrealized_pl": -10.24,
+          "unrealized_plpc": -3.809573413344295,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 6862.580901799,
+          "current_price": 7153.9580000000005,
+          "market_value": 1348.521083,
+          "unrealized_pl": 86.99,
+          "unrealized_plpc": 6.72466259770587,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7664.650000000001,
+          "current_price": 7233.166500000001,
+          "market_value": 433.98999000000003,
+          "unrealized_pl": -14.55,
+          "unrealized_plpc": -3.1638757151337633,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2107,
+          "avg_entry_price": 4719.9003321715,
+          "current_price": 4786.243,
+          "market_value": 1008.4614001000001,
+          "unrealized_pl": 38.47,
+          "unrealized_plpc": 3.8683416408770688,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.23,
+          "avg_entry_price": 2300.2304346805004,
+          "current_price": 2292.9900000000002,
+          "market_value": 527.3877000000001,
+          "unrealized_pl": 8.64,
+          "unrealized_plpc": 1.6331067020475327,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.19,
+          "avg_entry_price": 5477.9605263495,
+          "current_price": 5290.530000000001,
+          "market_value": 1005.2007000000001,
+          "unrealized_pl": -10.15,
+          "unrealized_plpc": -0.9751996637182527,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 25. 9. 2026, trh otevřel po mírném odprodeji z konce minulého týdne. Technologické tituly (MSFT, GOOGL, NVDA) dostávají podporu od pozitivních zpráv o AI, Tesla startuje sériovou výrobu Semi trucků – bullish katalyzátor. JNJ reportuje silné klinické výsledky (Carvykti, TREMFYA). VZ pokračuje v sestupném trendu (-3,7 % ztráta v portfoliu), JPM pod tlakem (-3 %). Hotovost je 21,43 CZK – prakticky nic. Portfolio ve výrazně zelených číslech (+3–7 % na většině pozic). Makro: 10Y výnos 5,11 %, spread 10Y-2Y +0,31 % (normální křivka), Fed rate 3,88 % – prostředí dražšího financování, ale bez inverze = bez bezprostředního recesního signálu. Bez volné hotovosti není možné otevírat nové pozice; zvažuji rotaci z nejslabších titulů do příležitostí s katalyzátory.",
+      "trades": [
+        {
+          "symbol": "VZ",
+          "side": "sell",
+          "qty": 0.2,
+          "status": "submitted",
+          "order_id": "55500823848",
+          "reasoning": "VZ je jedinou výrazně ztrátovou pozicí v portfoliu (-3,7 %, -17,90 CZK) a cenový trend je jednoznačně sestupný: z ~1095 CZK (14.9.) na ~1010 CZK (24.9.) – propad ~8 % za 2 týdny. Zprávy jsou neutrální bez katalyzátoru obratu. Prodej 0,2 kusu (z 0,45) uvolní ~202 CZK hotovosti a sníží expozici vůči pokračujícímu trendu, aniž bychom pozici zcela likvidovali.",
+          "realized_pl": -13.441011120600024,
+          "realized_pl_pct": -6.248345835630873,
+          "sell_price": 1008.3605
+        },
+        {
+          "symbol": "TSLA",
+          "side": "buy",
+          "qty": 0.025,
+          "status": "submitted",
+          "order_id": "55500823854",
+          "reasoning": "Tesla dnes spustila velkoserovou výrobu Semi trucků a potvrdila cíl 50 000 kusů ročně – silný bullish katalyzátor s reálným dopadem na tržby. Cena (8070 CZK na 24.9.) sice mírně korigovala z vrcholu ~8256, ale trend posledních 2 týdnů je vzestupný (+5,5 % od 14.9.). Dokupujeme 0,025 kusu (~199 CZK) financovaných z prodeje VZ. Qty * cena ~198 CZK < limit 5 % portfolia (~511 CZK). ✓"
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "spy_price": 23407.64769,
+      "realized_pl_cum": -30.629546594348685,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-24T14:05:45.677412+00:00",
-  "last_dividend_check": "2026-09-24T14:05:32.730719+00:00"
+  "last_cash_flow_check": "2026-09-25T14:06:00.601553+00:00",
+  "last_dividend_check": "2026-09-25T14:05:38.226372+00:00"
 }
