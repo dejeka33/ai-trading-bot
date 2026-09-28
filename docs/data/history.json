@@ -3378,8 +3378,196 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-09-28",
+      "portfolio_value": 10319.08,
+      "cash": 23.79,
+      "buying_power": 23.79,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20192.4,
+          "current_price": 20803.2912,
+          "market_value": 416.065824,
+          "unrealized_pl": 13.2,
+          "unrealized_plpc": 3.2685564865989183,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.0967,
+          "avg_entry_price": 10721.0,
+          "current_price": 10906.68772,
+          "market_value": 1054.676702524,
+          "unrealized_pl": 44.3,
+          "unrealized_plpc": 4.2730891743552535,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.13,
+          "avg_entry_price": 3531.3324614889802,
+          "current_price": 3498.47672,
+          "market_value": 454.80197360000005,
+          "unrealized_pl": 8.01,
+          "unrealized_plpc": 1.744819704384463,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.055,
+          "avg_entry_price": 7820.4821818766595,
+          "current_price": 7764.362620000001,
+          "market_value": 427.03994410000007,
+          "unrealized_pl": 4.38,
+          "unrealized_plpc": 1.0183050326604481,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.025,
+          "avg_entry_price": 19615.1416,
+          "current_price": 19861.939019999998,
+          "market_value": 496.5484755,
+          "unrealized_pl": 20.57,
+          "unrealized_plpc": 4.194718635118087,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1891.1844,
+          "current_price": 1875.7461600000001,
+          "market_value": 468.93654000000004,
+          "unrealized_pl": 10.0,
+          "unrealized_plpc": 2.115076668356613,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 7919.245333261861,
+          "current_price": 7934.18326,
+          "market_value": 476.05099559999996,
+          "unrealized_pl": 13.65,
+          "unrealized_plpc": 2.8727484807734194,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.12,
+          "avg_entry_price": 7193.791,
+          "current_price": 7313.43736,
+          "market_value": 877.6124831999999,
+          "unrealized_pl": 39.74,
+          "unrealized_plpc": 4.60350692238163,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.1754,
+          "avg_entry_price": 5831.14823256032,
+          "current_price": 5834.79704,
+          "market_value": 1023.423400816,
+          "unrealized_pl": 26.91,
+          "unrealized_plpc": 2.631055607691197,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.25,
+          "avg_entry_price": 1079.8191199999999,
+          "current_price": 1007.98842,
+          "market_value": 251.997105,
+          "unrealized_pl": -9.99,
+          "unrealized_plpc": -3.7006197852840392,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 6892.1526789870795,
+          "current_price": 7342.8129,
+          "market_value": 1384.12023165,
+          "unrealized_pl": 122.13,
+          "unrealized_plpc": 9.400611673318885,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7697.678,
+          "current_price": 7290.28,
+          "market_value": 437.41679999999997,
+          "unrealized_pl": -11.27,
+          "unrealized_plpc": -2.4401297811279363,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2107,
+          "avg_entry_price": 4740.23901275978,
+          "current_price": 4953.53084,
+          "market_value": 1043.708947988,
+          "unrealized_pl": 73.38,
+          "unrealized_plpc": 7.347048919415705,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.23,
+          "avg_entry_price": 2310.14243468006,
+          "current_price": 2331.8175,
+          "market_value": 536.318025,
+          "unrealized_pl": 17.39,
+          "unrealized_plpc": 3.2729019006416906,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.19,
+          "avg_entry_price": 5501.565789507539,
+          "current_price": 5261.43796,
+          "market_value": 999.6732124,
+          "unrealized_pl": -16.03,
+          "unrealized_plpc": -1.5335347114004727,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 28. září 2026, trh otevřel s pozitivním sentimentem. Klíčový katalyzátor dne: NVDA oznámila rekordní zpětný odkup akcií za 150 mld. USD a MSFT slaví úspěch Copilot rebootu. COST reportuje silné Q4 výsledky s tariffními refundy. Hotovost účtu je velmi nízká (23,79 CZK), ale limit na jeden obchod (5 % z ~10 322 CZK) = ~516 CZK. Portfolio je celkově v zisku, s výjimkou VZ (-3,9 %), JPM (-2,7 %) a AMZN (-1,3 %). Makro: 10Y výnos 5,18 %, spread T10Y2Y kladný 0,36 % – mírně normalizující se křivka, prostředí vyšších sazeb mírně tlačí na valuace.",
+      "trades": [
+        {
+          "symbol": "COST",
+          "side": "buy",
+          "qty": 0.025,
+          "status": "failed",
+          "error": "Trading 212 API chyba 400 na POST /equity/orders/market: {\"type\":\"/api-errors/insufficient-free-for-stocks-buy\",\"title\":\"Error while placing the order\",\"status\":400,\"detail\":\"Insufficient funds\",\"traceId\":\"6842f058ee882bcc5a9b719def315ba0\"}",
+          "reasoning": "COST reportoval silné Q4 výsledky a tariffní refundy 184M USD jdou do nižších cen pro členy – jasný bullish fundamental signál. Cena v poslední svíčce (25/9) skočila z 19 222 na 19 786 (+2,9 %) na vysokém objemu (4,6M vs průměr ~2,3M) – breakout po konsolidaci. Nakupuji 0,025 ks (~496 CZK < 516 CZK). Stávající pozice 0,025 ks (496 CZK ~4,8 %) + nových 0,025 ks = 0,05 ks (~992 CZK ~9,6 %) – pod limitem 10 %."
+        },
+        {
+          "symbol": "XOM",
+          "side": "buy",
+          "qty": 0.14,
+          "status": "failed",
+          "error": "Trading 212 API chyba 400 na POST /equity/orders/market: {\"type\":\"/api-errors/insufficient-free-for-stocks-buy\",\"title\":\"Error while placing the order\",\"status\":400,\"detail\":\"Insufficient funds\",\"traceId\":\"630baab579b3a5c74dc2814f5e7c3ebd\"}",
+          "reasoning": "TD Cowen zvýšil PT na XOM na 180 USD (z 168), Benzinga dnes bullish. Cena klesla od 15/9 (3630) na 3443 (25/9) – pokles ~5 % vytváří zajímavou nákupní příležitost s podporou analytiků. Pozice 0,13 ks (454 CZK ~4,4 %) + 0,14 ks = 0,27 ks při ceně ~3495 = ~944 CZK ~9,1 % – pod limitem. Obchod ~489 CZK < 516 CZK limit."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "spy_price": 23685.9696,
+      "realized_pl_cum": -30.629546594348685,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-09-25T14:06:00.601553+00:00",
-  "last_dividend_check": "2026-09-25T14:05:38.226372+00:00"
+  "last_cash_flow_check": "2026-09-28T14:05:46.730205+00:00",
+  "last_dividend_check": "2026-09-28T14:05:14.562523+00:00"
 }
