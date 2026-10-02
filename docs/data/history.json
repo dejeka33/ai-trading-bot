@@ -3917,8 +3917,179 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-10-02",
+      "portfolio_value": 10343.89,
+      "cash": 23.79,
+      "buying_power": 23.79,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20431.670000000002,
+          "current_price": 21317.71383,
+          "market_value": 426.35427660000005,
+          "unrealized_pl": 18.3,
+          "unrealized_plpc": 4.478341711666252,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.0967,
+          "avg_entry_price": 10900.0,
+          "current_price": 11288.258,
+          "market_value": 1091.5745485999998,
+          "unrealized_pl": 72.83,
+          "unrealized_plpc": 6.909670502737114,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.13,
+          "avg_entry_price": 3590.292307642,
+          "current_price": 3555.7980000000002,
+          "market_value": 462.25374000000005,
+          "unrealized_pl": 11.92,
+          "unrealized_plpc": 2.553895333177719,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.055,
+          "avg_entry_price": 7951.054545514,
+          "current_price": 8093.032,
+          "market_value": 445.11676,
+          "unrealized_pl": 19.05,
+          "unrealized_plpc": 4.356197462625324,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.025,
+          "avg_entry_price": 19942.64,
+          "current_price": 19925.2,
+          "market_value": 498.13000000000005,
+          "unrealized_pl": 18.32,
+          "unrealized_plpc": 3.674538576637797,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1922.7600000000002,
+          "current_price": 1871.094,
+          "market_value": 467.7735,
+          "unrealized_pl": 5.24,
+          "unrealized_plpc": 1.09009964842206,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 8051.466666594,
+          "current_price": 7835.792,
+          "market_value": 470.14752,
+          "unrealized_pl": 4.13,
+          "unrealized_plpc": 0.8549167025546638,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.12,
+          "avg_entry_price": 7313.900000000001,
+          "current_price": 7514.678,
+          "market_value": 901.76136,
+          "unrealized_pl": 56.97,
+          "unrealized_plpc": 6.491064958503672,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.1754,
+          "avg_entry_price": 5928.506271328,
+          "current_price": 5601.51,
+          "market_value": 982.504854,
+          "unrealized_pl": -21.58,
+          "unrealized_plpc": -2.075279364547939,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.25,
+          "avg_entry_price": 1097.848,
+          "current_price": 1003.89,
+          "market_value": 250.9725,
+          "unrealized_pl": -12.94,
+          "unrealized_plpc": -4.714678170384243,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 7007.225464132,
+          "current_price": 7251.7699999999995,
+          "market_value": 1366.958645,
+          "unrealized_pl": 94.45,
+          "unrealized_plpc": 7.150633450034524,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7826.2,
+          "current_price": 7241.524,
+          "market_value": 434.49144,
+          "unrealized_pl": -17.54,
+          "unrealized_plpc": -3.7353164157999204,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2107,
+          "avg_entry_price": 4819.3830089620005,
+          "current_price": 5172.268,
+          "market_value": 1089.7968676,
+          "unrealized_pl": 111.12,
+          "unrealized_plpc": 10.942996364278192,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.23,
+          "avg_entry_price": 2348.7130433740003,
+          "current_price": 2269.1620000000003,
+          "market_value": 521.9072600000001,
+          "unrealized_pl": -1.04,
+          "unrealized_plpc": -0.19251986287516681,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.19,
+          "avg_entry_price": 5593.421052666,
+          "current_price": 5503.192,
+          "market_value": 1045.60648,
+          "unrealized_pl": 21.89,
+          "unrealized_plpc": 2.059750646893935,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 2. října 2026, brzy po otevření US trhu. Včerejší (1.10.) data ukazují smíšený obraz: tech (MSFT, NVDA) drží relativní sílu, zatímco GOOGL výrazně oslabila (-~4 % session, bearish news o $160B ztrátě tržní kapitalizace), AAPL klesá (~-0,5 % poslední svíčka), TSLA v sestupném trendu od ~8430 na ~7720. JPM a JNJ pokračují v poklesu, VZ na víceměsíčních minimech. Hotovost účtu je pouze 23,79 CZK – prostor pro nové nákupy je extrémně omezený (max ~23 CZK = cca 1 EUR). S takto nízkou buying power nelze smysluplně otevřít žádnou novou pozici. 10Y výnos 5,29 % a Fed rate 3,88 % udržují prostředí vyšších sazeb, které tlačí na valuace růstových akcií.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [],
+      "spy_price": 23673.974589999998,
+      "realized_pl_cum": -30.629546594348685,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-10-01T14:05:39.168418+00:00",
-  "last_dividend_check": "2026-10-01T14:05:27.310964+00:00"
+  "last_cash_flow_check": "2026-10-02T14:05:32.803717+00:00",
+  "last_dividend_check": "2026-10-02T14:05:17.039481+00:00"
 }
