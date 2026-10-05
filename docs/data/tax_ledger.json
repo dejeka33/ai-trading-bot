@@ -115,14 +115,8 @@
     ],
     "JNJ": [
       {
-        "date": "2026-09-03",
-        "qty": 0.08,
-        "price": 5738.95413,
-        "estimated": false
-      },
-      {
         "date": "2026-09-10",
-        "qty": 0.07,
+        "qty": 0.06000000000000001,
         "price": 5557.66772,
         "estimated": false
       },
@@ -282,11 +276,37 @@
       "gain": -6.776700000000005,
       "time_test_met": false,
       "estimated_buy_date": false
+    },
+    {
+      "symbol": "JNJ",
+      "buy_date": "2026-09-03",
+      "sell_date": "2026-10-05",
+      "qty": 0.08,
+      "buy_price": 5738.95413,
+      "sell_price": 5581.454,
+      "cost_basis": 459.11633040000004,
+      "proceeds": 446.51632,
+      "gain": -12.60001040000003,
+      "time_test_met": false,
+      "estimated_buy_date": false
+    },
+    {
+      "symbol": "JNJ",
+      "buy_date": "2026-09-10",
+      "sell_date": "2026-10-05",
+      "qty": 0.009999999999999995,
+      "buy_price": 5557.66772,
+      "sell_price": 5581.454,
+      "cost_basis": 55.57667719999998,
+      "proceeds": 55.81453999999997,
+      "gain": 0.23786279999999493,
+      "time_test_met": false,
+      "estimated_buy_date": false
     }
   ],
   "annual": {
     "2026": {
-      "gross_sale_proceeds": 1011.1477322000002,
+      "gross_sale_proceeds": 1513.4785922,
       "dividends_total": 0.0
     }
   }
