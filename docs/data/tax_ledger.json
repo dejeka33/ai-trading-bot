@@ -158,7 +158,7 @@
     "GOOGL": [
       {
         "date": "2026-09-05",
-        "qty": 0.06,
+        "qty": 0.019999999999999997,
         "price": 7044.367979999999,
         "estimated": false
       },
@@ -220,6 +220,22 @@
         "date": "2026-09-11",
         "qty": 0.06,
         "price": 7686.439719999999,
+        "estimated": false
+      }
+    ],
+    "BA": [
+      {
+        "date": "2026-10-06",
+        "qty": 0.06,
+        "price": 4173.73704,
+        "estimated": false
+      }
+    ],
+    "DIS": [
+      {
+        "date": "2026-10-06",
+        "qty": 0.11,
+        "price": 2243.88177,
         "estimated": false
       }
     ]
@@ -302,11 +318,24 @@
       "gain": 0.23786279999999493,
       "time_test_met": false,
       "estimated_buy_date": false
+    },
+    {
+      "symbol": "GOOGL",
+      "buy_date": "2026-09-05",
+      "sell_date": "2026-10-06",
+      "qty": 0.04,
+      "buy_price": 7044.367979999999,
+      "sell_price": 7503.500790000001,
+      "cost_basis": 281.7747192,
+      "proceeds": 300.14003160000004,
+      "gain": 18.36531240000005,
+      "time_test_met": false,
+      "estimated_buy_date": false
     }
   ],
   "annual": {
     "2026": {
-      "gross_sale_proceeds": 1513.4785922,
+      "gross_sale_proceeds": 1813.6186238,
       "dividends_total": 0.0
     }
   }
