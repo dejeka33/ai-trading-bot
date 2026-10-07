@@ -4490,8 +4490,208 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-10-07",
+      "portfolio_value": 10550.86,
+      "cash": 325.5,
+      "buying_power": 325.5,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20489.18,
+          "current_price": 21646.67438,
+          "market_value": 432.93348760000003,
+          "unrealized_pl": 23.11,
+          "unrealized_plpc": 5.639561954163123,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.0967,
+          "avg_entry_price": 10927.5,
+          "current_price": 11527.419750000001,
+          "market_value": 1114.701489825,
+          "unrealized_pl": 103.52,
+          "unrealized_plpc": 9.79663604981313,
+          "price_reliable": true
+        },
+        {
+          "symbol": "BA",
+          "qty": 0.06,
+          "avg_entry_price": 4177.947500072851,
+          "current_price": 4103.4947999999995,
+          "market_value": 246.20968799999997,
+          "unrealized_pl": -2.5,
+          "unrealized_plpc": -0.9972999102056722,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.13,
+          "avg_entry_price": 3599.35038456495,
+          "current_price": 3602.1411,
+          "market_value": 468.278343,
+          "unrealized_pl": 21.15,
+          "unrealized_plpc": 4.520046405873101,
+          "price_reliable": true
+        },
+        {
+          "symbol": "DIS",
+          "qty": 0.11,
+          "avg_entry_price": 2276.8936363239,
+          "current_price": 2258.71425,
+          "market_value": 248.4585675,
+          "unrealized_pl": -0.16,
+          "unrealized_plpc": -0.0638828898873754,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.055,
+          "avg_entry_price": 7971.1145455141495,
+          "current_price": 8209.39365,
+          "market_value": 451.51665075,
+          "unrealized_pl": 28.54,
+          "unrealized_plpc": 6.509868700872125,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.025,
+          "avg_entry_price": 19992.953999999998,
+          "current_price": 20610.794850000002,
+          "market_value": 515.26987125,
+          "unrealized_pl": 38.91,
+          "unrealized_plpc": 7.78474256480558,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.25,
+          "avg_entry_price": 1927.611,
+          "current_price": 1891.9873499999999,
+          "market_value": 472.99683749999997,
+          "unrealized_pl": 13.7,
+          "unrealized_plpc": 2.842897244309147,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.06,
+          "avg_entry_price": 8071.77999992715,
+          "current_price": 8136.835050000001,
+          "market_value": 488.210103,
+          "unrealized_pl": 25.45,
+          "unrealized_plpc": 5.2549334430633,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.0854,
+          "avg_entry_price": 5942.3079624525,
+          "current_price": 5663.28615,
+          "market_value": 483.64463721,
+          "unrealized_pl": -1.92,
+          "unrealized_plpc": -0.37834517731576434,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.08,
+          "avg_entry_price": 7332.3525,
+          "current_price": 7563.578399999999,
+          "market_value": 605.086272,
+          "unrealized_pl": 46.06,
+          "unrealized_plpc": 7.852186593593256,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.25,
+          "avg_entry_price": 1100.6178,
+          "current_price": 1017.7873500000001,
+          "market_value": 254.44683750000002,
+          "unrealized_pl": -7.73,
+          "unrealized_plpc": -2.8093312683113068,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 7024.9042439727,
+          "current_price": 7322.95485,
+          "market_value": 1380.376989225,
+          "unrealized_pl": 117.35,
+          "unrealized_plpc": 8.861991530094977,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7845.945,
+          "current_price": 7136.968800000001,
+          "market_value": 428.21812800000004,
+          "unrealized_pl": -20.8,
+          "unrealized_plpc": -4.418418261492615,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.2107,
+          "avg_entry_price": 4831.54200279195,
+          "current_price": 5215.477199999999,
+          "market_value": 1098.9010460399998,
+          "unrealized_pl": 127.78,
+          "unrealized_plpc": 12.551990121223572,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.23,
+          "avg_entry_price": 2354.63869554765,
+          "current_price": 2364.49245,
+          "market_value": 543.8332635,
+          "unrealized_pl": 24.5,
+          "unrealized_plpc": 4.523910157930178,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.19,
+          "avg_entry_price": 5607.53289477135,
+          "current_price": 5576.30325,
+          "market_value": 1059.4976175,
+          "unrealized_pl": 43.03,
+          "unrealized_plpc": 4.038740181474422,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Středa 7. října 2026, trh otevřen ~16:00 CET. Indexové ETF CSPX a EQQQ jsou v silném up-trendu – CSPX uzavřel 6.10. na ~24 412 CZK (nejvýše za posledních 10 dní), EQQQ na ~16 640 CZK. Technologické tituly NVDA, TSLA, MSFT, AMZN, COST táhnou trh nahoru; naopak JPM, JNJ, VZ a BA slabí. Makro prostředí: výnosová křivka 10Y-2Y na +0,48 % (nezinvertovaná, mírně pozitivní), Fed sazba 3,88 %, 10Y výnos 5,31 % – prostředí vyšších sazeb ale bez inverze, což akcie zatím nebrzdí výrazně. Cash 325,5 CZK umožňuje malé přikoupení.",
+      "trades": [
+        {
+          "symbol": "EQQQ",
+          "side": "buy",
+          "qty": 0.019,
+          "status": "failed",
+          "error": "Trading 212 API chyba 400 na POST /equity/orders/market: {\"type\":\"/api-errors/insufficient-free-for-stocks-buy\",\"title\":\"Error while placing the order\",\"status\":400,\"detail\":\"Insufficient funds\",\"traceId\":\"1c2d25c5900fcfe796c8e87b2c0db819\"}",
+          "reasoning": "EQQQ (Nasdaq-100 ETF) je v čistém up-trendu: 10 po sobě jdoucích svíček s postupně vyššími minimy i maximy, uzavřel na 10denním vrcholu ~16 640 CZK. Přikoupení zlomkového množství 0,019 ks = ~316 CZK (pod limitem 5 % = ~527 CZK). Diverzifikuje mimo jednotlivé akcie, posiluje technologickou expozici konzistentní s tržním trendem. Máme cash 325,5 CZK, toto ho efektivně využije."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "spy_price": 24411.84794,
+      "realized_pl_cum": -55.956913813868695,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-10-06T14:06:29.532895+00:00",
-  "last_dividend_check": "2026-10-06T14:05:44.267732+00:00"
+  "last_cash_flow_check": "2026-10-07T14:05:28.534705+00:00",
+  "last_dividend_check": "2026-10-07T14:05:12.773600+00:00"
 }
