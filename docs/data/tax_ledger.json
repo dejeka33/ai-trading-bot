@@ -197,19 +197,18 @@
         "estimated": false
       }
     ],
-    "VZ": [
-      {
-        "date": "2026-09-08",
-        "qty": 0.25,
-        "price": 1044.1655,
-        "estimated": false
-      }
-    ],
+    "VZ": [],
     "KO": [
       {
         "date": "2026-09-09",
         "qty": 0.25,
         "price": 1840.097,
+        "estimated": false
+      },
+      {
+        "date": "2026-10-09",
+        "qty": 0.04,
+        "price": 1914.7903199999998,
         "estimated": false
       }
     ],
@@ -337,11 +336,24 @@
       "gain": 18.36531240000005,
       "time_test_met": false,
       "estimated_buy_date": false
+    },
+    {
+      "symbol": "VZ",
+      "buy_date": "2026-09-08",
+      "sell_date": "2026-10-09",
+      "qty": 0.25,
+      "buy_price": 1044.1655,
+      "sell_price": 1011.1716,
+      "cost_basis": 261.041375,
+      "proceeds": 252.7929,
+      "gain": -8.248475000000013,
+      "time_test_met": false,
+      "estimated_buy_date": false
     }
   ],
   "annual": {
     "2026": {
-      "gross_sale_proceeds": 1813.6186238,
+      "gross_sale_proceeds": 2066.4115238,
       "dividends_total": 0.0
     }
   }
