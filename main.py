@@ -22,7 +22,7 @@ import market_data
 import broker_t212
 from risk_rules import (
     load_risk_limits, allowed_symbols, validate_decision,
-    clip_oversized_trades, clip_concentrated_trades, stop_loss_trades,
+    clip_oversized_trades, clip_concentrated_trades, clip_cash_constrained_trades, stop_loss_trades,
 )
 from decision import get_decision
 from news_data import get_recent_news
@@ -307,6 +307,10 @@ def main():
     # potom co první opravu odhalila druhý, dřív skrytý limit).
     clip_oversized_trades(decision, limits, account_before, prices=prices)
     clip_concentrated_trades(decision, limits, account_before, prices=prices)
+    # POZOR - přidáno 29.9.2026 (viz risk_rules.clip_cash_constrained_trades) -
+    # musí proběhnout PO obou klipovacích funkcích výš (pracuje už se zmenšenými
+    # qty) a PŘED validate_decision, ze stejného důvodu jako ony.
+    clip_cash_constrained_trades(decision, account_before, prices=prices)
     ok, reasons = validate_decision(decision, limits, account_before, prices=prices)
 
     trade_results = []

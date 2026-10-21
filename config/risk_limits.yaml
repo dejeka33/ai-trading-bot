@@ -49,10 +49,20 @@ allowed_instruments:
     - WMT      # maloobchod
     - KO       # spotřební zboží/nápoje
     - XOM      # energetika
-    - UNH      # zdravotní pojištění
+    # UNH (zdravotní pojištění) nahrazeno 21.10.2026 - appka naposled obchodovala
+    # 16.9.2026 (koupila 2.9., prodala 16.9., od té doby nulová pozice, přes 5
+    # týdnů bez zájmu AI) - na rozdíl od JPM/DIS (taky málo obchodované) v UNH
+    # appka nedrží otevřenou pozici, takže šlo bezpečně nahradit (viz
+    # instruments.py pro detail rizika u symbolu s otevřenou pozicí).
+    - RKLB     # Rocket Lab - vesmír/rakety
     - DIS      # média/zábava
     - BA       # letecký/obranný průmysl
-    - MCD      # restaurace
+    # MCD (restaurace) nahrazeno 21.10.2026 - za ~7 týdnů/50 dní živého provozu
+    # ho AI ani jednou nenavrhla k obchodu (0 pokusů), zatímco appka je přesně
+    # na stropu EODHD free tarifu (20 dotazů/den, viz instruments.py) - vědomé
+    # rozhodnutí uživatele vyměnit ho za SPCX (SpaceX, IPO 12.6.2026, viz
+    # instruments.py pro ISIN/zdroje).
+    - SPCX     # SpaceX - vesmír/rakety
     - COST     # velkoobchod
     - VZ       # telekomunikace
   crypto: []

@@ -158,10 +158,24 @@ INSTRUMENTS = {
         "price_divisor": 1,
         "currency": "USD",
     },
-    "UNH": {  # UnitedHealth Group - zdravotní pojištění (jiný typ zdravotnictví než JNJ farmacie)
-        "isin": "US91324P1021",
-        "stooq": "unh.us",
-        "eodhd": "UNH.US",
+    # UNH (UnitedHealth) nahrazeno 21.10.2026 na žádost uživatele - appka
+    # zkontrolovala historii (viz history.json) a UNH appka naposled obchodovala
+    # 16.9.2026 (koupila 2.9., pak celé prodala 16.9. - čistě nulová pozice od
+    # té doby), přes 5 týdnů bez jakéhokoli zájmu AI. NA ROZDÍL od JPM/DIS
+    # (taky málo obchodované, ale appka v nich teď drží otevřenou pozici) má
+    # UNH v tuhle chvíli NULOVOU pozici - bezpečné nahradit bez rizika, že by
+    # appka "osiřelou" pozici tiše ztratila z dohledu (viz POZOR níže v
+    # broker_t212.get_account_snapshot - appka páruje existující pozice na
+    # symbol přes ISIN v téhle mapě; symbol, co by appka z mapy odstranila
+    # a měla by v něm ještě otevřenou pozici, by appka přestala vůbec vidět).
+    "RKLB": {  # Rocket Lab USA - rakety/vesmír. ISIN ověřen ze čtyř nezávislých
+               # zdrojů (onvista.de, finanzen.net, extraetf.com, aktien.guide) -
+               # jeden pátý zdroj (ajbell.co.uk) ukazoval jinou hodnotu
+               # (US7731211089), appka ho vyhodnotila jako chybu/jiný nástroj
+               # a řídila se shodou většiny.
+        "isin": "US7731221062",
+        "stooq": "rklb.us",
+        "eodhd": "RKLB.US",
         "price_divisor": 1,
         "currency": "USD",
     },
@@ -179,10 +193,21 @@ INSTRUMENTS = {
         "price_divisor": 1,
         "currency": "USD",
     },
-    "MCD": {  # McDonald's - restaurace/spotřebitelský sektor
-        "isin": "US5801351017",
-        "stooq": "mcd.us",
-        "eodhd": "MCD.US",
+    # MCD (McDonald's) nahrazeno 21.10.2026 na žádost uživatele - appka za ~7
+    # týdnů/50 dní živého provozu zjistila (viz history.json), že AI ho ani
+    # jednou nenavrhla k obchodu (0 pokusů) - appka je navíc přesně na stropu
+    # EODHD free tarifu (20 dotazů/den, viz POZOR výš), takže přidat SPCX
+    # BEZ odebrání něčeho jiného by appku rovnou posunulo nad limit.
+    "SPCX": {  # SpaceX (Space Exploration Technologies) - IPO 12.6.2026 na
+               # Nasdaqu (do té doby firma byla soukromá) - ISIN ověřen ze dvou
+               # nezávislých zdrojů (onvista.de, finanzen.net), stejně jako
+               # ostatní nástroje v tomhle souboru. POZOR: appka na prvním
+               # běhu ověří, že Stooq/EODHD už mají pro tak čerstvě kotovaný
+               # titul dostatečnou historii cen - u nově kotovaných firem se
+               # stává, že free datové zdroje mají zpočátku mezery/zpoždění.
+        "isin": "US84615Q1031",
+        "stooq": "spcx.us",
+        "eodhd": "SPCX.US",
         "price_divisor": 1,
         "currency": "USD",
     },

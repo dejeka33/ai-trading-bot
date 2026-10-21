@@ -234,6 +234,89 @@ def clip_concentrated_trades(decision, limits, account_snapshot, prices=None):
     return decision
 
 
+def clip_cash_constrained_trades(decision, account_snapshot, prices=None):
+    """
+    POZOR - přidáno 29.9.2026 (živě narazilo 28.9.2026: appka navrhla nákup COST
+    (~496 Kč) a XOM (~489 Kč), i když měla na účtu jen 23,79 Kč dostupné hotovosti
+    - oba obchody selhaly u Trading 212 na "insufficient-free-for-stocks-buy",
+    viz reports/2026-09-28.md). Appka dřív kontrolovala jen limity na velikost
+    JEDNOHO obchodu a KONCENTRACI v pozici (clip_oversized_trades/
+    clip_concentrated_trades výš), ale nikdy neporovnávala navržené nákupy se
+    skutečně dostupnou hotovostí na účtu - AI dostává "Hotovost" jako informaci
+    v promptu (viz decision.build_prompt), ale je čistě na ní, jestli si to
+    správně spočítá; když ne, appka o to obchod prostě přijde na chybě u
+    brokera (neškodné pro účet, ale zbytečně - a v reportu to pak vypadá jako
+    "chyba", i když šlo jen o špatný odhad appky/AI, ne o skutečný problém).
+
+    Volá se PO clip_oversized_trades a clip_concentrated_trades (ať pracuje už
+    se zmenšenými qty) a PŘED validate_decision - když součet hodnoty VŠECH
+    navržených nákupů přesáhne dostupnou hotovost (account_snapshot["cash"]),
+    appka je všechny proporcionálně zmenší (stejná rezerva 0,5 % jako ostatní
+    clip_* funkce), místo aby nechala některé spadnout na chybu u brokera.
+
+    Schválně NEPOČÍTÁ s očekávanými výnosy z prodejů ve stejném rozhodnutí,
+    i když by teoreticky mohly hotovost navýšit - appka nemá jistotu, že se
+    prodej skutečně provede (a stihne se zúčtovat) DŘÍV, než broker zpracuje
+    navazující nákup (execute_trades odesílá obchody v pořadí, v jakém je
+    appka dostala, ne nutně "prodeje první") - radši je konzervativní a počítá
+    jen s hotovostí, která je na účtu jistě dostupná HNED TEĎ.
+
+    Prodeje (side="sell") se neklipují - ty hotovost jen navyšují, ne snižují.
+
+    Mutuje decision["trades"] na místě (může prvky i mazat, pokud dostupná
+    hotovost nestačí na nic) a zároveň to samé vrací.
+    """
+    cash = account_snapshot.get("cash", 0.0)
+    safety_margin = 0.995
+
+    def trade_value(t):
+        symbol = t.get("symbol")
+        qty = t.get("qty")
+        price = (prices or {}).get(symbol)
+        if price is not None and qty is not None:
+            return qty * price
+        return t.get("estimated_value")
+
+    trades = decision.get("trades", [])
+    buy_trades = [t for t in trades if t.get("side") == "buy"]
+    total_buy_value = sum(v for v in (trade_value(t) for t in buy_trades) if v is not None)
+
+    if total_buy_value <= 0:
+        return decision
+
+    allowed_buy_value = cash * safety_margin
+
+    if allowed_buy_value >= total_buy_value:
+        return decision
+
+    if allowed_buy_value <= 0:
+        print(f"POZOR: appka nemá žádnou (nebo zápornou) dostupnou hotovost "
+              f"({cash:.2f}) - dnešní navržený nákup(y) se úplně odeberou z rozhodnutí, "
+              f"ať appka nezkouší obchod, co stejně selže na chybě u brokera.")
+        decision["trades"] = [t for t in trades if t.get("side") != "buy"]
+        return decision
+
+    scale = allowed_buy_value / total_buy_value
+    print(f"POZOR: navržené nákupy ({total_buy_value:.2f} Kč) přesahují dostupnou "
+          f"hotovost ({cash:.2f} Kč) - zmenšuji jejich celkovou hodnotu na "
+          f"{allowed_buy_value:.2f} Kč (x{scale:.3f}), místo abych je nechal/a "
+          f"spadnout na chybu \"insufficient funds\" u brokera.")
+    for t in buy_trades:
+        qty = t.get("qty")
+        if qty is None:
+            continue
+        new_qty = qty * scale
+        t["qty"] = new_qty
+        symbol = t.get("symbol")
+        price = (prices or {}).get(symbol)
+        if price is not None:
+            t["estimated_value"] = new_qty * price
+        elif t.get("estimated_value") is not None:
+            t["estimated_value"] = t["estimated_value"] * scale
+
+    return decision
+
+
 def validate_decision(decision, limits, account_snapshot, prices=None):
     """
     Zkontroluje navržené obchody proti mantinelům PŘED provedením.
