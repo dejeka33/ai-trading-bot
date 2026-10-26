@@ -245,6 +245,12 @@
         "qty": 0.004,
         "price": 8780.69229,
         "estimated": false
+      },
+      {
+        "date": "2026-10-26",
+        "qty": 0.015,
+        "price": 8884.90552,
+        "estimated": false
       }
     ],
     "BA": [
