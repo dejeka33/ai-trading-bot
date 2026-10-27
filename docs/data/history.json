@@ -7274,8 +7274,198 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-10-27",
+      "portfolio_value": 10689.75,
+      "cash": 2.58,
+      "buying_power": 2.58,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20663.84,
+          "current_price": 21776.19488,
+          "market_value": 435.5238976,
+          "unrealized_pl": 20.51,
+          "unrealized_plpc": 4.962775553817683,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.0967,
+          "avg_entry_price": 10918.5,
+          "current_price": 11629.731090000001,
+          "market_value": 1124.594996403,
+          "unrealized_pl": 113.09,
+          "unrealized_plpc": 10.711116711818823,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.22,
+          "avg_entry_price": 970.75390899165,
+          "current_price": 958.6442999999999,
+          "market_value": 210.90174599999997,
+          "unrealized_pl": -1.31,
+          "unrealized_plpc": -0.6133939198587016,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.18,
+          "avg_entry_price": 3662.55016661814,
+          "current_price": 3947.47449,
+          "market_value": 710.5454082,
+          "unrealized_pl": 72.57,
+          "unrealized_plpc": 11.00781281690772,
+          "price_reliable": true
+        },
+        {
+          "symbol": "DIS",
+          "qty": 0.11,
+          "avg_entry_price": 2275.01836359666,
+          "current_price": 2396.39238,
+          "market_value": 263.60316179999995,
+          "unrealized_pl": 14.91,
+          "unrealized_plpc": 5.957993865648001,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.055,
+          "avg_entry_price": 7964.5494546050095,
+          "current_price": 8860.36275,
+          "market_value": 487.31995125000003,
+          "unrealized_pl": 64.2,
+          "unrealized_plpc": 14.655853842401894,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.037,
+          "avg_entry_price": 20172.66648640386,
+          "current_price": 21676.06131,
+          "market_value": 802.01426847,
+          "unrealized_pl": 78.97,
+          "unrealized_plpc": 10.580278644684052,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.29,
+          "avg_entry_price": 1925.4209999322297,
+          "current_price": 2009.004,
+          "market_value": 582.6111599999999,
+          "unrealized_pl": 46.55,
+          "unrealized_plpc": 8.33673473930949,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.079,
+          "avg_entry_price": 8251.06898743299,
+          "current_price": 8718.64062,
+          "market_value": 688.77260898,
+          "unrealized_pl": 58.53,
+          "unrealized_plpc": 8.979273801707311,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.0854,
+          "avg_entry_price": 5937.4138172534995,
+          "current_price": 5841.61587,
+          "market_value": 498.873995298,
+          "unrealized_pl": 13.17,
+          "unrealized_plpc": 2.597350655033327,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.04,
+          "avg_entry_price": 7326.3135,
+          "current_price": 7016.2281,
+          "market_value": 280.64912400000003,
+          "unrealized_pl": 1.06,
+          "unrealized_plpc": 0.361709883149281,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 7019.118461479379,
+          "current_price": 7559.095920000001,
+          "market_value": 1424.88958092,
+          "unrealized_pl": 161.45,
+          "unrealized_plpc": 12.202368124152354,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7839.483,
+          "current_price": 7338.10548,
+          "market_value": 440.2863288,
+          "unrealized_pl": -8.86,
+          "unrealized_plpc": -1.8836276150693438,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.1662,
+          "avg_entry_price": 4829.892418865849,
+          "current_price": 4756.31697,
+          "market_value": 790.4998804139999,
+          "unrealized_pl": 22.95,
+          "unrealized_plpc": 2.859000379799419,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.23,
+          "avg_entry_price": 2352.69939119991,
+          "current_price": 2600.7866999999997,
+          "market_value": 598.180941,
+          "unrealized_pl": 78.68,
+          "unrealized_plpc": 14.540189783756011,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.19,
+          "avg_entry_price": 5602.91447371869,
+          "current_price": 5533.93254,
+          "market_value": 1051.4471826,
+          "unrealized_pl": 34.68,
+          "unrealized_plpc": 3.2577030516107413,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 27. října 2026, trhy jsou otevřeny ~16:00 CET. Poslední kompletní svíčky jsou z pátku 26.10. Makro prostředí je napjaté – 10Y výnos na 5,0 %, Fed sazba 3,88 %, výnosová křivka mírně kladná (T10Y2Y +0,32 %), ale vysoké sazby obecně tlačí na valuace růstových akcií. GOOGL je v silném sestupném trendu (-10 % za 10 dní, aktuální cena pod vstupní cenou portfolia). TSLA naopak silně roste – v pondělí 26.10 svíčka +5,2 % s vysokým objemem. XOM posiluje, dosáhl YTD maxim. VZ ve volatilním poklesu. Disponibilní hotovost 374,65 CZK (max. jeden obchod ~187 CZK = 5 % z 374 CZK je nesprávné; max. 5 % z portfolio_value ~10 695 CZK = ~534 CZK, ale hotovost je jen 374 CZK, takže de facto omezení = buying power 374,65 CZK).",
+      "trades": [
+        {
+          "symbol": "TSLA",
+          "side": "buy",
+          "qty": 0.04,
+          "status": "submitted",
+          "order_id": "57101340515",
+          "reasoning": "TSLA v pondělí 26.10 vyskočila +5,2 % na 8 551 CZK s výrazně zvýšeným objemem (53 M vs. průměr ~35 M), čímž prolomila rezistenci ~8 450. Trendem posledních dní je vzestup z 8 128 na 8 551 – momentum je pozitivní. Aktuální pozice 0,055 ks je malá (4,6 % portfolia). Dokoupení 0,04 ks za ~354 CZK (3,3 % portfolia) vejde do limitu max_single_trade_pct (5 % z 10 695 = ~534 CZK). Hotovost 374 CZK to pokryje, zůstatek ~20 CZK jako buffer."
+        }
+      ],
+      "trade_count": 1,
+      "blocked_reasons": [],
+      "spy_price": 24121.10416,
+      "realized_pl_cum": -71.99806959527619,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-10-26T15:05:25.636444+00:00",
-  "last_dividend_check": "2026-10-26T15:05:07.826190+00:00"
+  "last_cash_flow_check": "2026-10-27T16:43:24.047130+00:00",
+  "last_dividend_check": "2026-10-27T16:43:06.305815+00:00"
 }

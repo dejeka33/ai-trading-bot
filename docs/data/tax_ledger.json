@@ -46,6 +46,12 @@
         "qty": 0.025,
         "price": 8069.019,
         "estimated": false
+      },
+      {
+        "date": "2026-10-27",
+        "qty": 0.04,
+        "price": 8551.80594,
+        "estimated": false
       }
     ],
     "UNH": [],
