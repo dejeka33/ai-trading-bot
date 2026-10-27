@@ -145,9 +145,68 @@ class T212OrderError(RuntimeError):
         self.status = status
         self.error_type = error_type
         self.detail = detail
+        self.headers = {}
+
+
+# POZOR - přidáno 27.10.2026: Trading 212 má na endpointy přísné rate limity
+# (viz docs.trading212.com - např. GET /equity/account/summary jen 1 dotaz za 5 s).
+# Dnešní běh spadl na HTTP 429, protože appka po automatickém stop-lossu (BA) volala
+# get_account_snapshot podruhé během pár sekund - stop-loss větev se do té doby
+# nikdy naostro nespustila, takže se na to nepřišlo. Dvě ochrany:
+#  1) _throttle() - před voláním endpointu počká, aby od posledního volání uplynul
+#     minimální odstup (jen pro endpointy, kde ho známe),
+#  2) opakování po HTTP 429 - T212 požadavek odmítl ještě PŘED zpracováním, takže
+#     je bezpečné ho zopakovat (platí i pro POST objednávky).
+_MIN_INTERVAL_SECONDS = {
+    "/equity/account/summary": 5.5,   # limit 1 dotaz / 5 s
+}
+_last_call_at = {}
+_MAX_429_RETRIES = 4
+
+
+def _throttle(path):
+    min_gap = _MIN_INTERVAL_SECONDS.get(path)
+    if not min_gap:
+        return
+    last = _last_call_at.get(path)
+    if last is not None:
+        wait = min_gap - (time.monotonic() - last)
+        if wait > 0:
+            print(f"[T212] čekám {wait:.1f} s kvůli rate limitu na {path}")
+            time.sleep(wait)
+
+
+def _rate_limit_wait_seconds(headers, attempt):
+    """Kolik vteřin čekat po HTTP 429 - podle hlaviček T212, jinak postupně déle."""
+    try:
+        period = float(headers.get("x-ratelimit-period", 0) or 0)
+    except (TypeError, ValueError):
+        period = 0.0
+    try:
+        retry_after = float(headers.get("retry-after", 0) or 0)
+    except (TypeError, ValueError):
+        retry_after = 0.0
+    return min(max(period, retry_after, 2.0 * (attempt + 1)) + 0.5, 60.0)
 
 
 def _request(method, path, body=None):
+    attempt = 0
+    while True:
+        try:
+            return _request_once(method, path, body)
+        except T212OrderError as e:
+            if e.status == 429 and attempt < _MAX_429_RETRIES:
+                wait = _rate_limit_wait_seconds(e.headers or {}, attempt)
+                print(f"[T212] HTTP 429 na {method} {path} - zkouším znovu za {wait:.1f} s "
+                      f"(pokus {attempt + 1}/{_MAX_429_RETRIES})")
+                time.sleep(wait)
+                attempt += 1
+                continue
+            raise
+
+
+def _request_once(method, path, body=None):
+    _throttle(path)
     url = f"{_base_url()}{path}"
     data = json.dumps(body).encode("utf-8") if body is not None else None
     req = urllib.request.Request(url, data=data, method=method)
@@ -160,6 +219,7 @@ def _request(method, path, body=None):
         req.add_header("Content-Type", "application/json")
 
     try:
+        _last_call_at[path] = time.monotonic()
         with _opener.open(req, timeout=20) as resp:
             raw = resp.read().decode("utf-8", errors="replace")
             # DOČASNÝ diagnostický log (viz ladění prvního živého běhu v chatu) -
@@ -180,7 +240,9 @@ def _request(method, path, body=None):
             detail = parsed_body.get("detail")
         except (json.JSONDecodeError, TypeError, AttributeError):
             pass  # tělo nebylo JSON (např. WAF blokace) - message výše pořád obsahuje syrový text
-        raise T212OrderError(message, status=e.code, error_type=error_type, detail=detail) from e
+        err = T212OrderError(message, status=e.code, error_type=error_type, detail=detail)
+        err.headers = {str(k).lower(): v for k, v in dict(e.headers).items()}
+        raise err from e
 
 
 def get_account_snapshot(instruments_map):
