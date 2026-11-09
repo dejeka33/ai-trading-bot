@@ -8963,8 +8963,206 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-11-09",
+      "portfolio_value": 10643.4,
+      "cash": 127.19,
+      "buying_power": 127.19,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20734.84,
+          "current_price": 21146.032320000002,
+          "market_value": 422.92064640000007,
+          "unrealized_pl": 9.27,
+          "unrealized_plpc": 2.235368105083039,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.0967,
+          "avg_entry_price": 10904.5,
+          "current_price": 11792.56248,
+          "market_value": 1140.340791816,
+          "unrealized_pl": 126.33,
+          "unrealized_plpc": 11.980481289495437,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.22,
+          "avg_entry_price": 969.50918171905,
+          "current_price": 1005.3949000000001,
+          "market_value": 221.18687800000004,
+          "unrealized_pl": 8.48,
+          "unrealized_plpc": 3.975769933102549,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.18,
+          "avg_entry_price": 3657.85394439598,
+          "current_price": 3594.7774700000004,
+          "market_value": 647.0599446000001,
+          "unrealized_pl": 7.69,
+          "unrealized_plpc": 1.1679586684338465,
+          "price_reliable": true
+        },
+        {
+          "symbol": "DIS",
+          "qty": 0.11,
+          "avg_entry_price": 2272.10127268762,
+          "current_price": 2570.84492,
+          "market_value": 282.79294120000003,
+          "unrealized_pl": 33.47,
+          "unrealized_plpc": 13.391688606943541,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.095,
+          "avg_entry_price": 8331.038,
+          "current_price": 8198.875460000001,
+          "market_value": 778.8931687000002,
+          "unrealized_pl": -0.43,
+          "unrealized_plpc": -0.0543307543366587,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.12,
+          "avg_entry_price": 4118.2661665939695,
+          "current_price": 3882.0020000000004,
+          "market_value": 465.84024000000005,
+          "unrealized_pl": -27.0,
+          "unrealized_plpc": -5.463464256514708,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.037,
+          "avg_entry_price": 20146.80054045802,
+          "current_price": 22948.956430000002,
+          "market_value": 849.1113879100001,
+          "unrealized_pl": 124.19,
+          "unrealized_plpc": 16.660146506866543,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.29,
+          "avg_entry_price": 1922.95217234611,
+          "current_price": 2078.83388,
+          "market_value": 602.8618252,
+          "unrealized_pl": 65.47,
+          "unrealized_plpc": 11.740209867737736,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.079,
+          "avg_entry_price": 8240.48924059743,
+          "current_price": 9189.44024,
+          "market_value": 725.96577896,
+          "unrealized_pl": 94.12,
+          "unrealized_plpc": 14.45778727789366,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.0854,
+          "avg_entry_price": 5929.8007024995,
+          "current_price": 6057.449750000001,
+          "market_value": 517.30620865,
+          "unrealized_pl": 30.46,
+          "unrealized_plpc": 6.014948747224709,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.0255,
+          "avg_entry_price": 6226.25568630872,
+          "current_price": 6418.606790000001,
+          "market_value": 163.674473145,
+          "unrealized_pl": 4.59,
+          "unrealized_plpc": 2.890983105557528,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 7010.1183553786595,
+          "current_price": 7612.867630000001,
+          "market_value": 1435.025548255,
+          "unrealized_pl": 168.43,
+          "unrealized_plpc": 12.746259138025936,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7829.4310000000005,
+          "current_price": 7385.18167,
+          "market_value": 443.1109002,
+          "unrealized_pl": -7.01,
+          "unrealized_plpc": -1.4922327476074995,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.23,
+          "avg_entry_price": 2349.68269554787,
+          "current_price": 2724.59837,
+          "market_value": 626.6576251,
+          "unrealized_pl": 105.77,
+          "unrealized_plpc": 19.571560282958313,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.19,
+          "avg_entry_price": 5595.730263192329,
+          "current_price": 5935.31935,
+          "market_value": 1127.7106764999999,
+          "unrealized_pl": 108.44,
+          "unrealized_plpc": 10.199505967245484,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 9. 11. 2026, cca 16:00 SEČ. Poslední kompletní svíčky jsou ze 6. 11. Trh je pod tlakem – CSPX klesla z ~24 400 na ~23 428 (-4 %), EQQQ ze ~15 900 na ~14 533 (-9 %) za 10 dní, NVDA v silném downtrendu (-14 %), TSLA také výrazně oslabila. Lepší relativní silou se drží WMT, KO, VZ a COST. Makro: Fed rate 3,88 %, 10Y výnos 4,84 % je povýšený a tlačí na ocenění růstových akcií. Výnosová křivka mírně kladná (0,35 %), ale prostředí pro risk-off titul je náročné. Cash k dispozici: 288,81 CZK. Strategie: využít pullback u DIS a RKLB (bounce po výprodeji), drobně přidat do XOM (komoditní hedge, relativně odolný).",
+      "trades": [
+        {
+          "symbol": "RKLB",
+          "side": "buy",
+          "qty": 0.11,
+          "status": "failed",
+          "error": "Nástroj s ISIN US7731221062 nebyl v Trading 212 nabídce (metadata/instruments) nalezen.",
+          "reasoning": "RKLB se po výprodeji 5. 11. (propad z ~1 142 na ~1 003) výrazně odrazila zpět na ~1 157 v posledním dni. Bounce svíčka 6. 11. s dojezdem +15 % ze dna ukazuje poptávku. Aktuální cena ~1 157 CZK, limit 1 140 zachytí případný intraday dip. Qty 0,11 × 1 140 = 125,4 CZK – v limitu 5 % portfolia."
+        },
+        {
+          "symbol": "DIS",
+          "side": "buy",
+          "qty": 0.06,
+          "status": "submitted",
+          "order_id": "57800621284",
+          "reasoning": "DIS prošla korekcí z ~2 594 (4. 11.) na ~2 546 (6. 11.), přičemž se drží nad krátkodobým supportem. Trend posledních 2 týdnů je vzestupný (~2 378 → 2 594). Přidání malé pozice na pullbacku u silnějšího trendu. Qty 0,06 × 2 545 = 152,7 CZK – v limitu."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "spy_price": 23427.740840000002,
+      "realized_pl_cum": -71.99806959527619,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-11-06T15:05:41.522863+00:00",
-  "last_dividend_check": "2026-11-06T15:05:10.535318+00:00"
+  "last_cash_flow_check": "2026-11-09T15:05:39.083441+00:00",
+  "last_dividend_check": "2026-11-09T15:05:19.104451+00:00"
 }
