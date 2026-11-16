@@ -155,6 +155,12 @@
         "qty": 0.0255,
         "price": 7103.7198499999995,
         "estimated": false
+      },
+      {
+        "date": "2026-11-16",
+        "qty": 0.012,
+        "price": 6536.22123,
+        "estimated": false
       }
     ],
     "WMT": [
