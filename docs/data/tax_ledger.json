@@ -95,21 +95,9 @@
     ],
     "NVDA": [
       {
-        "date": "2026-11-10",
-        "qty": 0.07,
-        "price": 3877.49634,
-        "estimated": false
-      },
-      {
-        "date": "2026-11-13",
-        "qty": 0.04,
-        "price": 3672.63281,
-        "estimated": false
-      },
-      {
-        "date": "2026-11-17",
-        "qty": 0.025,
-        "price": 3465.0588799999996,
+        "date": "2026-11-20",
+        "qty": 0.13,
+        "price": 3244.11354,
         "estimated": false
       }
     ],
@@ -523,11 +511,50 @@
       "gain": -54.3980231999999,
       "time_test_met": false,
       "estimated_buy_date": false
+    },
+    {
+      "symbol": "NVDA",
+      "buy_date": "2026-11-10",
+      "sell_date": "2026-11-20",
+      "qty": 0.07,
+      "buy_price": 3877.49634,
+      "sell_price": 3244.11354,
+      "cost_basis": 271.42474380000004,
+      "proceeds": 227.08794780000002,
+      "gain": -44.33679600000002,
+      "time_test_met": false,
+      "estimated_buy_date": false
+    },
+    {
+      "symbol": "NVDA",
+      "buy_date": "2026-11-13",
+      "sell_date": "2026-11-20",
+      "qty": 0.04,
+      "buy_price": 3672.63281,
+      "sell_price": 3244.11354,
+      "cost_basis": 146.9053124,
+      "proceeds": 129.7645416,
+      "gain": -17.140770800000013,
+      "time_test_met": false,
+      "estimated_buy_date": false
+    },
+    {
+      "symbol": "NVDA",
+      "buy_date": "2026-11-17",
+      "sell_date": "2026-11-20",
+      "qty": 0.025,
+      "buy_price": 3465.0588799999996,
+      "sell_price": 3244.11354,
+      "cost_basis": 86.62647199999999,
+      "proceeds": 81.1028385,
+      "gain": -5.523633499999988,
+      "time_test_met": false,
+      "estimated_buy_date": false
     }
   ],
   "annual": {
     "2026": {
-      "gross_sale_proceeds": 4131.0970543799995,
+      "gross_sale_proceeds": 4569.05238228,
       "dividends_total": 0.0
     }
   }
