@@ -10902,8 +10902,189 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-11-23",
+      "portfolio_value": 10741.48,
+      "cash": 29.89,
+      "buying_power": 29.89,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20747.620000000003,
+          "current_price": 20920.32202,
+          "market_value": 418.4064404,
+          "unrealized_pl": 6.25,
+          "unrealized_plpc": 1.5061968553501555,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.13,
+          "avg_entry_price": 3153.0665385642997,
+          "current_price": 3718.92295,
+          "market_value": 483.4599835,
+          "unrealized_pl": 75.36,
+          "unrealized_plpc": 18.385032494628597,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.0967,
+          "avg_entry_price": 11132.5,
+          "current_price": 11234.69635,
+          "market_value": 1086.395137045,
+          "unrealized_pl": 80.14,
+          "unrealized_plpc": 7.444407880909912,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.22,
+          "avg_entry_price": 989.7804544442499,
+          "current_price": 1020.6276000000001,
+          "market_value": 224.53807200000003,
+          "unrealized_pl": 13.4,
+          "unrealized_plpc": 6.153798111045813,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.18,
+          "avg_entry_price": 3734.3352777283,
+          "current_price": 3536.1273,
+          "market_value": 636.502914,
+          "unrealized_pl": 1.62,
+          "unrealized_plpc": 0.24100674767143435,
+          "price_reliable": true
+        },
+        {
+          "symbol": "DIS",
+          "qty": 0.17,
+          "avg_entry_price": 2428.19470589545,
+          "current_price": 2637.0666,
+          "market_value": 448.301322,
+          "unrealized_pl": 47.74,
+          "unrealized_plpc": 11.565115792813033,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.095,
+          "avg_entry_price": 8505.23,
+          "current_price": 8682.0141,
+          "market_value": 824.7913395,
+          "unrealized_pl": 51.13,
+          "unrealized_plpc": 6.327994966812062,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.037,
+          "avg_entry_price": 20568.0459458617,
+          "current_price": 24238.569600000003,
+          "market_value": 896.8270752000001,
+          "unrealized_pl": 178.06,
+          "unrealized_plpc": 23.397616113361007,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.29,
+          "avg_entry_price": 1963.1587930343499,
+          "current_price": 2131.87375,
+          "market_value": 618.2433875,
+          "unrealized_pl": 85.15,
+          "unrealized_plpc": 14.95654303141411,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.079,
+          "avg_entry_price": 8412.78797477655,
+          "current_price": 9136.2201,
+          "market_value": 721.7613879,
+          "unrealized_pl": 94.98,
+          "unrealized_plpc": 14.291082630601917,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.0854,
+          "avg_entry_price": 6053.7857142075,
+          "current_price": 6046.060750000001,
+          "market_value": 516.3335880500001,
+          "unrealized_pl": 33.11,
+          "unrealized_plpc": 6.404338315492246,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.0375,
+          "avg_entry_price": 6370.758666592451,
+          "current_price": 6267.1522,
+          "market_value": 235.01820750000002,
+          "unrealized_pl": 0.89,
+          "unrealized_plpc": 0.3725354322050887,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 7156.6915118761,
+          "current_price": 7774.938,
+          "market_value": 1465.575813,
+          "unrealized_pl": 209.17,
+          "unrealized_plpc": 15.505141874180087,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 7993.135,
+          "current_price": 7082.719150000001,
+          "market_value": 424.96314900000004,
+          "unrealized_pl": -22.13,
+          "unrealized_plpc": -4.614376378396378,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.23,
+          "avg_entry_price": 2398.81173902395,
+          "current_price": 2834.7798,
+          "market_value": 651.9993539999999,
+          "unrealized_pl": 135.61,
+          "unrealized_plpc": 24.579198361438703,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.19,
+          "avg_entry_price": 5712.73026319305,
+          "current_price": 5691.8246,
+          "market_value": 1081.446674,
+          "unrealized_pl": 69.88,
+          "unrealized_plpc": 6.438068257027066,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 23. 11. 2026, trhy otevírají po výrazném výprodeji z pátku 20. 11. Poslední kompletní svíčky (pátek) ukazují silný pokles napříč portfoliem: NVDA -14,2 % na týdenní bázi, MSFT -11,2 %, AAPL -3,8 %, GOOGL -10,1 %, TSLA -11,5 %, CSPX -6,5 %, AMZN -7,5 %. Makro: 10Y výnos 5,04 %, sazba Fedu 3,88 %, výnosová křivka mírně kladná (0,29 %), ale vysoké sazby tlačí na valuace růstových akcií. Hotovost je jen 29,89 CZK – prakticky žádná buying power. Portfolio celkově v plusu díky dřívějším nákupům, ale situace je riziková: masivní výprodej naznačuje systémovější tlak, pravděpodobně makro nebo sektorový šok. Bez hotovosti nelze nakupovat, a prodávat do paniky při absenci jasného fundamentálního důvodu není vhodné. Čekáme na stabilizaci.",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [],
+      "spy_price": 22278.8528,
+      "realized_pl_cum": -71.99806959527619,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-11-20T15:05:30.463110+00:00",
-  "last_dividend_check": "2026-11-20T15:05:12.991553+00:00"
+  "last_cash_flow_check": "2026-11-23T15:05:23.048858+00:00",
+  "last_dividend_check": "2026-11-23T15:05:11.908266+00:00"
 }
