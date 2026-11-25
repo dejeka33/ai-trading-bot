@@ -11273,8 +11273,209 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-11-25",
+      "portfolio_value": 10566.42,
+      "cash": 163.86,
+      "buying_power": 163.86,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20719.93,
+          "current_price": 20326.54316,
+          "market_value": 406.53086320000006,
+          "unrealized_pl": -3.18,
+          "unrealized_plpc": -0.7673771098647535,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.088,
+          "avg_entry_price": 3179.22636357542,
+          "current_price": 3238.6057800000003,
+          "market_value": 284.99730864,
+          "unrealized_pl": 5.62,
+          "unrealized_plpc": 2.0087791512842794,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.0967,
+          "avg_entry_price": 11173.0,
+          "current_price": 10824.402399999999,
+          "market_value": 1046.71971208,
+          "unrealized_pl": 34.74,
+          "unrealized_plpc": 3.215389144923994,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.22,
+          "avg_entry_price": 993.3812726256999,
+          "current_price": 1062.99922,
+          "market_value": 233.8598284,
+          "unrealized_pl": 21.52,
+          "unrealized_plpc": 9.846992742235752,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.18,
+          "avg_entry_price": 3747.92077772812,
+          "current_price": 3563.51662,
+          "market_value": 641.4329915999999,
+          "unrealized_pl": 3.17,
+          "unrealized_plpc": 0.46989016458844285,
+          "price_reliable": true
+        },
+        {
+          "symbol": "DIS",
+          "qty": 0.17,
+          "avg_entry_price": 2437.02847060138,
+          "current_price": 2722.8601,
+          "market_value": 462.886217,
+          "unrealized_pl": 59.94,
+          "unrealized_plpc": 14.467957167817175,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.095,
+          "avg_entry_price": 8536.172,
+          "current_price": 8147.79852,
+          "market_value": 774.0408594,
+          "unrealized_pl": -3.95,
+          "unrealized_plpc": -0.48709125552321403,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.037,
+          "avg_entry_price": 20642.872432347882,
+          "current_price": 24455.68586,
+          "market_value": 904.86037682,
+          "unrealized_pl": 181.33,
+          "unrealized_plpc": 23.740934440553545,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.29,
+          "avg_entry_price": 1970.3007585513399,
+          "current_price": 2183.2042,
+          "market_value": 633.129218,
+          "unrealized_pl": 96.74,
+          "unrealized_plpc": 16.930725192524434,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.079,
+          "avg_entry_price": 8443.39367097942,
+          "current_price": 9314.25972,
+          "market_value": 735.82651788,
+          "unrealized_pl": 105.21,
+          "unrealized_plpc": 15.772948695690161,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.0854,
+          "avg_entry_price": 6075.809367602999,
+          "current_price": 6143.58578,
+          "market_value": 524.662225612,
+          "unrealized_pl": 38.69,
+          "unrealized_plpc": 7.456529148245025,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.0375,
+          "avg_entry_price": 6393.935466592181,
+          "current_price": 5985.82302,
+          "market_value": 224.46836324999998,
+          "unrealized_pl": -10.9,
+          "unrealized_plpc": -4.545974356253321,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 7182.727533096039,
+          "current_price": 7840.76448,
+          "market_value": 1477.98410448,
+          "unrealized_pl": 213.8,
+          "unrealized_plpc": 15.79090257016066,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 8022.214,
+          "current_price": 6975.3039,
+          "market_value": 418.51823399999995,
+          "unrealized_pl": -30.82,
+          "unrealized_plpc": -6.403053654099314,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.23,
+          "avg_entry_price": 2407.53860858878,
+          "current_price": 2966.4315,
+          "market_value": 682.2792450000001,
+          "unrealized_pl": 162.41,
+          "unrealized_plpc": 29.32997345353141,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.19,
+          "avg_entry_price": 5733.51315793002,
+          "current_price": 5398.57014,
+          "market_value": 1025.7283266,
+          "unrealized_pl": 8.47,
+          "unrealized_plpc": 0.7775153931017658,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 25. 11. 2026, trh je v obecně klesajícím trendu – většina pozic v portfoliu klesala v posledních 10 dnech. Viditelný pokles CSPX, EQQQ, NVDA, GOOGL, AMZN, XOM. Silnějšími výjimkami jsou DIS, WMT, V a KO, které drží nebo rostou. 10Y výnos 4,92 % a Fed rate 3,88 % tlačí na valuace růstových akcií. Hotovost je jen 2,37 CZK – prakticky žádná nákupní síla. Dnes nelze inicializovat nové pozice bez prodeje existující.",
+      "trades": [
+        {
+          "symbol": "NVDA",
+          "side": "sell",
+          "qty": 0.05,
+          "status": "submitted",
+          "order_id": "58600151100",
+          "reasoning": "NVDA klesla z ~3882 (11.11.) na ~3472 (24.11.), pokles ~10 % za 10 dní. Pozice stále mírně v plusu (+2,3 %), ale momentum je silně negativní – z vrcholu přes 3800 zpět na 3472, s propadem na 2805 dne 20.11. a jen částečným odrazem. Hotovost je 2,37 CZK, bez prodeje nelze přidat expozici do silnějších pozic. Prodáme malou část (0,05 ks ~ 162 CZK) k uvolnění cash, zároveň lehce snižujeme expozici vůči volatilnímu chipu v prostředí vysokých sazeb.",
+          "realized_pl": 3.3196764199659814,
+          "realized_pl_pct": 2.087678207531378,
+          "sell_price": 3246.6503399999997
+        },
+        {
+          "symbol": "V",
+          "side": "buy",
+          "qty": 0.0002532006183783687,
+          "status": "failed",
+          "error": "Trading 212 API chyba 400 na POST /equity/orders/market: {\"type\":\"/api-errors/quantity-precision-mismatch\",\"title\":\"Error while placing the order\",\"status\":400,\"detail\":\"invalid quantity precision 4\",\"traceId\":\"e289022018d7d7634c58d1f987cdc67d\"}",
+          "reasoning": "V se odrazil z lokálního dna ~8980 (20.11.) zpět na ~9313 (24.11.) – čistý vzestupný odraz s positivním momentem. Poslední svíčka ukazuje intraday high přes 9315 a close 9313, tedy síla se drží. Finanční sektor benefituje z kladné výnosové křivky (T10Y2Y +0,28 %). Pozice V již v portfoliu existuje (+15,5 % nerealizovaný zisk), doplňujeme malou část (0,017 ks). Limit nastaven na včerejší close – pokud trh dnes otevře mírně výše, obchod se nemusí realizovat, což je v pořádku."
+        }
+      ],
+      "trade_count": 2,
+      "blocked_reasons": [],
+      "spy_price": 22569.840369999998,
+      "realized_pl_cum": -68.6783931753102,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-11-24T15:05:55.183989+00:00",
-  "last_dividend_check": "2026-11-24T15:05:40.505074+00:00"
+  "last_cash_flow_check": "2026-11-25T15:05:32.590249+00:00",
+  "last_dividend_check": "2026-11-25T15:05:12.370379+00:00"
 }
