@@ -105,6 +105,12 @@
         "qty": 0.008,
         "price": 3677.6441000000004,
         "estimated": false
+      },
+      {
+        "date": "2026-11-26",
+        "qty": 0.0438,
+        "price": 3326.5533,
+        "estimated": false
       }
     ],
     "JNJ": [
