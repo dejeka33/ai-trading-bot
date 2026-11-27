@@ -11672,8 +11672,189 @@
       "dividend_net": 0.0,
       "dividend_items": [],
       "dividends_cum": 0.0
+    },
+    {
+      "date": "2026-11-27",
+      "portfolio_value": 10737.91,
+      "cash": 15.16,
+      "buying_power": 15.16,
+      "currency": "CZK",
+      "positions": [
+        {
+          "symbol": "CSPX",
+          "qty": 0.02,
+          "avg_entry_price": 20776.02,
+          "current_price": 20824.88754,
+          "market_value": 416.4977508,
+          "unrealized_pl": 4.01,
+          "unrealized_plpc": 0.9650549046448742,
+          "price_reliable": true
+        },
+        {
+          "symbol": "NVDA",
+          "qty": 0.1318,
+          "avg_entry_price": 3245.32003044749,
+          "current_price": 3244.57249,
+          "market_value": 427.634654182,
+          "unrealized_pl": 0.02,
+          "unrealized_plpc": 0.004675812149853121,
+          "price_reliable": true
+        },
+        {
+          "symbol": "MSFT",
+          "qty": 0.0967,
+          "avg_entry_price": 11150.5,
+          "current_price": 10928.159029999999,
+          "market_value": 1056.752978201,
+          "unrealized_pl": 45.68,
+          "unrealized_plpc": 4.236481157234522,
+          "price_reliable": true
+        },
+        {
+          "symbol": "VZ",
+          "qty": 0.22,
+          "avg_entry_price": 991.3808180804499,
+          "current_price": 1063.0886699999999,
+          "market_value": 233.87950739999997,
+          "unrealized_pl": 21.75,
+          "unrealized_plpc": 9.972316849448426,
+          "price_reliable": true
+        },
+        {
+          "symbol": "XOM",
+          "qty": 0.18,
+          "avg_entry_price": 3740.3732777282194,
+          "current_price": 3579.08749,
+          "market_value": 644.2357482,
+          "unrealized_pl": 6.53,
+          "unrealized_plpc": 0.9698972558111023,
+          "price_reliable": true
+        },
+        {
+          "symbol": "DIS",
+          "qty": 0.17,
+          "avg_entry_price": 2432.1208235425297,
+          "current_price": 2827.98981,
+          "market_value": 480.75826770000003,
+          "unrealized_pl": 78.21,
+          "unrealized_plpc": 18.915952656468292,
+          "price_reliable": true
+        },
+        {
+          "symbol": "TSLA",
+          "qty": 0.095,
+          "avg_entry_price": 8518.982,
+          "current_price": 8720.58304,
+          "market_value": 828.4553887999999,
+          "unrealized_pl": 51.14,
+          "unrealized_plpc": 6.319015458345659,
+          "price_reliable": true
+        },
+        {
+          "symbol": "COST",
+          "qty": 0.037,
+          "avg_entry_price": 20601.30216207778,
+          "current_price": 24449.03232,
+          "market_value": 904.6141958399999,
+          "unrealized_pl": 181.88,
+          "unrealized_plpc": 23.860994984697108,
+          "price_reliable": true
+        },
+        {
+          "symbol": "KO",
+          "qty": 0.29,
+          "avg_entry_price": 1966.3329999307898,
+          "current_price": 2173.4554599999997,
+          "market_value": 630.3020833999999,
+          "unrealized_pl": 94.47,
+          "unrealized_plpc": 16.566808404330352,
+          "price_reliable": true
+        },
+        {
+          "symbol": "V",
+          "qty": 0.079,
+          "avg_entry_price": 8426.390506422269,
+          "current_price": 9554.19442,
+          "market_value": 754.78135918,
+          "unrealized_pl": 124.8,
+          "unrealized_plpc": 18.74761007383904,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JNJ",
+          "qty": 0.0854,
+          "avg_entry_price": 6063.574004605499,
+          "current_price": 6116.495269999999,
+          "market_value": 522.348696058,
+          "unrealized_pl": 36.83,
+          "unrealized_plpc": 7.112383499810197,
+          "price_reliable": true
+        },
+        {
+          "symbol": "GOOGL",
+          "qty": 0.0375,
+          "avg_entry_price": 6381.05946659233,
+          "current_price": 6026.39923,
+          "market_value": 225.98997112499998,
+          "unrealized_pl": -9.18,
+          "unrealized_plpc": -3.836353528463985,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AAPL",
+          "qty": 0.1885,
+          "avg_entry_price": 7168.263076862739,
+          "current_price": 7948.522419999999,
+          "market_value": 1498.2964761699998,
+          "unrealized_pl": 235.4,
+          "unrealized_plpc": 17.421324422070427,
+          "price_reliable": true
+        },
+        {
+          "symbol": "JPM",
+          "qty": 0.06,
+          "avg_entry_price": 8006.058999999999,
+          "current_price": 7174.454709999999,
+          "market_value": 430.4672825999999,
+          "unrealized_pl": -18.51,
+          "unrealized_plpc": -3.8533315829923325,
+          "price_reliable": true
+        },
+        {
+          "symbol": "WMT",
+          "qty": 0.23,
+          "avg_entry_price": 2402.69034771943,
+          "current_price": 2947.30016,
+          "market_value": 677.8790368,
+          "unrealized_pl": 158.6,
+          "unrealized_plpc": 28.699712305658586,
+          "price_reliable": true
+        },
+        {
+          "symbol": "AMZN",
+          "qty": 0.19,
+          "avg_entry_price": 5721.9671052983695,
+          "current_price": 5573.019899999999,
+          "market_value": 1058.8737809999998,
+          "unrealized_pl": 42.51,
+          "unrealized_plpc": 3.91013855878496,
+          "price_reliable": true
+        }
+      ],
+      "market_summary": "Dnes 27. 11. 2026, trhy jsou ve volatilním období – za posledních 10 dní vidíme výrazný pokles většiny akcií (NVDA, GOOGL, AMZN, TSLA, JPM) i indexových ETF (CSPX, EQQQ) od vrcholů z 13. 11. Poslední kompletní svíčky (25.–26. 11.) ukazují mírnou stabilizaci a drobný odraz u CSPX, BA, DIS. Makro prostředí je napjaté – 10Y výnos 4,91 %, Fed sazba 3,88 %, výnosová křivka mírně kladná (0,24 %), ale celkový level sazeb tlačí na valuace. Cash je minimální (15,16 CZK), takže nákupy nejsou možné. Portfolio je celkově v zisku díky WMT, COST, DIS, KO, V, AAPL – žádná pozice není v alarmujícím drawdownu nad stop-loss prahem 8 % (JPM -3,8 %, GOOGL -3,4 % jsou pod průměrem, ale daleko od 8%).",
+      "trades": [],
+      "trade_count": 0,
+      "blocked_reasons": [],
+      "spy_price": 22862.10798,
+      "realized_pl_cum": -68.6783931753102,
+      "cash_flow_net": 0.0,
+      "cash_flow_items": [],
+      "net_deposits_cum": 0.0,
+      "dividend_net": 0.0,
+      "dividend_items": [],
+      "dividends_cum": 0.0
     }
   ],
-  "last_cash_flow_check": "2026-11-26T15:05:40.594940+00:00",
-  "last_dividend_check": "2026-11-26T15:05:18.830067+00:00"
+  "last_cash_flow_check": "2026-11-27T15:05:24.140578+00:00",
+  "last_dividend_check": "2026-11-27T15:05:12.360640+00:00"
 }
